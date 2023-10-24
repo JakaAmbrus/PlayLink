@@ -10,13 +10,13 @@ using server.Entities;
 
 namespace server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] //to access this controller, use the path /api/AppUsers (Writing these comments for learning purposes)
     [ApiController]
-    public class AppUsersController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public AppUsersController(DataContext context)
+        public UsersController(DataContext context)
         {
             _context = context;
         }
@@ -25,21 +25,21 @@ namespace server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
             return await _context.Users.ToListAsync();
         }
 
         // GET: api/AppUsers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<AppUser>> GetAppUser(int id)
+        public async Task<ActionResult<AppUser>> GetUser(int id)
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
             var appUser = await _context.Users.FindAsync(id);
 
             if (appUser == null)
@@ -53,7 +53,7 @@ namespace server.Controllers
         // PUT: api/AppUsers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAppUser(int id, AppUser appUser)
+        public async Task<IActionResult> PutUser(int id, AppUser appUser)
         {
             if (id != appUser.Id)
             {
@@ -84,12 +84,12 @@ namespace server.Controllers
         // POST: api/AppUsers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<AppUser>> PostAppUser(AppUser appUser)
+        public async Task<ActionResult<AppUser>> PostUser(AppUser appUser)
         {
-          if (_context.Users == null)
-          {
-              return Problem("Entity set 'DataContext.Users'  is null.");
-          }
+            if (_context.Users == null)
+            {
+                return Problem("Entity set 'DataContext.Users'  is null.");
+            }
             _context.Users.Add(appUser);
             await _context.SaveChangesAsync();
 
@@ -98,7 +98,7 @@ namespace server.Controllers
 
         // DELETE: api/AppUsers/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAppUser(int id)
+        public async Task<IActionResult> DeleteUser(int id)
         {
             if (_context.Users == null)
             {
@@ -122,3 +122,4 @@ namespace server.Controllers
         }
     }
 }
+

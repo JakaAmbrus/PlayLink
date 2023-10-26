@@ -1,0 +1,23 @@
+<a id="header-logo" (mouseover)="onHover(true)" (mouseout)="onHover(false)">
+  <div id="logo-img-container">
+    <img
+      [src]="theme === 'theme-dark' ? darkImagePath : lightImagePath"
+      alt="Logo"
+      id="logo-img"
+      alt="PlayLink logo"
+      [ngClass]="{ 'animate-logo': isHovered }"
+    />
+  </div>
+  <div id="logo-text-container" class="logo-text-dark-theme">
+    <div id="logo-play-text-container">
+      <div id="logo-text-play" [ngClass]="{ 'animate-play': isHovered }">
+        Play
+      </div>
+    </div>
+    <div id="logo-link-text-container">
+      <div id="logo-text-link" [ngClass]="{ 'animate-link': isHovered }">
+        Link
+      </div>
+    </div>
+  </div>
+</a>

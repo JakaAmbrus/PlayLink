@@ -1,1 +1,102 @@
-/* You can add global styles to this file, and also import other style files */
+@import "themes";
+$primaryColor: #4c4a4a;
+
+@font-face {
+  font-family: "Nexa Bold";
+  src: url("./assets/fonts/nexa-bold.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+//global styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  width: 100%;
+  height: 100%;
+  font-size: 10px;
+  margin: 0;
+  padding: 0;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+  display: inline-block;
+}
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+img,
+embed,
+object,
+video {
+  max-width: 100%;
+  height: auto;
+}
+button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $primaryColor;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: white;
+}
+
+::-moz-scrollbar {
+  width: 10px;
+}
+
+::-moz-scrollbar-thumb {
+  background-color: $primaryColor;
+  border-radius: 5px;
+}
+
+::-moz-scrollbar-track {
+  background-color: white;
+}
+
+::-ms-scrollbar {
+  width: 10px;
+}
+
+::-ms-scrollbar-thumb {
+  background-color: white;
+  border-radius: 5px;
+}
+
+::-ms-scrollbar-track {
+  background-color: $primaryColor;
+}
+
+.material-symbols-rounded {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
+}
+.material-symbols-rounded.active {
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48;
+}

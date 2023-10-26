@@ -1,0 +1,54 @@
+#header-main-container {
+  font-size: 10px;
+  display: flex;
+  justify-content: center;
+  position: -webkit-sticky;
+  position: sticky;
+  z-index: 100;
+  top: 0;
+  height: 7.4em;
+  border-bottom: 1px solid #3a3b3c;
+}
+#header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+app-header-logo,
+app-header-nav-links,
+#header-right {
+  flex: 0 0 auto;
+}
+.navigation {
+  height: 100%;
+}
+#header-right {
+  width: 20em;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1.5em;
+}
+.header-icons-right-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5em;
+  width: 5em;
+  border-radius: 50%;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.header-icons-right-container .filled {
+  font-size: 3em;
+}
+.material-symbols-rounded.filled {
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48;
+}
+.material-symbols-rounded.thicker-icon {
+  font-size: 3.5em;
+  font-variation-settings: "FILL" 1, "wght" 600, "GRAD" 0, "opsz" 48;
+}

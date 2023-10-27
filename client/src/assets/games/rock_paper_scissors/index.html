@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock, Paper, Scissors</title>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+</head>
+<body>
+    <div id="full-container">
+        <div  id="rotate"><img src="img/Rotate.png" alt="Rotate"></div>
+        <button id="fullscreen-button" class="buttons"><img src="img/fullscreen.png" alt="fullscreen_png" class="fullscreen-png"></button>
+        <button id="mute-button" class="buttons"><img class="mute-png" src="img/unmuted.png" alt="mute"></button>
+
+        <!--This is the start menu for the game -->
+
+        <div id="overlay">
+            <div id="title-overlay">
+                <h1>Rock Paper Scissors</h1>
+            </div>
+            <div class="start-btn-container">
+                    <button class="start-btn"><b>Start Game</b></button>  
+            </div>
+            <div id="technologies-used">
+                <div class="icons">
+                <i class="devicon-html5-plain"></i>
+                <i class="devicon-css3-plain"></i>
+                <i class="devicon-javascript-plain"></i>
+            </div>
+            </div>
+        </div>
+
+        <!-- end of the start menu -->
+
+        <div id="game-container">
+            <div id="title"> 
+                <div class="title-r">Rock</div>
+                <div class="title-p">Paper</div>
+                <div class="title-s">Scissors</div>
+            </div>
+            <div id="game-content">
+                <div id="text-below-title">Choose your weapon wisely</div>
+                <div id="choices">
+                    <div id="choices-container">
+                    <div id="r-container">
+                        <button id="rock" class="buttons" data-choices="rock"><img src="img/rock.png" alt="rock_png" class="r-png pngs"></button>
+                    </div>
+                    <div id="p-container">
+                        <button id="paper" class="buttons" data-choices="paper"><img src="img/paper.png" alt="paper_png" class="p-png pngs"></button>
+                    </div>
+                    <div id="s-container">
+                        <button id="scissors" class="buttons" data-choices="scissors"><img src="img/scissors.png" alt="scissors_png" class="s-png pngs"></button>
+                    </div>
+                </div>
+                </div>
+                <div id="scores">
+                    <div id="player-score"><span id="player-score-span">0</span></div>
+                    <div id="score-seperator">-</div>
+                    <div id="computer-score"><span id="computer-score-span">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- animations -->
+        
+        <div id="animations-container">
+            <div id="left-container">
+                <img alt="left animation png" class="animation-pngs" id="left-png">
+            </div>
+            <div id="right-container">
+                <img  alt="right animation png" class="animation-pngs" id="right-png">
+            </div>
+        </div>
+
+        <!-- winner and loser screens -->
+
+        <div id="winner-screen">
+            <div id="winner-container">
+                <div id="you-win">YOU WIN!</div>
+                <div id="now-do-it-again">Now do it again hotshot</div>
+            </div>
+        </div>
+        <div id="loser-screen">
+            <div id="loser-container">
+                <div id="you-lose">YOU LOSE!</div>
+                <div id="better-luck-next-time">Better luck next time poser</div>
+            </div>
+        </div>
+        <!-- audio  -->
+        <div id="audio-container">
+            <audio class="game-audio" src="audio/whoosh.mp3" id="whoosh"></audio>
+            <audio class="game-audio" src="audio/win-audio.mp3" id="win-audio"></audio>
+            <audio class="game-audio" src="audio/lose-audio.mp3" id="lose-audio"></audio>
+
+        </div>
+    </div>
+    
+</body>
+</html>

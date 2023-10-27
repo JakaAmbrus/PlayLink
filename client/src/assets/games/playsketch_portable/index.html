@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PlaySketchPortable</title>
+    <script src="script.js" defer></script>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div id="entire-game">
+      <div id="full-container">
+        <img src="img/PSP.png" alt="PSP img" />
+        <div id="PSP-screen">
+          <div id="start-screen">
+            <div id="start-text-container">
+              <h1>
+                <span id="p1">P</span>lay<span id="s">S</span>ketch
+                <span id="p2">P</span>ortable
+              </h1>
+              <p id="press-to-start">Press the START button</p>
+              <div id="toggle-options">
+                Press options to see the button assignments
+              </div>
+            </div>
+          </div>
+          <div id="game-screen"></div>
+          <div id="options-container">
+            <img src="img/OptionsScreen.jpg" alt="PSP img" />
+          </div>
+          <div id="tech-container">
+            <img src="img/tech.jpg" alt="PSP img" />
+          </div>
+          <div id="rotate"><img src="img/Rotate.png" alt="Rotate" /></div>
+        </div>
+        <div id="buttons-container">
+          <button id="options-btn" class="top-btns"></button>
+          <button id="tech-btn" class="top-btns"></button>
+
+          <button id="up-btn" class="mid-btns"></button>
+          <button id="down-btn" class="mid-btns"></button>
+          <button
+            onclick="changeColor('black')"
+            id="left-btn"
+            class="mid-btns"
+          ></button>
+          <button
+            onclick="changeColor('white')"
+            id="right-btn"
+            class="mid-btns"
+          ></button>
+          <button
+            onclick="changeColor('#6d8aca')"
+            id="x-btn"
+            class="mid-btns"
+          ></button>
+          <button
+            onclick="changeColor('pink')"
+            id="s-btn"
+            class="mid-btns"
+          ></button>
+          <button
+            onclick="changeColor('#2cdb98')"
+            id="t-btn"
+            class="mid-btns"
+          ></button>
+          <button
+            onclick="changeColor('#ee2e2e')"
+            id="o-btn"
+            class="mid-btns"
+          ></button>
+
+          <input type="color" id="color-picker" style="display: none" />
+          <button
+            onclick="showColorPicker()"
+            id="color-btn"
+            class="big-btns"
+          ></button>
+          <button id="fullscreen-btn" class="big-btns"></button>
+
+          <button id="mute-btn" class="bottom-btns"></button>
+          <button id="unmute-btn" class="bottom-btns"></button>
+          <button
+            onclick="changeColor('random')"
+            id="rainbow-btn"
+            class="bottom-btns"
+          ></button>
+          <button id="clear-btn" class="bottom-btns"></button>
+          <button id="start-btn" class="bottom-btns"></button>
+        </div>
+      </div>
+      <!-- audio -->
+      <div id="audio-container">
+        <audio class="my-audio" src="audio/beep.mp3" id="beep"></audio>
+        <audio class="my-audio" src="audio/start.mp3" id="start-audio"></audio>
+        <audio class="my-audio" src="audio/clear.mp3" id="clear"></audio>
+      </div>
+    </div>
+  </body>
+</html>

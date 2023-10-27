@@ -10,7 +10,7 @@
   position: relative;
   display: flex;
   height: 100%;
-  width: 16em;
+  width: 17em;
   border-bottom: 0.3em solid transparent;
 }
 .navigation-links-icons-container {
@@ -28,10 +28,12 @@
 @media (max-width: 1100px) {
   .navigation-links-container {
     width: 25vw;
+    height: 7em;
   }
 }
 @media (min-height: 2500px) and (orientation: portrait) {
   .navigation-links-container {
     width: 25vw;
+    height: 7em;
   }
 }

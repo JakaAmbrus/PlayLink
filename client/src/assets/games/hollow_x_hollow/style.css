@@ -1,0 +1,507 @@
+:root {
+  --primary-color: #f1f4f8 !important;
+}
+@font-face {
+  font-family: "HollowFont";
+  src: url("fonts/HollowFont.ttf") format("truetype");
+}
+@keyframes wiggle {
+  0% {
+    transform: rotate(-5deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(-5deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+@keyframes expand {
+  50% {
+    font-size: 1.1em;
+    -webkit-text-stroke: 2px var(--primary-color);
+  }
+
+  100% {
+    font-size: 1em;
+    -webkit-text-stroke: 1px var(--primary-color);
+  }
+}
+
+* {
+  box-sizing: border-box;
+  /* border: 1px solid blue; */
+}
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--primary-color);
+  font-family: "HollowFont", Arial, sans-serif;
+}
+#full-container {
+  display: flex;
+  position: relative;
+  width: clamp(800px, 50vw, 50vw);
+  height: clamp(500px, 30vw, 30vw);
+  max-width: 1600px;
+  border: 5px solid #858687;
+}
+#background-img {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#mute-button {
+  position: absolute;
+  bottom: 2vh;
+  right: 2vh;
+  z-index: 999;
+  background: none;
+  border: none;
+}
+.mute-png {
+  height: clamp(40px, 5vw, 3vw);
+  width: clamp(40px, 5vw, 3vw);
+}
+
+/* title screen */
+
+#overlay {
+  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr 1fr 0.5fr;
+  overflow: hidden;
+}
+#overlay-title {
+  text-align: center;
+  padding: auto;
+  margin: auto;
+  font-size: clamp(30px, 3.5vw, 3.5vw);
+}
+
+.start-btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+}
+.start-btn {
+  margin-top: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+#start-img {
+  height: clamp(100px, 9vw, 11vw);
+  width: clamp(100px, 9vw, 11vw);
+  transition: transform 0.3s ease-in-out;
+}
+#start-img:hover {
+  transform: rotate(-5deg);
+  animation: wiggle 0.5s ease-in-out forwards;
+}
+#technologies-used {
+  display: flex;
+  justify-content: start;
+  align-items: end;
+}
+.icons {
+  margin: 2vh;
+  margin-bottom: 2.5vh;
+}
+.icons i {
+  font-size: clamp(4vh, 2.5vw, 3vw);
+  margin: 0 0.5vh;
+  color: #d3d3d3;
+}
+
+/* choose difficulty screen */
+
+#choose-difficulty-screen {
+  z-index: 9;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  grid-template-rows: 1fr 4fr 1fr;
+  overflow: hidden;
+}
+#pvp {
+  position: absolute;
+  bottom: 1.2em;
+  left: 1.2em;
+  border: 0.2em groove var(--primary-color);
+  border-radius: 3em;
+  padding: 0.3em;
+  font-size: clamp(10px, 1vw, 1vw);
+  cursor: pointer;
+  color: var(--primary-color);
+  background: none;
+  font-family: "HollowFont", Arial, sans-serif;
+}
+#pvp:hover {
+  transform: scale(1.05);
+  color: transparent;
+  -webkit-text-stroke: 1px var(--primary-color);
+}
+#choose-text {
+  text-align: center;
+  margin-bottom: 0;
+  font-size: clamp(30px, 3.5vw, 3.5vw);
+}
+#difficulty-btns-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.difficulty-btns {
+  height: clamp(120px, 14vw, 14vw);
+  width: clamp(120px, 14vw, 14vw);
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+.choices-pngs {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#easy-png {
+  left: 15%;
+  top: 18%;
+  width: 70%;
+  height: 70%;
+}
+.choices-pngs:hover {
+  animation: wiggle 0.5s ease-in-out forwards;
+}
+#difficulty-settings {
+  position: absolute;
+  bottom: 10%;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  font-size: clamp(12px, 1vw, 1vw);
+}
+
+/* choose turn screen */
+
+#choose-turn-screen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: none;
+  align-items: center;
+  grid-template-rows: 2fr 4.5fr 2fr 0fr;
+  font-size: clamp(20px, 2vw, 2vw);
+}
+#choose-turn-screen > p {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  height: 100%;
+}
+
+#player-selections {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: end;
+  font-size: 6em;
+}
+#x-select,
+#o-select {
+  cursor: pointer;
+}
+#x-select:hover,
+#o-select:hover {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--primary-color);
+}
+
+#turn-selector {
+  display: flex;
+  justify-content: center;
+  font-size: 0.5em;
+}
+
+#turn-buttons {
+  display: flex;
+  height: 3em;
+}
+#x-turn-button,
+#o-turn-button {
+  width: 50%;
+  font-size: 2em;
+  cursor: pointer;
+}
+#x-turn-button {
+  cursor: none;
+  pointer-events: none;
+}
+.turn-select-toggle {
+  background: none;
+  color: var(--primary-color);
+  border: 0.05em solid var(--primary-color);
+}
+@keyframes blinkText {
+  0% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+#boss-diff-text {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  font-size: 0.5em;
+  animation: blinkText 1.5s infinite;
+  font-weight: bold;
+}
+
+/* game screen */
+
+#game-screen {
+  display: none;
+  position: absolute;
+  grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+  top: 2%;
+  right: 2%;
+  height: 96%;
+  width: 96%;
+  font-size: clamp(50px, 6vw, 6vw);
+}
+.square {
+  height: 1fr;
+  width: 1fr;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#square-0,
+#square-1,
+#square-2,
+#square-3,
+#square-4,
+#square-5 {
+  border-bottom: 3px solid var(--primary-color);
+}
+#square-0,
+#square-3,
+#square-6,
+#square-1,
+#square-4,
+#square-7 {
+  border-right: 3px solid var(--primary-color);
+}
+
+/* end screens */
+
+.end-screens {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: clamp(20px, 2vw, 2vw);
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+.end-boss-screens {
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  font-size: clamp(20px, 2vw, 2vw);
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+.end-img {
+  width: clamp(150px, 15vw, 16vw);
+  height: clamp(150px, 15vw, 16vw);
+}
+#x-wins-screen > div,
+#o-wins-screen > div {
+  font-size: 6em;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--primary-color);
+}
+.end-boss-screens p {
+  margin-bottom: 0;
+}
+
+.end-boss-screens > img {
+  width: clamp(300px, 23vw, 25vw);
+  height: clamp(300px, 23vw, 25vw);
+}
+#happy-end-screen {
+  opacity: 0;
+}
+
+/* audio */
+
+#audio-container {
+  display: none;
+}
+@media (max-width: 1100px) {
+  #full-container {
+    width: clamp(100px, 100vw, 500px);
+    height: clamp(100px, 100vw, 500px);
+  }
+  #difficulty-settings {
+    bottom: 25%;
+  }
+  #pvp {
+    bottom: 7%;
+  }
+}
+
+@media (min-height: 2500px) {
+  #full-container {
+    width: 100vw;
+    height: 100vw;
+  }
+  #overlay-title,
+  #choose-text {
+    font-size: 9vw;
+  }
+  #start-img {
+    height: 25vw;
+    width: 25vw;
+  }
+  .mute-png {
+    width: 11vw;
+    height: 11vw;
+  }
+  .difficulty-btns {
+    height: 30vw;
+    width: 30vw;
+  }
+  #choose-turn-screen {
+    font-size: 70px;
+  }
+  #difficulty-settings {
+    bottom: 20%;
+    font-size: 3.5vw;
+  }
+  #pvp {
+    bottom: 7%;
+    left: 3%;
+    font-size: 3vw;
+  }
+  .end-screens {
+    font-size: 60px;
+  }
+  .end-boss-screens {
+    font-size: 70px;
+    justify-content: center;
+  }
+
+  .end-img {
+    width: 600px;
+    height: 600px;
+  }
+  .end-boss-screens > img {
+    width: 900px;
+    height: 900px;
+  }
+  .end-boss-screens p {
+    margin-bottom: 20px;
+  }
+  #game-screen {
+    font-size: 250px;
+  }
+}
+@media (max-width: 1100px) and (min-height: 2000px) and (orientation: portrait) {
+  #full-container {
+    width: 100vw;
+    height: 100vw;
+  }
+  #overlay-title,
+  #choose-text {
+    font-size: 9vw;
+  }
+  #start-img {
+    height: 25vw;
+    width: 25vw;
+  }
+  .mute-png {
+    width: 11vw;
+    height: 11vw;
+  }
+  .difficulty-btns {
+    height: 30vw;
+    width: 30vw;
+  }
+  #choose-turn-screen {
+    font-size: 70px;
+  }
+  #difficulty-settings {
+    bottom: 20%;
+    font-size: 3.5vw;
+  }
+  #pvp {
+    bottom: 7%;
+    left: 3%;
+    font-size: 3vw;
+  }
+  .end-screens {
+    font-size: 60px;
+  }
+  .end-boss-screens {
+    font-size: 70px;
+    justify-content: center;
+  }
+
+  .end-img {
+    width: 600px;
+    height: 600px;
+  }
+  .end-boss-screens > img {
+    width: 900px;
+    height: 900px;
+  }
+  .end-boss-screens p {
+    margin-bottom: 20px;
+  }
+  #game-screen {
+    font-size: 250px;
+  }
+}

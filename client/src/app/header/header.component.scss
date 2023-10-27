@@ -60,6 +60,7 @@ app-header-nav-links,
 @media (max-width: 1100px) {
   #header-main-container {
     font-size: clamp(8px, 2.5vw, 10px);
+    height: auto;
   }
   .top-links {
     display: none;
@@ -74,14 +75,21 @@ app-header-nav-links,
     background-color: transparent;
   }
 }
+@media (max-width: 420px) {
+  #header-main-container {
+    font-size: 9.6px;
+  }
+}
 @media (max-width: 1100px) and (min-height: 2000px) and (orientation: portrait) {
   #header-main-container {
     font-size: 22px;
+    height: auto;
   }
 }
 @media (min-height: 2500px) and (orientation: portrait) {
   #header-main-container {
     font-size: 8px;
+    height: auto;
   }
   .top-links {
     display: none;

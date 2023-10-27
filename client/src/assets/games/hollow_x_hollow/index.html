@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TicTacToe Knight</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css"
+    />
+    <script src="script.js" defer></script>
+    <script src="navbar.js" defer></script>
+  </head>
+  <body>
+    <div id="full-container">
+      <!-- mute button and background -->
+
+      <button id="mute-button" class="buttons">
+        <img class="mute-png" src="img/unmuted.png" alt="mute" />
+      </button>
+      <img
+        src="img/Menu_Theme_Void.webp"
+        alt="background img"
+        id="background-img"
+      />
+
+      <!-- start-screen -->
+
+      <div id="overlay">
+        <h1 id="overlay-title">Hollow X Hollow</h1>
+        <div class="start-btn-container">
+          <button class="start-btn">
+            <img src="img/start.png" alt="start-img" id="start-img" />
+          </button>
+        </div>
+        <div id="technologies-used">
+          <div class="icons">
+            <i class="devicon-html5-plain"></i>
+            <i class="devicon-css3-plain"></i>
+            <i class="devicon-javascript-plain"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- game content -->
+
+      <div id="choose-difficulty-screen">
+        <button id="pvp">Player vs Player</button>
+        <p id="choose-text">Choose your prey</p>
+        <div id="difficulty-btns-container">
+          <button id="easy-btn" class="difficulty-btns">
+            <img
+              src="img/easy.png"
+              alt="easy png"
+              class="choices-pngs"
+              id="easy-png"
+            />
+          </button>
+          <button id="mid-btn" class="difficulty-btns">
+            <img
+              src="img/medium.png"
+              alt="medium png"
+              class="choices-pngs"
+              id="mid-png"
+            />
+          </button>
+          <button id="impossible-btn" class="difficulty-btns">
+            <img
+              src="img/impossible.png"
+              alt="impossible png"
+              class="choices-pngs"
+            />
+          </button>
+        </div>
+        <div>
+          <div id="difficulty-settings">
+            <p>warm up</p>
+            <p>standard</p>
+            <p>impossible</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="game-screen">
+        <div id="square-0" class="square"></div>
+        <div id="square-1" class="square"></div>
+        <div id="square-2" class="square"></div>
+        <div id="square-3" class="square"></div>
+        <div id="square-4" class="square"></div>
+        <div id="square-5" class="square"></div>
+        <div id="square-6" class="square"></div>
+        <div id="square-7" class="square"></div>
+        <div id="square-8" class="square"></div>
+      </div>
+
+      <!-- choose turn screen -->
+      <div id="choose-turn-screen">
+        <p>CHOOSE YOUR PLAYER</p>
+        <div id="player-selections">
+          <div id="x-select">X</div>
+          <div id="o-select">O</div>
+        </div>
+        <div id="turn-selector">
+          <div>
+            <div id="turn-buttons">
+              <button id="x-turn-button" class="turn-select-toggle">X</button>
+              <button id="o-turn-button" class="">O</button>
+            </div>
+            <p>STARTER SELECT</p>
+          </div>
+        </div>
+        <div id="boss-diff-text"></div>
+      </div>
+
+      <!-- win, lose and draw screens -->
+
+      <div id="win-screen" class="end-screens">
+        <p>YOU HAVE SLAIN YOUR FOE</p>
+        <img src="img/win.png" alt="win img" class="end-img" />
+      </div>
+      <div id="lose-screen" class="end-screens">
+        <p>YOU HAVE BEEN BESTED</p>
+        <img src="img/lose.png" alt="lose img" class="end-img" />
+      </div>
+      <div id="draw-screen" class="end-screens">
+        <p>BOTH ARE EQUALLY MATCHED</p>
+        <img src="img/draw.png" alt="draw img" class="end-img" />
+      </div>
+      <div id="x-wins-screen" class="end-screens">
+        <p>BEHOLD THE VICTOR</p>
+        <div>X</div>
+      </div>
+      <div id="o-wins-screen" class="end-screens">
+        <p>BEHOLD THE VICTOR</p>
+        <div>O</div>
+      </div>
+      <!--impossible boss battle screens -->
+      <div id="boss-screen-1" class="end-boss-screens">
+        <p><b>DRAW</b> GAME TO WEAKEN BOSS</p>
+        <img src="img/boss-full.png" alt="full health boss img" />
+      </div>
+      <div id="boss-screen-2" class="end-boss-screens">
+        <p>IMPOSSIBLE TO WIN??</p>
+        <img src="img/boss-2.png" alt="health smaller boss img" />
+      </div>
+      <div id="boss-screen-3" class="end-boss-screens">
+        <p>NO LONGER IMPOSSIBLE!</p>
+        <img src="img/boss-3.png" alt="last chance boss img" />
+      </div>
+      <div id="happy-end-screen" class="end-boss-screens">
+        <p>VICTORY ACHIEVED</p>
+        <img src="img/happyEnd.png" alt="happy ending img" />
+      </div>
+
+      <!-- audio -->
+      <div id="audio-container">
+        <audio
+          class="game-audio"
+          src="sound/transition.mp3"
+          id="transition"
+        ></audio>
+        <audio class="game-audio" src="sound/danger.mp3" id="danger"></audio>
+        <audio class="game-audio" src="sound/warmup.mp3" id="warm-up"></audio>
+        <audio
+          class="game-audio"
+          src="sound/standard.mp3"
+          id="standard"
+        ></audio>
+        <audio class="game-audio" src="sound/bones.mp3" id="bones"></audio>
+        <audio class="game-audio" src="sound/pvp.mp3" id="pvp-audio"></audio>
+        <audio class="game-audio" src="sound/win.mp3" id="win-audio"></audio>
+        <audio class="game-audio" src="sound/lose.mp3" id="lose-audio"></audio>
+        <audio class="game-audio" src="sound/draw.mp3" id="draw-audio"></audio>
+        <audio
+          class="game-audio"
+          src="sound/click.mp3"
+          id="click-audio"
+        ></audio>
+        <audio
+          class="game-audio"
+          src="sound/boss_1.mp3"
+          id="boss-1-audio"
+        ></audio>
+        <audio
+          class="game-audio"
+          src="sound/boss-transition.mp3"
+          id="boss-transition-audio"
+        ></audio>
+        <audio
+          class="game-audio"
+          src="sound/win-boss.mp3"
+          id="boss-beat-audio"
+        ></audio>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,266 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
+
+body {
+  position: relative;
+  min-height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  color: #b4b5b5;
+  font-family: "Anton", sans-serif;
+}
+#entire-game {
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  transform: scale(0.6);
+}
+
+#full-container {
+  box-sizing: border-box;
+  position: absolute;
+  top: 10%;
+  width: 100%;
+  height: 80vh;
+  overflow: hidden;
+}
+#full-container img {
+  left: 1%;
+  width: 98%;
+  height: 100%;
+  position: absolute;
+  z-index: 50;
+}
+#PSP-screen {
+  z-index: 2000;
+  position: absolute;
+  box-sizing: border-box;
+  width: 55.75%;
+  height: 76.65%;
+  top: 7.9%;
+  left: 22%;
+}
+#PSP-screen * {
+  box-sizing: border-box;
+}
+#start-screen {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 900;
+}
+#s {
+  color: #2cdb98;
+}
+#p1 {
+  color: #ee2e2e;
+}
+#p2 {
+  color: #6d8aca;
+}
+span {
+  font-size: 6vw;
+}
+h1 {
+  font-size: 4vw;
+}
+@keyframes blinkText {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+#press-to-start {
+  font-size: 3vw;
+  text-align: center;
+  animation: blinkText 2s infinite;
+}
+#toggle-options {
+  font-size: 2vw;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+#game-screen {
+  width: 100%;
+  height: 100%;
+  z-index: 2000;
+  display: none;
+  position: absolute;
+  background-color: black;
+  box-sizing: border-box;
+}
+
+#options-container {
+  position: absolute;
+  display: none;
+  width: 100%;
+  height: 100%;
+  z-index: 2200;
+  opacity: 0;
+}
+#tech-container {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2300;
+  opacity: 0;
+}
+#buttons-container {
+  position: absolute;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  z-index: 200;
+}
+#buttons-container * {
+  background: none;
+  position: absolute;
+  cursor: pointer;
+  border: none;
+}
+.top-btns {
+  width: 10%;
+  height: 10%;
+  border-radius: 50%;
+}
+#options-btn {
+  left: 7.5%;
+}
+#tech-btn {
+  right: 7.5%;
+}
+.mid-btns {
+  width: 5%;
+  height: 10%;
+}
+#up-btn {
+  left: 9.7%;
+  top: 28%;
+}
+#down-btn {
+  left: 9.7%;
+  top: 50%;
+}
+#left-btn {
+  left: 4.7%;
+  top: 39%;
+}
+#right-btn {
+  left: 14%;
+  top: 39%;
+}
+#t-btn {
+  right: 8.8%;
+  top: 25%;
+}
+#x-btn {
+  right: 8.8%;
+  top: 52.5%;
+}
+#s-btn {
+  right: 14.5%;
+  top: 39%;
+}
+#o-btn {
+  right: 3.3%;
+  top: 39%;
+}
+.big-btns {
+  width: 7%;
+  height: 15%;
+}
+#color-btn {
+  left: 8.5%;
+  bottom: 17.5%;
+}
+
+#fullscreen-btn {
+  right: 7.8%;
+  bottom: 19%;
+}
+.bottom-btns {
+  width: 4%;
+  height: 8%;
+  bottom: 3.5%;
+}
+#unmute-btn {
+  left: 37%;
+  cursor: none;
+  pointer-events: none;
+}
+#mute-btn {
+  left: 30%;
+}
+#clear-btn {
+  right: 30.5%;
+  width: 7%;
+}
+#start-btn {
+  right: 22.5%;
+  width: 7%;
+}
+#rainbow-btn {
+  left: 44%;
+  width: 12%;
+  display: block;
+}
+
+#audio-container {
+  display: none;
+}
+/* the rotate phone icon popup */
+#rotate {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 5000;
+  background-color: black;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+#rotate img {
+  height: 30%;
+  width: 50%;
+  align-self: center;
+  margin-left: 25%;
+}
+
+@media (max-width: 1100px) {
+  #entire-game {
+    transform: scale(1, 0.6);
+  }
+  span {
+    font-size: 8vw;
+  }
+  h1 {
+    font-size: 6vw;
+  }
+}
+@media (min-height: 2500px) {
+  #entire-game {
+    transform: scale(1, 0.6);
+  }
+
+  span {
+    font-size: 8vw;
+  }
+  h1 {
+    font-size: 6vw;
+  }
+}

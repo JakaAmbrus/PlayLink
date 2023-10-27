@@ -1,0 +1,293 @@
+:root {
+  --secondary-font: #f1f4f8;
+}
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  color: #f1f4f8;
+  min-height: 100vh;
+}
+
+#full-container {
+  transform: scale(0.6);
+  box-sizing: border-box;
+  position: absolute;
+  border: 5px solid var(--secondary-font);
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  background-image: url("img/jeremy-perkins-uhjiu8FjnsQ-unsplash.jpg");
+  border: 5px solid #858687;
+}
+#audio-container {
+  display: none;
+}
+#fullscreen-button {
+  position: absolute;
+  bottom: 2vw;
+  right: 2vw;
+  z-index: 999;
+}
+.fullscreen-png {
+  height: 7vh;
+  width: 7vh;
+}
+.mute-png {
+  height: 7vh;
+  width: 7vh;
+}
+#mute-button {
+  position: absolute;
+  top: 2vw;
+  right: 2vw;
+  z-index: 999;
+}
+/* the start game screen start */
+#overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  overflow: hidden;
+  transition: opacity 0.6s ease;
+}
+#title-overlay {
+  display: flex;
+  justify-content: center;
+}
+#title-overlay h1 {
+  font-size: 10vw;
+  line-height: 30vh;
+  /* color: var(--secondary-font); */
+}
+
+.start-btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.start-btn-container button {
+  padding: 1vw;
+  border-radius: 30px;
+  background: none;
+  border: 5px solid var(--secondary-font);
+  font-size: 4vw;
+  color: var(--secondary-font);
+  cursor: pointer;
+}
+#technologies-used {
+  display: flex;
+  justify-content: start;
+  align-items: end;
+}
+.icons {
+  margin-bottom: 5vh;
+  margin-left: 2vh;
+}
+.icons i {
+  font-size: 4vw;
+  margin: 1vh;
+  color: #d3d3d3;
+}
+
+/* the start screen end */
+#game-container {
+  opacity: 0;
+  z-index: 50;
+  display: none;
+  width: 100%;
+  height: 100%;
+  grid-template-rows: 2fr 5fr;
+}
+#title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 7vw;
+  gap: 2vw;
+}
+.title-r,
+.title-p,
+.title-s {
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+#game-content {
+  display: grid;
+  grid-template-rows: 0.5fr 3fr 1.5fr;
+}
+#text-below-title {
+  display: flex;
+  justify-content: center;
+  font-size: 4vw;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+.pngs {
+  height: 15vw;
+  width: 15vw;
+  background: none;
+  transition: transform 0.5s ease;
+}
+.pngs:hover {
+  transform: scale(1.1, 1.2);
+}
+.buttons {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+#choices {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10vw;
+}
+#choices-container {
+  display: flex;
+  gap: 10vw;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+#scores {
+  display: flex;
+  justify-content: center;
+  gap: 3vw;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+#player-score,
+#score-seperator,
+#computer-score {
+  font-size: 8vh;
+}
+
+/* animations */
+#animations-container {
+  width: 100%;
+  height: 100%;
+  display: none;
+  grid-template-columns: 1fr 1fr;
+}
+#left-container,
+#right-container {
+  display: flex;
+  align-items: center;
+}
+#right-container {
+  justify-content: flex-end;
+}
+.animation-pngs {
+  height: 35vw;
+  width: 35vw;
+}
+#left-png {
+  margin-left: 4vw;
+  transition: margin 1s ease;
+}
+
+#right-png {
+  margin-right: 4vw;
+  transition: margin 1s ease;
+}
+
+/* winner and loser screens */
+
+#winner-screen,
+#loser-screen {
+  display: none;
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+  font-size: 20vh;
+}
+#winner-container,
+#loser-container {
+  margin-top: 6vw;
+}
+#you-win,
+#you-lose {
+  text-align: center;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+#better-luck-next-time,
+#now-do-it-again {
+  font-size: 7vh;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+#rotate {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 5000;
+  background-image: url("img/jeremy-perkins-uhjiu8FjnsQ-unsplash.jpg");
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+#rotate img {
+  height: 30%;
+  width: 50%;
+  align-self: center;
+  margin-left: 25%;
+}
+
+@media (max-width: 1100px) {
+  #full-container {
+    transform: scale(1);
+    width: 100vw;
+    height: clamp(200px, 100vw, 500px);
+    top: 25vh;
+  }
+  .icons i {
+    font-size: 4vh;
+    margin: 0 0.5vh;
+  }
+  .icons {
+    margin-bottom: 5vh;
+  }
+  #title {
+    font-size: 10vw;
+  }
+}
+#loser-screen {
+  font-size: 16vh;
+}
+#title-overlay h1 {
+  font-size: 9vw;
+  line-height: 15vh;
+}
+@media (min-height: 2500px) {
+  #full-container {
+    transform: scale(1);
+    width: 100vw;
+    height: 100vw;
+    top: 25vh;
+  }
+  .icons i {
+    font-size: 4vh;
+    margin: 0 0.5vh;
+  }
+  .icons {
+    margin-bottom: 5vh;
+  }
+  #title {
+    font-size: 10vw;
+  }
+  #loser-screen {
+    font-size: 16vh;
+  }
+  #title-overlay h1 {
+    font-size: 9vw;
+  }
+}

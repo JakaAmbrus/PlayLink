@@ -35,6 +35,7 @@ p {
 a {
   text-decoration: none;
   display: inline-block;
+  cursor: pointer;
 }
 a:visited {
   color: inherit;
@@ -68,7 +69,7 @@ button {
 }
 
 ::-webkit-scrollbar-track {
-  background-color: white;
+  background-color: transparent;
 }
 
 ::-moz-scrollbar {
@@ -81,7 +82,7 @@ button {
 }
 
 ::-moz-scrollbar-track {
-  background-color: white;
+  background-color: transparent;
 }
 
 ::-ms-scrollbar {
@@ -89,7 +90,7 @@ button {
 }
 
 ::-ms-scrollbar-thumb {
-  background-color: white;
+  background-color: transparent;
   border-radius: 5px;
 }
 
@@ -102,4 +103,7 @@ button {
 }
 .material-symbols-rounded.active {
   font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48;
+}
+.rounded-border {
+  border-radius: 0.5em;
 }

@@ -32,6 +32,10 @@ $dark-theme: (
   .header-icons-right {
     background-color: #d8dadf;
   }
+  .box-shadow {
+    box-shadow: 0 0.2em 0.4em rgba(0, 0, 0, 0.1),
+      0 0.1em 0.1em rgba(0, 0, 0, 0.05);
+  }
   //navigation links themes light
   .navigation-links-icons-container:hover {
     background-color: #f2f2f2;

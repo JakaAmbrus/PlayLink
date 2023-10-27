@@ -3,9 +3,9 @@
   [class]="theme"
   [theme]="theme"
 ></app-header>
-<h1>{{ title }}</h1>
-<button (click)="toggleTheme()">Toggle Theme</button>
-<ul>
+<div class="main-content-container" [class]="theme">
+  <router-outlet></router-outlet>
+</div>
+<!-- <ul>
   <li *ngFor="let user of users">{{ user.id }} - {{ user.userName }}</li>
-</ul>
-<span class="material-symbols-rounded"> home </span>
+</ul> -->

@@ -1,4 +1,9 @@
-<a id="header-logo" (mouseover)="onHover(true)" (mouseout)="onHover(false)">
+<a
+  routerLink="/home"
+  id="header-logo"
+  (mouseover)="onHover(true)"
+  (mouseout)="onHover(false)"
+>
   <div id="logo-img-container">
     <img
       [src]="theme === 'theme-dark' ? darkImagePath : lightImagePath"

@@ -36,6 +36,9 @@ a {
   text-decoration: none;
   display: inline-block;
 }
+a:visited {
+  color: inherit;
+}
 ul,
 li {
   margin: 0;

@@ -3,9 +3,10 @@
   [class]="theme"
   [theme]="theme"
 ></app-header>
-<div class="main-content-container" [class]="theme">
-  <router-outlet></router-outlet>
+<div
+  class="main-content-container"
+  [class]="theme"
+  [@routeAnimations]="prepareRoute(outlet)"
+>
+  <router-outlet #outlet="outlet"></router-outlet>
 </div>
-<!-- <ul>
-  <li *ngFor="let user of users">{{ user.id }} - {{ user.userName }}</li>
-</ul> -->

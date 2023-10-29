@@ -62,6 +62,7 @@ body {
   justify-content: center;
 }
 #title-overlay h1 {
+  margin-top: 20vh;
   font-size: 10vw;
   line-height: 30vh;
   /* color: var(--secondary-font); */
@@ -264,6 +265,7 @@ body {
   font-size: 16vh;
 }
 #title-overlay h1 {
+  margin-top: 5vh;
   font-size: 9vw;
   line-height: 15vh;
 }
@@ -289,5 +291,12 @@ body {
   }
   #title-overlay h1 {
     font-size: 9vw;
+  }
+}
+@media (max-width: 1100px) and (min-height: 2000px) and (orientation: portrait) {
+  #full-container {
+    transform: scale(1);
+    width: 100vw;
+    height: 100vw;
   }
 }

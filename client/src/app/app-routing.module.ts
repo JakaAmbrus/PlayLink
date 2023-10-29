@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { LoginPageComponent } from './login-page/login-page.component';
 import { HomeComponent } from './home/home.component';
 import { DiscoverComponent } from './discover/discover.component';
 import { GamesComponent } from './games/games.component';
@@ -12,19 +13,20 @@ import { PlaysketchPortableComponent } from './games/playsketch-portable/playske
 import { RockPaperScissorsComponent } from './games/rock-paper-scissors/rock-paper-scissors.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'discover', component: DiscoverComponent },
+  { path: '', component: LoginPageComponent },
+  { path: 'home', component: HomeComponent, data: { animation: 'Home' } },
+  {
+    path: 'discover',
+    component: DiscoverComponent,
+    data: { animation: 'Discover' },
+  },
   {
     path: 'games',
     component: GamesComponent,
+    data: { animation: 'Games' },
     children: [
       {
         path: '',
-        redirectTo: 'game-selection',
-        pathMatch: 'full',
-      },
-      {
-        path: 'game-selection',
         component: GameSelectionComponent,
       },
       {
@@ -41,8 +43,11 @@ const routes: Routes = [
       },
     ],
   },
-  { path: 'favorites', component: FavoritesComponent },
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  {
+    path: 'favorites',
+    component: FavoritesComponent,
+    data: { animation: 'Favorites' },
+  },
 ];
 
 @NgModule({

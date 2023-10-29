@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-
 import { AppRoutingModule } from './app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { HeaderLogoComponent } from './header/header-logo/header-logo.component';
@@ -15,10 +16,30 @@ import { HollowXHollowComponent } from './games/hollow-x-hollow/hollow-x-hollow.
 import { PlaysketchPortableComponent } from './games/playsketch-portable/playsketch-portable.component';
 import { RockPaperScissorsComponent } from './games/rock-paper-scissors/rock-paper-scissors.component';
 import { GameSelectionComponent } from './games/game-selection/game-selection.component';
+import { LoginPageComponent } from './login-page/login-page.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, HeaderLogoComponent, HeaderNavLinksComponent, HomeComponent, DiscoverComponent, GamesComponent, FavoritesComponent, HollowXHollowComponent, PlaysketchPortableComponent, RockPaperScissorsComponent, GameSelectionComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    HeaderLogoComponent,
+    HeaderNavLinksComponent,
+    HomeComponent,
+    DiscoverComponent,
+    GamesComponent,
+    FavoritesComponent,
+    HollowXHollowComponent,
+    PlaysketchPortableComponent,
+    RockPaperScissorsComponent,
+    GameSelectionComponent,
+    LoginPageComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

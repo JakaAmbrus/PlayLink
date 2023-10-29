@@ -10,9 +10,7 @@ using server.Entities;
 
 namespace server.Controllers
 {
-    [Route("api/[controller]")] //to access this controller, use the path /api/AppUsers (Writing these comments for learning purposes)
-    [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController : BaseApiController
     {
         private readonly DataContext _context;
 

@@ -10,7 +10,7 @@ import {
 
 export const slideInAnimation = trigger('routeAnimations', [
   transition(
-    'Discover => Home, Games => Discover, Games => Home, Favorites => Home, Favorites => Discover, Favorites => Games',
+    'Discover => Home, Games => Discover, Games => Home, Favorites => Home, Favorites => Discover, Games => Favorites',
     [
       style({ position: 'relative' }),
       query(':enter, :leave', [
@@ -24,17 +24,17 @@ export const slideInAnimation = trigger('routeAnimations', [
       query(':leave', animateChild()),
       group([
         query(':leave', [
-          animate('250ms ease-out', style({ transform: 'translateX(100%)' })),
+          animate('280ms ease-out', style({ transform: 'translateX(100%)' })),
         ]),
         query(':enter', [
-          animate('250ms ease-out', style({ transform: 'translateX(0%)' })),
+          animate('280ms ease-out', style({ transform: 'translateX(0%)' })),
         ]),
       ]),
       query(':enter', animateChild()),
     ]
   ),
   transition(
-    'Home => Discover, Home => Games, Home => Favorites, Discover => Games, Discover => Favorites, Games => Favorites',
+    'Home => Discover, Home => Games, Home => Favorites, Discover => Games, Discover => Favorites, Favorites => Games',
     [
       style({ position: 'relative' }),
       query(':enter, :leave', [
@@ -48,13 +48,17 @@ export const slideInAnimation = trigger('routeAnimations', [
       query(':leave', animateChild()),
       group([
         query(':leave', [
-          animate('250ms ease-out', style({ transform: 'translateX(-100%)' })),
+          animate('280ms ease-out', style({ transform: 'translateX(-100%)' })),
         ]),
         query(':enter', [
-          animate('250ms ease-out', style({ transform: 'translateX(0%)' })),
+          animate('280ms ease-out', style({ transform: 'translateX(0%)' })),
         ]),
       ]),
       query(':enter', animateChild()),
     ]
   ),
+  transition('void => *', [
+    style({ transform: 'translateX(-100%)' }),
+    animate('280ms ease-out', style({ transform: 'translateX(0%)' })),
+  ]),
 ]);

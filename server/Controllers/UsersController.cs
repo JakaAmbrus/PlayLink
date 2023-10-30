@@ -47,7 +47,7 @@ namespace server.Controllers
 
             return appUser;
         }
-
+/*
         // PUT: api/AppUsers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -117,7 +117,7 @@ namespace server.Controllers
         private bool AppUserExists(int id)
         {
             return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
+        }*/
     }
 }
 

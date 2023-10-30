@@ -2,6 +2,8 @@ using server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using server.Entities;
+using server.Interfaces;
+using server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,7 @@ options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 

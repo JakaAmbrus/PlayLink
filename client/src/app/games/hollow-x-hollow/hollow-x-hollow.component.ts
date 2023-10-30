@@ -5,7 +5,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   templateUrl: './hollow-x-hollow.component.html',
   styleUrls: ['./hollow-x-hollow.component.scss'],
 })
-export class HollowXHollowComponent {
+export class HollowXHollowComponent implements OnInit, OnDestroy {
   showIframe = false;
 
   ngOnInit(): void {

@@ -5,7 +5,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   templateUrl: './playsketch-portable.component.html',
   styleUrls: ['./playsketch-portable.component.scss'],
 })
-export class PlaysketchPortableComponent {
+export class PlaysketchPortableComponent implements OnInit, OnDestroy {
   showIframe = false;
 
   ngOnInit(): void {

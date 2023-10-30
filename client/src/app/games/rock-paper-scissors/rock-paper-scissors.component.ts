@@ -5,7 +5,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   templateUrl: './rock-paper-scissors.component.html',
   styleUrls: ['./rock-paper-scissors.component.scss'],
 })
-export class RockPaperScissorsComponent {
+export class RockPaperScissorsComponent implements OnInit, OnDestroy {
   showIframe = false;
 
   ngOnInit(): void {

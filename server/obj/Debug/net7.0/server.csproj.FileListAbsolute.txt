@@ -233,3 +233,8 @@ C:\Users\jakaa\Projects\PlayLink\server\bin\Debug\net7.0\runtimes\unix\lib\net6.
 C:\Users\jakaa\Projects\PlayLink\server\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
 C:\Users\jakaa\Projects\PlayLink\server\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\jakaa\Projects\PlayLink\server\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+C:\Users\jakaa\Projects\PlayLink\server\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\jakaa\Projects\PlayLink\server\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\jakaa\Projects\PlayLink\server\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\jakaa\Projects\PlayLink\server\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\jakaa\Projects\PlayLink\server\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll

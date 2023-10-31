@@ -57,8 +57,4 @@ export const slideInAnimation = trigger('routeAnimations', [
       query(':enter', animateChild()),
     ]
   ),
-  transition('void => *', [
-    style({ transform: 'translateX(-100%)' }),
-    animate('280ms ease-out', style({ transform: 'translateX(0%)' })),
-  ]),
 ]);

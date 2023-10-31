@@ -238,3 +238,6 @@ C:\Users\jakaa\Projects\PlayLink\server\bin\Debug\net7.0\Microsoft.IdentityModel
 C:\Users\jakaa\Projects\PlayLink\server\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
 C:\Users\jakaa\Projects\PlayLink\server\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\jakaa\Projects\PlayLink\server\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\jakaa\Projects\PlayLink\server\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\jakaa\Projects\PlayLink\server\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\jakaa\Projects\PlayLink\server\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll

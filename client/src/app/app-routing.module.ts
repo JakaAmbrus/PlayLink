@@ -1,19 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { LoginPageComponent } from './login-page/login-page.component';
 import { HomeComponent } from './home/home.component';
 import { DiscoverComponent } from './discover/discover.component';
 import { GamesComponent } from './games/games.component';
 import { FavoritesComponent } from './favorites/favorites.component';
-
+import { LoginPageComponent } from './login-page/login-page.component';
 import { GameSelectionComponent } from './games/game-selection/game-selection.component';
 import { HollowXHollowComponent } from './games/hollow-x-hollow/hollow-x-hollow.component';
 import { PlaysketchPortableComponent } from './games/playsketch-portable/playsketch-portable.component';
 import { RockPaperScissorsComponent } from './games/rock-paper-scissors/rock-paper-scissors.component';
 
 const routes: Routes = [
-  { path: '', component: LoginPageComponent },
+  { path: 'login', component: LoginPageComponent },
   { path: 'home', component: HomeComponent, data: { animation: 'Home' } },
   {
     path: 'discover',
@@ -48,6 +47,7 @@ const routes: Routes = [
     component: FavoritesComponent,
     data: { animation: 'Favorites' },
   },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
 
 @NgModule({

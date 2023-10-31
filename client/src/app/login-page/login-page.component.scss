@@ -1,3 +1,69 @@
-ul {
-  font-size: 5em;
+#auth-page {
+  font-size: 10px;
+  top: 0;
+  left: 0;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background: #f0f2f5;
+  z-index: 1000;
+  font-family: "Nexa Bold";
+  background-image: url("../../assets/images/sign-up/login-backgound.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#home {
+  position: absolute;
+  font-size: 3em;
+  bottom: 5%;
+  right: 5%;
+}
+
+#auth-page-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0.2em 0.4em rgba(0, 0, 0, 0.1),
+    0 0.1em 0.1em rgba(0, 0, 0, 0.05);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.auth-container {
+  background: white;
+  position: relative;
+  width: 55em;
+  border: 0.2em solid #3d3a3a;
+  border-radius: 1em;
+  overflow: hidden;
+}
+.tabs {
+  display: flex;
+}
+
+.tab {
+  font-family: "Nexa Bold";
+  flex: 1;
+  font-size: 3em;
+  padding: 0.7em;
+  border-bottom: 0.1em solid #3d3a3a58;
+  cursor: pointer;
+}
+.sign-in-button {
+  background-color: #3d3a3a;
+  color: white;
+}
+.sign-up-button {
+  color: #3d3a3a;
+}
+@media (min-width: 2200px) {
+  #auth-page {
+    font-size: 12px;
+  }
+}
+@media (max-width: 1100px) and (orientation: portrait) {
+  #auth-page {
+    background-image: url("../../assets/images/sign-up/login-background-mobile.svg");
+  }
 }

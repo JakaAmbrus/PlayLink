@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "D8LaEqrJ3jRKMR33ThbPgN6hqU5ONFAUlkEO3R0HKsDRQIrPKZeINEYzpFLeILCnPVGNB0A4q9l0IQMX9m1Odw==",
+  "dgSpecHash": "w1/i65ojRoLnm6cYVD2uyrYpPC7FOBdEukdDDcrjXshkIt55R9UJvjWfWCn0rWUqCSwnZMe1z8oJsptGnKmNEQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\jakaa\\Projects\\PlayLink\\server\\server.csproj",
   "expectedPackageFiles": [
@@ -54,6 +54,7 @@
     "C:\\Users\\jakaa\\.nuget\\packages\\humanizer.core.zh-cn\\2.14.1\\humanizer.core.zh-cn.2.14.1.nupkg.sha512",
     "C:\\Users\\jakaa\\.nuget\\packages\\humanizer.core.zh-hans\\2.14.1\\humanizer.core.zh-hans.2.14.1.nupkg.sha512",
     "C:\\Users\\jakaa\\.nuget\\packages\\humanizer.core.zh-hant\\2.14.1\\humanizer.core.zh-hant.2.14.1.nupkg.sha512",
+    "C:\\Users\\jakaa\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.13\\microsoft.aspnetcore.authentication.jwtbearer.7.0.13.nupkg.sha512",
     "C:\\Users\\jakaa\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.13\\microsoft.aspnetcore.openapi.7.0.13.nupkg.sha512",
     "C:\\Users\\jakaa\\.nuget\\packages\\microsoft.aspnetcore.razor.language\\6.0.11\\microsoft.aspnetcore.razor.language.6.0.11.nupkg.sha512",
     "C:\\Users\\jakaa\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
@@ -93,6 +94,8 @@
     "C:\\Users\\jakaa\\.nuget\\packages\\microsoft.identitymodel.abstractions\\7.0.3\\microsoft.identitymodel.abstractions.7.0.3.nupkg.sha512",
     "C:\\Users\\jakaa\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\7.0.3\\microsoft.identitymodel.jsonwebtokens.7.0.3.nupkg.sha512",
     "C:\\Users\\jakaa\\.nuget\\packages\\microsoft.identitymodel.logging\\7.0.3\\microsoft.identitymodel.logging.7.0.3.nupkg.sha512",
+    "C:\\Users\\jakaa\\.nuget\\packages\\microsoft.identitymodel.protocols\\6.15.1\\microsoft.identitymodel.protocols.6.15.1.nupkg.sha512",
+    "C:\\Users\\jakaa\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\6.15.1\\microsoft.identitymodel.protocols.openidconnect.6.15.1.nupkg.sha512",
     "C:\\Users\\jakaa\\.nuget\\packages\\microsoft.identitymodel.tokens\\7.0.3\\microsoft.identitymodel.tokens.7.0.3.nupkg.sha512",
     "C:\\Users\\jakaa\\.nuget\\packages\\microsoft.net.stringtools\\17.3.2\\microsoft.net.stringtools.17.3.2.nupkg.sha512",
     "C:\\Users\\jakaa\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",

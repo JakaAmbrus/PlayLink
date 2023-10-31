@@ -1,3 +1,15 @@
-<ul>
+<!-- <ul>
   <li *ngFor="let user of users">{{ user.id }} - {{ user.userName }}</li>
-</ul>
+</ul> -->
+<div id="auth-page">
+  <div id="auth-page-container">
+    <div class="auth-container">
+      <div class="tabs">
+        <button class="tab sign-in-button">Sign In</button>
+        <button class="tab sign-up-button">Sign Up</button>
+      </div>
+      <app-login></app-login>
+    </div>
+  </div>
+  <a id="home" routerLink="/home">home</a>
+</div>

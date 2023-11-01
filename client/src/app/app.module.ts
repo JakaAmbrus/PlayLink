@@ -21,6 +21,7 @@ import { GameSelectionComponent } from './games/game-selection/game-selection.co
 import { AuthFormComponent } from './login-page/auth-form/auth-form.component';
 import { LoginComponent } from './login-page/auth-form/login/login.component';
 import { SignUpComponent } from './login-page/auth-form/sign-up/sign-up.component';
+import { LoginLogoComponent } from './login-page/login-logo/login-logo.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { SignUpComponent } from './login-page/auth-form/sign-up/sign-up.componen
     AuthFormComponent,
     LoginComponent,
     SignUpComponent,
+    LoginLogoComponent,
   ],
   imports: [
     BrowserModule,

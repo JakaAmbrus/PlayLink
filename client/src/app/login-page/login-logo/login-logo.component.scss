@@ -1,11 +1,9 @@
 #header-logo {
   font-size: 3.4em;
   display: flex;
-  margin-left: 0.2em;
   font-family: "Nexa Bold";
   font-weight: bolder;
   width: 6em;
-  cursor: pointer;
 }
 #header-logo:visited {
   color: inherit;
@@ -19,11 +17,10 @@
   height: 100%;
   width: 100%;
   position: absolute;
-}
-.animate-logo {
-  animation: logoSpin 2s ease-in-out forwards;
+  animation: logoSpin 2s ease-in-out forwards 1s;
 }
 #logo-text-container {
+  color: #3d3a3a;
   display: flex;
 }
 #logo-play-text-container {
@@ -34,9 +31,7 @@
 #logo-text-play {
   position: absolute;
   top: 0.42em;
-}
-.animate-play {
-  animation: playLogoTextAnimation 2s ease forwards;
+  animation: playLogoTextAnimation 2s ease forwards 1s;
 }
 #logo-link-text-container {
   position: relative;
@@ -44,10 +39,9 @@
 #logo-text-link {
   position: absolute;
   top: 0.42em;
+  animation: linkLogoTextAnimation 2s ease forwards 1s;
 }
-.animate-link {
-  animation: linkLogoTextAnimation 2s ease forwards;
-}
+
 @keyframes logoSpin {
   0% {
     transform: rotate(0);
@@ -62,13 +56,13 @@
     transform: rotate(0);
   }
   30% {
-    transform: translateX(-0.23em);
+    transform: translateX(-0.26em);
   }
   35% {
-    transform: translateX(0.23em);
+    transform: translateX(0.26em);
   }
   50% {
-    transform: translate(0);
+    transform: translateX(0);
   }
 }
 

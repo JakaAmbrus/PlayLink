@@ -3,13 +3,24 @@
 </ul> -->
 <div id="auth-page">
   <div id="auth-page-container">
+    <div id="logo-and-subtext">
+      <app-login-logo></app-login-logo>
+      <h1 id="subtext-h1">
+        <span id="connect">Connect, </span> <span id="play">Play, </span>
+        <span id="stay">Stay</span>
+      </h1>
+      <h2 id="subtext-h2">That's the PlayLink Way!</h2>
+    </div>
     <div class="auth-container">
       <div class="tabs">
-        <button class="tab sign-in-button">Sign In</button>
-        <button class="tab sign-up-button">Sign Up</button>
+        <button class="tab sign-in-button" (click)="toggleFormStateLogin()">
+          Sign In
+        </button>
+        <button class="tab sign-up-button" (click)="toggleFormStateRegister()">
+          Sign Up
+        </button>
       </div>
-      <app-login></app-login>
+      <app-login *ngIf="formStateLogin"></app-login>
     </div>
   </div>
-  <a id="home" routerLink="/home">home</a>
 </div>

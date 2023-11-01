@@ -11,18 +11,27 @@ import { HollowXHollowComponent } from './games/hollow-x-hollow/hollow-x-hollow.
 import { PlaysketchPortableComponent } from './games/playsketch-portable/playsketch-portable.component';
 import { RockPaperScissorsComponent } from './games/rock-paper-scissors/rock-paper-scissors.component';
 
+import { canActivateGuard } from './_guards/auth.guard';
+
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
-  { path: 'home', component: HomeComponent, data: { animation: 'Home' } },
+  {
+    path: 'home',
+    component: HomeComponent,
+    canActivate: [canActivateGuard],
+    data: { animation: 'Home' },
+  },
   {
     path: 'discover',
     component: DiscoverComponent,
     data: { animation: 'Discover' },
+    canActivate: [canActivateGuard],
   },
   {
     path: 'games',
     component: GamesComponent,
     data: { animation: 'Games' },
+    canActivate: [canActivateGuard],
     children: [
       {
         path: '',
@@ -46,6 +55,7 @@ const routes: Routes = [
     path: 'favorites',
     component: FavoritesComponent,
     data: { animation: 'Favorites' },
+    canActivate: [canActivateGuard],
   },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { slideInAnimation } from './route-animations';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -23,8 +24,15 @@ export class AppComponent implements OnInit {
   }
 
   users: any;
+  showNavbar = true;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.showNavbar = event.urlAfterRedirects !== '/login';
+      }
+    });
+  }
   ngOnInit(): void {
     const savedTheme = localStorage.getItem('userThemePreference');
     if (savedTheme) {

@@ -5,20 +5,14 @@ import { Component } from '@angular/core';
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss'],
 })
-export class LoginPageComponent {}
-// users: any;
+export class LoginPageComponent {
+  formStateLogin: boolean = true;
 
-// constructor(private http: HttpClient) {}
-// ngOnInit(): void {
-//   this.http.get('https://localhost:7074/api/users').subscribe({
-//     next: (data) => {
-//       this.users = data;
-//     },
-//     error: (err) => {
-//       console.error('There was an error!', err);
-//     },
-//     complete: () => {
-//       console.log('Request completed');
-//     },
-//   });
-// }
+  toggleFormStateLogin() {
+    this.formStateLogin = true;
+  }
+
+  toggleFormStateRegister() {
+    this.formStateLogin = false;
+  }
+}

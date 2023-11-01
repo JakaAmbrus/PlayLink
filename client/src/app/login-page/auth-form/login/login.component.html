@@ -1,27 +1,33 @@
-<h1>Log into your account</h1>
-<form id="login-form">
+<h1 id="login-header">Log into your account</h1>
+<form
+  #loginForm="ngForm"
+  (ngSubmit)="login()"
+  autocomplete="off"
+  id="login-form"
+>
   <div class="input-container">
-    <label for="userName">Username*</label>
+    <label class="form-label" for="userName">Username*</label>
     <input
-      type="userName"
+      [(ngModel)]="model.username"
+      type="text"
       id="userName"
-      name="userName"
+      name="username"
+      class="form-input"
       required
-      autocomplete="none"
     />
   </div>
   <div class="input-container">
-    <label for="password">Password*</label>
+    <label class="form-label" for="password">Password*</label>
     <input
+      [(ngModel)]="model.password"
       type="password"
       id="password"
       name="password"
+      class="form-input"
       required
-      autocomplete="none"
     />
   </div>
-
   <button type="submit" class="login-btn">Login</button>
 </form>
 
-<button class="guest-login"><u>Guest Login</u></button>
+<button class="guest-login" (click)="guestLogin()"><u>Guest Login</u></button>

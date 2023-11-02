@@ -5,21 +5,26 @@ import { HomeComponent } from './home/home.component';
 import { DiscoverComponent } from './discover/discover.component';
 import { GamesComponent } from './games/games.component';
 import { FavoritesComponent } from './favorites/favorites.component';
-import { LoginPageComponent } from './login-page/login-page.component';
+import { PortalComponent } from './portal/portal.component';
 import { GameSelectionComponent } from './games/game-selection/game-selection.component';
 import { HollowXHollowComponent } from './games/hollow-x-hollow/hollow-x-hollow.component';
 import { PlaysketchPortableComponent } from './games/playsketch-portable/playsketch-portable.component';
 import { RockPaperScissorsComponent } from './games/rock-paper-scissors/rock-paper-scissors.component';
 
 import { canActivateGuard } from './_guards/auth.guard';
+import { canActivateLoginGuard } from './_guards/auth.guard';
 
 const routes: Routes = [
-  { path: 'login', component: LoginPageComponent },
+  {
+    path: 'portal',
+    component: PortalComponent,
+    canActivate: [canActivateLoginGuard],
+  },
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [canActivateGuard],
     data: { animation: 'Home' },
+    canActivate: [canActivateGuard],
   },
   {
     path: 'discover',
@@ -57,7 +62,7 @@ const routes: Routes = [
     data: { animation: 'Favorites' },
     canActivate: [canActivateGuard],
   },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/portal', pathMatch: 'full' },
 ];
 
 @NgModule({

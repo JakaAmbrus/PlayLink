@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient, private router: Router) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.showNavbar = event.urlAfterRedirects !== '/login';
+        this.showNavbar = event.urlAfterRedirects !== '/portal';
       }
     });
   }

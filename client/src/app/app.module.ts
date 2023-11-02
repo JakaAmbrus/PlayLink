@@ -10,7 +10,7 @@ import { HeaderComponent } from './header/header.component';
 import { HeaderLogoComponent } from './header/header-logo/header-logo.component';
 import { HeaderNavLinksComponent } from './header/header-nav-links/header-nav-links.component';
 import { HomeComponent } from './home/home.component';
-import { LoginPageComponent } from './login-page/login-page.component';
+import { PortalComponent } from './portal/portal.component';
 import { DiscoverComponent } from './discover/discover.component';
 import { GamesComponent } from './games/games.component';
 import { FavoritesComponent } from './favorites/favorites.component';
@@ -18,10 +18,11 @@ import { HollowXHollowComponent } from './games/hollow-x-hollow/hollow-x-hollow.
 import { PlaysketchPortableComponent } from './games/playsketch-portable/playsketch-portable.component';
 import { RockPaperScissorsComponent } from './games/rock-paper-scissors/rock-paper-scissors.component';
 import { GameSelectionComponent } from './games/game-selection/game-selection.component';
-import { AuthFormComponent } from './login-page/auth-form/auth-form.component';
-import { LoginComponent } from './login-page/auth-form/login/login.component';
-import { SignUpComponent } from './login-page/auth-form/sign-up/sign-up.component';
-import { LoginLogoComponent } from './login-page/login-logo/login-logo.component';
+import { AuthFormComponent } from './portal/auth-form/auth-form.component';
+import { LoginComponent } from './portal/auth-form/login/login.component';
+import { RegisterComponent } from './portal/auth-form/register/register.component';
+import { LoginLogoComponent } from './portal/login-logo/login-logo.component';
+import { HeaderDropdownComponent } from './header/header-dropdown/header-dropdown.component';
 
 @NgModule({
   declarations: [
@@ -37,11 +38,12 @@ import { LoginLogoComponent } from './login-page/login-logo/login-logo.component
     PlaysketchPortableComponent,
     RockPaperScissorsComponent,
     GameSelectionComponent,
-    LoginPageComponent,
+    PortalComponent,
     AuthFormComponent,
     LoginComponent,
-    SignUpComponent,
+    RegisterComponent,
     LoginLogoComponent,
+    HeaderDropdownComponent,
   ],
   imports: [
     BrowserModule,

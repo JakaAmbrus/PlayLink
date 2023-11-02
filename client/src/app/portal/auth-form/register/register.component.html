@@ -1,0 +1,36 @@
+<h1 id="login-header">Register new account</h1>
+<form
+  #registerForm="ngForm"
+  (ngSubmit)="register()"
+  autocomplete="off"
+  id="login-form"
+>
+  <div class="input-container">
+    <label class="form-label" for="userName">Username*</label>
+    <input
+      [(ngModel)]="model.username"
+      type="text"
+      id="userName"
+      name="username"
+      class="form-input"
+      required
+    />
+  </div>
+  <div class="input-container">
+    <label class="form-label" for="password">Password*</label>
+    <input
+      [(ngModel)]="model.password"
+      type="password"
+      id="password"
+      name="password"
+      class="form-input"
+      required
+    />
+  </div>
+  <button type="submit" (submit)="register()" class="login-btn">
+    Register
+  </button>
+  <button type="button" class="register-cancel" (click)="(cancel)">
+    <u>Cancel</u>
+  </button>
+</form>

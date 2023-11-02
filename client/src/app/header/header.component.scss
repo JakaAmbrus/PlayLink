@@ -56,6 +56,9 @@ app-header-nav-links,
 .mobile-links {
   display: none;
 }
+.dropdown {
+  position: relative;
+}
 
 @media (max-width: 1100px) {
   #header-main-container {

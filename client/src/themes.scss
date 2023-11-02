@@ -36,8 +36,14 @@ $dark-theme: (
     box-shadow: 0 0.2em 0.4em rgba(0, 0, 0, 0.1),
       0 0.1em 0.1em rgba(0, 0, 0, 0.05);
   }
+  .theme-border {
+    border: 0.1em solid #3d3a3a27;
+  }
   //navigation links themes light
   .navigation-links-icons-container:hover {
+    background-color: #f2f2f2;
+  }
+  .dropdown-section:hover {
     background-color: #f2f2f2;
   }
   .active .navigation-links-icons-container:hover {
@@ -68,11 +74,17 @@ $dark-theme: (
     background-color: #4e4f50;
     color: #e7e9ed;
   }
+  .theme-border {
+    border: 0.1em solid #3d3a3a;
+  }
   //navigation links themes dark
   .header-icons-middle {
     color: map-get($dark-theme, header-icons);
   }
   .navigation-links-icons-container:hover {
+    background-color: #3a3b3c;
+  }
+  .dropdown-section:hover {
     background-color: #3a3b3c;
   }
   .active .navigation-links-icons-container:hover {

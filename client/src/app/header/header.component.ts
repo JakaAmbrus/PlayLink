@@ -13,4 +13,10 @@ export class HeaderComponent {
   handleClick() {
     this.themeButtonClicked.emit();
   }
+
+  isDropdownOpen: boolean = false;
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
 }

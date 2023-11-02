@@ -11,16 +11,6 @@
       </h1>
       <h2 id="subtext-h2">That's the PlayLink Way!</h2>
     </div>
-    <div class="auth-container">
-      <div class="tabs">
-        <button class="tab sign-in-button" (click)="toggleFormStateLogin()">
-          Sign In
-        </button>
-        <button class="tab sign-up-button" (click)="toggleFormStateRegister()">
-          Sign Up
-        </button>
-      </div>
-      <app-login *ngIf="formStateLogin"></app-login>
-    </div>
+    <app-auth-form></app-auth-form>
   </div>
 </div>

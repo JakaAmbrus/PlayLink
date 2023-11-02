@@ -1,0 +1,46 @@
+.auth-container {
+  box-shadow: 0 0.2em 0.4em rgba(0, 0, 0, 0.1),
+    0 0.1em 0.1em rgba(0, 0, 0, 0.05);
+  background: white;
+  position: relative;
+  width: 55em;
+  border: 0.2em solid #3d3a3a;
+  border-radius: 1em;
+  overflow: hidden;
+}
+.tabs {
+  display: flex;
+}
+.tab {
+  font-family: "Nexa Bold";
+  flex: 1;
+  font-size: 3em;
+  padding: 0.7em;
+  border-bottom: 0.07em solid #3d3a3aa3;
+  cursor: pointer;
+}
+.sign-in-button {
+  background-color: #3d3a3a;
+  color: white;
+}
+.sign-up-button {
+  color: #3d3a3a;
+  background: white;
+}
+@media (max-width: 800px) {
+  .auth-container {
+    box-shadow: none;
+    background: #f0f2f5;
+    width: 98vw;
+    border: none;
+    border-radius: 0em;
+  }
+  .tabs {
+    overflow: hidden;
+    border: 0.2em solid #3d3a3a;
+    border-radius: 1em;
+  }
+  .tab {
+    border: none;
+  }
+}

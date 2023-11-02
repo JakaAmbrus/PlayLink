@@ -7,6 +7,12 @@ $primaryColor: #3d3a3a;
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: "Nexa Light";
+  src: url("./assets/fonts/nexa-light.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
 //global styles
 * {
@@ -103,7 +109,7 @@ button {
   width: 100vw;
 }
 .placeholder {
-  height: 50em;
-  width: 50em;
-  background-color: aqua;
+  margin-top: 2em;
+  height: 80em;
+  width: 68em;
 }

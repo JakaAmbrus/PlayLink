@@ -22,7 +22,21 @@ export const canActivateGuard: CanActivateFn = (
 
   const isLoggedIn = checkIfLoggedIn();
   if (!isLoggedIn) {
-    return router.parseUrl('/login');
+    return router.parseUrl('/portal');
+  }
+  return true;
+};
+
+export const canActivateLoginGuard: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+): boolean | UrlTree => {
+  const accountService = inject(AccountService);
+  const router = inject(Router);
+
+  const isLoggedIn = checkIfLoggedIn();
+  if (isLoggedIn) {
+    return router.parseUrl('/home');
   }
   return true;
 };

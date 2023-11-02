@@ -14,8 +14,12 @@
           {{ theme === "theme-light" ? "light_mode" : "dark_mode" }}
         </span>
       </div>
-      <div class="header-icons-right header-icons-right-container">
+      <div
+        class="header-icons-right header-icons-right-container dropdown"
+        (click)="toggleDropdown()"
+      >
         <span class="material-symbols-rounded thicker-icon"> person </span>
+        <app-header-dropdown *ngIf="isDropdownOpen"></app-header-dropdown>
       </div>
     </div>
   </div>

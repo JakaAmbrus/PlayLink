@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,32 @@ export class AccountService {
   constructor(private http: HttpClient) {}
 
   login(model: any) {
-    return this.http.post(this.baseUrl + 'account/login', model);
+    return this.http.post(this.baseUrl + 'account/login', model).pipe(
+      tap((response: any) => {
+        const user = response.username;
+        const token = response.token;
+        this.saveToken(token);
+        this.setLoggedIn(true);
+      })
+    );
+  }
+
+  // register(model: any) {
+  //   return this.http.post(this.baseUrl + 'account/register', model).pipe(
+  //     map((user: any) => {
+  //       if (user) {
+
+  //       }
+  //     })
+  //   );
+  // }
+
+  saveToken(token: string) {
+    localStorage.setItem('token', token);
+  }
+
+  getToken() {
+    return localStorage.getItem('token');
   }
 
   get isLoggedIn() {
@@ -33,6 +58,21 @@ export class AccountService {
 
   logout() {
     localStorage.removeItem('loggedIn');
+    localStorage.removeItem('token');
     this.setLoggedIn(false);
+  }
+
+  private addAuthorizationHeader(headers: HttpHeaders) {
+    const token = this.getToken();
+    if (token) {
+      headers = headers.set('Authorization', 'Bearer ' + token);
+    }
+    return headers;
+  }
+
+  getAuthenticatedData() {
+    let headers = new HttpHeaders();
+    headers = this.addAuthorizationHeader(headers);
+    return this.http.get(this.baseUrl + 'some-endpoint', { headers });
   }
 }

@@ -28,7 +28,9 @@ $dark-theme: (
   .header-icons-middle {
     color: map-get($light-theme, primary-text);
   }
-
+  .logo-text-theme {
+    color: map-get($light-theme, primary-text);
+  }
   .header-icons-right {
     background-color: #d8dadf;
   }
@@ -64,7 +66,7 @@ $dark-theme: (
   .secondary-background {
     background-color: map-get($dark-theme, background-secondary);
   }
-  .logo-text-dark-theme {
+  .logo-text-theme {
     color: white;
   }
   .secondary-text {

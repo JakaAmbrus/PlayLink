@@ -19,13 +19,13 @@
   border-bottom: 0.07em solid #3d3a3aa3;
   cursor: pointer;
 }
-.sign-in-button {
-  background-color: #3d3a3a;
-  color: white;
-}
-.sign-up-button {
+.form-buttons {
   color: #3d3a3a;
   background: white;
+}
+.form-buttons.active-form {
+  background-color: #3d3a3a;
+  color: white;
 }
 @media (max-width: 800px) {
   .auth-container {

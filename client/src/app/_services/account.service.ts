@@ -23,16 +23,16 @@ export class AccountService {
       })
     );
   }
-
-  // register(model: any) {
-  //   return this.http.post(this.baseUrl + 'account/register', model).pipe(
-  //     map((user: any) => {
-  //       if (user) {
-
-  //       }
-  //     })
-  //   );
-  // }
+  register(model: any) {
+    return this.http.post(this.baseUrl + 'account/register', model).pipe(
+      tap((response: any) => {
+        const user = response.username;
+        const token = response.token;
+        this.saveToken(token);
+        this.setLoggedIn(true);
+      })
+    );
+  }
 
   saveToken(token: string) {
     localStorage.setItem('token', token);

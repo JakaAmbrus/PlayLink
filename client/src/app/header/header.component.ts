@@ -15,8 +15,35 @@ export class HeaderComponent {
   }
 
   isDropdownOpen: boolean = false;
+  preventClose: boolean = false;
 
   toggleDropdown() {
-    this.isDropdownOpen = !this.isDropdownOpen;
+    if (this.isDropdownOpen) {
+      this.isDropdownOpen = false;
+      this.unbindClickListener();
+    } else {
+      this.preventClose = true;
+      this.isDropdownOpen = true;
+      setTimeout(() => {
+        this.bindClickListener();
+        this.preventClose = false;
+      });
+    }
+  }
+
+  bindClickListener() {
+    document.addEventListener('click', this.onDocumentClick.bind(this));
+  }
+
+  unbindClickListener() {
+    document.removeEventListener('click', this.onDocumentClick.bind(this));
+  }
+
+  onDocumentClick(event: MouseEvent) {
+    if (this.preventClose) {
+      return;
+    }
+    this.isDropdownOpen = false;
+    this.unbindClickListener();
   }
 }

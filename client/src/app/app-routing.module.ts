@@ -62,7 +62,11 @@ const routes: Routes = [
     data: { animation: 'Favorites' },
     canActivate: [canActivateGuard],
   },
-  { path: '', redirectTo: '/portal', pathMatch: 'full' },
+  {
+    path: '',
+    redirectTo: '/portal',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({

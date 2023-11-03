@@ -17,7 +17,7 @@
   height: 100%;
   width: 100%;
   position: absolute;
-  animation: logoSpin 2s ease-in-out forwards 1s;
+  animation: logoSpin 2s ease-in-out forwards 1.2s;
 }
 #logo-text-container {
   color: #3d3a3a;
@@ -31,7 +31,7 @@
 #logo-text-play {
   position: absolute;
   top: 0.42em;
-  animation: playLogoTextAnimation 2s ease forwards 1s;
+  animation: playLogoTextAnimation 2s ease forwards 1.2s;
 }
 #logo-link-text-container {
   position: relative;
@@ -39,7 +39,7 @@
 #logo-text-link {
   position: absolute;
   top: 0.42em;
-  animation: linkLogoTextAnimation 2s ease forwards 1s;
+  animation: linkLogoTextAnimation 2s ease forwards 1.2s;
 }
 
 @keyframes logoSpin {

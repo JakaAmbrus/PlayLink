@@ -1,3 +1,4 @@
+@import "ngx-toastr/toastr";
 @import "themes";
 $primaryColor: #3d3a3a;
 
@@ -112,4 +113,26 @@ button {
   margin-top: 2em;
   height: 80em;
   width: 68em;
+}
+.toast-error {
+  background-color: #3a3b3c;
+  border: 3px solid white;
+  font-size: 18px;
+  letter-spacing: 1px;
+  font-family: "Nexa Bold";
+}
+.toast-error .error-number,
+.toast-error .error-text {
+  margin-left: 20px;
+}
+.toast-progress {
+  background-color: #d0d2d6;
+  opacity: 0.9;
+}
+.toast-container .ngx-toastr {
+  background-size: 40px;
+  padding: 15px 15px 15px 65px;
+}
+.toast-container .ngx-toastr:hover {
+  box-shadow: 0 0 8px #000000;
 }

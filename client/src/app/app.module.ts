@@ -25,6 +25,7 @@ import { RegisterComponent } from './portal/auth-form/register/register.componen
 import { LoginLogoComponent } from './portal/login-logo/login-logo.component';
 import { HeaderDropdownComponent } from './header/header-dropdown/header-dropdown.component';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ErrorInterceptor } from './_interceptors/error.interceptor';
     RegisterComponent,
     LoginLogoComponent,
     HeaderDropdownComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

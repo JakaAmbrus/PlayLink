@@ -34,15 +34,15 @@ app-login-logo {
 }
 #connect {
   opacity: 0;
-  animation: animateH1 0.6s ease-out forwards 0.2s;
+  animation: animateH1 0.6s ease-out forwards 0.5s;
 }
 #play {
   opacity: 0;
-  animation: animateH1 0.6s ease-out forwards 0.6s;
+  animation: animateH1 0.6s ease-out forwards 0.9s;
 }
 #stay {
   opacity: 0;
-  animation: animateH1 0.6s ease-out forwards 1s;
+  animation: animateH1 0.6s ease-out forwards 1.3s;
 }
 @keyframes animateH1 {
   100% {
@@ -57,7 +57,7 @@ app-login-logo {
   justify-content: flex-end;
   padding-right: 0.7em;
   transform: translateX(-2em);
-  animation: animateH2 1s ease forwards 1.85s;
+  animation: animateH2 1s ease forwards 2.15s;
   color: #3d3a3a;
 }
 @keyframes animateH2 {

@@ -10,6 +10,7 @@ import { GameSelectionComponent } from './games/game-selection/game-selection.co
 import { HollowXHollowComponent } from './games/hollow-x-hollow/hollow-x-hollow.component';
 import { PlaysketchPortableComponent } from './games/playsketch-portable/playsketch-portable.component';
 import { RockPaperScissorsComponent } from './games/rock-paper-scissors/rock-paper-scissors.component';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
 
 import { canActivateGuard } from './_guards/auth.guard';
 import { canActivateLoginGuard } from './_guards/auth.guard';
@@ -61,6 +62,11 @@ const routes: Routes = [
     component: FavoritesComponent,
     data: { animation: 'Favorites' },
     canActivate: [canActivateGuard],
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
+    pathMatch: 'full',
   },
   {
     path: '',

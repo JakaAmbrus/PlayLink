@@ -17,6 +17,7 @@ namespace server.Extensions
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.Password.RequiredLength = 4;
                 opt.Password.RequireLowercase = false;
+                opt.Password.RequireUppercase = false;
 
             })
                 .AddRoles<AppRole>()

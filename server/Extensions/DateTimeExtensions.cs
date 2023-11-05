@@ -22,3 +22,7 @@ namespace server.Extensions
         }
     }
 }
+/*  public int GetAge()
+      {
+          return DateOfBirth.CalculateAge();
+      }*/

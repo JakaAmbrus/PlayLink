@@ -15,8 +15,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
   guestLogin() {
-    this.model.username = 'jaka1';
-    this.model.password = 'selena';
+    this.model.username = 'jaka';
+    this.model.password = 'Selena#1';
     this.login();
   }
   login() {

@@ -1,13 +1,11 @@
-﻿using server.Extensions;
+﻿using Microsoft.AspNetCore.Identity;
+using server.Extensions;
 
 namespace server.Entities
 {
-    public class AppUser
+    public class AppUser : IdentityUser<int>
     {
-        public int Id { get; set; }
-        public string UserName { get; set; }
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
+        
   /*      public string FullName { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
@@ -22,5 +20,6 @@ namespace server.Entities
             return DateOfBirth.CalculateAge();
         }*/
 
+        public ICollection<AppUserRole> UserRoles { get; set; }
     }
 }

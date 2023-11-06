@@ -9,11 +9,9 @@
         public DateTime NotificationDate { get; set; } = DateTime.UtcNow; 
         public int PostId { get; set; }
 
-        // Linked to user
         public int AppUserId { get; set; }
         public AppUser AppUser { get; set; }
 
-        //linked to post
         public Post Post { get; set; }
     }
 }

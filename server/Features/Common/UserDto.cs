@@ -1,4 +1,4 @@
-﻿namespace server.DTOs
+﻿namespace server.Features.Common
 {
     public class UserDto
     {

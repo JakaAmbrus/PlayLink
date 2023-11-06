@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
+using server.Configurations;
 
 namespace server.Data
 {
@@ -16,11 +16,8 @@ namespace server.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<AppUser>()
-                .HasMany(ur => ur.UserRoles)
-                .WithOne(u => u.User)
-                .HasForeignKey(ur => ur.UserId)
-                .IsRequired();
+            builder.ApplyConfiguration(new AppUserConfiguration());
+
 
             builder.Entity<AppRole>()
                 .HasMany(ur => ur.UserRoles)

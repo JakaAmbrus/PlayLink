@@ -1,7 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using server.Behaviors;
 using server.Data;
 using server.Interfaces;
 using server.Services;
+using System.Reflection;
 
 namespace server.Extensions
 {
@@ -16,6 +20,11 @@ namespace server.Extensions
             });
             services.AddCors();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services.AddMediatR(cfg => {
+                cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+                /*cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));*/
+            });
 
             return services;
         }

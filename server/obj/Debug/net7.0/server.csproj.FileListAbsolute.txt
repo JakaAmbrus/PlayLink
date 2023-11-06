@@ -247,3 +247,7 @@ C:\Users\jakaa\Projects\PlayLink\server\obj\Debug\net7.0\refint\server.dll
 C:\Users\jakaa\Projects\PlayLink\server\obj\Debug\net7.0\server.pdb
 C:\Users\jakaa\Projects\PlayLink\server\obj\Debug\net7.0\server.genruntimeconfig.cache
 C:\Users\jakaa\Projects\PlayLink\server\obj\Debug\net7.0\ref\server.dll
+C:\Users\jakaa\Projects\PlayLink\server\bin\Debug\net7.0\FluentValidation.dll
+C:\Users\jakaa\Projects\PlayLink\server\bin\Debug\net7.0\MediatR.dll
+C:\Users\jakaa\Projects\PlayLink\server\bin\Debug\net7.0\MediatR.Contracts.dll
+C:\Users\jakaa\Projects\PlayLink\server\bin\Debug\net7.0\FluentValidation.DependencyInjectionExtensions.dll

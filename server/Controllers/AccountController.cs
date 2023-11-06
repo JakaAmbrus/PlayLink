@@ -9,54 +9,37 @@ using server.Interfaces;
 using server.Services;
 using Microsoft.AspNetCore.Identity;
 using System.Globalization;
+using server.Features.Common;
+using server.Features.Register;
+using MediatR;
 
 namespace server.Controllers
 {
 
     public class AccountController : BaseApiController
     {
-     
+        private readonly ISender _mediator;
         private readonly UserManager<AppUser> _userManager;
         private readonly ITokenService _tokenService;
 
-        public AccountController(UserManager<AppUser> userManager, ITokenService tokenService)
+        public AccountController(UserManager<AppUser> userManager, ITokenService tokenService, ISender sender)
         {
             _userManager = userManager;
             _tokenService = tokenService;
-
+            _mediator = sender;
         }
 
         [HttpPost("register")] 
-        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+        public async Task<ActionResult<RegisterResponse>> Register(RegisterCommand command)
         {
-            if (await UserExists(registerDto.Username)) return BadRequest("Username already in use");
+            var result = await _mediator.Send(command);
 
-            string FromatPropertiesToTitleCase(string input)
+            if (result?.Success == false)
             {
-                var inputInfo = CultureInfo.CurrentCulture.TextInfo;
-                return inputInfo.ToTitleCase(input.ToLower());
+                return BadRequest(result);
             }
 
-            var user = new AppUser
-            {
-                UserName = registerDto.Username.ToLower().Trim(),
-                FullName = FromatPropertiesToTitleCase(registerDto.FullName),
-                City = FromatPropertiesToTitleCase(registerDto.City),
-                Country = FromatPropertiesToTitleCase(registerDto.Country),
-                DateOfBirth = registerDto.DateOfBirth,
-                Created = DateTime.UtcNow,
-            };
-
-         var result = await _userManager.CreateAsync(user, registerDto.Password);
-
-            if (!result.Succeeded) return BadRequest(result.Errors);
-
-            return new UserDto
-            {
-                Username = user.UserName,
-                Token = _tokenService.CreateToken(user)
-            };
-
+            return Ok(result);
         }
 
         [HttpPost("login")]

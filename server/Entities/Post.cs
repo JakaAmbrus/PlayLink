@@ -13,8 +13,6 @@ namespace server.Entities
         // If a photo exists, then the post contains a photo that gets added to the user gallery
         public int? PhotoId { get; set; }
         public Photo Photo { get; set; }
-
-        // Linked to user
         public int AppUserId { get; set; }
         public AppUser AppUser { get; set; }
         public ICollection<Comment> Comments { get; set; }

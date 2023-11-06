@@ -8,6 +8,7 @@ using server.DTOs;
 using server.Interfaces;
 using server.Services;
 using Microsoft.AspNetCore.Identity;
+using System.Globalization;
 
 namespace server.Controllers
 {
@@ -30,9 +31,20 @@ namespace server.Controllers
         {
             if (await UserExists(registerDto.Username)) return BadRequest("Username already in use");
 
+            string FromatPropertiesToTitleCase(string input)
+            {
+                var inputInfo = CultureInfo.CurrentCulture.TextInfo;
+                return inputInfo.ToTitleCase(input.ToLower());
+            }
+
             var user = new AppUser
             {
                 UserName = registerDto.Username.ToLower().Trim(),
+                FullName = FromatPropertiesToTitleCase(registerDto.FullName),
+                City = FromatPropertiesToTitleCase(registerDto.City),
+                Country = FromatPropertiesToTitleCase(registerDto.Country),
+                DateOfBirth = registerDto.DateOfBirth,
+                Created = DateTime.UtcNow,
             };
 
          var result = await _userManager.CreateAsync(user, registerDto.Password);
@@ -44,6 +56,7 @@ namespace server.Controllers
                 Username = user.UserName,
                 Token = _tokenService.CreateToken(user)
             };
+
         }
 
         [HttpPost("login")]

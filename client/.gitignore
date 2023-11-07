@@ -40,3 +40,13 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# .NET specific
+**/[Bb]in/
+**/[Oo]bj/
+*.csproj.user
+*.dll
+*.exe
+*.pdb
+*.cache
+*.suo

@@ -4,6 +4,6 @@ namespace server.Entities
 {
     public class AppRole : IdentityRole<int>
     {
-        public List<AppUserRole> UserRoles { get; set; }
+        public ICollection<AppUserRole> UserRoles { get; set; }
     }
 }

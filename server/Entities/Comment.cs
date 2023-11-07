@@ -6,7 +6,7 @@ namespace server.Entities
         public int CommentId { get; set; }
        /* [Required]
         [MaxLength(100)]*/
-        public string? Content { get; set; }
+        public string Content { get; set; }
         public DateTime DateCommented { get; set; } = DateTime.UtcNow;
 
         //linked to post

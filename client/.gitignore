@@ -50,3 +50,6 @@ Thumbs.db
 *.pdb
 *.cache
 *.suo
+
+# Visual Studio specific
+.vs/

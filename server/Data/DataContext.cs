@@ -16,125 +16,35 @@ namespace server.Data
         {
             base.OnModelCreating(builder);
 
+            //AppUser
             builder.ApplyConfiguration(new AppUserConfiguration());
 
-
-            builder.Entity<AppRole>()
-                .HasMany(ur => ur.UserRoles)
-                .WithOne(u => u.Role)
-                .HasForeignKey(ur => ur.RoleId)
-                .IsRequired();
-
+            //AppUserRole
+            builder.ApplyConfiguration(new AppRoleConfiguration());
 
             //Posts
-            builder.Entity<Post>()
-                .HasOne(p => p.AppUser)
-                .WithMany(u => u.Posts)
-                .HasForeignKey(p => p.AppUserId);
-          
-            builder.Entity<Post>()
-                .HasOne(p => p.Photo)
-                .WithOne(c => c.Post)
-                .HasForeignKey<Photo>(photo => photo.PostId);
-       
+            builder.ApplyConfiguration(new PostsConfiguration());
 
             //Comments
-            builder.Entity<Comment>()
-                .HasOne(c => c.AppUser)
-                .WithMany(u => u.Comments)
-                .HasForeignKey(c => c.AppUserId);
-  
-
-            builder.Entity<Comment>()
-                .HasOne(c => c.Post)
-                .WithMany(p => p.Comments)
-                .HasForeignKey(c => c.PostId);
-     
+            builder.ApplyConfiguration(new CommentConfiguration());
 
             //Likes
-            builder.Entity<Like>()
-                .HasOne(l => l.AppUser)
-                .WithMany(u => u.Likes)
-                .HasForeignKey(l => l.AppUserId);
-         
-
-            builder.Entity<Like>()
-                .HasOne(l => l.Post)
-                .WithMany(p => p.Likes)
-                .HasForeignKey(l => l.PostId);
-         
-
-            builder.Entity<Like>()
-                .HasOne(l => l.Comment)
-                .WithMany(c => c.Likes)
-                .HasForeignKey(l => l.CommentId);
-         
-
+            builder.ApplyConfiguration(new LikeConfiguration());
+        
             //Notifications
-            builder.Entity<Notification>()
-                .HasOne(n => n.AppUser)
-                .WithMany(u => u.Notifications)
-                .HasForeignKey(n => n.AppUserId);
-         
-
-            builder.Entity<Notification>()
-                .HasOne(n => n.Post)
-                .WithMany(p => p.Notifications)
-                .HasForeignKey(n => n.PostId);
-         
+            builder.ApplyConfiguration(new NotificationConfiguration());
 
             //FriendRequest
-            builder.Entity<FriendRequest>()
-                .HasOne(fr => fr.Sender)
-                .WithMany(u => u.SentFriendRequests)
-                .HasForeignKey(fr => fr.SenderId);
-          
-
-            builder.Entity<FriendRequest>()
-                .HasOne(fr => fr.Receiver)
-                .WithMany(u => u.ReceivedFriendRequests)
-                .HasForeignKey(fr => fr.ReceiverId);
+            builder.ApplyConfiguration(new FriendRequestConfiguration());
            
-
             //GroupChat
-            builder.Entity<GroupChatUser>()
-                .HasKey(gc => new { gc.AppUserId, gc.GroupChatId });
+            builder.ApplyConfiguration(new GroupChatUserConfiguration());
 
-            builder.Entity<GroupChatUser>()
-                .HasOne(gc => gc.AppUser)
-                .WithMany(au => au.GroupChatUsers)
-                .HasForeignKey(gc => gc.AppUserId);
+            //GroupMessages
+            builder.ApplyConfiguration(new GroupMessageConfiguration());
 
-            builder.Entity<GroupChatUser>()
-                .HasOne(gc => gc.GroupChat)
-                .WithMany(gc => gc.GroupChatUsers)
-                .HasForeignKey(gc => gc.GroupChatId);
-
-            builder.Entity<GroupMessage>()
-                .HasOne(gm => gm.GroupChat)
-                .WithMany(gc => gc.GroupMessages)
-                .HasForeignKey(gm => gm.GroupChatId);
-
-            builder.Entity<GroupMessage>()
-                .HasOne(gm => gm.AppUser)
-                .WithMany(au => au.GroupMessages)
-                .HasForeignKey(gm => gm.AppUserId);
-                
-
-            //messages
-            builder.Entity<Message>(entity =>
-            {
-                entity.HasOne(msg => msg.Sender)
-                      .WithMany(user => user.MessagesSent)
-                      .HasForeignKey(msg => msg.SenderId)
-                      .OnDelete(DeleteBehavior.Restrict);
-
-                entity.HasOne(msg => msg.Recipient)
-                      .WithMany(user => user.MessagesReceived)
-                      .HasForeignKey(msg => msg.RecipientId)
-                      .OnDelete(DeleteBehavior.Restrict);
-            });
+            //PrivatMessages
+            builder.ApplyConfiguration(new PrivateMessageConfiguration());
         }
-
     }
 }

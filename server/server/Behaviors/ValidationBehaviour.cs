@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using MediatR;
-using ValidationException =  server.Exceptions.ValidationException;
+using ValidationException =  WebAPI.Exceptions.ValidationException;
 
-namespace server.Behaviors
+namespace WebAPI.Behaviors
 {
     public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull

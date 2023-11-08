@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using server.Data;
-using server.Entities;
+using WebAPI.Data;
+using WebAPI.Entities;
 using System.Text;
 
-namespace server.Extensions
+namespace WebAPI.Extensions
 {
     public static class IdentityServiceExtensions
     {

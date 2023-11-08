@@ -1,10 +1,10 @@
-﻿using server.Entities;
+﻿using WebAPI.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using server.Configurations;
+using WebAPI.Configurations;
 
-namespace server.Data
+namespace WebAPI.Data
 {
     public class DataContext : IdentityDbContext<AppUser, AppRole, int,
           IdentityUserClaim<int>, AppUserRole, IdentityUserLogin<int>,

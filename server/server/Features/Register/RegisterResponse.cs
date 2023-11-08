@@ -1,6 +1,6 @@
-﻿using server.Features.Common;
+﻿using WebAPI.Features.Common;
 
-namespace server.Features.Register
+namespace WebAPI.Features.Register
 {
     public class RegisterResponse
     {

@@ -1,8 +1,8 @@
 ﻿using MediatR;
-using server.Attributes;
+using WebAPI.Attributes;
 using System.ComponentModel.DataAnnotations;
 
-namespace server.Features.Register
+namespace WebAPI.Features.Register
 {
     public class RegisterCommand : IRequest<RegisterResponse>
     {

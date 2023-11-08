@@ -1,8 +1,8 @@
-﻿using server.Errors;
+﻿using WebAPI.Errors;
 using System.Net;
 using System.Text.Json;
 
-namespace server.Middleware
+namespace WebAPI.Middleware
 {
     public class ExceptionMiddleware
     {

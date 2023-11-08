@@ -1,11 +1,11 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using server.Entities;
-using server.Interfaces;
+using WebAPI.Entities;
+using WebAPI.Interfaces;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace server.Services
+namespace WebAPI.Services
 {
     public class TokenService : ITokenService
     {

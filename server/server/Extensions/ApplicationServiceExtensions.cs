@@ -1,13 +1,13 @@
 ﻿using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using server.Behaviors;
-using server.Data;
-using server.Interfaces;
-using server.Services;
+using WebAPI.Behaviors;
+using WebAPI.Data;
+using WebAPI.Interfaces;
+using WebAPI.Services;
 using System.Reflection;
 
-namespace server.Extensions
+namespace WebAPI.Extensions
 {
     public static class ApplicationServiceExtensions
     {

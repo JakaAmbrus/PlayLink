@@ -1,19 +1,19 @@
-﻿using server.Data;
+﻿using WebAPI.Data;
 using Microsoft.AspNetCore.Mvc;
-using server.Entities;
+using WebAPI.Entities;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-using server.DTOs;
-using server.Interfaces;
-using server.Services;
+using WebAPI.DTOs;
+using WebAPI.Interfaces;
+using WebAPI.Services;
 using Microsoft.AspNetCore.Identity;
 using System.Globalization;
-using server.Features.Common;
-using server.Features.Register;
+using WebAPI.Features.Common;
+using WebAPI.Features.Register;
 using MediatR;
 
-namespace server.Controllers
+namespace WebAPI.Controllers
 {
 
     public class AccountController : BaseApiController

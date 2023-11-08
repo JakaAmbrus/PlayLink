@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace server.Attributes
+namespace WebAPI.Attributes
 {
     //validator for the fullname property
     public class FullNameAttribute : ValidationAttribute

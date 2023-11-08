@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using server.Entities;
+using WebAPI.Entities;
 
-namespace server.Configurations
+namespace WebAPI.Configurations
 {
     public class PostsConfiguration : IEntityTypeConfiguration<Post>
     {

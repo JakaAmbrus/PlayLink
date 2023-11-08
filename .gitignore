@@ -7,13 +7,13 @@
 /bazel-out
 
 # Node
-/node_modules
-npm-debug.log
-yarn-error.log
+client/node_modules
+client/npm-debug.log
+client/yarn-error.log
 
 # IDEs and editors
-.idea/
-.project
+client/.idea/
+client/.project
 .classpath
 .c9/
 *.launch
@@ -29,13 +29,13 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
-/.angular/cache
-.sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
-testem.log
-/typings
+client/.angular/cache
+client/.sass-cache/
+client/connect.lock
+client/coverage
+client/libpeerconnection.log
+client/testem.log
+client/typings
 
 # System files
 .DS_Store

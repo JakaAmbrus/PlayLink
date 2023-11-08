@@ -1,4 +1,4 @@
-﻿namespace server.Features.Common
+﻿namespace WebAPI.Features.Common
 {
     public class UserDto
     {

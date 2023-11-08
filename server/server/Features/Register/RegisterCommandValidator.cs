@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 
-namespace server.Features.Register
+namespace WebAPI.Features.Register
 {
     public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
     {

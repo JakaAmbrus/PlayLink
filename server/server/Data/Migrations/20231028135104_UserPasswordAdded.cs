@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace server.Data.Migrations
+namespace WebAPI.Data.Migrations
 {
     /// <inheritdoc />
     public partial class UserPasswordAdded : Migration

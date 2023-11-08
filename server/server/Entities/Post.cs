@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace server.Entities
+namespace WebAPI.Entities
 {
     public class Post
     {

@@ -1,6 +1,6 @@
 ﻿using FluentValidation.Results;
 
-namespace server.Exceptions
+namespace WebAPI.Exceptions
 {
     public class ValidationException : Exception
     {

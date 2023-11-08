@@ -2,10 +2,10 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using server.Data;
-using server.Entities;
+using WebAPI.Data;
+using WebAPI.Entities;
 
-namespace server.Controllers
+namespace WebAPI.Controllers
 {
     public class BuggyController : BaseApiController
     {

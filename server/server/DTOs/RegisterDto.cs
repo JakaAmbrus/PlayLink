@@ -1,7 +1,7 @@
-﻿using server.Attributes;
+﻿using WebAPI.Attributes;
 using System.ComponentModel.DataAnnotations;
 
-namespace server.DTOs
+namespace WebAPI.DTOs
 {
     public class RegisterDto
     {

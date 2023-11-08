@@ -1,14 +1,14 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using server.DTOs;
-using server.Entities;
-using server.Features.Common;
-using server.Interfaces;
+using WebAPI.DTOs;
+using WebAPI.Entities;
+using WebAPI.Features.Common;
+using WebAPI.Interfaces;
 using System.Globalization;
 using System.Linq;
 
-namespace server.Features.Register
+namespace WebAPI.Features.Register
 {
     public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisterResponse>
     {

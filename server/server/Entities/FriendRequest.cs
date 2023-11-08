@@ -1,4 +1,4 @@
-﻿namespace server.Entities
+﻿namespace WebAPI.Entities
 {
     public class FriendRequest
     {

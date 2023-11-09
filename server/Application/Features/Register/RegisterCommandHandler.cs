@@ -64,8 +64,7 @@ namespace Application.Features.Register
 
             if (!result.Succeeded)
             {
-                var errors = new List<string>();
-                result.Errors.ToList().ForEach(x => errors.Add(x.ToString()));
+                var errors = result.Errors.Select(error => error.Description).ToList();
                 return new RegisterResponse
                 {
                     User = null,

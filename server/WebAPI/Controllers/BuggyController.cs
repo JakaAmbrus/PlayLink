@@ -1,9 +1,9 @@
 ﻿//this buggy controller is made to test the error handling in the client app, I will leave it here in case I decide to use it again in the future
 
+using Domain.Entities;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebAPI.Data;
-using WebAPI.Entities;
 
 namespace WebAPI.Controllers
 {

@@ -11,6 +11,9 @@ public static class DependencyInjection
         services.AddDatabaseServices(configuration);
 
         services.AddIdentityServices(configuration);
+
+        services.AddTokenServices();
+
         return services;
     }
 }

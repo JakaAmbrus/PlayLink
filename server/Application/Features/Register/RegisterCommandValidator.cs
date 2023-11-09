@@ -1,5 +1,4 @@
-﻿using Application.Features.Register;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
 
 namespace Application.Features.Register
@@ -51,11 +50,11 @@ namespace Application.Features.Register
                 return false;
             }
 
-            command.FullName = command.FullName?.Trim();
-            command.Username = command.Username?.Trim();
-            command.Password = command.Password?.Trim();
-            command.Country = command.Country?.Trim();
-            command.City = command.City?.Trim();
+            command.FullName = command.FullName.Trim();
+            command.Username = command.Username.Trim();
+            command.Password = command.Password.Trim();
+            command.Country = command.Country.Trim();
+            command.City = command.City.Trim();
 
             return true;
         }

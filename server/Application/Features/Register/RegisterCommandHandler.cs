@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Identity;
 using Domain.Entities;
 using Application.Features.Common;
-using Application.Interfaces;
 using System.Globalization;
-using Application.Features.Register;
+using Infrastructure.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using FluentValidation;
 
 namespace Application.Features.Register
 {
@@ -13,15 +15,32 @@ namespace Application.Features.Register
 
         private readonly UserManager<AppUser> _userManager;
         private readonly ITokenService _tokenService;
+        private readonly IValidator<RegisterCommand> _validator;
 
-        public RegisterCommandHandler(UserManager<AppUser> userManager, ITokenService tokenService)
+        public RegisterCommandHandler(UserManager<AppUser> userManager,
+            ITokenService tokenService,
+            IValidator<RegisterCommand> validator)
         {
             _userManager = userManager;
             _tokenService = tokenService;
+            _validator = validator;
         }
 
         public async Task<RegisterResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
+            var validationResult = await _validator.ValidateAsync(request);
+
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(error => error.ErrorMessage).ToList();
+                return new RegisterResponse
+                {
+                    User = null,
+                    Errors = errors,
+                    Success = false
+                };
+            }
+
             if (await UserExists(request.Username))
             {
                 return new RegisterResponse

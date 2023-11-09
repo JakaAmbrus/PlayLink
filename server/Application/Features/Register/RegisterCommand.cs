@@ -1,7 +1,4 @@
 ﻿using MediatR;
-using Application.Attributes;
-using System.ComponentModel.DataAnnotations;
-using Application.Features.Register;
 
 namespace Application.Features.Register
 {

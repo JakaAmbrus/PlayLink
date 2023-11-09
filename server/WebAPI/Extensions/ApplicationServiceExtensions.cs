@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+﻿/*using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Behaviors;
@@ -23,10 +23,10 @@ namespace WebAPI.Extensions
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMediatR(cfg => {
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-                /*cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));*/
+                *//*cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));*//*
             });
 
             return services;
         }
     }
-}
+}*/

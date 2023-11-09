@@ -12,7 +12,10 @@ namespace Infrastructure.Extensions
             services.AddDbContext<DataContext>(options =>
             {
                 options.UseNpgsql(config.GetConnectionString("DefaultConnection"));
-            });   
+            }); 
+            
+            services.AddCors();
+
             return services;
         }
     }

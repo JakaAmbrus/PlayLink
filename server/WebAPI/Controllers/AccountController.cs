@@ -1,17 +1,12 @@
-﻿using WebAPI.Data;
-using Microsoft.AspNetCore.Mvc;
-using WebAPI.Entities;
-using System.Security.Cryptography;
-using System.Text;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebAPI.DTOs;
-using WebAPI.Interfaces;
-using WebAPI.Services;
 using Microsoft.AspNetCore.Identity;
-using System.Globalization;
-using WebAPI.Features.Common;
-using WebAPI.Features.Register;
 using MediatR;
+using Domain.Entities;
+using Infrastructure.Interfaces;
+using Application.Features.Register;
+using Application.Features.Common;
+using Application.DTOs;
 
 namespace WebAPI.Controllers
 {

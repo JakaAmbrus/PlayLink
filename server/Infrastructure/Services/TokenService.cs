@@ -1,9 +1,10 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using WebAPI.Entities;
-using WebAPI.Interfaces;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Infrastructure.Interfaces;
+using Microsoft.Extensions.Configuration;
+using Domain.Entities;
 
 namespace Infrastructure.Services
 {

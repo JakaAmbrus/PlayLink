@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Extensions
 {
-    public class ApplicationStartupExtensions
+    public static class ApplicationStartupExtensions
     {
         public static void ConfigureApplication(IApplicationBuilder app, IServiceProvider serviceProvider)
         {

@@ -17,6 +17,11 @@ namespace Infrastructure.Data
                 if (!roleExist)
                 {
                     var roleResult = await roleManager.CreateAsync(new AppRole { Name = roleName });
+
+                    if (!roleResult.Succeeded)
+                    {
+                        throw new InvalidOperationException($"Error seeding '{roleName}' role");
+                    }
                 }
             }
         }

@@ -1,39 +1,39 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Domain.Entities;
-using Application.Features.Common;
 using System.Globalization;
 using Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 using FluentValidation;
+using Application.Features.Authentication.Common;
 
-namespace Application.Features.Register
+namespace Application.Features.Authentication.UserRegistration
 {
-    public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisterResponse>
+    public class UserRegistrationCommandHandler : IRequestHandler<UserRegistrationCommand, UserRegistrationResponse>
     {
 
         private readonly UserManager<AppUser> _userManager;
         private readonly ITokenService _tokenService;
-        private readonly IValidator<RegisterCommand> _validator;
+        private readonly IValidator<UserRegistrationCommand> _validator;
 
-        public RegisterCommandHandler(UserManager<AppUser> userManager,
+        public UserRegistrationCommandHandler(UserManager<AppUser> userManager,
             ITokenService tokenService,
-            IValidator<RegisterCommand> validator)
+            IValidator<UserRegistrationCommand> validator)
         {
             _userManager = userManager;
             _tokenService = tokenService;
             _validator = validator;
         }
 
-        public async Task<RegisterResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)
+        public async Task<UserRegistrationResponse> Handle(UserRegistrationCommand request, CancellationToken cancellationToken)
         {
             var validationResult = await _validator.ValidateAsync(request);
 
             if (!validationResult.IsValid)
             {
                 var errors = validationResult.Errors.Select(error => error.ErrorMessage).ToList();
-                return new RegisterResponse
+
+                return new UserRegistrationResponse
                 {
                     User = null,
                     Errors = errors,
@@ -43,7 +43,7 @@ namespace Application.Features.Register
 
             if (await UserExists(request.Username))
             {
-                return new RegisterResponse
+                return new UserRegistrationResponse
                 {
                     User = null,
                     Errors = new List<string> { "Username already in use" },
@@ -64,8 +64,8 @@ namespace Application.Features.Register
 
             if (!result.Succeeded)
             {
-                var errors = result.Errors.Select(error => error.Description).ToList();
-                return new RegisterResponse
+                var errors = result.Errors.Select(e => e.Description).ToList();
+                return new UserRegistrationResponse
                 {
                     User = null,
                     Errors = errors,
@@ -73,17 +73,28 @@ namespace Application.Features.Register
                 };
             }
 
-            return new RegisterResponse
+            var roleResult = await _userManager.AddToRoleAsync(user, "Member");
+            if (!roleResult.Succeeded)
+            {
+                var errors = roleResult.Errors.Select(e => e.Description).ToList();
+                return new UserRegistrationResponse
+                {
+                    User = null,
+                    Errors = errors,
+                    Success = false
+                };
+            }
+
+            return new UserRegistrationResponse
             {
                 User = new UserDto
                 {
                     Username = user.UserName,
-                    Token = _tokenService.CreateToken(user)
+                    Token = await _tokenService.CreateToken(user)
                 },
                 Success = true
             };
 
-           
         }
         private string FromatPropertiesToTitleCase(string input)
         {

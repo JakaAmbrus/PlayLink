@@ -1,22 +1,27 @@
 using WebAPI.Middleware;
 using Application;
 using Infrastructure;
+using Serilog;
+using Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddControllers();
-/*builder.Services.AddApplicationServices(builder.Configuration);*/
+
 builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
+builder.Host.UseSerilog((context, configuration) =>
+configuration.ReadFrom.Configuration(context.Configuration));
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
@@ -25,6 +30,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseSerilogRequestLogging();
+
+/*app.UseSerilogRequestLogging();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
@@ -32,7 +41,8 @@ app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod()
 .WithOrigins("https://localhost:4200"));
 
 app.UseAuthentication();
-app.UseAuthorization();
+app.UseAuthorization();*/
+ApplicationStartupExtensions.ConfigureApplication(app, app.Services);
 
 app.MapControllers();
 

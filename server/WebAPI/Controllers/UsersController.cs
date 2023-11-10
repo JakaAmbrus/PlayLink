@@ -1,120 +1,47 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using Domain.Entities;
-using Infrastructure.Data;
+using MediatR;
+using Application.Features.Users.GetUsers;
+using Application.Features.Users.GetUserById;
 
 namespace WebAPI.Controllers
 {
-    [Authorize]
     public class UsersController : BaseApiController
     {
-        private readonly DataContext _context;
+        private readonly IMediator _mediator;
 
-        public UsersController(DataContext context)
+        public UsersController(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
-        [AllowAnonymous]
+
         // GET: api/AppUsers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
         {
-            if (_context.Users == null)
+           var users = await _mediator.Send(new GetUsersQuery());
+
+            if (users == null)
             {
                 return NotFound();
             }
-            return await _context.Users.ToListAsync();
+
+            return Ok(users);
         }
-      
+
         // GET: api/AppUsers/id
         [HttpGet("{id}")]
         public async Task<ActionResult<AppUser>> GetUser(int id)
         {
-            if (_context.Users == null)
-            {
-                return NotFound();
-            }
-            var appUser = await _context.Users.FindAsync(id);
+           var user = await _mediator.Send(new GetUserByIdQuery(id));
 
-            if (appUser == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return appUser;
+            return Ok(user); 
         }
-/*
-        // PUT: api/AppUsers/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, AppUser appUser)
-        {
-            if (id != appUser.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(appUser).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AppUserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/AppUsers
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<AppUser>> PostUser(AppUser appUser)
-        {
-            if (_context.Users == null)
-            {
-                return Problem("Entity set 'DataContext.Users'  is null.");
-            }
-            _context.Users.Add(appUser);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetAppUser", new { id = appUser.Id }, appUser);
-        }
-
-        // DELETE: api/AppUsers/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            if (_context.Users == null)
-            {
-                return NotFound();
-            }
-            var appUser = await _context.Users.FindAsync(id);
-            if (appUser == null)
-            {
-                return NotFound();
-            }
-
-            _context.Users.Remove(appUser);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool AppUserExists(int id)
-        {
-            return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
-        }*/
     }
 }
 

@@ -39,6 +39,13 @@ namespace Infrastructure.Extensions
                     };
                 });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("RequireModeratorRole", policy => policy.RequireRole("Moderator", "Admin"));
+
+            });
+
             return services;
         }
     }

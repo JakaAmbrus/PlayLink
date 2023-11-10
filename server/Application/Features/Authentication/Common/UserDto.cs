@@ -1,4 +1,4 @@
-﻿namespace Application.Features.Common
+﻿namespace Application.Features.Authentication.Common
 {
     public class UserDto
     {

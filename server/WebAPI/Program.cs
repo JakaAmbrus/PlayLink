@@ -32,16 +32,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseSerilogRequestLogging();
 
-/*app.UseSerilogRequestLogging();
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod()
-.WithOrigins("https://localhost:4200"));
-
-app.UseAuthentication();
-app.UseAuthorization();*/
 ApplicationStartupExtensions.ConfigureApplication(app, app.Services);
 
 app.MapControllers();

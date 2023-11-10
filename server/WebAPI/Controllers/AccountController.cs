@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using MediatR;
-using Domain.Entities;
-using Infrastructure.Interfaces;
-using Application.Features.Register;
-using Application.Features.Common;
-using Application.DTOs;
+using Application.Features.Authentication.UserLogin;
+using Application.Features.Authentication.UserRegistration;
 
 namespace WebAPI.Controllers
 {
@@ -14,18 +9,14 @@ namespace WebAPI.Controllers
     public class AccountController : BaseApiController
     {
         private readonly ISender _mediator;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly ITokenService _tokenService;
 
-        public AccountController(UserManager<AppUser> userManager, ITokenService tokenService, ISender sender)
+        public AccountController(ISender sender)
         {
-            _userManager = userManager;
-            _tokenService = tokenService;
             _mediator = sender;
         }
 
         [HttpPost("register")] 
-        public async Task<ActionResult<RegisterResponse>> Register(RegisterCommand command)
+        public async Task<ActionResult<UserRegistrationResponse>> Register(UserRegistrationCommand command)
         {
             var result = await _mediator.Send(command);
 
@@ -38,27 +29,16 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
+        public async Task<ActionResult<UserLoginResponse>> Login(UserLoginCommand command)
         {
-            var user = await _userManager.Users.SingleOrDefaultAsync(x => x.UserName == loginDto.Username.ToLower().Trim());
+            var result = await _mediator.Send(command);
 
-            if (user == null) return Unauthorized("invalid username");
-
-            var result = await _userManager.CheckPasswordAsync(user, loginDto.Password);
-
-            if (!result) return Unauthorized("invalid password");
-
-            return new UserDto
+            if (result?.Success == false)
             {
-                Username = user.UserName,
-                Token = _tokenService.CreateToken(user)
-            };
-        }
+                return BadRequest(result);
+            }
 
-        private async Task<bool> UserExists(string username)
-        {
-
-            return await _userManager.Users.AnyAsync(x => x.UserName == username.ToLower());
+            return Ok(result);
         }
     }
 }

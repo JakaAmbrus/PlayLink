@@ -1,6 +1,4 @@
 ﻿//used to calculate age from date of birth, accounting for leap years 
-using System.Reflection.Metadata;
-
 namespace WebAPI.Extensions
 {
     public static class DateTimeExtensions

@@ -1,8 +1,8 @@
 ﻿using MediatR;
 
-namespace Application.Features.Register
+namespace Application.Features.Authentication.UserRegistration
 {
-    public class RegisterCommand : IRequest<RegisterResponse>
+    public class UserRegistrationCommand : IRequest<UserRegistrationResponse>
     {
         public string Username { get; set; }
         public string Password { get; set; }

@@ -11,10 +11,6 @@ namespace Infrastructure.Data.Configurations
             entity.HasOne(p => p.AppUser)
                 .WithMany(u => u.Posts)
                 .HasForeignKey(p => p.AppUserId);
-
-            entity.HasOne(p => p.Photo)
-                .WithOne(c => c.Post)
-                .HasForeignKey<Photo>(photo => photo.PostId);
         }
     }
 }

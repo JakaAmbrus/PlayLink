@@ -23,8 +23,6 @@ namespace Application.Features.Authentication.UserLogin
                 return false;
             }
 
-            command.Username = command.Username.Trim();
-
             return true;
         }
     }

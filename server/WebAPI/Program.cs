@@ -34,6 +34,7 @@ app.UseSerilogRequestLogging();
 
 ApplicationStartupExtensions.ConfigureApplication(app, app.Services);
 
+
 app.MapControllers();
 
 app.Run();

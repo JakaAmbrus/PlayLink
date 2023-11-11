@@ -27,19 +27,16 @@ export class ErrorInterceptor implements HttpInterceptor {
                 const modelStateErrors = [];
                 for (const key in error.error.errors) {
                   if (error.error.errors[key]) {
-                    modelStateErrors.push(error.error.errors[key]);
+                    modelStateErrors.push(...error.error.errors[key]);
                   }
                 }
-                for (const err of modelStateErrors) {
+                modelStateErrors.forEach((err) => {
                   this.toastr.error(err);
-                }
-                //if I decide to not show this error with toastr, maybe I want to handle it while making the form in the future
-                //throw modelStateErrors.flat();
+                });
               } else {
                 this.toastr.error(error.error, error.status.toString());
               }
               break;
-
             case 401:
               this.toastr.error('Unauthorized', error.status.toString());
               break;

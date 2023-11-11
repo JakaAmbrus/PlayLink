@@ -17,4 +17,11 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Posts\DeletePost\" />
+    <Folder Include="Features\Posts\GetPosts\" />
+    <Folder Include="Features\Posts\GetPostById\" />
+    <Folder Include="Features\Posts\UpdatePost\" />
+  </ItemGroup>
+
 </Project>

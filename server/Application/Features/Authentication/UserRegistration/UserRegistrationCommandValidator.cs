@@ -22,7 +22,8 @@ namespace Application.Features.Authentication.UserRegistration
             RuleFor(x => x.FullName)
                 .NotEmpty().WithMessage("Full Name required.")
                 .Must(x => x.Length > 4 && x.Length < 30 && x.Contains(" ")).WithMessage("Full Name must be between 4 and 30 characters and include both first and last name.")
-                .Matches(@"^[a-zA-Z\s]*$").WithMessage("Full name must include standard characters");
+                .Matches(@"^[a-zA-Z\s]*$").WithMessage("Full name must include standard characters")
+                .When(x => x.FullName != null);
 
             RuleFor(x => x.Country)
                 .NotEmpty().WithMessage("Country required.")
@@ -48,12 +49,6 @@ namespace Application.Features.Authentication.UserRegistration
             {
                 return false;
             }
-
-            command.FullName = command.FullName.Trim();
-            command.Username = command.Username.Trim();
-            command.Password = command.Password.Trim();
-            command.Country = command.Country.Trim();
-            command.City = command.City.Trim();
 
             return true;
         }

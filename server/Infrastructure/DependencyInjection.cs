@@ -14,6 +14,8 @@ public static class DependencyInjection
 
         services.AddTokenServices();
 
+        services.AddAuthenticatedUserServices();
+
         return services;
     }
 }

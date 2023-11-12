@@ -1,4 +1,5 @@
-﻿using Application.Features.Authentication.Common;
+﻿using Application.Exceptions;
+using Application.Features.Authentication.Common;
 using Domain.Entities;
 using Infrastructure.Interfaces;
 using MediatR;
@@ -27,14 +28,14 @@ namespace Application.Features.Authentication.UserLogin
 
             if (user == null)
             {
-                throw new Exception("Invalid username or password");         
+                throw new UnauthorizedException("Invalid username or password");         
             }
 
             var result = await _userManager.CheckPasswordAsync(user, request.Password);
 
             if (!result)
             {
-                throw new Exception("Invalid username or password");
+                throw new UnauthorizedException("Invalid username or password");
             }
 
             string userName = user.UserName;

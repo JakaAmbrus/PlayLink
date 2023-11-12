@@ -1,23 +1,19 @@
 ﻿using FluentValidation.Results;
+using System.Net;
 
 namespace Application.Exceptions
 {
-    public class ValidationException : Exception
+    public class ValidationException : ApplicationExceptions
     {
-        public ValidationException()
-            : base("One or more validation failures have occurred.")
-        {
-            Errors = new Dictionary<string, string[]>();
-        }
+        public IDictionary<string, string[]> Errors { get; }
 
         public ValidationException(IEnumerable<ValidationFailure> failures)
-            : this()
+            : base(HttpStatusCode.BadRequest, "One or more validation errors occurred.")
         {
             Errors = failures
                 .GroupBy(e => e.PropertyName, e => e.ErrorMessage)
                 .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
         }
-
-        public IDictionary<string, string[]> Errors { get; }
     }
 }
+

@@ -2,19 +2,19 @@
 
 namespace Application.Exceptions
 {
-    public class ApplicationException : Exception
+    public class ApplicationExceptions : Exception
     {
         public HttpStatusCode StatusCode { get; }
 
         public IDictionary<string, string[]> Errors { get; }
 
-        public ApplicationException(string message, HttpStatusCode statusCode)
+        public ApplicationExceptions(HttpStatusCode statusCode, string message)
             : base(message)
         {
             StatusCode = statusCode;
         }
 
-        public ApplicationException(string message, HttpStatusCode statusCode, IDictionary<string, string[]> errors)
+        public ApplicationExceptions(HttpStatusCode statusCode, string message, IDictionary<string, string[]> errors)
             : base(message)
         {
             StatusCode = statusCode;

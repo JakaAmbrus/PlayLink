@@ -20,11 +20,6 @@ namespace WebAPI.Controllers
         {
             var result = await _mediator.Send(command);
 
-            if (result == null)
-            {
-                return BadRequest(result);
-            }
-
             return Ok(result);
         }
 
@@ -32,11 +27,6 @@ namespace WebAPI.Controllers
         public async Task<ActionResult<UserLoginResponse>> Login(UserLoginCommand command)
         {
             var result = await _mediator.Send(command);
-
-            if (result == null)
-            {
-                return BadRequest(result);
-            }
 
             return Ok(result);
         }

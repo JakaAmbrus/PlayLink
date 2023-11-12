@@ -1,9 +1,9 @@
-﻿using Application.Features.Authentication.Common;
+﻿using Application.Exceptions;
+using Application.Features.Authentication.Common;
 using Domain.Entities;
 using Infrastructure.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
 namespace Application.Features.Authentication.UserRegistration
@@ -24,10 +24,6 @@ namespace Application.Features.Authentication.UserRegistration
         public async Task<UserRegistrationResponse> Handle(UserRegistrationCommand request, CancellationToken cancellationToken)
         {
 
-            if (await UserExists(request.Username))
-            {
-                throw new InvalidOperationException("Username already existis");
-            }
             var user = new AppUser
             {
                 UserName = request.Username.ToLower().Trim(),
@@ -42,6 +38,11 @@ namespace Application.Features.Authentication.UserRegistration
 
             if (!result.Succeeded)
             {
+                if (result.Errors.Any(e => e.Code == "DuplicateUserName"))
+                {
+                    throw new ConflictException("Username already exists");
+                }
+
                 throw new InvalidOperationException(string.Join(", \n", result.Errors.Select(e => e.Description)));
             }
 
@@ -49,7 +50,7 @@ namespace Application.Features.Authentication.UserRegistration
 
             if (!roleResult.Succeeded)
             {
-                throw new InvalidOperationException(string.Join(", \n", roleResult.Errors.Select(e => e.Description)));
+                throw new InvalidOperationException("Failed to add user to role");
             }
 
             return new UserRegistrationResponse
@@ -66,12 +67,6 @@ namespace Application.Features.Authentication.UserRegistration
         {
             var inputInfo = CultureInfo.CurrentCulture.TextInfo;
             return inputInfo.ToTitleCase(input.ToLower());
-        }
-
-        private async Task<bool> UserExists(string username)
-        {
-
-            return await _userManager.Users.AnyAsync(x => x.UserName == username.ToLower());
         }
     }
 }

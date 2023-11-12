@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
 
             if (users == null)
             {
-                return NotFound();
+                return NotFound("There are no users available");
             }
 
             return Ok(users);
@@ -37,7 +37,7 @@ namespace WebAPI.Controllers
 
             if (user == null)
             {
-                return NotFound();
+                return NotFound("User not found");
             }
 
             return Ok(user); 

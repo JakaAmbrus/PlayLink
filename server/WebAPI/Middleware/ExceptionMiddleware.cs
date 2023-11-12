@@ -1,7 +1,7 @@
-﻿using WebAPI.Errors;
+﻿using Application.Exceptions;
 using System.Net;
 using System.Text.Json;
-using Application.Exceptions;
+using WebAPI.Errors;
 
 namespace WebAPI.Middleware
 {
@@ -18,36 +18,41 @@ namespace WebAPI.Middleware
             _next = next;
         }
 
+        private string details;
+
         public async Task InvokeAsync(HttpContext context)
         {
             try
             {
                 await _next(context);
             }
+            catch (ApplicationExceptions ex)
+            {
+                details = _env.IsDevelopment() ? ex.StackTrace?.ToString() : null;
+                _logger.LogError(ex, ex.Message);
+                context.Response.ContentType = "application/json";
+                context.Response.StatusCode = (int)ex.StatusCode;
+
+                var response = new ApiException(
+                    context.Response.StatusCode,
+                    ex.Message,
+                    details,
+                    ex is ValidationException validationEx ? validationEx.Errors : null);
+
+                var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+                var json = JsonSerializer.Serialize(response, options);
+                await context.Response.WriteAsync(json);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
                 context.Response.ContentType = "application/json";
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-                var details = _env.IsDevelopment() ? ex.StackTrace?.ToString() : null;
                 var response = new ApiException(
                     context.Response.StatusCode,
-                    ex.Message,
+                    _env.IsDevelopment() ? ex.Message : "Internal Server Error",
                     details);
-
-                if (ex is ValidationException validationException)
-                {
-                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    response = new ApiException(
-                        context.Response.StatusCode,
-                        "Validation error",
-                        details,
-                        validationException.Errors);
-                }
-                else
-                {
-                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                }
 
                 var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
                 var json = JsonSerializer.Serialize(response, options);

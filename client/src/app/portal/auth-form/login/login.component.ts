@@ -20,10 +20,6 @@ export class LoginComponent implements OnInit {
     this.login();
   }
   login() {
-    // if (!this.model.username || !this.model.password) {
-    //   console.error('Username and password are required');
-    //   return;
-    // }
     this.accountService.login(this.model).subscribe({
       next: (response) => {
         console.log(response);

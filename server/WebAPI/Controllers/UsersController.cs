@@ -3,6 +3,7 @@ using Domain.Entities;
 using MediatR;
 using Application.Features.Users.GetUsers;
 using Application.Features.Users.GetUserById;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAPI.Controllers
 {
@@ -15,7 +16,6 @@ namespace WebAPI.Controllers
             _mediator = mediator;
         }
 
-        // GET: api/AppUsers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
         {
@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
             return Ok(users);
         }
 
-        // GET: api/AppUsers/id
+        [Authorize(Roles = "Member")]
         [HttpGet("{id}")]
         public async Task<ActionResult<AppUser>> GetUser(int id)
         {

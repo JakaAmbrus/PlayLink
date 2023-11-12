@@ -33,7 +33,7 @@ namespace WebAPI.Controllers
         {
             var result = await _mediator.Send(command);
 
-            if (result?.Success == false)
+            if (result == null)
             {
                 return BadRequest(result);
             }

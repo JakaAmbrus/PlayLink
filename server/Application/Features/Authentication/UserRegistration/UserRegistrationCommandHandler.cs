@@ -26,10 +26,7 @@ namespace Application.Features.Authentication.UserRegistration
 
             if (await UserExists(request.Username))
             {
-                return new UserRegistrationResponse
-                {
-                    User = null,
-                };
+                throw new InvalidOperationException("Username already existis");
             }
             var user = new AppUser
             {
@@ -45,19 +42,14 @@ namespace Application.Features.Authentication.UserRegistration
 
             if (!result.Succeeded)
             {
-                var errors = result.Errors.Select(e => e.Description).ToList();
-                throw new Exception(string.Join(", ", errors));
+                throw new InvalidOperationException(string.Join(", \n", result.Errors.Select(e => e.Description)));
             }
 
             var roleResult = await _userManager.AddToRoleAsync(user, "Member");
 
             if (!roleResult.Succeeded)
             {
-                var errors = roleResult.Errors.Select(e => e.Description).ToList();
-                return new UserRegistrationResponse
-                {
-                    User = null,
-                };
+                throw new InvalidOperationException(string.Join(", \n", roleResult.Errors.Select(e => e.Description)));
             }
 
             return new UserRegistrationResponse

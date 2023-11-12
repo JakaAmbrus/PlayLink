@@ -16,9 +16,10 @@ namespace Infrastructure.Extensions
         {
             services.AddIdentityCore<AppUser>(opt =>
             {
-                opt.Password.RequireNonAlphanumeric = false;
-                opt.Password.RequiredLength = 4;
+                opt.Password.RequireDigit = false;
+                opt.Password.RequiredLength = 1;
                 opt.Password.RequireLowercase = false;
+                opt.Password.RequireNonAlphanumeric = false;
                 opt.Password.RequireUppercase = false;
 
             })
@@ -42,8 +43,8 @@ namespace Infrastructure.Extensions
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("RequireModeratorRole", policy => policy.RequireRole("Moderator", "Admin"));
-
+                options.AddPolicy("RequireModeratorRole", policy => policy.RequireRole("Moderator"));
+                options.AddPolicy("RequireMemberRole", policy => policy.RequireRole("Member"));
             });
 
             return services;

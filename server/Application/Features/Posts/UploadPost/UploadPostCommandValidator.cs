@@ -7,11 +7,11 @@ namespace Application.Features.Posts.UploadPost
     {
         public UploadPostCommandValidator()
         {
-            RuleFor(x => x.PostDto.Description)
+            RuleFor(x => x.PostContentDto.Description)
                 .NotEmpty().WithMessage("Description is required.")
                 .MaximumLength(300).WithMessage("Description cannot exceed 300 characters.");
 
-            RuleFor(x => x.PostDto.PhotoUrl)
+            RuleFor(x => x.PostContentDto.PhotoUrl)
                 .Must(IsValidUrl).WithMessage("Photo URL is not valid.");
         }
         private bool IsValidUrl(string photoUrl)
@@ -24,11 +24,8 @@ namespace Application.Features.Posts.UploadPost
         {
             var command = context.InstanceToValidate;
 
-            if (command == null)
-            {
-                result.Errors.Add(new ValidationFailure("Command", "Command cannot be null."));
-                return false;
-            }
+            command.PostContentDto.Description = command.PostContentDto.Description?.Trim();
+            
             return true;
         }
     }

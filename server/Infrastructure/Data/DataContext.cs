@@ -12,7 +12,7 @@ namespace Infrastructure.Data
     {
         public DataContext(DbContextOptions options) : base(options) { }
 
-        public DbSet<Post> Posts { get; set; }
+        public DbSet<Post> Post { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -25,7 +25,7 @@ namespace Infrastructure.Data
             builder.ApplyConfiguration(new AppRoleConfiguration());
 
             //Posts
-            builder.ApplyConfiguration(new PostsConfiguration());
+            builder.ApplyConfiguration(new PostConfiguration());
 
             //Comments
             builder.ApplyConfiguration(new CommentConfiguration());

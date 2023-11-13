@@ -1,6 +1,7 @@
 ﻿using Application.Exceptions;
 using Application.Features.Authentication.Common;
 using Domain.Entities;
+using Infrastructure.Data;
 using Infrastructure.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -11,59 +12,67 @@ namespace Application.Features.Authentication.UserRegistration
     public class UserRegistrationCommandHandler : IRequestHandler<UserRegistrationCommand, UserRegistrationResponse>
     {
 
+        private readonly DataContext _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly ITokenService _tokenService;
 
-        public UserRegistrationCommandHandler(UserManager<AppUser> userManager,
+        public UserRegistrationCommandHandler(DataContext context ,UserManager<AppUser> userManager,
             ITokenService tokenService)
         {
+            _context = context;
             _userManager = userManager;
             _tokenService = tokenService;
         }
 
         public async Task<UserRegistrationResponse> Handle(UserRegistrationCommand request, CancellationToken cancellationToken)
         {
-
-            var user = new AppUser
+            using (var transaction = await _context.Database.BeginTransactionAsync(cancellationToken))
             {
-                UserName = request.Username.ToLower().Trim(),
-                FullName = FromatPropertiesToTitleCase(request.FullName).Trim(),
-                City = FromatPropertiesToTitleCase(request.City).Trim(),
-                Country = FromatPropertiesToTitleCase(request.Country).Trim(),
-                DateOfBirth = request.DateOfBirth,
-                Created = DateTime.UtcNow,
-            };
-
-            var result = await _userManager.CreateAsync(user, request.Password);
-
-            if (!result.Succeeded)
-            {
-                if (result.Errors.Any(e => e.Code == "DuplicateUserName"))
+                try
                 {
-                    throw new ConflictException("Username already exists");
+                    var user = new AppUser
+                    {
+                        UserName = request.Username,
+                        FullName = FormatPropertiesToTitleCase(request.FullName),
+                        City = FormatPropertiesToTitleCase(request.City),
+                        Country = FormatPropertiesToTitleCase(request.Country),
+                        DateOfBirth = request.DateOfBirth,
+                        Created = DateTime.UtcNow,
+                    };
+
+                    var result = await _userManager.CreateAsync(user, request.Password);
+
+                    if (!result.Succeeded)
+                    {
+                        if (result.Errors.Any(e => e.Code == "DuplicateUserName"))
+                        {
+                            throw new ConflictException("Username already exists");
+                        }
+
+                        throw new ServerErrorException(string.Join(", \n", result.Errors.Select(e => e.Description)));
+                    }
+
+                    await _userManager.AddToRoleAsync(user, "Member");
+
+                    await transaction.CommitAsync(cancellationToken);
+
+                    return new UserRegistrationResponse
+                    {
+                        User = new UserDto
+                        {
+                            Username = user.UserName,
+                            Token = await _tokenService.CreateToken(user)
+                        }
+                    };
                 }
-
-                throw new InvalidOperationException(string.Join(", \n", result.Errors.Select(e => e.Description)));
-            }
-
-            var roleResult = await _userManager.AddToRoleAsync(user, "Member");
-
-            if (!roleResult.Succeeded)
-            {
-                throw new InvalidOperationException("Failed to add user to role");
-            }
-
-            return new UserRegistrationResponse
-            {
-                User = new UserDto
+                catch
                 {
-                    Username = user.UserName,
-                    Token = await _tokenService.CreateToken(user)
+                    await transaction.RollbackAsync(cancellationToken);
+                    throw;
                 }
-            };
-
+            }
         }
-        private string FromatPropertiesToTitleCase(string input)
+        private string FormatPropertiesToTitleCase(string input)
         {
             var inputInfo = CultureInfo.CurrentCulture.TextInfo;
             return inputInfo.ToTitleCase(input.ToLower());

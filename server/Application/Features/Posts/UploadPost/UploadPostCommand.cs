@@ -5,6 +5,6 @@ namespace Application.Features.Posts.UploadPost
 {
     public class UploadPostCommand : IRequest<UploadPostResponse>
     {
-        public PostDto PostDto { get; set; }
+        public PostDto PostContentDto { get; set; }
     }
 }

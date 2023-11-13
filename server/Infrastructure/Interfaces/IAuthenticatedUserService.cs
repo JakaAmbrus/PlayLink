@@ -1,7 +1,8 @@
 ﻿namespace Infrastructure.Interfaces
 {
-    internal interface IAuthenticatedUserService
+    public interface IAuthenticatedUserService
     {
-        string UserId { get; }
+        int UserId { get; }
+        IEnumerable<string> UserRoles { get; }
     }
 }

@@ -1,9 +1,7 @@
 ﻿namespace Application.Features.Posts.Common
 {
-    public class PostDto
+    public class PostContentDto
     {
-        public int PostId { get; set; }
-        public int AppUserId { get; set; }
         public string Description { get; set; }
         public string PhotoUrl { get; set; }
     }

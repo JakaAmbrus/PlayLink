@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using FluentValidation.Results;
 
 namespace Application.Features.Authentication.UserLogin
 {
@@ -14,14 +13,11 @@ namespace Application.Features.Authentication.UserLogin
                 .NotEmpty().WithMessage("Password required.");
         }
 
-        protected override bool PreValidate(ValidationContext<UserLoginCommand> context, ValidationResult result)
+        protected override bool PreValidate(ValidationContext<UserLoginCommand> context, FluentValidation.Results.ValidationResult result)
         {
             var command = context.InstanceToValidate;
 
-            if (command == null)
-            {
-                return false;
-            }
+            command.Username = command.Username?.Trim();
 
             return true;
         }

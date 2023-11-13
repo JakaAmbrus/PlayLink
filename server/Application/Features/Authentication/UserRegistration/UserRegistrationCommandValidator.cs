@@ -10,7 +10,7 @@ namespace Application.Features.Authentication.UserRegistration
             RuleFor(x => x.Username)
                 .NotEmpty().WithMessage("Username required.")
                 .MinimumLength(4).WithMessage("Username must contain at least 4 characters.")
-                .MaximumLength(20).WithMessage("Username cannot exceed 20 characters.")
+                .MaximumLength(10).WithMessage("Username cannot exceed 10 characters.")
                 .Matches(@"^[a-zA-Z\s]*$").WithMessage("Username must include standard characters");
 
             RuleFor(x => x.Password)
@@ -45,10 +45,11 @@ namespace Application.Features.Authentication.UserRegistration
         {
             var command = context.InstanceToValidate;
 
-            if (command == null)
-            {
-                return false;
-            }
+            command.Username = command.Username?.ToLower().Trim();
+            command.Password = command.Password?.Trim();
+            command.FullName = command.FullName?.Trim();
+            command.Country = command.Country?.Trim();
+            command.City = command.City?.Trim();
 
             return true;
         }

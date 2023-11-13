@@ -4,7 +4,7 @@ using Domain.Entities;
 
 namespace Infrastructure.Data.Configurations
 {
-    public class PostsConfiguration : IEntityTypeConfiguration<Post>
+    public class PostConfiguration : IEntityTypeConfiguration<Post>
     {
         public void Configure(EntityTypeBuilder<Post> entity)
         {

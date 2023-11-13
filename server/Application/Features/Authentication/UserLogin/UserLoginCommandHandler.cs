@@ -24,18 +24,18 @@ namespace Application.Features.Authentication.UserLogin
         public async Task<UserLoginResponse> Handle(UserLoginCommand request, CancellationToken cancellationToken)
         {
  
-            var user = await _userManager.Users.SingleOrDefaultAsync(x => x.UserName == request.Username.ToLower().Trim());
+            var user = await _userManager.Users.SingleOrDefaultAsync(x => x.UserName == request.Username.ToLower().Trim(), cancellationToken);
 
             if (user == null)
             {
-                throw new UnauthorizedException("Invalid username or password");         
+                throw new UnauthorizedException("Invalid Username or Password");         
             }
 
             var result = await _userManager.CheckPasswordAsync(user, request.Password);
 
             if (!result)
             {
-                throw new UnauthorizedException("Invalid username or password");
+                throw new UnauthorizedException("Invalid Username or Password");
             }
 
             string userName = user.UserName;

@@ -1,7 +1,8 @@
-﻿using Application.Features.Posts.Common;
+﻿using Application.Exceptions;
+using Application.Features.Posts.Common;
 using Domain.Entities;
-using FluentValidation;
 using Infrastructure.Data;
+using Infrastructure.Interfaces;
 using MediatR;
 
 namespace Application.Features.Posts.UploadPost
@@ -9,62 +10,45 @@ namespace Application.Features.Posts.UploadPost
     public class UploadPostCommandHandler : IRequestHandler<UploadPostCommand, UploadPostResponse>
     {
         private readonly DataContext _context;
-        private readonly IValidator<UploadPostCommand> _validator;
+        private readonly IAuthenticatedUserService _authenticatedUserService;
 
-        public UploadPostCommandHandler(DataContext context, IValidator<UploadPostCommand> validator)
+        public UploadPostCommandHandler(DataContext context,
+            IAuthenticatedUserService authenticatedUserService)
         {
             _context = context;
-            _validator = validator;
+            _authenticatedUserService = authenticatedUserService;
         }
 
         public async Task<UploadPostResponse> Handle(UploadPostCommand request, CancellationToken cancellationToken)
         {
-            var validationResult = await _validator.ValidateAsync(request);
-
-            if (!validationResult.IsValid)
-            {
-                var errors = validationResult.Errors.Select(error => error.ErrorMessage).ToList();
-
-                return new UploadPostResponse
-                {
-                    PostId = null,
-                    PostDto = null,
-                    Errors = errors,
-                    Success = false
-                };
-            }
 
             var post = new Post
             {
-                    Description = request.PostDto.Description.Trim(),
-                    PhotoUrl = request.PostDto.PhotoUrl,        
+                AppUserId = _authenticatedUserService.UserId,
+                Description = request.PostContentDto.Description,
+                PhotoUrl = request.PostContentDto.PhotoUrl,        
             };
+
+            _context.Post.Add(post);
 
             try
             {
-                _context.Posts.Add(post);
                 await _context.SaveChangesAsync(cancellationToken);
             }
             catch
             {
-                return new UploadPostResponse
-                {
-                    PostId = null,
-                    PostDto = null,
-                    Errors = new List<string> { "An error occurred while saving the post." },
-                    Success = false
-                };
+                throw new ServerErrorException("Problem saving post");
             }
 
             return new UploadPostResponse
             {
-                PostId = post.PostId,
                 PostDto = new PostDto
                 {
+                    AppUserId = post.AppUserId,
+                    PostId = post.PostId,
                     Description = post.Description,
                     PhotoUrl = post.PhotoUrl,
                 },
-                Success = true
             };
         }
     }

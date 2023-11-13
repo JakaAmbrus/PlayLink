@@ -50,7 +50,7 @@ Thumbs.db
 *.pdb
 *.cache
 *.suo
-./server/WebAPI/Logs
+server/WebAPI/Logs/
 
 # Visual Studio specific
 .vs/

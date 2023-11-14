@@ -24,7 +24,7 @@ namespace Application.Features.Posts.UploadPost
         {
             var command = context.InstanceToValidate;
 
-            command.PostContentDto.Description = command.PostContentDto.Description?.Trim();
+            command.PostContentDto.Description = command.PostContentDto?.Description?.Trim();
             
             return true;
         }

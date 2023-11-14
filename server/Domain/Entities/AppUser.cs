@@ -12,9 +12,11 @@ namespace Domain.Entities
         public DateTime LastActive { get; set; } 
         public string ProfileDescription { get; set; }
         public string ProfilePictureUrl { get; set; }
+
         public ICollection<AppUserRole> UserRoles { get; set; }
         public ICollection<FriendRequest> SentFriendRequests { get; set; }
         public ICollection<FriendRequest> ReceivedFriendRequests { get; set; }
+        public ICollection<Friendship> Friends { get; set; }
         public ICollection<Post> Posts { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public ICollection<Like> Likes { get; set; }

@@ -10,6 +10,7 @@
         public AppUser AppUser { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public ICollection<Like> Likes { get; set; }
+        public int LikesCount => Likes?.Count ?? 0;
         public ICollection<Notification> Notifications { get; set; }
 
     }

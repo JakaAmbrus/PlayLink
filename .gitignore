@@ -22,11 +22,12 @@ client/.project
 
 # Visual Studio Code
 .vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.history/*
+client/!.vscode/settings.json
+client/!.vscode/tasks.json
+client/!.vscode/launch.json
+client/!.vscode/extensions.json
+client/.history/*
+client/ssl
 
 # Miscellaneous
 client/.angular/cache
@@ -51,6 +52,11 @@ Thumbs.db
 *.cache
 *.suo
 server/WebAPI/Logs/
+server/WebAPI/obj/
+server/WebAPI/bin/
+server/WebAPI/Properties/launchSettings.json
+server/WebAPI/appsettings.json
+server/WebAPI/appsettings.Development.json
 
 # Visual Studio specific
 .vs/

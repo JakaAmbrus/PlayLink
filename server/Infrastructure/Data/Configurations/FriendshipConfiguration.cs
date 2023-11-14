@@ -11,12 +11,12 @@ namespace Infrastructure.Data.Configurations
             entity.HasKey(f => f.FriendshipId);
 
             entity.HasOne(f => f.User1)
-                .WithMany(u => u.Friends)
+                .WithMany(u => u.FriendsAsUser1)
                 .HasForeignKey(f => f.User1Id)
                 .OnDelete(DeleteBehavior.Restrict);
 
             entity.HasOne(f => f.User2)
-                .WithMany(u => u.Friends)
+                .WithMany(u => u.FriendsAsUser2)
                 .HasForeignKey(f => f.User2Id)
                 .OnDelete(DeleteBehavior.Restrict);
 

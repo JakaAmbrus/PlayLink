@@ -8,6 +8,8 @@ namespace Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<FriendRequest> entity)
         {
+            entity.HasKey(fr => fr.FriendRequestId);
+
             entity.HasOne(fr => fr.Sender)
                 .WithMany(u => u.SentFriendRequests)
                 .HasForeignKey(fr => fr.SenderId);

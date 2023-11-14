@@ -18,7 +18,7 @@ namespace Application.Features.Posts.DeletePost
 
         public async Task<DeletePostResponse> Handle(DeletePostCommand request, CancellationToken cancellationToken)
         {
-            var selectedPost = await _context.Post.FindAsync(request.PostId, cancellationToken) 
+            var selectedPost = await _context.Posts.FindAsync(request.PostId, cancellationToken) 
                 ?? throw new NotFoundException("Post was not found");
 
             var authUserId = _authenticatedUserService.UserId;
@@ -33,7 +33,7 @@ namespace Application.Features.Posts.DeletePost
                 throw new UnauthorizedException("User not authorized to delete post");
             }
 
-            _context.Post.Remove(selectedPost);
+            _context.Posts.Remove(selectedPost);
 
             try
             {

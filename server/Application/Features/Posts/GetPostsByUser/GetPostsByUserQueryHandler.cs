@@ -17,19 +17,22 @@ namespace Application.Features.Posts.GetPostsByUser
 
         public async Task<IEnumerable<PostDto>> Handle(GetPostsByUserQuery request, CancellationToken cancellationToken)
         {
-            var user = await _context.Users.FindAsync(request.AppUserId, cancellationToken) 
+            var requestedUser = await _context.Users.FindAsync(request.AppUserId, cancellationToken) 
                 ?? throw new NotFoundException($"User with ID {request.AppUserId} not found");
 
-            var posts = await _context.Post
+            var posts = await _context.Posts
                 .Where(p => p.AppUserId == request.AppUserId)
                 .Select(p => new PostDto
                 {
                     AppUserId = p.AppUserId,
                     PostId = p.PostId,
                     Description = p.Description,
+                    DatePosted = p.DatePosted,
                     PhotoUrl = p.PhotoUrl,
                 })
                 .ToListAsync(cancellationToken);
+
+            if(posts.Count == 0) throw new NotFoundException("User has no posts");
 
             return posts;
         }

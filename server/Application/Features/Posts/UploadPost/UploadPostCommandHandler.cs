@@ -29,7 +29,7 @@ namespace Application.Features.Posts.UploadPost
                 PhotoUrl = request.PostContentDto.PhotoUrl,        
             };
 
-            _context.Post.Add(post);
+            _context.Posts.Add(post);
 
             try
             {
@@ -48,6 +48,7 @@ namespace Application.Features.Posts.UploadPost
                     PostId = post.PostId,
                     Description = post.Description,
                     PhotoUrl = post.PhotoUrl,
+                    DatePosted = post.DatePosted,
                 },
             };
         }

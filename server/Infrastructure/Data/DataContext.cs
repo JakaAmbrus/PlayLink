@@ -38,6 +38,9 @@ namespace Infrastructure.Data
 
             //FriendRequest
             builder.ApplyConfiguration(new FriendRequestConfiguration());
+
+            //Friendship
+            builder.ApplyConfiguration(new FriendshipConfiguration());
            
             //GroupChat
             builder.ApplyConfiguration(new GroupChatUserConfiguration());

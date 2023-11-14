@@ -60,3 +60,6 @@ server/WebAPI/appsettings.Development.json
 
 # Visual Studio specific
 .vs/
+
+# Cloudinaty access keys
+server/Infrastructure/CloudinaryAccessKeys.json

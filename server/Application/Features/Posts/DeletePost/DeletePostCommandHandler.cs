@@ -9,11 +9,15 @@ namespace Application.Features.Posts.DeletePost
     {
         private readonly DataContext _context;
         private readonly IAuthenticatedUserService _authenticatedUserService;
+        private readonly IPhotoService _photoService;
 
-        public DeletePostCommandHandler(DataContext context, IAuthenticatedUserService authenticatedUserService)
+        public DeletePostCommandHandler(DataContext context,
+            IAuthenticatedUserService authenticatedUserService,
+            IPhotoService photoService)
         {
             _context = context;
             _authenticatedUserService = authenticatedUserService;
+            _photoService = photoService;
         }
 
         public async Task<DeletePostResponse> Handle(DeletePostCommand request, CancellationToken cancellationToken)
@@ -31,6 +35,17 @@ namespace Application.Features.Posts.DeletePost
             if (!isPostOwner && !isModerator)
             {
                 throw new UnauthorizedException("User not authorized to delete post");
+            }
+
+            //Remove the photo from Cloudinary if it is included in the post
+            if (!string.IsNullOrEmpty(selectedPost.PhotoPublicId))
+            {
+                var deletionResult = await _photoService.DeletePhotoAsync(selectedPost.PhotoPublicId);
+
+                if (deletionResult.Error != null)
+                {
+                    throw new ServerErrorException(deletionResult.Error.Message);
+                }
             }
 
             _context.Posts.Remove(selectedPost);

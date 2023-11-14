@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Http;
 
 namespace Infrastructure.Interfaces
 {
-    internal interface IPhotoService
+    public interface IPhotoService
     {
+        Task<ImageUploadResult> AddPhotoAsync(IFormFile file, string typeOfPhoto);
+        Task<DeletionResult> DeletePhotoAsync(string publicId);
     }
 }

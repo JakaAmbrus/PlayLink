@@ -48,7 +48,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<UploadPostResponse>> UploadPost(UploadPostCommand command)
+        public async Task<ActionResult<UploadPostResponse>> UploadPost([FromForm] UploadPostCommand command)
         {
             var result = await _mediator.Send(command);
 

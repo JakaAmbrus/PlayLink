@@ -28,7 +28,7 @@ namespace Infrastructure.Services
             {
                 using var stream = file.OpenReadStream(); //using so it disposes it from memory
 
-                Transformation transformation = new Transformation();
+                Transformation transformation = new();
 
                 //different photo configurations for different types of services
                 if (typeOfPhoto == "profile")
@@ -38,7 +38,7 @@ namespace Infrastructure.Services
                         .Width(500)
                         .Crop("fill")
                         .Gravity("face")
-                        .Quality("auto")
+                        .Quality("auto:good")
                         .FetchFormat("auto");
                 }
                 else if (typeOfPhoto == "post")
@@ -47,7 +47,8 @@ namespace Infrastructure.Services
                         .Height(800)
                         .Width(800)
                         .Crop("fill")
-                        .Quality("auto")
+                        .Gravity("face")
+                        .Quality("auto:best")
                         .FetchFormat("auto");
                 }
 

@@ -12,6 +12,7 @@ namespace Domain.Entities
         public DateTime LastActive { get; set; } 
         public string ProfileDescription { get; set; }
         public string ProfilePictureUrl { get; set; }
+        public string ProfilePicturePublicId { get; set; }
 
         public ICollection<AppUserRole> UserRoles { get; set; }
         public ICollection<FriendRequest> SentFriendRequests { get; set; }

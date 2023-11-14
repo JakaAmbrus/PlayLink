@@ -3,6 +3,8 @@ using Application;
 using Infrastructure;
 using Serilog;
 using Infrastructure.Extensions;
+using Infrastructure.ExternalServices;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,8 @@ builder.Services
 builder.Host.UseSerilog((context, configuration) =>
 configuration.ReadFrom.Configuration(context.Configuration));
 
+/*builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
+*/
 var app = builder.Build();
 
 

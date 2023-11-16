@@ -25,6 +25,7 @@ import { RegisterComponent } from './portal/auth-form/register/register.componen
 import { LoginLogoComponent } from './portal/login-logo/login-logo.component';
 import { HeaderDropdownComponent } from './header/header-dropdown/header-dropdown.component';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
+import { AuthInterceptor } from './_interceptors/auth.interceptor';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 
 @NgModule({
@@ -65,6 +66,7 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

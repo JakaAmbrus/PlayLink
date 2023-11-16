@@ -13,6 +13,7 @@
         public string PhotoUrl { get; set; }
         
         public ICollection<Comment> Comments { get; set; }
+        public int CommentsCount { get; set; } = 0;
         public ICollection<Like> Likes { get; set; }
         public int LikesCount => Likes?.Count ?? 0;
         public ICollection<Notification> Notifications { get; set; }

@@ -9,7 +9,7 @@ namespace Domain.Entities
         public string Country { get; set; }
         public DateOnly DateOfBirth { get; set; }
         public DateTime Created { get; set; } = DateTime.UtcNow;
-        public DateTime LastActive { get; set; } 
+        public DateTime LastActive { get; set; }  = DateTime.UtcNow;
         public string ProfileDescription { get; set; }
         public string ProfilePictureUrl { get; set; }
         public string ProfilePicturePublicId { get; set; }

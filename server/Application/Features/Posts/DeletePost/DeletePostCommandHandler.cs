@@ -1,4 +1,5 @@
 ﻿using Application.Exceptions;
+using Domain.Entities;
 using Infrastructure.Data;
 using Infrastructure.Interfaces;
 using MediatR;

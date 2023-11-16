@@ -1,9 +1,8 @@
-﻿using Domain.Entities;
-using MediatR;
+﻿using MediatR;
 
 namespace Application.Features.Users.GetUsers
 {
-    public class GetUsersQuery : IRequest<List<AppUser>>
+    public class GetUsersQuery : IRequest<GetUsersResponse>
     {
     }
 }

@@ -15,14 +15,15 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
   guestLogin() {
-    this.model.username = 'jaka';
-    this.model.password = 'Selena#1';
+    this.model.username = 'jakaambrus';
+    this.model.password = 'ambrus123';
     this.login();
   }
   login() {
     this.accountService.login(this.model).subscribe({
       next: (response) => {
-        console.log(response);
+        console.log(response.user.username);
+        console.log(response.user.token);
         this.loggedIn = true;
         this.accountService.setLoggedIn(true);
         this.router.navigate(['/home']);

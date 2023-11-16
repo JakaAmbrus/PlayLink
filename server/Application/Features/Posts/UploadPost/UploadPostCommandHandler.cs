@@ -4,7 +4,6 @@ using Domain.Entities;
 using Infrastructure.Data;
 using Infrastructure.Interfaces;
 using MediatR;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Application.Features.Posts.UploadPost
 {

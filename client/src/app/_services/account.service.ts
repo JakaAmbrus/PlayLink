@@ -1,12 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, tap } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccountService {
-  baseUrl: string = 'https://localhost:7074/api/';
+  baseUrl = environment.apiUrl;
   private loggedInStatus = new BehaviorSubject<boolean>(
     this.checkLoggedInStatus()
   );
@@ -16,8 +17,8 @@ export class AccountService {
   login(model: any) {
     return this.http.post(this.baseUrl + 'account/login', model).pipe(
       tap((response: any) => {
-        const user = response.username;
-        const token = response.token;
+        const user = response.user.username;
+        const token = response.user.token;
         this.saveToken(token);
         this.setLoggedIn(true);
       })

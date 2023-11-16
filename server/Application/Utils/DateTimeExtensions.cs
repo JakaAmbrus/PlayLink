@@ -1,8 +1,8 @@
-﻿//used to calculate age from date of birth, accounting for leap years 
-namespace WebAPI.Extensions
+﻿namespace Application.Utils
 {
     public static class DateTimeExtensions
     {
+        //Gets the age from the users date of birth
         public static int CalculateAge(this DateOnly dob)
         {
             var today = DateOnly.FromDateTime(DateTime.UtcNow);
@@ -20,7 +20,3 @@ namespace WebAPI.Extensions
         }
     }
 }
-/*  public int GetAge()
-      {
-          return DateOfBirth.CalculateAge();
-      }*/

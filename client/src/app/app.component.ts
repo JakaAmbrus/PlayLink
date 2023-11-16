@@ -41,16 +41,16 @@ export class AppComponent implements OnInit {
       this.theme = 'theme-light';
     }
 
-    this.http.get('https://localhost:7074/api/users').subscribe({
-      next: (data) => {
-        this.users = data;
-      },
-      error: (err) => {
-        console.error('There was an error!', err);
-      },
-      complete: () => {
-        console.log('Request completed');
-      },
-    });
+    // this.http.get('https://localhost:7074/api/users').subscribe({
+    //   next: (data) => {
+    //     this.users = data;
+    //   },
+    //   error: (err) => {
+    //     console.error('There was an error!', err);
+    //   },
+    //   complete: () => {
+    //     console.log('Request completed');
+    //   },
+    // });
   }
 }

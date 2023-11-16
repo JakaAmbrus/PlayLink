@@ -15,9 +15,9 @@ namespace WebAPI.Controllers
         {
             _mediator = mediator;
         }
-
+        [Authorize(Roles = "Member")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
+        public async Task<IActionResult> GetUsers()
         {
            var users = await _mediator.Send(new GetUsersQuery());
 

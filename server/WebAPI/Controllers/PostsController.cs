@@ -4,15 +4,16 @@ using Application.Features.Posts.GetPosts;
 using Application.Features.Posts.GetPostsByUser;
 using Application.Features.Posts.UploadPost;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    public class PostController : BaseApiController
+    public class PostsController : BaseApiController
     {
         private readonly ISender _mediator;
 
-        public PostController(ISender sender)
+        public PostsController(ISender sender)
         {
             _mediator = sender;
         }
@@ -47,6 +48,7 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
+        [Authorize(Policy = "RequireMemberRole")]
         [HttpPost]
         public async Task<ActionResult<UploadPostResponse>> UploadPost([FromForm] UploadPostCommand command)
         {
@@ -55,6 +57,7 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
+        [Authorize(Policy = "RequireMemberRole")]
         [HttpDelete("{postId}")]
         public async Task<ActionResult<Unit>> DeletePost(int postId)
         {

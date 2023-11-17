@@ -19,6 +19,10 @@ namespace Application.Features.Authentication.UserRegistration
                 .MaximumLength(20).WithMessage("Password cannot exceed 20 characters.")
                 .Matches(@".*\d.*").WithMessage("Password must contain at least one number.");
 
+            RuleFor(x => x.Gender)
+                .NotEmpty().WithMessage("Gender required.")
+                .Must(MaleOrFemaleGender).WithMessage("Gender must be either 'Male' or 'Female', this is for certain features, do not wish to offend");
+
             RuleFor(x => x.FullName)
                 .NotEmpty().WithMessage("Full Name required.")
                 .Must(x => x.Length > 4 && x.Length < 30 && x.Contains(" ")).WithMessage("Full Name must be between 4 and 30 characters and include both first and last name.")
@@ -41,12 +45,19 @@ namespace Application.Features.Authentication.UserRegistration
                 .NotEmpty().WithMessage("Date of Birth required.")
                 .Must(x => x.Year < DateTime.UtcNow.Year - 12).WithMessage("You must be at least 12 years old to register");
         }
+        private bool MaleOrFemaleGender(string gender)
+        {
+            return gender.Equals("male", StringComparison.OrdinalIgnoreCase) ||
+                   gender.Equals("female", StringComparison.OrdinalIgnoreCase);
+        }
+
         protected override bool PreValidate(ValidationContext<UserRegistrationCommand> context, ValidationResult result)
         {
             var command = context.InstanceToValidate;
 
             command.Username = command.Username?.ToLower().Trim();
             command.Password = command.Password?.Trim();
+            command.Gender = command.Gender?.ToLower().Trim();
             command.FullName = command.FullName?.Trim();
             command.Country = command.Country?.Trim();
             command.City = command.City?.Trim();

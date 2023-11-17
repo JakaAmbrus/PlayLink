@@ -1,5 +1,10 @@
-<div class="placeholder-container">
-  <div class="placeholder secondary-background bla">
-    <div class="users" *ngFor="let user of users">{{ user.fullName }}</div>
+<section id="discover-section-container">
+  <div id="discover-middle" class="secondary-background rounded-border">
+    <h1 id="matched-users">Matched Users - 12 found</h1>
+    <div id="discover-cards-container">
+      <div *ngFor="let user of users">
+        <app-user-card [user]="user"></app-user-card>
+      </div>
+    </div>
   </div>
-</div>
+</section>

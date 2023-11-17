@@ -29,6 +29,7 @@ namespace Application.Features.Users.GetUsers
                {
                    AppUserId = u.Id,
                    Username = u.UserName,
+                   Gender = u.Gender,
                    FullName = u.FullName,
                    Age = u.DateOfBirth.CalculateAge(),
                    Country = u.Country,

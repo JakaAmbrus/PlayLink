@@ -33,6 +33,7 @@ namespace Application.Features.Authentication.UserRegistration
                     var user = new AppUser
                     {
                         UserName = request.Username,
+                        Gender = request.Gender,
                         FullName = FormatPropertiesToTitleCase(request.FullName),
                         City = FormatPropertiesToTitleCase(request.City),
                         Country = FormatPropertiesToTitleCase(request.Country),

@@ -1,0 +1,51 @@
+<div
+  class="user-card theme-border rounded-border box-shadow primary-parameters"
+  *ngIf="user"
+>
+  <div
+    class="user-card-img-container header-icons-right theme-border-bottom rounded-border"
+    (mouseover)="onHover(true)"
+    (mouseout)="onHover(false)"
+  >
+    <div
+      class="profile-and-messages-container"
+      [ngClass]="{ hover: isHovered }"
+    >
+      <a
+        href="#"
+        class="discover-icons-container reverse-parameters rounded-border"
+      >
+        <span class="material-symbols-rounded filled discover-icon-person">
+          person
+        </span>
+      </a>
+      <a
+        href="#"
+        class="discover-icons-container reverse-parameters rounded-border"
+      >
+        <span class="material-symbols-rounded filled discover-icon-message">
+          Mail
+        </span>
+      </a>
+    </div>
+    <img
+      *ngIf="user.profilePictureUrl"
+      src="{{ user.profilePictureUrl }}"
+      alt="{{ user.fullName }}'s profile picture'"
+      class="profile-picture"
+      [ngClass]="{ hover: isHovered }"
+    />
+    <span
+      class="material-symbols-rounded filled card-img"
+      [ngClass]="{ hover: isHovered }"
+    >
+      {{ user.gender === "male" ? "person" : "person_2" }}
+    </span>
+  </div>
+  <div class="user-info">
+    <p class="name-and-age">
+      {{ user.fullName.split(" ")[0] }}, {{ user.age }}
+    </p>
+    <p class="location">{{ user.country }}</p>
+  </div>
+</div>

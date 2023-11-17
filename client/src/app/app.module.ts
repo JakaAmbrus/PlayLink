@@ -27,6 +27,7 @@ import { HeaderDropdownComponent } from './header/header-dropdown/header-dropdow
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { AuthInterceptor } from './_interceptors/auth.interceptor';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { UserCardComponent } from './discover/user-card/user-card.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
     LoginLogoComponent,
     HeaderDropdownComponent,
     NotFoundComponent,
+    UserCardComponent,
   ],
   imports: [
     BrowserModule,

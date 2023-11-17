@@ -19,6 +19,19 @@ $dark-theme: (
   background-color: map-get($light-theme, background);
   color: map-get($light-theme, primary-text);
 
+  .primary-parameters {
+    background-color: map-get($light-theme, background);
+    color: map-get($light-theme, primary-text);
+  }
+  .reverse-parameters {
+    background-color: map-get($dark-theme, background-secondary);
+    color: white;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: map-get($light-theme, primary-text);
+    }
+  }
   .secondary-background {
     background-color: map-get($light-theme, background-secondary);
   }
@@ -40,6 +53,9 @@ $dark-theme: (
   }
   .theme-border {
     border: 0.1em solid #3d3a3a27;
+  }
+  .theme-border-bottom {
+    border-bottom: 0.1em solid #3d3a3a27;
   }
   //navigation links themes light
   .navigation-links-icons-container:hover {
@@ -63,6 +79,19 @@ $dark-theme: (
   background-color: map-get($dark-theme, background);
   color: map-get($dark-theme, primary-text);
 
+  .primary-parameters {
+    background-color: map-get($dark-theme, background);
+    color: map-get($dark-theme, primary-text);
+  }
+  .reverse-parameters {
+    background-color: map-get($light-theme, background-secondary);
+    color: map-get($dark-theme, background);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: map-get($light-theme, background);
+    }
+  }
   .secondary-background {
     background-color: map-get($dark-theme, background-secondary);
   }
@@ -78,6 +107,9 @@ $dark-theme: (
   }
   .theme-border {
     border: 0.1em solid #3d3a3a;
+  }
+  .theme-border-bottom {
+    border-bottom: 0.1em solid #3d3a3a;
   }
   //navigation links themes dark
   .header-icons-middle {

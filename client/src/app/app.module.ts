@@ -28,6 +28,7 @@ import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { AuthInterceptor } from './_interceptors/auth.interceptor';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { UserCardComponent } from './discover/user-card/user-card.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { UserCardComponent } from './discover/user-card/user-card.component';
     HeaderDropdownComponent,
     NotFoundComponent,
     UserCardComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,

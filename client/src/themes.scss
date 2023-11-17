@@ -89,7 +89,7 @@ $dark-theme: (
     transition: all 0.3s ease;
 
     &:hover {
-      background-color: map-get($light-theme, background);
+      background-color: map-get($dark-theme, primary-text);
     }
   }
   .secondary-background {

@@ -3,7 +3,7 @@
   *ngIf="user"
 >
   <div
-    class="user-card-img-container header-icons-right theme-border-bottom rounded-border"
+    class="user-card-img-container header-icons-right theme-border rounded-border"
     (mouseover)="onHover(true)"
     (mouseout)="onHover(false)"
   >
@@ -43,9 +43,9 @@
     </span>
   </div>
   <div class="user-info">
-    <p class="name-and-age">
+    <h2 class="name-and-age theme-border-bottom">
       {{ user.fullName.split(" ")[0] }}, {{ user.age }}
-    </p>
+    </h2>
     <p class="location">{{ user.country }}</p>
   </div>
 </div>

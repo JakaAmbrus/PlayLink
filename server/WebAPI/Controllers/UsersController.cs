@@ -4,6 +4,7 @@ using MediatR;
 using Application.Features.Users.GetUsers;
 using Application.Features.Users.GetUserById;
 using Microsoft.AspNetCore.Authorization;
+using Application.Features.Users.GetUserByUsername;
 
 namespace WebAPI.Controllers
 {
@@ -41,6 +42,20 @@ namespace WebAPI.Controllers
             }
 
             return Ok(user); 
+        }
+
+        [Authorize(Roles = "Member")]
+        [HttpGet("username/{username}")]
+        public async Task<ActionResult<AppUser>> GetUserByUsername(string username)
+        {
+            var user = await _mediator.Send(new GetUserByUsernameQuery(username));
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            return Ok(user);
         }
     }
 }

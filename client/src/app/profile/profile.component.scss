@@ -2,6 +2,7 @@
   width: 100vw;
   display: flex;
   justify-content: center;
+  gap: 2em;
 }
 #user-profile-details-container {
   margin-top: 2vh;
@@ -47,4 +48,9 @@
   display: flex;
   justify-content: center;
   width: 17em;
+}
+#profile-features {
+  margin-top: 2vh;
+  display: flex;
+  width: 80em;
 }

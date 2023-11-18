@@ -24,6 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
       !request.url.endsWith('/account/login') &&
       !request.url.endsWith('/account/register')
     ) {
+      
       const clonedReq = request.clone({
         headers: request.headers.set('Authorization', `Bearer ${token}`),
       });

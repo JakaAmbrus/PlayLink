@@ -57,4 +57,8 @@ export const slideInAnimation = trigger('routeAnimations', [
       query(':enter', animateChild()),
     ]
   ),
+  // transition('* => Profile', [
+  //   style({ opacity: 0, transform: 'scale(0.5)' }),
+  //   animate('500ms ease', style({ opacity: 1, transform: 'scale(1)' })),
+  // ]),
 ]);

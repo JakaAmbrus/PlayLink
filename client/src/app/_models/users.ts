@@ -8,7 +8,17 @@ export interface User {
   city: string;
   profilePictureUrl: string | null;
 }
-
+export interface ProfileUser {
+  appUserId: number;
+  username: string;
+  gender: string;
+  fullName: string;
+  dateOfBirth: string;
+  country: string;
+  city: string;
+  profilePictureUrl: string | null;
+  description: string | null;
+}
 export interface UsersResponse {
   users: User[];
 }

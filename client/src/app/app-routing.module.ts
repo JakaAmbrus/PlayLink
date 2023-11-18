@@ -11,11 +11,21 @@ import { HollowXHollowComponent } from './games/hollow-x-hollow/hollow-x-hollow.
 import { PlaysketchPortableComponent } from './games/playsketch-portable/playsketch-portable.component';
 import { RockPaperScissorsComponent } from './games/rock-paper-scissors/rock-paper-scissors.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { ProfileComponent } from './profile/profile.component';
+import { PostsComponent } from './profile/posts/posts.component';
+import { GalleryComponent } from './profile/gallery/gallery.component';
+import { EditComponent } from './profile/edit/edit.component';
+import { MessageComponent } from './profile/message/message.component';
 
 import { canActivateGuard } from './_guards/auth.guard';
 import { canActivateLoginGuard } from './_guards/auth.guard';
 
 const routes: Routes = [
+  {
+    path: '',
+    redirectTo: '/portal',
+    pathMatch: 'full',
+  },
   {
     path: 'portal',
     component: PortalComponent,
@@ -32,6 +42,18 @@ const routes: Routes = [
     component: DiscoverComponent,
     data: { animation: 'Discover' },
     canActivate: [canActivateGuard],
+  },
+  {
+    path: 'user/:username',
+    component: ProfileComponent,
+    // data: { animation: 'Profile' },
+    canActivate: [canActivateGuard],
+    children: [
+      { path: '', component: PostsComponent },
+      { path: 'gallery', component: GalleryComponent },
+      { path: 'edit', component: EditComponent },
+      { path: 'message', component: MessageComponent },
+    ],
   },
   {
     path: 'games',
@@ -66,11 +88,6 @@ const routes: Routes = [
   {
     path: '**',
     component: NotFoundComponent,
-    pathMatch: 'full',
-  },
-  {
-    path: '',
-    redirectTo: '/portal',
     pathMatch: 'full',
   },
 ];

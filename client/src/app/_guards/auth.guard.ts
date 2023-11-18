@@ -31,7 +31,6 @@ export const canActivateLoginGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ): boolean | UrlTree => {
-  const accountService = inject(AccountService);
   const router = inject(Router);
 
   const isLoggedIn = checkIfLoggedIn();

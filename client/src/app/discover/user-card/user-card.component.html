@@ -12,7 +12,7 @@
       [ngClass]="{ hover: isHovered }"
     >
       <a
-        href="#"
+        routerLink="/user/{{ user.username }}"
         class="discover-icons-container reverse-parameters rounded-border"
       >
         <span class="material-symbols-rounded filled discover-icon-person">
@@ -43,9 +43,9 @@
     </span>
   </div>
   <div class="user-info">
-    <h2 class="name-and-age theme-border-bottom">
+    <p class="name-and-age theme-border-bottom">
       {{ user.fullName.split(" ")[0] }}, {{ user.age }}
-    </h2>
+    </p>
     <p class="location">{{ user.country }}</p>
   </div>
 </div>

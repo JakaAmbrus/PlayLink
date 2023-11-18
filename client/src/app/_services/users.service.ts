@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { User, UsersResponse } from '../_models/users';
+import { ProfileUser, User, UsersResponse } from '../_models/users';
 import { Observable, map } from 'rxjs';
 
 @Injectable({
@@ -18,7 +18,9 @@ export class UsersService {
       .pipe(map((response) => response.users));
   }
 
-  getUser(id: number) {
-    return this.http.get<User>(this.baseUrl + 'Users/' + id);
+  getUser(username: string): Observable<ProfileUser> {
+    return this.http
+      .get<{ user: ProfileUser }>(this.baseUrl + 'Users/username/' + username)
+      .pipe(map((response) => response.user));
   }
 }

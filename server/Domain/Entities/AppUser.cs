@@ -11,9 +11,9 @@ namespace Domain.Entities
         public DateOnly DateOfBirth { get; set; }
         public DateTime Created { get; set; } = DateTime.UtcNow;
         public DateTime LastActive { get; set; }  = DateTime.UtcNow;
-        public string ProfileDescription { get; set; }
         public string ProfilePictureUrl { get; set; }
         public string ProfilePicturePublicId { get; set; }
+        public string Description { get; set; }
 
         public ICollection<AppUserRole> UserRoles { get; set; }
         public ICollection<FriendRequest> SentFriendRequests { get; set; }

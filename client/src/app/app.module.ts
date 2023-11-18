@@ -29,6 +29,10 @@ import { AuthInterceptor } from './_interceptors/auth.interceptor';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { UserCardComponent } from './discover/user-card/user-card.component';
 import { ProfileComponent } from './profile/profile.component';
+import { PostsComponent } from './profile/posts/posts.component';
+import { GalleryComponent } from './profile/gallery/gallery.component';
+import { MessageComponent } from './profile/message/message.component';
+import { EditComponent } from './profile/edit/edit.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +57,10 @@ import { ProfileComponent } from './profile/profile.component';
     NotFoundComponent,
     UserCardComponent,
     ProfileComponent,
+    PostsComponent,
+    GalleryComponent,
+    MessageComponent,
+    EditComponent,
   ],
   imports: [
     BrowserModule,

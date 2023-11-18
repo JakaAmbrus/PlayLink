@@ -4,6 +4,6 @@ namespace Application.Features.Users.GetUserByUsername
 {
     public class GetUserByUsernameResponse
     {
-        public UsersDto User { get; set; }
+        public ProfileUserDto User { get; set; }
     }
 }

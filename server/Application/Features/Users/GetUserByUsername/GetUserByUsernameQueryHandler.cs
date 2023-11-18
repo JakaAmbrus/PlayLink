@@ -1,7 +1,5 @@
 ﻿using Application.Exceptions;
-using Application.Features.Authentication.Common;
 using Application.Features.Users.Common;
-using Application.Utils;
 using Infrastructure.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -26,19 +24,20 @@ namespace Application.Features.Users.GetUserByUsername
                 throw new NotFoundException($"The user by the username: {request.Username} not found ");
             }
 
-            var userDto = new UsersDto
+            var profileUserDto = new ProfileUserDto
             {
                 AppUserId = user.Id,
                 Username = user.UserName,
                 Gender = user.Gender,
                 FullName = user.FullName,
-                Age = user.DateOfBirth.CalculateAge(),
+                DateOfBirth = user.DateOfBirth,
                 Country = user.Country,
                 City = user.City,
-                ProfilePictureUrl = user.ProfilePictureUrl
+                ProfilePictureUrl = user.ProfilePictureUrl,
+                Description = user.Description
             };
 
-            return new GetUserByUsernameResponse { User = userDto};
+            return new GetUserByUsernameResponse { User = profileUserDto };
         }
     }
 }

@@ -44,7 +44,7 @@ namespace WebAPI.Controllers
             return Ok(user); 
         }
 
-        [Authorize(Roles = "Member")]
+
         [HttpGet("username/{username}")]
         public async Task<ActionResult<AppUser>> GetUserByUsername(string username)
         {

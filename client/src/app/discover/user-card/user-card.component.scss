@@ -52,13 +52,26 @@
   justify-content: center;
   gap: 0.3em;
   height: 6.5em;
+  width: 18em;
+}
+.name-age-activity {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 .name-and-age {
-  font-size: 1.9em;
+  font-size: 1.8em;
   font-family: "Roboto Medium";
 }
-.location {
+.activity-icon {
+  position: absolute;
+  left: 0.3em;
   font-size: 1.8em;
+}
+.location {
+  font-size: 1.6em;
   letter-spacing: 0.01em;
   opacity: 0.8;
   font-family: "Roboto Regular";

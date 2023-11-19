@@ -43,9 +43,14 @@
     </span>
   </div>
   <div class="user-info">
-    <p class="name-and-age theme-border-bottom">
-      {{ user.fullName.split(" ")[0] }}, {{ user.age }}
-    </p>
+    <div class="name-age-activity theme-border-bottom">
+      <span class="material-symbols-rounded filled activity-icon">
+        {{ user.gender === "male" ? "person" : "person_2" }}
+      </span>
+      <p class="name-and-age">
+        {{ user.fullName.split(" ")[0] }}, {{ user.age }}
+      </p>
+    </div>
     <p class="location">{{ user.country }}</p>
   </div>
 </div>

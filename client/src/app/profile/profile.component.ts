@@ -20,6 +20,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 export class ProfileComponent implements OnInit {
   user: ProfileUser | undefined;
   dateOfBirth: string | undefined;
+  isCurrentUserProfile: boolean = false;
 
   constructor(
     private usersService: UsersService,
@@ -39,7 +40,18 @@ export class ProfileComponent implements OnInit {
     }
 
     this.usersService.getUser(username).subscribe({
-      next: (user) => (this.user = user),
+      next: (user) => {
+        this.user = user;
+        this.isCurrentUserProfile = this.IsCurrentUser(this.user.username);
+      },
     });
+  }
+
+  IsCurrentUser(username: string): boolean {
+    const currentUser = localStorage.getItem('user');
+    if (currentUser === username) {
+      return true;
+    }
+    return false;
   }
 }

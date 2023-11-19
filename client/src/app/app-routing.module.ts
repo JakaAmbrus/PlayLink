@@ -46,10 +46,10 @@ const routes: Routes = [
   {
     path: 'user/:username',
     component: ProfileComponent,
-    // data: { animation: 'Profile' },
     canActivate: [canActivateGuard],
     children: [
-      { path: '', component: PostsComponent },
+      { path: '', redirectTo: 'posts', pathMatch: 'full' },
+      { path: 'posts', component: PostsComponent },
       { path: 'gallery', component: GalleryComponent },
       { path: 'edit', component: EditComponent },
       { path: 'message', component: MessageComponent },

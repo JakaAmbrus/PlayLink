@@ -24,7 +24,7 @@
     <p class="for-now">{{ user.country }}, {{ user.city }}</p>
     <h1 class="for-now">Birthday</h1>
     <p class="for-now">{{ user.dateOfBirth.split("-").join("/") }}</p>
-    <div id="button-container">
+    <div *ngIf="!isCurrentUserProfile" id="button-container">
       <button
         class="theme-border rounded-border box-shadow for-now-buttons reverse-parameters"
         [routerLink]="['/user', user.username]"
@@ -39,7 +39,43 @@
       </button>
     </div>
   </div>
-  <div id="profile-features" class="secondary-background">
-    <div id="profile-features-navbar"></div>
+  <div id="profile-features">
+    <div
+      id="profile-features-navbar"
+      class="secondary-background rounded-border"
+    >
+      <a
+        routerLink="/user/{{ user.username }}/posts"
+        routerLinkActive="active-link"
+        class="profile-navigation-links bottom-border-active"
+      >
+        <p class="profile-link-text-container">Posts</p>
+      </a>
+      <a
+        routerLink="/user/{{ user.username }}/gallery"
+        routerLinkActive="active-link"
+        id="gallery-link"
+        class="profile-navigation-links bottom-border-active"
+      >
+        <p class="profile-link-text-container">Gallery</p>
+      </a>
+      <a
+        *ngIf="!isCurrentUserProfile"
+        routerLink="/user/{{ user.username }}/message"
+        routerLinkActive="active-link"
+        class="profile-navigation-links bottom-border-active"
+      >
+        <p class="profile-link-text-container">Message</p>
+      </a>
+      <a
+        *ngIf="isCurrentUserProfile"
+        routerLink="/user/{{ user.username }}/message"
+        routerLinkActive="active-link"
+        class="profile-navigation-links bottom-border-active"
+      >
+        <p class="profile-link-text-container">Edit Info</p>
+      </a>
+    </div>
+    <router-outlet></router-outlet>
   </div>
 </section>

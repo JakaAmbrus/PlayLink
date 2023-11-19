@@ -58,7 +58,6 @@ import { EditComponent } from './profile/edit/edit.component';
     UserCardComponent,
     ProfileComponent,
     PostsComponent,
-    GalleryComponent,
     MessageComponent,
     EditComponent,
   ],

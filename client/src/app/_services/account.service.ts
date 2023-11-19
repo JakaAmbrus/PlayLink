@@ -20,6 +20,7 @@ export class AccountService {
         const user = response.user.username;
         const token = response.user.token;
         this.saveToken(token);
+        this.saveUser(user);
         this.setLoggedIn(true);
       })
     );
@@ -33,6 +34,10 @@ export class AccountService {
         this.setLoggedIn(true);
       })
     );
+  }
+
+  saveUser(user: string) {
+    localStorage.setItem('user', user);
   }
 
   saveToken(token: string) {
@@ -60,6 +65,7 @@ export class AccountService {
   logout() {
     localStorage.removeItem('loggedIn');
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     this.setLoggedIn(false);
   }
 

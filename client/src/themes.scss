@@ -58,12 +58,14 @@ $dark-theme: (
     border-bottom: 0.1em solid #3d3a3a27;
   }
   //navigation links themes light
+  .profile-link-text-container:hover,
   .navigation-links-icons-container:hover {
     background-color: #f2f2f2;
   }
   .dropdown-section:hover {
     background-color: #f2f2f2;
   }
+  .active-link .profile-link-text-container:hover,
   .active .navigation-links-icons-container:hover {
     background-color: transparent;
   }
@@ -72,6 +74,9 @@ $dark-theme: (
   }
   .active.navigation-links-container.bottom-border-active {
     border-bottom: 0.3em solid #3a3b3c;
+  }
+  .active-link.profile-navigation-links.bottom-border-active {
+    border-bottom: 0.15em solid #3a3b3c;
   }
 }
 
@@ -115,12 +120,14 @@ $dark-theme: (
   .header-icons-middle {
     color: map-get($dark-theme, header-icons);
   }
+  .profile-link-text-container:hover,
   .navigation-links-icons-container:hover {
     background-color: #3a3b3c;
   }
   .dropdown-section:hover {
     background-color: #3a3b3c;
   }
+  .active-link .profile-link-text-container:hover,
   .active .navigation-links-icons-container:hover {
     background-color: transparent;
   }
@@ -130,6 +137,9 @@ $dark-theme: (
   }
   .active.navigation-links-container.bottom-border-active {
     border-bottom: 0.3em solid white;
+  }
+  .active-link.profile-navigation-links.bottom-border-active {
+    border-bottom: 0.15em solid white;
   }
 }
 .material-symbols-rounded {

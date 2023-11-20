@@ -61,7 +61,10 @@ export class RegisterComponent implements OnInit {
         ],
       ],
 
-      dateOfBirth: ['', [Validators.required]],
+      dateOfBirth: [
+        '',
+        [Validators.required, Validators.max(1925), Validators.min(2012)],
+      ],
 
       country: [
         '',

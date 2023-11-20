@@ -1,33 +1,307 @@
-<h1 id="login-header">Register new account</h1>
+<!-- reactiive register form -->
+
 <form
-  #registerForm="ngForm"
+  [formGroup]="registerForm"
   (ngSubmit)="register()"
   autocomplete="off"
   id="login-form"
 >
+  <!-- Gender -->
+
+  <div id="gender-input-container">
+    <label class="gender-inputs">
+      <input
+        type="radio"
+        formControlName="gender"
+        value="male"
+        class="gender-input-button"
+      />
+      Male
+    </label>
+    <label class="gender-inputs">
+      <input
+        type="radio"
+        formControlName="gender"
+        value="female"
+        class="gender-input-button"
+      />
+      Female
+    </label>
+  </div>
+
+  <!-- Username -->
+
   <div class="input-container">
     <label class="form-label" for="userName">Username*</label>
     <input
-      [(ngModel)]="model.username"
+      formControlName="username"
+      [class.input-invalid]="
+        registerForm.get('username')?.touched &&
+        registerForm.get('username')?.invalid
+      "
       type="text"
       id="userName"
-      name="username"
       class="form-input"
-      required
     />
+    <div
+      *ngIf="
+        registerForm.get('username')?.touched &&
+        registerForm.get('username')?.hasError('required')
+      "
+      class="validation-errors"
+    >
+      Username required
+    </div>
+    <div
+      *ngIf="registerForm.get('username')?.hasError('minlength')"
+      class="validation-errors z2"
+    >
+      Username must be at least 4 characters
+    </div>
+    <div
+      *ngIf="registerForm.get('username')?.hasError('maxlength')"
+      class="validation-errors z2"
+    >
+      Username must be less than 10 characters
+    </div>
+    <div
+      *ngIf="registerForm.get('username')?.errors?.['lettersOnly']"
+      class="validation-errors z3"
+    >
+      Username must be a single word and contain only standard letters
+    </div>
   </div>
+
+  <!-- Full Name -->
+
+  <div class="input-container">
+    <label class="form-label" for="password">Full Name*</label>
+    <input
+      title="Full Name"
+      formControlName="fullName"
+      [class.input-invalid]="
+        registerForm.get('fullName')?.touched &&
+        registerForm.get('fullName')?.invalid
+      "
+      type="text"
+      class="form-input"
+    />
+    <div
+      *ngIf="
+        registerForm.get('fullName')?.touched &&
+        registerForm.get('fullName')?.hasError('required')
+      "
+      class="validation-errors z2"
+    >
+      Full Name required
+    </div>
+    <div
+      *ngIf="registerForm.get('fullName')?.hasError('minlength')"
+      class="validation-errors z2"
+    >
+      Full Name must be at least 4 characters
+    </div>
+    <div
+      *ngIf="registerForm.get('fullName')?.hasError('maxlength')"
+      class="validation-errors z2"
+    >
+      Full Name must be less than 30 characters
+    </div>
+    <div
+      *ngIf="registerForm.get('fullName')?.errors?.['lettersAndSpacesOnly']"
+      class="validation-errors z3"
+    >
+      Full Name must contain only standard letters
+    </div>
+    <div
+      *ngIf="registerForm.get('fullName')?.touched && registerForm.get('fullName')?.errors?.['noSpace']"
+      class="validation-errors"
+    >
+      More than first name required
+    </div>
+  </div>
+
+  <!-- Date of Birth -->
+
+  <div class="input-container">
+    <label class="form-label" for="password">Date Of Birth*</label>
+    <input
+      title="Date Of Birth"
+      formControlName="dateOfBirth"
+      [class.input-invalid]="
+        registerForm.get('dateOfBirth')?.touched &&
+        registerForm.get('dateOfBirth')?.invalid
+      "
+      type="text"
+      class="form-input"
+    />
+    <div
+      *ngIf="
+        registerForm.get('dateOfBirth')?.touched &&
+        registerForm.get('dateOfBirth')?.hasError('required')
+      "
+      class="validation-errors"
+    >
+      Date Of Birth required
+    </div>
+  </div>
+
+  <!-- Country -->
+
+  <div class="input-container">
+    <label class="form-label" for="userName">Country*</label>
+    <input
+      title="Country"
+      formControlName="country"
+      [class.input-invalid]="
+        registerForm.get('country')?.touched &&
+        registerForm.get('country')?.invalid
+      "
+      type="text"
+      class="form-input"
+    />
+    <div
+      *ngIf="
+        registerForm.get('country')?.touched &&
+        registerForm.get('country')?.hasError('required')
+      "
+      class="validation-errors"
+    >
+      Country required
+    </div>
+    <div
+      *ngIf="registerForm.get('country')?.hasError('minlength')"
+      class="validation-errors z2"
+    >
+      Country must be at least 2 characters
+    </div>
+    <div
+      *ngIf="registerForm.get('country')?.hasError('maxlength')"
+      class="validation-errors z2"
+    >
+      Country must be less than 20 characters
+    </div>
+    <div
+      *ngIf="registerForm.get('country')?.errors?.['lettersAndSpacesOnly']"
+      class="validation-errors z3"
+    >
+      Country must contain only standard letters
+    </div>
+  </div>
+
+  <!-- City -->
+
+  <div class="input-container">
+    <label class="form-label" for="userName">City*</label>
+    <input
+      title="City"
+      formControlName="city"
+      [class.input-invalid]="
+        registerForm.get('city')?.touched && registerForm.get('city')?.invalid
+      "
+      type="text"
+      class="form-input"
+    />
+    <div
+      *ngIf="
+        registerForm.get('city')?.touched &&
+        registerForm.get('city')?.hasError('required')
+      "
+      class="validation-errors"
+    >
+      City required
+    </div>
+    <div
+      *ngIf="registerForm.get('city')?.hasError('minlength')"
+      class="validation-errors z2"
+    >
+      City must be at least 2 characters
+    </div>
+    <div
+      *ngIf="registerForm.get('city')?.hasError('maxlength')"
+      class="validation-errors z2"
+    >
+      City must be less than 20 characters
+    </div>
+    <div
+      *ngIf="registerForm.get('city')?.errors?.['lettersAndSpacesOnly']"
+      class="validation-errors z3"
+    >
+      City must contain only standard letters
+    </div>
+  </div>
+
+  <!-- Password -->
+
   <div class="input-container">
     <label class="form-label" for="password">Password*</label>
     <input
-      [(ngModel)]="model.password"
+      formControlName="password"
+      [class.input-invalid]="
+        registerForm.get('password')?.touched &&
+        registerForm.get('password')?.invalid
+      "
       type="password"
       id="password"
-      name="password"
       class="form-input"
-      required
     />
+    <div
+      *ngIf="
+        registerForm.get('password')?.touched &&
+        registerForm.get('password')?.hasError('required')
+      "
+      class="validation-errors z2"
+    >
+      Password required
+    </div>
+    <div
+      *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['atLeastOneNumber']"
+      class="validation-errors"
+    >
+      Password must contain a number
+    </div>
+    <div
+      *ngIf="registerForm.get('password')?.hasError('minlength')"
+      class="validation-errors z2"
+    >
+      Password must be at least 4 characters
+    </div>
+    <div
+      *ngIf="registerForm.get('password')?.hasError('maxlength')"
+      class="validation-errors z2"
+    >
+      Password must be less than 20 characters
+    </div>
   </div>
-  <button type="submit" (submit)="register()" class="login-btn">
+
+  <!-- Confirm Password -->
+
+  <div class="input-container">
+    <label class="form-label" for="password">Confirm Password*</label>
+    <input
+      title="Confirm Password"
+      formControlName="confirmPassword"
+      [class.input-invalid]="
+        registerForm.get('confirmPassword')?.touched &&
+        registerForm.get('confirmPassword')?.invalid
+      "
+      type="password"
+      id="confirm-password"
+      class="form-input"
+    />
+    <div
+      *ngIf="
+        registerForm.get('confirmPassword')?.touched &&
+        registerForm.get('confirmPassword')?.invalid
+      "
+      id="password-mismatch"
+      class="validation-errors"
+    >
+      Must match password
+    </div>
+  </div>
+
+  <button type="submit" (submit)="register()" class="register-btn">
     Register
   </button>
   <button type="button" class="register-cancel" (click)="cancel()">

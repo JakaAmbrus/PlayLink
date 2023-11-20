@@ -5,6 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -30,7 +34,6 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { UserCardComponent } from './discover/user-card/user-card.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PostsComponent } from './profile/posts/posts.component';
-import { GalleryComponent } from './profile/gallery/gallery.component';
 import { MessageComponent } from './profile/message/message.component';
 import { EditComponent } from './profile/edit/edit.component';
 
@@ -68,6 +71,10 @@ import { EditComponent } from './profile/edit/edit.component';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-bottom-right',

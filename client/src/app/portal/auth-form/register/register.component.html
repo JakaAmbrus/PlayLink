@@ -125,7 +125,7 @@
 
   <div class="input-container">
     <label class="form-label" for="password">Date Of Birth*</label>
-    <input
+    <!-- <input
       title="Date Of Birth"
       formControlName="dateOfBirth"
       [class.input-invalid]="
@@ -136,8 +136,22 @@
       min="1925-01-01"
       max="2012-01-01"
       class="form-input"
-    />
-    <div
+    /> -->
+    <mat-form-field class="form-input">
+      <input
+        matInput
+        [matDatepicker]="picker"
+        formControlName="dateOfBirth"
+        [class.input-invalid]="
+          registerForm.get('dateOfBirth')?.touched &&
+          registerForm.get('dateOfBirth')?.invalid
+        "
+        title="Date Of Birth"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <!-- <div
       *ngIf="
         registerForm.get('dateOfBirth')?.touched &&
         registerForm.get('dateOfBirth')?.hasError('required')
@@ -157,7 +171,7 @@
       class="validation-errors z2"
     >
       You must be at least 12 years old
-    </div>
+    </div> -->
   </div>
 
   <!-- Country -->

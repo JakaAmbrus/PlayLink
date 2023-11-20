@@ -132,7 +132,7 @@
         registerForm.get('dateOfBirth')?.touched &&
         registerForm.get('dateOfBirth')?.invalid
       "
-      type="text"
+      type="date"
       class="form-input"
     />
     <div
@@ -294,14 +294,20 @@
         registerForm.get('confirmPassword')?.touched &&
         registerForm.get('confirmPassword')?.invalid
       "
-      id="password-mismatch"
+      id="password-missmatch"
       class="validation-errors"
     >
       Must match password
     </div>
   </div>
 
-  <button type="submit" (submit)="register()" class="register-btn">
+  <button
+    [disabled]="!registerForm.valid"
+    [ngClass]="{ 'register-btn-disabled': !registerForm.valid }"
+    type="submit"
+    (submit)="register()"
+    class="register-btn"
+  >
     Register
   </button>
   <button type="button" class="register-cancel" (click)="cancel()">

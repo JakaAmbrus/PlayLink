@@ -1,4 +1,4 @@
-<!-- reactiive register form -->
+<!-- reactive register form -->
 
 <form
   [formGroup]="registerForm"
@@ -133,6 +133,8 @@
         registerForm.get('dateOfBirth')?.invalid
       "
       type="date"
+      min="1925-01-01"
+      max="2012-01-01"
       class="form-input"
     />
     <div
@@ -143,6 +145,18 @@
       class="validation-errors"
     >
       Date Of Birth required
+    </div>
+    <div
+      *ngIf="registerForm.get('dateOfBirth')?.hasError('min')"
+      class="validation-errors z2"
+    >
+      Your age must be realistic
+    </div>
+    <div
+      *ngIf="registerForm.get('dateOfBirth')?.hasError('max')"
+      class="validation-errors z2"
+    >
+      You must be at least 12 years old
     </div>
   </div>
 

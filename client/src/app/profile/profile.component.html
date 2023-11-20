@@ -76,6 +76,9 @@
         <p class="profile-link-text-container">Edit Info</p>
       </a>
     </div>
-    <router-outlet></router-outlet>
+
+    <div [@routeAnimations]="prepareRoute(outlet)" id="profile-routes">
+      <router-outlet #outlet="outlet"></router-outlet>
+    </div>
   </div>
 </section>

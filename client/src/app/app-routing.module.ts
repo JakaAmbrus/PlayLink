@@ -49,10 +49,22 @@ const routes: Routes = [
     canActivate: [canActivateGuard],
     children: [
       { path: '', redirectTo: 'posts', pathMatch: 'full' },
-      { path: 'posts', component: PostsComponent },
-      { path: 'gallery', component: GalleryComponent },
-      { path: 'edit', component: EditComponent },
-      { path: 'message', component: MessageComponent },
+      {
+        path: 'posts',
+        component: PostsComponent,
+        data: { animation: 'Posts' },
+      },
+      {
+        path: 'gallery',
+        component: GalleryComponent,
+        data: { animation: 'Gallery' },
+      },
+      { path: 'edit', component: EditComponent, data: { animation: 'Edit' } },
+      {
+        path: 'message',
+        component: MessageComponent,
+        data: { animation: 'Message' },
+      },
     ],
   },
   {

@@ -190,3 +190,12 @@ button {
 .toast-container .ngx-toastr:hover {
   box-shadow: 0 0 8px #000000 !important;
 }
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

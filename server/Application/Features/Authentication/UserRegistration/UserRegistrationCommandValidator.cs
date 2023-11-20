@@ -21,31 +21,32 @@ namespace Application.Features.Authentication.UserRegistration
 
             RuleFor(x => x.Gender)
                 .NotEmpty().WithMessage("Gender required.")
-                .Must(MaleOrFemaleGender).WithMessage("Gender must be either 'Male' or 'Female', this is for certain features, do not wish to offend");
+                .Must(MaleOrFemaleGender).WithMessage("Gender must be either 'Male' or 'Female', this is for certain features, do not wish to offend")
+                .When(x => x.Gender != null);
 
             RuleFor(x => x.FullName)
                 .NotEmpty().WithMessage("Full Name required.")
                 .Must(x => x.Length > 4 && x.Length < 30 && x.Contains(" ")).WithMessage("Full Name must be between 4 and 30 characters and include both first and last name.")
                 .Matches(@"^[a-zA-Z\s]*$").WithMessage("Full name must include standard characters")
-                .Must(CheckFirstNameLenght).WithMessage("First name cannot exceed 12 characters.")
+                .Must(CheckFirstNameLenght).WithMessage("First name cannot exceed 12 characters and must have second name.")
                 .When(x => x.FullName != null);
 
             RuleFor(x => x.Country)
                 .NotEmpty().WithMessage("Country required.")
                 .Matches(@"^[a-zA-Z\s]*$").WithMessage("Country must include standard characters")
-                .MinimumLength(4).WithMessage("No Country contains less than 4 characters, abstain from abbreviations.")
-                .MaximumLength(30).WithMessage("Country cannot exceed 30 characters.");
+                .MinimumLength(2).WithMessage("No Country contains less than 2 characters.")
+                .MaximumLength(20).WithMessage("Country cannot exceed 20 characters.");
 
             RuleFor(x => x.City)
                 .NotEmpty().WithMessage("City required.")
                 .Matches(@"^[a-zA-Z\s]*$").WithMessage("City must include standard characters.")
-                .MinimumLength(2).WithMessage("City must contain at least 4 characters.")
-                .MaximumLength(30).WithMessage("Country cannot exceed 30 characters.");
+                .MinimumLength(2).WithMessage("City must contain at least 2 characters.")
+                .MaximumLength(20).WithMessage("City cannot exceed 20 characters.");
 
             RuleFor(x => x.DateOfBirth)
                 .NotEmpty().WithMessage("Date of Birth required.")
                 .Must(x => x.Year < DateTime.UtcNow.Year - 12).WithMessage("You must be at least 12 years old to register")
-                .Must(x => x.Year > DateTime.UtcNow.Year - 99).WithMessage("Your name must be realistic");
+                .Must(x => x.Year > DateTime.UtcNow.Year - 99).WithMessage("Your age must be realistic");
         }
         private bool MaleOrFemaleGender(string gender)
         {
@@ -63,8 +64,9 @@ namespace Application.Features.Authentication.UserRegistration
             }
 
             string firstName = words[0];
+            string secondName = words[1];
 
-            return firstName.Length <= 12;
+            return firstName.Length <= 12 && secondName.Length > 0;
         }
 
         protected override bool PreValidate(ValidationContext<UserRegistrationCommand> context, ValidationResult result)

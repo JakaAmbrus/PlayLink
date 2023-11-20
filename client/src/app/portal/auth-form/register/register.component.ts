@@ -23,6 +23,8 @@ import {
 export class RegisterComponent implements OnInit {
   model: any = {};
   registerForm: FormGroup = new FormGroup({});
+  minDate: Date;
+  maxDate: Date;
 
   @Output() exitRegistration = new EventEmitter<void>();
 
@@ -30,7 +32,10 @@ export class RegisterComponent implements OnInit {
     private accountService: AccountService,
     private router: Router,
     private fb: FormBuilder
-  ) {}
+  ) {
+    this.minDate = new Date(1925, 0, 1);
+    this.maxDate = new Date(2012, 11, 31);
+  }
 
   ngOnInit(): void {
     this.initializeForm();

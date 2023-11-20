@@ -3,6 +3,7 @@ import { ProfileUser } from '../_models/users';
 import { UsersService } from '../_services/users.service';
 import { ActivatedRoute } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { slideInAnimation } from '../route-animations';
 
 @Component({
   selector: 'app-profile',
@@ -15,6 +16,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
         animate('500ms ease', style({ opacity: 1, transform: 'scale(1)' })),
       ]),
     ]),
+    slideInAnimation,
   ],
 })
 export class ProfileComponent implements OnInit {
@@ -26,6 +28,12 @@ export class ProfileComponent implements OnInit {
     private usersService: UsersService,
     private route: ActivatedRoute
   ) {}
+
+  prepareRoute(outlet: any) {
+    return (
+      outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation
+    );
+  }
 
   ngOnInit(): void {
     this.loadUser();

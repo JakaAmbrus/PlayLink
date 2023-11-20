@@ -6,29 +6,6 @@
   autocomplete="off"
   id="login-form"
 >
-  <!-- Gender -->
-
-  <div id="gender-input-container">
-    <label class="gender-inputs">
-      <input
-        type="radio"
-        formControlName="gender"
-        value="male"
-        class="gender-input-button"
-      />
-      Male
-    </label>
-    <label class="gender-inputs">
-      <input
-        type="radio"
-        formControlName="gender"
-        value="female"
-        class="gender-input-button"
-      />
-      Female
-    </label>
-  </div>
-
   <!-- Username -->
 
   <div class="input-container">
@@ -121,57 +98,64 @@
     </div>
   </div>
 
-  <!-- Date of Birth -->
+  <!-- Date of Birth and gender -->
 
   <div class="input-container">
     <label class="form-label" for="password">Date Of Birth*</label>
-    <!-- <input
-      title="Date Of Birth"
-      formControlName="dateOfBirth"
-      [class.input-invalid]="
-        registerForm.get('dateOfBirth')?.touched &&
-        registerForm.get('dateOfBirth')?.invalid
-      "
-      type="date"
-      min="1925-01-01"
-      max="2012-01-01"
-      class="form-input"
-    /> -->
-    <mat-form-field class="form-input">
-      <input
-        matInput
-        [matDatepicker]="picker"
-        formControlName="dateOfBirth"
-        [class.input-invalid]="
-          registerForm.get('dateOfBirth')?.touched &&
-          registerForm.get('dateOfBirth')?.invalid
-        "
-        title="Date Of Birth"
-      />
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-    <!-- <div
-      *ngIf="
-        registerForm.get('dateOfBirth')?.touched &&
-        registerForm.get('dateOfBirth')?.hasError('required')
-      "
-      class="validation-errors"
-    >
-      Date Of Birth required
+    <div id="dob-and-gender-container">
+      <div class="date-picker-container">
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [min]="minDate"
+          [max]="maxDate"
+          placeholder="MM/DD/YYYY"
+          formControlName="dateOfBirth"
+          [class.input-invalid]="
+            registerForm.get('dateOfBirth')?.touched &&
+            registerForm.get('dateOfBirth')?.invalid
+          "
+          title="Date Of Birth"
+          class="form-input date-picker-input"
+          readonly
+        />
+        <mat-datepicker-toggle
+          class="date-picker-toggle"
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker color="warn" #picker></mat-datepicker>
+        <div
+          *ngIf="
+            registerForm.get('dateOfBirth')?.touched &&
+            registerForm.get('dateOfBirth')?.hasError('required')
+          "
+          class="dob-validation-errors validation-errors"
+        >
+          Date required
+        </div>
+      </div>
+      <div id="gender-input-container">
+        <label class="gender-inputs">
+          <input
+            type="radio"
+            formControlName="gender"
+            value="male"
+            class="gender-input-button"
+          />
+          Male
+        </label>
+        <label class="gender-inputs">
+          <input
+            type="radio"
+            formControlName="gender"
+            value="female"
+            class="gender-input-button"
+          />
+          Female
+        </label>
+      </div>
     </div>
-    <div
-      *ngIf="registerForm.get('dateOfBirth')?.hasError('min')"
-      class="validation-errors z2"
-    >
-      Your age must be realistic
-    </div>
-    <div
-      *ngIf="registerForm.get('dateOfBirth')?.hasError('max')"
-      class="validation-errors z2"
-    >
-      You must be at least 12 years old
-    </div> -->
   </div>
 
   <!-- Country -->

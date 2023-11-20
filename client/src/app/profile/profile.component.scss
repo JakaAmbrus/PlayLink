@@ -4,10 +4,17 @@
   justify-content: center;
   gap: 2em;
 }
+#profile-routes {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
 #user-profile-details-container {
   margin-top: 2vh;
   padding: 3.5em;
   width: 42em;
+  align-self: flex-start;
 }
 #profile-picture-container {
   position: relative;

@@ -11,23 +11,6 @@
   flex-direction: column;
   margin-bottom: 1em;
 }
-#gender-input-container {
-  display: flex;
-  justify-content: center;
-  gap: 3em;
-  margin-bottom: 1em;
-}
-.gender-inputs {
-  display: flex;
-  align-items: center;
-  font-size: 2em;
-  gap: 0.5em;
-  color: #3d3a3af9;
-}
-.gender-input-button {
-  transform: scale(1.5);
-  accent-color: #3d3a3a;
-}
 .form-label {
   margin-left: 0.4em;
   font-size: 1.81em;
@@ -95,6 +78,47 @@
   margin-left: 0.4em;
   font-size: 2em;
   font-family: "Nexa Bold";
+}
+#dob-and-gender-container {
+  display: flex;
+  justify-content: space-between;
+}
+.date-picker-container {
+  display: flex;
+  align-items: center;
+  width: 28em;
+}
+.date-picker-toggle {
+  transform: translateX(-4.5em);
+}
+.date-picker-input {
+  width: 100%;
+  margin: 0;
+  padding: 0.6em;
+}
+.dob-validation-errors {
+  left: 0;
+  width: 16.4em;
+  bottom: -1.3em;
+  height: 1em;
+}
+#gender-input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
+  margin-right: 1em;
+}
+.gender-inputs {
+  display: flex;
+  align-items: center;
+  font-size: 2em;
+  gap: 0.5em;
+  color: #3d3a3af9;
+}
+.gender-input-button {
+  transform: scale(1.5);
+  accent-color: #3d3a3a;
 }
 @media (max-width: 800px) {
   :host {

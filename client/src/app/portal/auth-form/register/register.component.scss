@@ -80,9 +80,13 @@
 .z3 {
   z-index: 3;
 }
-#password-mismatch {
+#password-missmatch {
   height: 1em;
   bottom: -1em;
+}
+.register-btn-disabled {
+  opacity: 0.9;
+  cursor: not-allowed;
 }
 .register-cancel {
   cursor: pointer;

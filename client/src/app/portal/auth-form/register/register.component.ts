@@ -100,23 +100,35 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-    console.log(this.registerForm?.value);
-    const registerModel = {
-      username: this.model.username,
-      password: this.model.password,
-    };
-    this.accountService.register(registerModel).subscribe({
+    const dob = this.getOnlyDate(
+      this.registerForm?.controls['dateOfBirth'].value
+    );
+    const values = { ...this.registerForm.value, dateOfBirth: dob };
+
+    this.accountService.register(values).subscribe({
       next: (response) => {
         console.log(response);
         this.router.navigate(['/portal']);
         this.exitRegistration.emit();
       },
-      error: (error) => console.log(error),
+      error: () => console.log('Registration error'),
     });
   }
 
   cancel(): void {
     console.log('cancelled');
     this.exitRegistration.emit();
+  }
+
+  private getOnlyDate(dob: string | undefined) {
+    if (!dob) return;
+
+    let date = new Date(dob);
+
+    return new Date(
+      date.setMinutes(date.getMinutes() - date.getTimezoneOffset())
+    )
+      .toISOString()
+      .slice(0, 10);
   }
 }

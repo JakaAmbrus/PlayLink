@@ -1,0 +1,72 @@
+#edit-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  height: 70em;
+  font-family: "Nexa Bold";
+}
+#edit-header {
+  font-size: 3.5em;
+  margin-bottom: 0.6em;
+}
+#edit-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60em;
+  padding: 3.5em 1.5em 3.5em 1.5em;
+}
+#edit-dropzone {
+  font-size: 5em;
+  width: 100%;
+  margin-bottom: 0.5em;
+}
+.form-label {
+  align-self: start;
+  margin-left: 0.4em;
+  font-size: 1.81em;
+  margin-bottom: 0.5em;
+}
+.form-input {
+  width: 100%;
+  font-size: 1.8em;
+  padding: 1em;
+  border: none;
+  margin-bottom: 1em;
+}
+.form-input:focus {
+  outline: none;
+  box-shadow: 0px 0px 0.2em 0.1em rgba(61, 58, 58);
+}
+.edit-submit {
+  width: 100%;
+  font-size: 3em;
+  padding: 0.5em 0;
+  border-radius: 0.2em;
+  margin-top: 0.5em;
+}
+.input-invalid {
+  box-shadow: 0px 0px 0px 0.1em rgba(255, 0, 0, 0.55);
+}
+.validation-errors {
+  position: absolute;
+  right: 1%;
+  bottom: -0.4em;
+  color: rgba(255, 0, 0, 0.703);
+  text-align: end;
+  font-family: "Nexa Light";
+  font-weight: bold;
+  font-size: 1.4em;
+  letter-spacing: 0.05em;
+}
+.relative {
+  position: relative;
+  width: 100%;
+}
+.save-btn-disabled {
+  opacity: 0.8;
+}

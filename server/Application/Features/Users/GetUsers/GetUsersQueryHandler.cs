@@ -33,7 +33,6 @@ namespace Application.Features.Users.GetUsers
                    FullName = u.FullName,
                    Age = u.DateOfBirth.CalculateAge(),
                    Country = u.Country,
-                   City = u.City,
                    ProfilePictureUrl = u.ProfilePictureUrl
                }).ToListAsync(cancellationToken);
 

@@ -32,7 +32,6 @@ namespace Application.Features.Users.GetUserByUsername
                 FullName = user.FullName,
                 DateOfBirth = user.DateOfBirth,
                 Country = user.Country,
-                City = user.City,
                 ProfilePictureUrl = user.ProfilePictureUrl,
                 Description = user.Description
             };

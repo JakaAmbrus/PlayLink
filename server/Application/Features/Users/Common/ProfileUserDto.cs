@@ -8,7 +8,6 @@
         public string FullName { get; set; }
         public DateOnly DateOfBirth { get; set; }
         public string Country { get; set; }
-        public string City { get; set; }
         public string ProfilePictureUrl { get; set; }
         public string Description { get; set; }
     }

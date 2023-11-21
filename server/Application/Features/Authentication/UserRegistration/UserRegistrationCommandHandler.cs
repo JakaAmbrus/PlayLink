@@ -35,7 +35,6 @@ namespace Application.Features.Authentication.UserRegistration
                         UserName = request.Username,
                         Gender = request.Gender,
                         FullName = FormatPropertiesToTitleCase(request.FullName),
-                        City = FormatPropertiesToTitleCase(request.City),
                         Country = FormatPropertiesToTitleCase(request.Country),
                         DateOfBirth = request.DateOfBirth,
                         Created = DateTime.UtcNow,

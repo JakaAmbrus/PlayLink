@@ -5,6 +5,7 @@ using Application.Features.Users.GetUsers;
 using Application.Features.Users.GetUserById;
 using Microsoft.AspNetCore.Authorization;
 using Application.Features.Users.GetUserByUsername;
+using Application.Features.Users.EditUserDetails;
 
 namespace WebAPI.Controllers
 {
@@ -56,6 +57,19 @@ namespace WebAPI.Controllers
             }
 
             return Ok(user);
+        }
+
+        [HttpPut("edit")]
+        public async Task<ActionResult<EditUserDetailsResponse>> EditUserDetails([FromForm] EditUserDetailsCommand command)
+        {
+            var response = await _mediator.Send(command);
+
+            if (response == null)
+            {
+                return BadRequest("Problem editing user");
+            }
+
+            return Ok(response);
         }
     }
 }

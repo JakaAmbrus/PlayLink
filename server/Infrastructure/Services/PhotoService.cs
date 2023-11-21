@@ -38,7 +38,7 @@ namespace Infrastructure.Services
                         .Width(500)
                         .Crop("fill")
                         .Gravity("face")
-                        .Quality("auto:good")
+                        .Quality("auto:best")
                         .FetchFormat("auto");
                 }
                 else if (typeOfPhoto == "post")

@@ -38,6 +38,9 @@ $dark-theme: (
   .secondary-text {
     color: map-get($light-theme, secondary-text);
   }
+  .header-text {
+    color: map-get($light-theme, primary-text);
+  }
   .header-icons-middle {
     color: map-get($light-theme, primary-text);
   }
@@ -78,6 +81,15 @@ $dark-theme: (
   .active-link.profile-navigation-links.bottom-border-active {
     border-bottom: 0.15em solid #3a3b3c;
   }
+
+  .edit-dropzone {
+    border: 0.05em dashed #3a3b3c;
+    background-color: #d8dadf;
+    color: #3a3b3c;
+  }
+  .edit-labels {
+    color: #3d3a3ad4;
+  }
 }
 
 .theme-dark {
@@ -110,6 +122,9 @@ $dark-theme: (
     background-color: #4e4f50;
     color: #e7e9ed;
   }
+  .header-text {
+    color: white;
+  }
   .theme-border {
     border: 0.1em solid #3d3a3a;
   }
@@ -140,6 +155,15 @@ $dark-theme: (
   }
   .active-link.profile-navigation-links.bottom-border-active {
     border-bottom: 0.15em solid white;
+  }
+
+  .edit-dropzone {
+    border: 0.05em dashed rgba(255, 255, 255, 0.765);
+    background-color: #4e4f50;
+    color: white;
+  }
+  .edit-labels {
+    color: #e7e9edaf;
   }
 }
 .material-symbols-rounded {

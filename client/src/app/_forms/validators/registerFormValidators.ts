@@ -1,4 +1,9 @@
-import { AbstractControl, ValidatorFn } from '@angular/forms';
+import {
+  AbstractControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+} from '@angular/forms';
 import countries from '../../../assets/data/countries.json';
 
 export function standardLettersOnlyValidator(): ValidatorFn {
@@ -48,3 +53,21 @@ export function validCountryValidator(): ValidatorFn {
     return isValid ? null : { invalidCountry: true };
   };
 }
+
+export const allOptionalFieldsEmptyValidator: ValidatorFn = (
+  control: AbstractControl
+): ValidationErrors | null => {
+  if (control instanceof FormGroup) {
+    const allEmpty = Object.keys(control.controls).every((key) => {
+      const controlValue = control.get(key);
+      return (
+        !controlValue?.value ||
+        (typeof controlValue?.value === 'string' &&
+          controlValue.value.trim() === '')
+      );
+    });
+
+    return allEmpty ? { allFieldsEmpty: true } : null;
+  }
+  return null;
+};

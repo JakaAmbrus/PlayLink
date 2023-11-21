@@ -198,48 +198,6 @@
     </div>
   </div>
 
-  <!-- City -->
-
-  <div class="input-container">
-    <label class="form-label" for="userName">City*</label>
-    <input
-      title="City"
-      formControlName="city"
-      [class.input-invalid]="
-        registerForm.get('city')?.touched && registerForm.get('city')?.invalid
-      "
-      type="text"
-      class="form-input"
-    />
-    <div
-      *ngIf="
-        registerForm.get('city')?.touched &&
-        registerForm.get('city')?.hasError('required')
-      "
-      class="validation-errors"
-    >
-      City required
-    </div>
-    <div
-      *ngIf="registerForm.get('city')?.hasError('minlength')"
-      class="validation-errors z2"
-    >
-      City must be at least 2 characters
-    </div>
-    <div
-      *ngIf="registerForm.get('city')?.hasError('maxlength')"
-      class="validation-errors z2"
-    >
-      City must be less than 20 characters
-    </div>
-    <div
-      *ngIf="registerForm.get('city')?.errors?.['lettersAndSpacesOnly']"
-      class="validation-errors z3"
-    >
-      City must contain only standard letters
-    </div>
-  </div>
-
   <!-- Password -->
 
   <div class="input-container">

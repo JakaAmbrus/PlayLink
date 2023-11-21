@@ -36,12 +36,6 @@ namespace Application.Features.Authentication.UserRegistration
                 .NotEmpty().WithMessage("Country required.")
                 .Must(ValidationUtils.IsValidCountry).WithMessage("Invalid country");
 
-            RuleFor(x => x.City)
-                .NotEmpty().WithMessage("City required.")
-                .Matches(@"^[a-zA-Z\s]*$").WithMessage("City must include standard characters.")
-                .MinimumLength(2).WithMessage("City must contain at least 2 characters.")
-                .MaximumLength(20).WithMessage("City cannot exceed 20 characters.");
-
             RuleFor(x => x.DateOfBirth)
                 .NotEmpty().WithMessage("Date of Birth required.")
                 .Must(x => x.Year < DateTime.UtcNow.Year - 12).WithMessage("You must be at least 12 years old to register")
@@ -77,7 +71,6 @@ namespace Application.Features.Authentication.UserRegistration
             command.Gender = command.Gender?.ToLower().Trim();
             command.FullName = command.FullName?.Trim();
             command.Country = command.Country?.Trim();
-            command.City = command.City?.Trim();
 
             return true;
         }

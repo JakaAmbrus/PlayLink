@@ -5,7 +5,6 @@ export interface User {
   fullName: string;
   age: number;
   country: string;
-  city: string;
   profilePictureUrl: string | null;
 }
 export interface ProfileUser {
@@ -15,7 +14,6 @@ export interface ProfileUser {
   fullName: string;
   dateOfBirth: string;
   country: string;
-  city: string;
   profilePictureUrl: string | null;
   description: string | null;
 }

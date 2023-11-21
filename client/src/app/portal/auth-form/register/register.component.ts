@@ -13,7 +13,10 @@ import {
   hasSpaceValidator,
   standardLettersOnlyValidator,
   standardLettersAndSpacesValidator,
+  validCountryValidator,
 } from 'src/app/_forms/validators/registerFormValidators';
+import { Observable, debounceTime, map, startWith } from 'rxjs';
+import countries from '../../../../assets/data/countries.json';
 
 @Component({
   selector: 'app-register',
@@ -25,6 +28,7 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup = new FormGroup({});
   minDate: Date;
   maxDate: Date;
+  filteredCountries?: Observable<string[]>;
 
   @Output() exitRegistration = new EventEmitter<void>();
 
@@ -34,11 +38,20 @@ export class RegisterComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.minDate = new Date(1925, 0, 1);
-    this.maxDate = new Date(2012, 11, 31);
+    this.maxDate = new Date(2010, 5, 30);
   }
 
   ngOnInit(): void {
     this.initializeForm();
+
+    this.filteredCountries = this.registerForm.controls[
+      'country'
+    ].valueChanges.pipe(
+      debounceTime(100),
+      startWith(''),
+      map((value) => (typeof value === 'string' ? value : value.name)),
+      map((name) => (name ? this._filterCountries(name) : countries.slice()))
+    );
   }
 
   initializeForm(): void {
@@ -71,15 +84,7 @@ export class RegisterComponent implements OnInit {
         [Validators.required, Validators.max(1925), Validators.min(2012)],
       ],
 
-      country: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(20),
-          standardLettersAndSpacesValidator(),
-        ],
-      ],
+      country: ['', [Validators.required, validCountryValidator()]],
 
       city: [
         '',
@@ -105,6 +110,17 @@ export class RegisterComponent implements OnInit {
     this.registerForm.controls['password'].valueChanges.subscribe(() => {
       this.registerForm.controls['confirmPassword'].updateValueAndValidity();
     });
+  }
+
+  displayFn(country: string): string {
+    return country ? country : '';
+  }
+
+  private _filterCountries(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return countries.filter((country) =>
+      country.toLowerCase().includes(filterValue)
+    );
   }
 
   register() {

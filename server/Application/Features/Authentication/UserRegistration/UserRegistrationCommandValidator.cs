@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Application.Utils;
+using FluentValidation;
 using FluentValidation.Results;
 
 namespace Application.Features.Authentication.UserRegistration
@@ -33,9 +34,7 @@ namespace Application.Features.Authentication.UserRegistration
 
             RuleFor(x => x.Country)
                 .NotEmpty().WithMessage("Country required.")
-                .Matches(@"^[a-zA-Z\s]*$").WithMessage("Country must include standard characters")
-                .MinimumLength(2).WithMessage("No Country contains less than 2 characters.")
-                .MaximumLength(20).WithMessage("Country cannot exceed 20 characters.");
+                .Must(ValidationUtils.IsValidCountry).WithMessage("Invalid country");
 
             RuleFor(x => x.City)
                 .NotEmpty().WithMessage("City required.")

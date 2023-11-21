@@ -171,7 +171,16 @@
       "
       type="text"
       class="form-input"
+      [matAutocomplete]="auto"
     />
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option
+        *ngFor="let country of filteredCountries | async"
+        [value]="country"
+      >
+        {{ country }}
+      </mat-option>
+    </mat-autocomplete>
     <div
       *ngIf="
         registerForm.get('country')?.touched &&
@@ -182,22 +191,10 @@
       Country required
     </div>
     <div
-      *ngIf="registerForm.get('country')?.hasError('minlength')"
-      class="validation-errors z2"
-    >
-      Country must be at least 2 characters
-    </div>
-    <div
-      *ngIf="registerForm.get('country')?.hasError('maxlength')"
-      class="validation-errors z2"
-    >
-      Country must be less than 20 characters
-    </div>
-    <div
-      *ngIf="registerForm.get('country')?.errors?.['lettersAndSpacesOnly']"
+      *ngIf="registerForm.get('country')?.errors?.['invalidCountry']"
       class="validation-errors z3"
     >
-      Country must contain only standard letters
+      Invalid Country
     </div>
   </div>
 

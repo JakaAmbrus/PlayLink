@@ -1,4 +1,5 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
+import countries from '../../../assets/data/countries.json';
 
 export function standardLettersOnlyValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
@@ -35,5 +36,15 @@ export function matchValues(matchTo: string): ValidatorFn {
     return control.value === control.parent?.get(matchTo)?.value
       ? null
       : { isMatching: true };
+  };
+}
+
+export function validCountryValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    if (!control.value) {
+      return null;
+    }
+    const isValid = countries.includes(control.value);
+    return isValid ? null : { invalidCountry: true };
   };
 }

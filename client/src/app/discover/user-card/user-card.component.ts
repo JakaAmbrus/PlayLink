@@ -9,6 +9,8 @@ import { User } from 'src/app/_models/users';
 export class UserCardComponent implements OnInit {
   @Input() user: User | undefined;
 
+  username: string | null = null;
+
   isHovered: boolean = false;
 
   onHover(hovering: boolean): void {
@@ -17,5 +19,7 @@ export class UserCardComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.username = localStorage.getItem('user');
+  }
 }

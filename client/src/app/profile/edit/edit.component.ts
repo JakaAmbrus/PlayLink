@@ -6,7 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import countries from '../../../assets/data/countries.json';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
 import {
@@ -42,6 +42,7 @@ export class EditComponent implements OnInit {
     private usersService: UsersService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
+    private router: Router,
     private toastr: ToastrService,
     private cdRef: ChangeDetectorRef
   ) {}
@@ -103,12 +104,17 @@ export class EditComponent implements OnInit {
       console.log(editUserData);
 
       this.usersService.editUser(editUserData).subscribe({
-        next: (response) => {
+        next: () => {
           this.toastr.success('Profile updated successfully');
           this.editUserForm.reset();
           this.selectedFiles = [];
           this.cdRef.detectChanges();
           this.isLoading = false;
+          this.router
+            .navigateByUrl('/RefreshComponent', { skipLocationChange: true })
+            .then(() => {
+              this.router.navigate(['/user', this.username, 'edit']);
+            });
         },
         error: (error) => {
           this.isLoading = false;

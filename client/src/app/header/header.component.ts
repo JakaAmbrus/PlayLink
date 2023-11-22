@@ -10,6 +10,8 @@ export class HeaderComponent {
 
   @Output() themeButtonClicked = new EventEmitter<void>();
 
+  username: string | null = null;
+
   handleClick() {
     this.themeButtonClicked.emit();
   }
@@ -18,6 +20,8 @@ export class HeaderComponent {
   preventClose: boolean = false;
 
   toggleDropdown() {
+    this.username = localStorage.getItem('user');
+
     if (this.isDropdownOpen) {
       this.isDropdownOpen = false;
       this.unbindClickListener();

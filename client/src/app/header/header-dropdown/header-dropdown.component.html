@@ -2,7 +2,11 @@
   id="dropdown-container"
   class="secondary-background box-shadow rounded-border theme-border"
 >
-  <div id="dropdown-profile" class="dropdown-section rounded-border">
+  <div
+    (click)="navigateToEditProfile()"
+    id="dropdown-profile"
+    class="dropdown-section rounded-border"
+  >
     <div class="dropdown-left">
       <div
         class="header-icons-right header-icons-dropdown-container theme-border"

@@ -33,11 +33,18 @@
       </button>
       <button
         class="theme-border rounded-border box-shadow for-now-buttons reverse-parameters"
-        [routerLink]="['/user', user.username, 'edit']"
+        [routerLink]="['/user', user.username, 'message']"
       >
         <span class="for-now">Message</span>
       </button>
     </div>
+    <button
+      *ngIf="isCurrentUserProfile"
+      class="theme-border rounded-border box-shadow for-now-buttons reverse-parameters"
+      [routerLink]="['/user', user.username, 'edit']"
+    >
+      <span class="for-now">Edit Profile</span>
+    </button>
   </div>
   <div id="profile-features">
     <div

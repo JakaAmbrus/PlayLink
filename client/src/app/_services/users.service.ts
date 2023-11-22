@@ -8,17 +8,21 @@ import {
   User,
   UsersResponse,
 } from '../_models/users';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
   baseUrl = environment.apiUrl;
+  users: User[] = [];
 
   constructor(private http: HttpClient) {}
 
   getUsers(): Observable<User[]> {
+    if (this.users.length > 0) {
+      return of(this.users);
+    }
     return this.http
       .get<UsersResponse>(this.baseUrl + 'Users')
       .pipe(map((response) => response.users));

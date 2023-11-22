@@ -19,7 +19,10 @@
         (click)="toggleDropdown()"
       >
         <span class="material-symbols-rounded thicker-icon"> person </span>
-        <app-header-dropdown *ngIf="isDropdownOpen"></app-header-dropdown>
+        <app-header-dropdown
+          *ngIf="isDropdownOpen"
+          [username]="username"
+        ></app-header-dropdown>
       </div>
     </div>
   </div>

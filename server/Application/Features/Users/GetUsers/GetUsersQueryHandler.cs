@@ -3,7 +3,6 @@ using Application.Features.Users.Common;
 using Application.Utils;
 using Infrastructure.Data;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Users.GetUsers
 {
@@ -19,12 +18,14 @@ namespace Application.Features.Users.GetUsers
         public async Task<GetUsersResponse> Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
 
-        if(_context.Users == null)
-            {
-                throw new NotFoundException("Users not found");
-            }
+            if(_context.Users == null)
+                {
+                 throw new NotFoundException("Users not found");
+                }
 
-            var users = await _context.Users
+            var users = _context.Users
+               .AsQueryable()
+               .OrderBy(u => u.FullName)
                .Select(u => new UsersDto
                {
                    AppUserId = u.Id,
@@ -34,9 +35,15 @@ namespace Application.Features.Users.GetUsers
                    Age = u.DateOfBirth.CalculateAge(),
                    Country = u.Country,
                    ProfilePictureUrl = u.ProfilePictureUrl
-               }).ToListAsync(cancellationToken);
+               });
 
-        return new GetUsersResponse { Users = users };
+            var pagedUsers = await PagedList<UsersDto>
+                .CreateAsync(users, request.PaginationParams.PageNumber, request.PaginationParams.PageSize);
+
+            return new GetUsersResponse
+            {
+                Users = pagedUsers
+            };
         }
     }
 }

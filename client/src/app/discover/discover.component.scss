@@ -4,7 +4,7 @@
   width: 100vw;
 }
 #discover-middle {
-  margin-top: 2vh;
+  margin-top: 2em;
   width: 68em;
   height: auto;
 }
@@ -22,8 +22,32 @@
   font-size: 4em;
   margin: 1em 0 0.5em 0;
 }
+#paginator {
+  display: flex;
+  justify-content: center;
+  font-family: "Nexa Bold";
+  font-weight: 900;
+  font-size: 3em;
+  margin: 1em 0 0.5em 0;
+}
+.pagination-controls ::ng-deep {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.pagination-controls ::ng-deep .ngx-pagination .current {
+  background-color: #f5f5f5;
+  color: #000;
+  border: 0.1em solid #000;
+  border-radius: 0.2em;
+}
+.pagination-controls ::ng-deep .ngx-pagination .pagination-next,
+.pagination-controls ::ng-deep .ngx-pagination .pagination-previous {
+}
+
 @media (min-width: 2400px) {
   #discover-section-container {
-    font-size: 12px;
+    font-size: 13px;
   }
 }

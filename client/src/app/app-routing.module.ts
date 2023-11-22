@@ -19,6 +19,7 @@ import { MessageComponent } from './profile/message/message.component';
 
 import { canActivateGuard } from './_guards/auth.guard';
 import { canActivateLoginGuard } from './_guards/auth.guard';
+import { preventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 
 const routes: Routes = [
   {
@@ -59,7 +60,12 @@ const routes: Routes = [
         component: GalleryComponent,
         data: { animation: 'Gallery' },
       },
-      { path: 'edit', component: EditComponent, data: { animation: 'Edit' } },
+      {
+        path: 'edit',
+        component: EditComponent,
+        data: { animation: 'Edit' },
+        canDeactivate: [preventUnsavedChangesGuard],
+      },
       {
         path: 'message',
         component: MessageComponent,

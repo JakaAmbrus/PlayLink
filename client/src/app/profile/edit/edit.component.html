@@ -13,7 +13,6 @@
       [accept]="'image/png, image/jpeg'"
       class="edit-dropzone rounded-border theme-border"
       id="edit-dropzone"
-      formControlName="image"
     >
       <ngx-dropzone-label>+</ngx-dropzone-label>
       <ngx-dropzone-image-preview
@@ -22,6 +21,7 @@
         [file]="f"
         [removable]="true"
         (removed)="onRemove(f)"
+        class="ngx-dropzone-preview"
       >
       </ngx-dropzone-image-preview>
     </ngx-dropzone>
@@ -76,8 +76,13 @@
     <button
       type="submit"
       class="edit-submit reverse-parameters"
-      [disabled]="!editUserForm.valid"
-      [ngClass]="{ 'save-btn-disabled': !editUserForm.valid }"
+      [disabled]="
+        editUserForm.invalid ||
+        isLoading ||
+        (!editUserForm.get('description')?.value?.trim() &&
+          !editUserForm.get('country')?.value?.trim() &&
+          selectedFiles.length === 0)
+      "
     >
       Save Changes
     </button>

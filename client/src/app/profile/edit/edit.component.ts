@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Host,
+  HostListener,
+  OnInit,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import countries from '../../../assets/data/countries.json';
@@ -7,6 +13,9 @@ import {
   allOptionalFieldsEmptyValidator,
   validCountryValidator,
 } from 'src/app/_forms/validators/registerFormValidators';
+import { EditUser, EditUserResponse } from 'src/app/_models/users';
+import { UsersService } from 'src/app/_services/users.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit',
@@ -14,12 +23,28 @@ import {
   styleUrls: ['./edit.component.scss'],
 })
 export class EditComponent implements OnInit {
+  @HostListener('window:beforeunload', ['$event']) unloadNotification(
+    $event: any
+  ) {
+    if (this.editUserForm.dirty) {
+      $event.returnValue = true;
+    }
+  }
+
   username: any;
   editUserForm: FormGroup = new FormGroup({});
   selectedFiles: File[] = [];
   filteredCountries?: Observable<string[]>;
+  isFileSelected: boolean = false;
+  isLoading: boolean = false;
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute) {}
+  constructor(
+    private usersService: UsersService,
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private toastr: ToastrService,
+    private cdRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.initializeForm();
@@ -37,14 +62,10 @@ export class EditComponent implements OnInit {
   }
 
   initializeForm(): void {
-    this.editUserForm = this.fb.group(
-      {
-        image: [''],
-        description: ['', [Validators.maxLength(200)]],
-        country: ['', [validCountryValidator()]],
-      },
-      { validators: allOptionalFieldsEmptyValidator }
-    );
+    this.editUserForm = this.fb.group({
+      description: ['', [Validators.maxLength(200)]],
+      country: ['', [validCountryValidator()]],
+    });
   }
 
   displayFn(country: string): string {
@@ -60,33 +81,39 @@ export class EditComponent implements OnInit {
 
   onSelect(event: any) {
     this.selectedFiles = event.addedFiles.slice(0, 1);
+    this.isFileSelected = true;
   }
 
   onRemove(event: any) {
     this.selectedFiles = [];
+    this.isFileSelected = false;
   }
 
   onSubmit() {
-    if (this.editUserForm.valid) {
+    if (this.editUserForm.valid || this.isFileSelected) {
+      this.isLoading = true;
       const formData = new FormData();
-      formData.append('username', this.username);
 
-      if (this.selectedFiles.length > 0) {
-        formData.append(
-          'image',
-          this.selectedFiles[0],
-          this.selectedFiles[0].name
-        );
-      }
+      const editUserData: EditUser = {
+        username: this.username,
+        image: this.selectedFiles.length > 0 ? this.selectedFiles[0] : null,
+        description: this.editUserForm.get('description')?.value,
+        country: this.editUserForm.get('country')?.value,
+      };
+      console.log(editUserData);
 
-      formData.append(
-        'description',
-        this.editUserForm.get('description')?.value
-      );
-      formData.append('country', this.editUserForm.get('country')?.value);
-
-      // Now call your service method to make the HTTP request
-      // this.editUserService.editUser(formData).subscribe(...);
+      this.usersService.editUser(editUserData).subscribe({
+        next: (response) => {
+          this.toastr.success('Profile updated successfully');
+          this.editUserForm.reset();
+          this.selectedFiles = [];
+          this.cdRef.detectChanges();
+          this.isLoading = false;
+        },
+        error: (error) => {
+          this.isLoading = false;
+        },
+      });
     }
   }
 }

@@ -33,19 +33,21 @@ export class UsersService {
   editUser(editUserData: EditUser): Observable<EditUserResponse> {
     const formData = new FormData();
 
+    formData.append('EditUserDto.Username', editUserData.username);
+
     if (editUserData.image) {
-      formData.append('image', editUserData.image, editUserData.image.name);
+      formData.append('EditUserDto.PhotoFile', editUserData.image);
     }
 
     if (editUserData.description) {
-      formData.append('description', editUserData.description);
+      formData.append('EditUserDto.Description', editUserData.description);
     }
 
     if (editUserData.country) {
-      formData.append('country', editUserData.country);
+      formData.append('EditUserDto.Country', editUserData.country);
     }
 
-    return this.http.post<EditUserResponse>(
+    return this.http.put<EditUserResponse>(
       this.baseUrl + 'Users/edit',
       formData
     );

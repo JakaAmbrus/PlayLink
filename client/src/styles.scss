@@ -170,7 +170,8 @@ button {
 }
 
 //toastr styles
-.toast-error {
+.toast-error,
+.toast-success {
   background-color: #3a3b3c !important;
   border: 3px solid white !important;
   font-size: 18px !important;
@@ -178,7 +179,8 @@ button {
   font-family: "Nexa Bold" !important;
 }
 .toast-error .error-number,
-.toast-error .error-text {
+.toast-error .error-text,
+.toast-success .success-text {
   margin-left: 20px !important;
 }
 .toast-progress {

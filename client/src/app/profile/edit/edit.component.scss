@@ -4,8 +4,8 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  margin-top: 2vh;
-  margin-bottom: 2vh;
+  margin-top: 1.8em;
+  margin-bottom: 2em;
   height: 70em;
   font-family: "Nexa Bold";
 }
@@ -67,6 +67,14 @@
   position: relative;
   width: 100%;
 }
-.save-btn-disabled {
+
+.edit-submit:disabled {
+  cursor: not-allowed;
   opacity: 0.8;
+}
+.ngx-dropzone-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }

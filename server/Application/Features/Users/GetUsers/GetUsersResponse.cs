@@ -1,9 +1,10 @@
 ﻿using Application.Features.Users.Common;
+using Application.Utils;
 
 namespace Application.Features.Users.GetUsers
 {
     public class GetUsersResponse
     {
-        public List<UsersDto> Users { get; set; }
+        public PagedList<UsersDto> Users { get; set; }
     }
 }

@@ -6,6 +6,9 @@ using Application.Features.Users.GetUserById;
 using Microsoft.AspNetCore.Authorization;
 using Application.Features.Users.GetUserByUsername;
 using Application.Features.Users.EditUserDetails;
+using Application.Features.Authentication.Common;
+using Application.Utils;
+using WebAPI.Extensions;
 
 namespace WebAPI.Controllers
 {
@@ -19,9 +22,12 @@ namespace WebAPI.Controllers
         }
         [Authorize(Roles = "Member")]
         [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        public async Task<ActionResult<PagedList<UserDto>>> GetUsers([FromQuery] UserParams userParams)
         {
-           var users = await _mediator.Send(new GetUsersQuery());
+            var query = new GetUsersQuery { PaginationParams = userParams };
+            var users = await _mediator.Send(query);
+
+            Response.AddPaginationHeader(new PaginationHeader(users.Users.CurrentPage, users.Users.PageSize, users.Users.TotalCount, users.Users.TotalPages));
 
             if (users == null)
             {

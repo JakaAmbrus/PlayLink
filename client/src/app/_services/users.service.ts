@@ -8,8 +8,9 @@ import {
   User,
   UsersResponse,
 } from '../_models/users';
-import { Observable, map, of } from 'rxjs';
+import { Observable, map, of, tap } from 'rxjs';
 import { PaginatedResult, Pagination } from '../_models/pagination';
+import { UserParams } from '../_models/userParams';
 
 @Injectable({
   providedIn: 'root',
@@ -18,19 +19,22 @@ export class UsersService {
   baseUrl = environment.apiUrl;
   users: User[] = [];
   paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
+  countriesCache: string[] = [];
+  userCache = new Map();
 
   constructor(private http: HttpClient) {}
 
-  getUsers(
-    page?: number,
-    itemsPerPage?: number
-  ): Observable<PaginatedResult<User[]>> {
-    let params = new HttpParams();
+  getUsers(userParams: UserParams): Observable<PaginatedResult<User[]>> {
+    const key = Object.values(userParams).join('-');
+    const response = this.userCache.get(key);
 
-    if (page != null && itemsPerPage != null) {
-      params = params.append('pageNumber', page.toString());
-      params = params.append('pageSize', itemsPerPage.toString());
-    }
+    const params = new HttpParams()
+      .set('pageNumber', userParams.pageNumber?.toString() || '')
+      .set('pageSize', userParams.pageSize?.toString() || '')
+      .set('Gender', userParams.gender || '')
+      .set('MinAge', userParams.minAge?.toString() || '')
+      .set('MaxAge', userParams.maxAge?.toString() || '')
+      .set('Country', userParams.country || '');
 
     return this.http
       .get<{ users: User[]; pagination: Pagination }>(this.baseUrl + 'Users', {
@@ -59,6 +63,19 @@ export class UsersService {
     return this.http
       .get<{ user: ProfileUser }>(this.baseUrl + 'Users/username/' + username)
       .pipe(map((response) => response.user));
+  }
+
+  getUsersUniqueCountries(): Observable<string[]> {
+    if (this.countriesCache && this.countriesCache.length > 0) {
+      return of(this.countriesCache);
+    }
+
+    return this.http
+      .get<{ countries: string[] }>(this.baseUrl + 'Users/countries')
+      .pipe(
+        map((response) => response.countries),
+        tap((countries) => (this.countriesCache = countries))
+      );
   }
 
   editUser(editUserData: EditUser): Observable<EditUserResponse> {

@@ -26,7 +26,7 @@ namespace Application.Features.Posts.DeletePost
             var selectedPost = await _context.Posts.FindAsync(request.PostId, cancellationToken) 
                 ?? throw new NotFoundException("Post was not found");
 
-            var authUserId = _authenticatedUserService.UserId;
+            int authUserId = _authenticatedUserService.UserId;
             var authUserRole = _authenticatedUserService.UserRoles;
 
             bool isPostOwner = selectedPost.AppUserId == authUserId;

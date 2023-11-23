@@ -90,6 +90,12 @@ $dark-theme: (
   .edit-labels {
     color: #3d3a3ad4;
   }
+
+  .filter-inputs {
+    color: #3a3b3c;
+    background-color: #d8dadf;
+    border: 0.1em solid #3a3b3c;
+  }
 }
 
 .theme-dark {
@@ -164,6 +170,12 @@ $dark-theme: (
   }
   .edit-labels {
     color: #e7e9edaf;
+  }
+
+  .filter-inputs {
+    color: #d0d2d6;
+    background-color: #4e4f50;
+    border: 0.1em solid #b0b0b0;
   }
 }
 .material-symbols-rounded {

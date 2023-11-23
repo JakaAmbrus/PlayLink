@@ -52,6 +52,20 @@
     class="secondary-background rounded-border box-shadow"
   >
     <form (ngSubmit)="onSubmit()" id="filter-form">
+      <label for="orderBy" class="filter-label">Order By:</label>
+      <mat-button-toggle-group
+        name="options"
+        aria-label="Select an option"
+        id="order-buttons"
+        [(ngModel)]="orderBy"
+      >
+        <mat-button-toggle class="order-button filter-inputs" value="lastActive"
+          >Last Active</mat-button-toggle
+        >
+        <mat-button-toggle class="order-button filter-inputs" value="created"
+          >Newest Users</mat-button-toggle
+        >
+      </mat-button-toggle-group>
       <div id="age-gender-filters-container">
         <div id="age-filters-container">
           <h1 for="minAge" class="filter-label">Age:</h1>
@@ -105,6 +119,24 @@
           {{ country }}
         </option>
       </select>
+      <!-- <div>
+        <input
+          type="radio"
+          id="option1"
+          name="options"
+          value="lastActive"
+          hidden
+        />
+        <label for="option1" class="btn">Last Active</label>
+        <input
+          type="radio"
+          id="option2"
+          name="options"
+          value="created"
+          hidden
+        />
+        <label for="option2" class="btn">Newest Users</label>
+      </div> -->
       <div id="filter-buttons-container">
         <button class="reverse-parameters filter-button" type="submit">
           Apply

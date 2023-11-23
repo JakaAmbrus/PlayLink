@@ -35,7 +35,7 @@
   align-items: center;
   font-family: "Nexa Bold";
   font-weight: 900;
-  font-size: 3.5em;
+  font-size: 3.3em;
   margin: 0.7em 0 0.5em 0;
 }
 
@@ -139,8 +139,35 @@
 button {
   cursor: pointer;
 }
+
+#order-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.2em;
+  border: none;
+  padding: 0;
+}
+.order-button {
+  font-family: "Nexa Bold" !important;
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  font-size: 1.8em;
+  padding: 0em;
+  margin: 0em;
+  border-radius: 0.2em;
+  letter-spacing: 0.04em;
+}
+#order-buttons
+  .mat-button-toggle-appearance-standard
+  .mat-button-toggle-label-content {
+  padding: 0em 0em !important;
+}
 @media (min-width: 2400px) {
   #discover-section-container {
     font-size: 13px;
+  }
+  .order-button {
+    padding: 0.2em 0 !important;
   }
 }

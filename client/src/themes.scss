@@ -96,6 +96,12 @@ $dark-theme: (
     background-color: #d8dadf;
     border: 0.1em solid #3a3b3c;
   }
+  .mat-button-toggle-checked {
+    background-color: #242526e6 !important;
+    color: #f5f5f5 !important;
+    border: 0.1em solid #18191a !important;
+    border-radius: 0.2em !important;
+  }
 }
 
 .theme-dark {
@@ -173,9 +179,15 @@ $dark-theme: (
   }
 
   .filter-inputs {
-    color: #d0d2d6;
+    color: white;
     background-color: #4e4f50;
     border: 0.1em solid #b0b0b0;
+  }
+
+  .mat-button-toggle-checked {
+    background-color: rgba(255, 255, 255, 0.913) !important;
+    color: #18191a !important;
+    border-radius: 0.2em !important;
   }
 }
 .material-symbols-rounded {

@@ -1,10 +1,9 @@
-using WebAPI.Middleware;
 using Application;
 using Infrastructure;
-using Serilog;
 using Infrastructure.Extensions;
-using Infrastructure.ExternalServices;
-using System.Configuration;
+using Serilog;
+using WebAPI.Filters;
+using WebAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,11 +17,11 @@ builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
+builder.Services.AddScoped<LogUserActivity>();
+
 builder.Host.UseSerilog((context, configuration) =>
 configuration.ReadFrom.Configuration(context.Configuration));
 
-/*builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
-*/
 var app = builder.Build();
 
 

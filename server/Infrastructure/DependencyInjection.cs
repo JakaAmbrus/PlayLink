@@ -21,6 +21,8 @@ public static class DependencyInjection
 
         services.AddSingleton<ICountryService, CountryService>();
 
+        services.AddScoped<IUserActivityService, UserActivityService>();
+
         return services;
     }
 }

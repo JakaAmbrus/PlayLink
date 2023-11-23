@@ -18,6 +18,7 @@ export class DiscoverComponent implements OnInit {
   maxAge = 99;
   gender = '';
   country = '';
+  orderBy = 'lastActive';
   isLoading: boolean = true;
   dummyArray = new Array(6).fill(null);
   uniqueCountries: string[] = [];
@@ -45,6 +46,7 @@ export class DiscoverComponent implements OnInit {
       maxAge: this.maxAge,
       gender: this.gender,
       country: this.country,
+      orderBy: this.orderBy,
     };
 
     this.usersService.getUsers(userParams).subscribe({

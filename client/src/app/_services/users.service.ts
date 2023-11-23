@@ -34,7 +34,8 @@ export class UsersService {
       .set('Gender', userParams.gender || '')
       .set('MinAge', userParams.minAge?.toString() || '')
       .set('MaxAge', userParams.maxAge?.toString() || '')
-      .set('Country', userParams.country || '');
+      .set('Country', userParams.country || '')
+      .set('OrderBy', userParams.orderBy || '');
 
     return this.http
       .get<{ users: User[]; pagination: Pagination }>(this.baseUrl + 'Users', {

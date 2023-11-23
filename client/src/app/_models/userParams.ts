@@ -1,5 +1,3 @@
-import { User } from './users';
-
 export interface UserParams {
   gender: string;
   minAge: number;
@@ -7,4 +5,5 @@ export interface UserParams {
   pageNumber: number;
   pageSize: number;
   country: string;
+  orderBy: string;
 }

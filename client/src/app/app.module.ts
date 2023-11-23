@@ -12,6 +12,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -81,6 +82,7 @@ import { EditComponent } from './profile/edit/edit.component';
     MatAutocompleteModule,
     NgxDropzoneModule,
     NgxPaginationModule,
+    MatButtonToggleModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-bottom-right',

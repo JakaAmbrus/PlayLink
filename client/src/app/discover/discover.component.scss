@@ -2,13 +2,20 @@
   display: flex;
   justify-content: center;
   width: 100vw;
+  gap: 2em;
+}
+#discover-left {
+  margin-top: 2em;
+  width: 47em;
+  height: 10em;
+  align-self: flex-start;
 }
 #discover-middle {
   margin-top: 2em;
   width: 68em;
   height: auto;
 }
-#discover-cards-container {
+.discover-cards-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -16,7 +23,7 @@
   padding: 2em;
 }
 #matched-users {
-  font-family: "Roboto Bold";
+  font-family: "Nexa Bold";
   display: flex;
   justify-content: center;
   font-size: 4em;
@@ -25,27 +32,113 @@
 #paginator {
   display: flex;
   justify-content: center;
+  align-items: center;
   font-family: "Nexa Bold";
   font-weight: 900;
-  font-size: 3em;
-  margin: 1em 0 0.5em 0;
-}
-.pagination-controls ::ng-deep {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-}
-.pagination-controls ::ng-deep .ngx-pagination .current {
-  background-color: #f5f5f5;
-  color: #000;
-  border: 0.1em solid #000;
-  border-radius: 0.2em;
-}
-.pagination-controls ::ng-deep .ngx-pagination .pagination-next,
-.pagination-controls ::ng-deep .ngx-pagination .pagination-previous {
+  font-size: 3.5em;
+  margin: 0.7em 0 0.5em 0;
 }
 
+.pagination-controls ::ng-deep .ngx-pagination .current {
+  background-color: #f5f5f5;
+  color: #18191a;
+  border: 0.1em solid #18191a;
+  border-radius: 0.2em;
+}
+.pagination-controls ::ng-deep .ngx-pagination a {
+  color: #18191a;
+  border-radius: 0.1em;
+  -webkit-text-stroke: 0.015em #cacaca;
+
+  &:hover {
+    background-color: #cacaca58;
+  }
+}
+
+.pagination-controls ::ng-deep .pagination-previous a:hover,
+.pagination-controls ::ng-deep .pagination-next a:hover {
+  background-color: transparent;
+}
+
+.dummy-card {
+  width: 20em;
+  height: 26em;
+}
+
+#discover-right {
+  margin-top: 2em;
+  padding: 2em 1em;
+  width: 47em;
+  align-self: flex-start;
+  font-family: "Nexa Bold";
+}
+#filter-form {
+  display: flex;
+  flex-direction: column;
+}
+#age-gender-filters-container {
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+}
+#age-filters-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.filter-label {
+  align-self: flex-start;
+  font-size: 2.2em;
+  margin-left: 0.2em;
+  margin-bottom: 0.5em;
+}
+#age-filter-inputs-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  width: 100%;
+
+  & p {
+    font-size: 3em;
+  }
+}
+.filter-inputs {
+  font-family: "Nexa Bold";
+  font-size: 1.84em;
+  padding: 0.5em;
+  width: 100%;
+  border-radius: 0.25em;
+}
+#gender-filters-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+#filter-buttons-container {
+  margin-top: 1.4em;
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+}
+.filter-button {
+  font-family: "Nexa Bold";
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 2em;
+  padding: 0.5em 0em;
+  border-radius: 0.2em;
+  letter-spacing: 0.04em;
+}
+button {
+  cursor: pointer;
+}
 @media (min-width: 2400px) {
   #discover-section-container {
     font-size: 13px;

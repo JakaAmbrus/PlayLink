@@ -9,6 +9,7 @@ using Application.Features.Users.EditUserDetails;
 using Application.Features.Authentication.Common;
 using Application.Utils;
 using WebAPI.Extensions;
+using Application.Features.Users.GetUsersUniqueCountries;
 
 namespace WebAPI.Controllers
 {
@@ -24,7 +25,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<PagedList<UserDto>>> GetUsers([FromQuery] UserParams userParams)
         {
-            var query = new GetUsersQuery { PaginationParams = userParams };
+            var query = new GetUsersQuery { Params = userParams };
             var users = await _mediator.Send(query);
 
             Response.AddPaginationHeader(new PaginationHeader(users.Users.CurrentPage, users.Users.PageSize, users.Users.TotalCount, users.Users.TotalPages));
@@ -63,6 +64,14 @@ namespace WebAPI.Controllers
             }
 
             return Ok(user);
+        }
+
+        [HttpGet("countries")]
+        public async Task<IActionResult> GetUniqueCountries()
+        {
+            var query = new GetUsersUniqueCountriesQuery();
+            var countries = await _mediator.Send(query);
+            return Ok(countries);
         }
 
         [HttpPut("edit")]

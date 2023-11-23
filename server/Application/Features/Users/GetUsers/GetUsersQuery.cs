@@ -5,6 +5,6 @@ namespace Application.Features.Users.GetUsers
 {
     public class GetUsersQuery : IRequest<GetUsersResponse>
     {
-       public PaginationParams PaginationParams { get; set; } = new PaginationParams();
+       public UserParams Params { get; set; } = new UserParams();
     }
 }

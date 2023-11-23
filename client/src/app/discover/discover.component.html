@@ -1,10 +1,23 @@
 <section id="discover-section-container">
   <div
+    id="discover-left"
+    class="secondary-background rounded-border box-shadow"
+  ></div>
+  <div
     id="discover-middle"
     class="secondary-background rounded-border box-shadow"
   >
-    <h1 id="matched-users">Matched Users - 6 found</h1>
-    <div id="discover-cards-container">
+    <h1 id="matched-users" class="header-text">
+      Matched Users - {{ pagination?.totalItems }} found
+    </h1>
+    <div class="discover-cards-container" *ngIf="isLoading">
+      <div *ngFor="let item of dummyArray">
+        <div
+          class="dummy-card theme-border rounded-border box-shadow primary-parameters"
+        ></div>
+      </div>
+    </div>
+    <div class="discover-cards-container" *ngIf="!isLoading">
       <div
         *ngFor="
           let user of users
@@ -21,7 +34,7 @@
     </div>
     <div id="paginator">
       <pagination-controls
-        class="pagination-controls"
+        class="pagination-controls logo-text-theme"
         (pageChange)="pageChanged($event)"
         (pageBoundsCorrection)="pageChanged($event)"
         previousLabel="<"
@@ -33,5 +46,77 @@
         ></pagination-controls
       >
     </div>
+  </div>
+  <div
+    id="discover-right"
+    class="secondary-background rounded-border box-shadow"
+  >
+    <form (ngSubmit)="onSubmit()" id="filter-form">
+      <div id="age-gender-filters-container">
+        <div id="age-filters-container">
+          <h1 for="minAge" class="filter-label">Age:</h1>
+          <div id="age-filter-inputs-container">
+            <input
+              title="MinAge"
+              type="number"
+              id="minAge"
+              class="filter-inputs age-filter-inputs"
+              [(ngModel)]="minAge"
+              name="minAge"
+              min="12"
+              max="99"
+            />
+            <p>—</p>
+            <input
+              title="MaxAge"
+              type="number"
+              id="maxAge"
+              class="filter-inputs age-filter-inputs"
+              [(ngModel)]="maxAge"
+              name="maxAge"
+              min="12"
+              max="99"
+            />
+          </div>
+        </div>
+        <div id="gender-filters-container">
+          <label for="gender" class="filter-label">Gender:</label>
+          <select
+            id="gender"
+            [(ngModel)]="gender"
+            name="gender"
+            class="filter-inputs"
+          >
+            <option value="">Any</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+      </div>
+      <label for="country" class="filter-label">Country:</label>
+      <select
+        name="country"
+        id="country"
+        class="filter-inputs"
+        [(ngModel)]="country"
+      >
+        <option value="">Every Country</option>
+        <option *ngFor="let country of uniqueCountries" [value]="country">
+          {{ country }}
+        </option>
+      </select>
+      <div id="filter-buttons-container">
+        <button class="reverse-parameters filter-button" type="submit">
+          Apply
+        </button>
+        <button
+          type="button"
+          class="reverse-parameters filter-button"
+          (click)="resetFilters()"
+        >
+          Reset
+        </button>
+      </div>
+    </form>
   </div>
 </section>

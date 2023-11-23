@@ -13,6 +13,7 @@ using Application.Features.Users.GetUsersUniqueCountries;
 
 namespace WebAPI.Controllers
 {
+    [Authorize(Roles = "Member")]
     public class UsersController : BaseApiController
     {
         private readonly IMediator _mediator;
@@ -21,7 +22,7 @@ namespace WebAPI.Controllers
         {
             _mediator = mediator;
         }
-        [Authorize(Roles = "Member")]
+
         [HttpGet]
         public async Task<ActionResult<PagedList<UserDto>>> GetUsers([FromQuery] UserParams userParams)
         {
@@ -38,7 +39,6 @@ namespace WebAPI.Controllers
             return Ok(users);
         }
 
-        [Authorize(Roles = "Member")]
         [HttpGet("{id}")]
         public async Task<ActionResult<AppUser>> GetUser(int id)
         {

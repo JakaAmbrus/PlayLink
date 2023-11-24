@@ -23,9 +23,16 @@ namespace Application.Features.Comments.UploadComment
             var post = await _context.Posts.FindAsync(request.CommentContent.PostId) 
                 ?? throw new NotFoundException("Post not found");
 
+            int currentUserId = _authenticatedUserService.UserId;
+            var currentUser = await _context.Users.FindAsync(currentUserId);
+            if (currentUser == null)
+            {
+                throw new NotFoundException("User not found");
+            }
+
             var newComment = new Comment
             {
-                AppUserId = _authenticatedUserService.UserId,
+                AppUserId = currentUserId,
                 PostId = request.CommentContent.PostId,
                 Content = request.CommentContent.Content
             };
@@ -47,6 +54,9 @@ namespace Application.Features.Comments.UploadComment
                 CommentDto = new CommentDto
                 {
                     AppUserId = newComment.AppUserId,
+                    Username = currentUser.UserName,
+                    FullName = currentUser.FullName,
+                    TimeCommented = newComment.TimeCommented,
                     PostId = newComment.PostId,
                     Content = newComment.Content
                 }

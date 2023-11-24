@@ -14,6 +14,7 @@ namespace Domain.Entities
         public DateTime TimeCommented { get; set; } = DateTime.UtcNow;
 
         public ICollection<Like> Likes { get; set; }
-        public int LikesCount => Likes?.Count ?? 0;
+        public int LikesCount { get; set; } = 0;
+        public bool IsLikedByCurrentUser { get; set; }
     }
 }

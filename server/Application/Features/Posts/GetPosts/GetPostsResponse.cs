@@ -1,9 +1,9 @@
 ﻿using Application.Features.Posts.Common;
-using MediatR;
 
 namespace Application.Features.Posts.GetPosts
 {
-    public class GetPostsQuery : IRequest<GetPostsResponse>
-    { 
+    public class GetPostsResponse
+    {
+        public List<PostDto> Posts { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace Application.Features.Comments.UploadComment
                 .NotNull().WithMessage("Comment content is required.");
 
             RuleFor(x => x.CommentContent.PostId)
-                .NotNull().WithMessage("Post ID is required.");
+                .GreaterThan(0).WithMessage("Invalid Post Id");
 
             RuleFor(x => x.CommentContent.Content)
                 .NotNull().WithMessage("Comment content is required.")

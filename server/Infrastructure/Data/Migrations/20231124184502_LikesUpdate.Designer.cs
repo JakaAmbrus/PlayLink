@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace WebAPI.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231124184502_LikesUpdate")]
+    partial class LikesUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,9 +180,6 @@ namespace WebAPI.Data.Migrations
                     b.Property<bool>("IsLikedByCurrentUser")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("LikesCount")
-                        .HasColumnType("integer");
-
                     b.Property<int>("PostId")
                         .HasColumnType("integer");
 
@@ -339,7 +339,7 @@ namespace WebAPI.Data.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Likes");
+                    b.ToTable("Like");
                 });
 
             modelBuilder.Entity("Domain.Entities.Notification", b =>
@@ -397,8 +397,8 @@ namespace WebAPI.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<int>("LikesCount")
-                        .HasColumnType("integer");
+                    b.Property<bool>("IsLikedByCurrentUser")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("PhotoPublicId")
                         .HasColumnType("text");

@@ -24,10 +24,20 @@ namespace Application.Features.Posts.UploadPost
 
         public async Task<UploadPostResponse> Handle(UploadPostCommand request, CancellationToken cancellationToken)
         {
+
+            int currentUserId = _authenticatedUserService.UserId;
+
+            var currentUser = await _context.Users.FindAsync(currentUserId);
+            if (currentUser == null)
+            {
+                   throw new NotFoundException("User not found");
+            }
+
             var newPost = new Post
             {
-                AppUserId = _authenticatedUserService.UserId,
+                AppUserId = currentUserId,
                 Description = request.PostContentDto.Description,
+
             };
 
             if (request.PostContentDto.PhotoFile != null && request.PostContentDto.PhotoFile.Length > 0)
@@ -61,6 +71,8 @@ namespace Application.Features.Posts.UploadPost
                 PostDto = new PostDto
                 {
                     AppUserId = newPost.AppUserId,
+                    Username = currentUser.UserName,
+                    FullName = currentUser.FullName,
                     PostId = newPost.PostId,
                     Description = newPost.Description,
                     PhotoUrl = newPost.PhotoUrl,

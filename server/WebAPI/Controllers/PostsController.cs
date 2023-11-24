@@ -1,4 +1,6 @@
-﻿using Application.Features.Posts.DeletePost;
+﻿using Application.Features.Likes.LikePost;
+using Application.Features.Likes.UnlikePost;
+using Application.Features.Posts.DeletePost;
 using Application.Features.Posts.GetPostById;
 using Application.Features.Posts.GetPosts;
 using Application.Features.Posts.GetPostsByUser;
@@ -19,11 +21,11 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPosts()
+        public async Task<IActionResult> GetPosts(CancellationToken cancellationToken)
         {
             var query = new GetPostsQuery();
 
-            var result = await _mediator.Send(query);
+            var result = await _mediator.Send(query, cancellationToken);
 
             return Ok(result);
         }
@@ -39,20 +41,20 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetPostsByUser(int userId)
+        public async Task<IActionResult> GetPostsByUser(int userId, CancellationToken cancellationToken)
         {
             var query = new GetPostsByUserQuery(userId);
 
-            var result = await _mediator.Send(query);
+            var result = await _mediator.Send(query, cancellationToken);
 
             return Ok(result);
         }
 
         [Authorize(Policy = "RequireMemberRole")]
         [HttpPost]
-        public async Task<ActionResult<UploadPostResponse>> UploadPost([FromForm] UploadPostCommand command)
+        public async Task<ActionResult<UploadPostResponse>> UploadPost([FromForm] UploadPostCommand command, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(command, cancellationToken);
 
             return Ok(result);
         }
@@ -66,6 +68,36 @@ namespace WebAPI.Controllers
             var result = await _mediator.Send(command);
 
             return Ok(result);
+        }
+
+        [HttpPost("{postId}/like")]
+        public async Task<IActionResult> LikePost(int postId, CancellationToken cancellationToken)
+        {
+            var command = new LikePostCommand { PostId = postId};
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (result.Liked)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest("Unable to like the post.");
+        }
+
+        [HttpDelete("{postId}/like")]
+        public async Task<IActionResult> UnlikePost(int postId, CancellationToken cancellationToken)
+        {
+            var command = new UnlikePostCommand { PostId = postId };
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (result.Unliked)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest("Unable to unlike the post.");
         }
     }
 }

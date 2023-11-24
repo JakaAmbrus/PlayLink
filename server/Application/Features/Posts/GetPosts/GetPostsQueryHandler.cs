@@ -1,34 +1,49 @@
 ﻿using Application.Exceptions;
 using Application.Features.Posts.Common;
 using Infrastructure.Data;
+using Infrastructure.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Posts.GetPosts
 {
-    public class GetPostsQueryHandler : IRequestHandler<GetPostsQuery, List<PostDto>>
+    public class GetPostsQueryHandler : IRequestHandler<GetPostsQuery, GetPostsResponse>
     {
         private readonly DataContext _context;
-        public GetPostsQueryHandler( DataContext context) 
+        private readonly IAuthenticatedUserService _authenticatedUserService;
+        public GetPostsQueryHandler( DataContext context, IAuthenticatedUserService authenticatedUserService) 
         {
             _context = context;
+            _authenticatedUserService = authenticatedUserService;
         }
-        public async Task<List<PostDto>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
+        public async Task<GetPostsResponse> Handle(GetPostsQuery request, CancellationToken cancellationToken)
         {
+            int currentUserId = _authenticatedUserService.UserId;
+            var CurrentUserRole = _authenticatedUserService.UserRoles;
+
+            bool isModerator = CurrentUserRole.Contains("Moderator");
+
+            if (currentUserId == 0) throw new UnauthorizedException("You must be logged in to view posts");
+
             var posts = await _context.Posts
+            .OrderByDescending(post => post.DatePosted)
             .Select(post => new PostDto
             {
                 PostId = post.PostId,
                 AppUserId = post.AppUserId,
+                Username = post.AppUser.UserName,
+                FullName = post.AppUser.FullName,
                 Description = post.Description,
                 DatePosted = post.DatePosted,
                 PhotoUrl = post.PhotoUrl,
+                IsLikedByCurrentUser = post.Likes.Any(like => like.AppUserId == currentUserId),
+                IsAuthorized = post.AppUserId == currentUserId || isModerator
             })
             .ToListAsync(cancellationToken);
 
             if (posts.Count == 0) throw new NotFoundException("There are no posts");
             
-            return posts;
+            return new GetPostsResponse { Posts = posts};
         }
     }
 }

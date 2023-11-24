@@ -32,3 +32,9 @@ export interface EditUserResponse {
   description: string | null;
   country: string | null;
 }
+
+export interface SearchUser {
+  username: string;
+  fullName: string;
+  profilePictureUrl: string | null;
+}

@@ -1,8 +1,50 @@
 <section id="discover-section-container">
+  <!-- discover-left -->
+
   <div
     id="discover-left"
     class="secondary-background rounded-border box-shadow"
-  ></div>
+  >
+    <div id="searchbar-container">
+      <div id="searchbar-icon-container">
+        <span class="material-symbols-rounded filled search-icon">
+          search
+        </span>
+      </div>
+      <label for="orderBy" class="filter-label"
+        >Community Size: {{ searchUsers.length + 1 }}</label
+      >
+      <input
+        id="user-searchbar"
+        class="filter-inputs"
+        type="text"
+        placeholder="Search users"
+        matInput
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option
+          class="search-options"
+          *ngFor="let user of searchUsers"
+          [value]="user"
+          routerLink="/user/{{ user.username }}"
+        >
+          <div class="option-content">
+            {{ user.fullName }}
+            <img
+              *ngIf="user.profilePictureUrl"
+              class="user-image"
+              src="{{ user.profilePictureUrl }}"
+              alt="{{ user.fullName }}"
+            />
+          </div>
+        </mat-option>
+      </mat-autocomplete>
+    </div>
+  </div>
+
+  <!-- discover-middle -->
+
   <div
     id="discover-middle"
     class="secondary-background rounded-border box-shadow"
@@ -47,6 +89,9 @@
       >
     </div>
   </div>
+
+  <!-- discover-right -->
+
   <div
     id="discover-right"
     class="secondary-background rounded-border box-shadow"
@@ -119,24 +164,7 @@
           {{ country }}
         </option>
       </select>
-      <!-- <div>
-        <input
-          type="radio"
-          id="option1"
-          name="options"
-          value="lastActive"
-          hidden
-        />
-        <label for="option1" class="btn">Last Active</label>
-        <input
-          type="radio"
-          id="option2"
-          name="options"
-          value="created"
-          hidden
-        />
-        <label for="option2" class="btn">Newest Users</label>
-      </div> -->
+
       <div id="filter-buttons-container">
         <button class="reverse-parameters filter-button" type="submit">
           Apply

@@ -24,7 +24,7 @@ $dark-theme: (
     color: map-get($light-theme, primary-text);
   }
   .reverse-parameters {
-    background-color: map-get($dark-theme, background-secondary);
+    background-color: #3a3b3c;
     color: white;
     transition: all 0.3s ease;
 
@@ -97,7 +97,7 @@ $dark-theme: (
     border: 0.1em solid #3a3b3c;
   }
   .mat-button-toggle-checked {
-    background-color: #242526e6 !important;
+    background-color: #3a3b3ce2 !important;
     color: #f5f5f5 !important;
     border: 0.1em solid #18191a !important;
     border-radius: 0.2em !important;
@@ -113,7 +113,7 @@ $dark-theme: (
     color: map-get($dark-theme, primary-text);
   }
   .reverse-parameters {
-    background-color: map-get($light-theme, background-secondary);
+    background-color: rgb(237, 234, 234);
     color: map-get($dark-theme, background);
     transition: all 0.3s ease;
 
@@ -179,13 +179,13 @@ $dark-theme: (
   }
 
   .filter-inputs {
-    color: white;
+    color: rgba(255, 255, 255, 0.562);
     background-color: #4e4f50;
     border: 0.1em solid #b0b0b0;
   }
 
   .mat-button-toggle-checked {
-    background-color: rgba(255, 255, 255, 0.913) !important;
+    background-color: rgba(255, 255, 255, 0.795) !important;
     color: #18191a !important;
     border-radius: 0.2em !important;
   }

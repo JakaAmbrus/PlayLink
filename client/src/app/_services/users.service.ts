@@ -5,6 +5,7 @@ import {
   EditUser,
   EditUserResponse,
   ProfileUser,
+  SearchUser,
   User,
   UsersResponse,
 } from '../_models/users';
@@ -20,13 +21,15 @@ export class UsersService {
   users: User[] = [];
   paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
   countriesCache: string[] = [];
-  userCache = new Map();
+  searchUsersCache: SearchUser[] = [];
+  usersCache = new Map();
+  private userCache = new Map<string, ProfileUser>();
 
   constructor(private http: HttpClient) {}
 
   getUsers(userParams: UserParams): Observable<PaginatedResult<User[]>> {
     const key = Object.values(userParams).join('-');
-    const cachedResponse = this.userCache.get(key);
+    const cachedResponse = this.usersCache.get(key);
 
     if (cachedResponse) {
       return of({ ...cachedResponse });
@@ -59,16 +62,31 @@ export class UsersService {
               );
             }
           }
-          this.userCache.set(key, { ...this.paginatedResult });
+          this.usersCache.set(key, { ...this.paginatedResult });
           return this.paginatedResult;
         })
       );
   }
 
-  getUser(username: string): Observable<ProfileUser> {
+  getUser(username: string, isCurrentUser: boolean): Observable<ProfileUser> {
+    if (!isCurrentUser) {
+      const cachedUser = this.userCache.get(username);
+      if (cachedUser) {
+        return of(cachedUser);
+      }
+    }
+
     return this.http
       .get<{ user: ProfileUser }>(this.baseUrl + 'Users/username/' + username)
-      .pipe(map((response) => response.user));
+      .pipe(
+        map((response) => {
+          const user = response.user;
+          if (!isCurrentUser) {
+            this.userCache.set(username, user);
+          }
+          return user;
+        })
+      );
   }
 
   getUsersUniqueCountries(): Observable<string[]> {
@@ -81,6 +99,19 @@ export class UsersService {
       .pipe(
         map((response) => response.countries),
         tap((countries) => (this.countriesCache = countries))
+      );
+  }
+
+  getSearchUsers(): Observable<SearchUser[]> {
+    if (this.searchUsersCache && this.searchUsersCache.length > 0) {
+      return of(this.searchUsersCache);
+    }
+
+    return this.http
+      .get<{ users: SearchUser[] }>(this.baseUrl + 'Users/searchbar')
+      .pipe(
+        map((response) => response.users),
+        tap((users) => (this.searchUsersCache = users))
       );
   }
 

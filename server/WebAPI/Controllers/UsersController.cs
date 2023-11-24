@@ -10,6 +10,7 @@ using Application.Features.Authentication.Common;
 using Application.Utils;
 using WebAPI.Extensions;
 using Application.Features.Users.GetUsersUniqueCountries;
+using Application.Features.Users.GetUsersForSearchBar;
 
 namespace WebAPI.Controllers
 {
@@ -30,6 +31,19 @@ namespace WebAPI.Controllers
             var users = await _mediator.Send(query);
 
             Response.AddPaginationHeader(new PaginationHeader(users.Users.CurrentPage, users.Users.PageSize, users.Users.TotalCount, users.Users.TotalPages));
+
+            if (users == null)
+            {
+                return NotFound("There are no users available");
+            }
+
+            return Ok(users);
+        }
+        [HttpGet("searchbar")]
+        public async Task<ActionResult<GetUsersForSearchBarResponse>> GetUsersForSearchBar()
+        {
+            var query = new GetUsersForSearchBarQuery();
+            var users = await _mediator.Send(query);
 
             if (users == null)
             {

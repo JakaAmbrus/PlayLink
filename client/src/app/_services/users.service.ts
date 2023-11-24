@@ -26,7 +26,11 @@ export class UsersService {
 
   getUsers(userParams: UserParams): Observable<PaginatedResult<User[]>> {
     const key = Object.values(userParams).join('-');
-    const response = this.userCache.get(key);
+    const cachedResponse = this.userCache.get(key);
+
+    if (cachedResponse) {
+      return of({ ...cachedResponse });
+    }
 
     const params = new HttpParams()
       .set('pageNumber', userParams.pageNumber?.toString() || '')
@@ -46,15 +50,16 @@ export class UsersService {
         map((response) => {
           if (response.body) {
             this.paginatedResult.result = response.body.users;
-          }
-          this.paginatedResult.result = response.body?.users;
 
-          const pagination = response.headers.get('Pagination');
-          if (pagination) {
-            this.paginatedResult.pagination = JSON.parse(
-              response.headers.get('Pagination') as string
-            );
+            const pagination = response.headers.get('Pagination');
+
+            if (pagination) {
+              this.paginatedResult.pagination = JSON.parse(
+                response.headers.get('Pagination') as string
+              );
+            }
           }
+          this.userCache.set(key, { ...this.paginatedResult });
           return this.paginatedResult;
         })
       );

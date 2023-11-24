@@ -22,9 +22,9 @@ namespace Application.Features.Users.GetUsers
         {
 
             if(_context.Users == null)
-                {
+            {
                  throw new NotFoundException("Users not found");
-                }
+            }
 
             int authUserId = _authenticatedUserService.UserId;
 

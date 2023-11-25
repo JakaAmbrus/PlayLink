@@ -47,7 +47,7 @@ export class EditComponent implements OnInit {
     private cdRef: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.initializeForm();
 
     this.username = this.route.parent?.snapshot.paramMap.get('username');

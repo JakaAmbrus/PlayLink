@@ -19,4 +19,8 @@ export class PostsService {
       })
     );
   }
+
+  uploadPost(formData: FormData): Observable<any> {
+    return this.http.post(this.baseUrl + 'posts', formData);
+  }
 }

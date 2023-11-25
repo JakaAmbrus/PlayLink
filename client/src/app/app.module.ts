@@ -44,6 +44,7 @@ import { PostComponent } from './_components/post/post.component';
 import { CommentComponent } from './_components/comment/comment.component';
 import { RelativeTimePipe } from './_pipes/relative-time.pipe';
 import { PostSkeletonComponent } from './_components/post-skeleton/post-skeleton.component';
+import { UploadPostComponent } from './_components/upload-post/upload-post.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { PostSkeletonComponent } from './_components/post-skeleton/post-skeleton
     CommentComponent,
     RelativeTimePipe,
     PostSkeletonComponent,
+    UploadPostComponent,
   ],
   imports: [
     BrowserModule,

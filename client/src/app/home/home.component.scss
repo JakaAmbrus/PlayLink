@@ -17,59 +17,7 @@
   width: 68em;
   height: auto;
 }
-//post popup
-#upload-post-popup {
-  font-family: "Roboto Medium";
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-  padding: 1.8em 3em;
-  padding-bottom: 0.2em;
-  width: 100%;
-  margin-bottom: 2em;
-}
-#upload-post-popup-top {
-  display: flex;
-  align-items: center;
-  gap: 1em;
-}
-#upload-post-popup-img-container {
-  height: 5.2em;
-  width: 5.2em;
-}
-#upload-post-popup-input {
-  border: none;
-  font-size: 1.8em;
-  padding: 0.8em;
-  width: 100%;
-  cursor: pointer;
-}
-#upload-post-popup-bottom {
-  border-bottom: none;
-  display: flex;
-  padding-top: 0.1em;
-  font-size: 1.8em;
-}
-.material-symbols-rounded.filled {
-  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48;
-}
-.post-actions {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 0.5em;
-  height: 2.5em;
-  width: 50%;
-  gap: 0.6em;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-}
-.pen-and-photo-icons {
-  font-size: 1.6em;
-  height: 1em;
-  width: 1em;
-}
-//end post popup
+
 .home-posts-container {
   display: flex;
   flex-direction: column;

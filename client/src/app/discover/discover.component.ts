@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UsersService } from '../_services/users.service';
 import { SearchUser, User } from '../_models/users';
-import { Observable } from 'rxjs';
 import { Pagination } from '../_models/pagination';
 import { UserParams } from '../_models/userParams';
 import { FormControl } from '@angular/forms';

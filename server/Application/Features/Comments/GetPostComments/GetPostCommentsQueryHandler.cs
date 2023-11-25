@@ -36,6 +36,8 @@ namespace Application.Features.Comments.GetComments
                 AppUserId = comment.AppUserId,
                 Username = comment.AppUser.UserName,
                 FullName = comment.AppUser.FullName,
+                Gender = comment.AppUser.Gender,
+                ProfilePictureUrl = comment.AppUser.ProfilePictureUrl,
                 Content = comment.Content,
                 TimeCommented = comment.TimeCommented,
                 IsLikedByCurrentUser = comment.Likes.Any(like => like.AppUserId == currentUserId),

@@ -33,9 +33,13 @@ namespace Application.Features.Posts.GetPosts
                 AppUserId = post.AppUserId,
                 Username = post.AppUser.UserName,
                 FullName = post.AppUser.FullName,
+                ProfilePictureUrl = post.AppUser.ProfilePictureUrl,
+                Gender = post.AppUser.Gender,
                 Description = post.Description,
                 DatePosted = post.DatePosted,
                 PhotoUrl = post.PhotoUrl,
+                LikesCount = post.LikesCount,
+                CommentsCount = post.CommentsCount,
                 IsLikedByCurrentUser = post.Likes.Any(like => like.AppUserId == currentUserId),
                 IsAuthorized = post.AppUserId == currentUserId || isModerator
             })

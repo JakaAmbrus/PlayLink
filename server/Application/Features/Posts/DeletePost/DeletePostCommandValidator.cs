@@ -7,7 +7,7 @@ namespace Application.Features.Posts.DeletePost
         public DeletePostCommandValidator()
         {
             RuleFor(x => x.PostId)
-                .NotEmpty().WithMessage("PostId required.");
+                .GreaterThan(0).WithMessage("Invalid Post Id");
         }
     }
 }

@@ -40,10 +40,10 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetPostsByUser(int userId, CancellationToken cancellationToken)
+        [HttpGet("user/{username}")]
+        public async Task<IActionResult> GetPostsByUser(string username, CancellationToken cancellationToken)
         {
-            var query = new GetPostsByUserQuery(userId);
+            var query = new GetPostsByUserQuery {Username = username };
 
             var result = await _mediator.Send(query, cancellationToken);
 

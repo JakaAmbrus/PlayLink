@@ -6,6 +6,10 @@
         public int AppUserId { get; set; }
         public string Username { get; set; }
         public string FullName { get; set; }
+        public string ProfilePictureUrl { get; set; }
+        public string Gender { get; set; }
+        public int LikesCount { get; set; }
+        public int CommentsCount { get; set; }
         public string Description { get; set; }
         public DateTime DatePosted { get; set; }
         public string PhotoUrl { get; set; }

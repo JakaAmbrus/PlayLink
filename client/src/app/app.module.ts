@@ -40,6 +40,10 @@ import { ProfileComponent } from './profile/profile.component';
 import { PostsComponent } from './profile/posts/posts.component';
 import { MessageComponent } from './profile/message/message.component';
 import { EditComponent } from './profile/edit/edit.component';
+import { PostComponent } from './_components/post/post.component';
+import { CommentComponent } from './_components/comment/comment.component';
+import { RelativeTimePipe } from './_pipes/relative-time.pipe';
+import { PostSkeletonComponent } from './_components/post-skeleton/post-skeleton.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +71,10 @@ import { EditComponent } from './profile/edit/edit.component';
     PostsComponent,
     MessageComponent,
     EditComponent,
+    PostComponent,
+    CommentComponent,
+    RelativeTimePipe,
+    PostSkeletonComponent,
   ],
   imports: [
     BrowserModule,

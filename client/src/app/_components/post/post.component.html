@@ -1,0 +1,61 @@
+<div class="post-container" *ngIf="post">
+  <div class="post-top">
+    <a routerLink="/user/{{ post.username }}" class="post-header">
+      <div
+        class="post-user-img-container header-icons-right theme-border rounded-border"
+      >
+        <img
+          *ngIf="post.profilePictureUrl"
+          class="post-user-img"
+          src="{{ post.profilePictureUrl }}"
+          alt="{{ post.fullName }}"
+        />
+        <span class="material-symbols-rounded filled post-icon-person">
+          {{ post.gender === "male" ? "person" : "person_2" }}
+        </span>
+      </div>
+      <div class="post-user-name-and-date">
+        <h1 class="post-user-name">{{ post.fullName }}</h1>
+        <p class="post-date">{{ post.datePosted | relativeTime }}</p>
+      </div>
+    </a>
+    <span
+      *ngIf="post.isAuthorized"
+      class="material-symbols-rounded filled post-icon-close"
+    >
+      close
+    </span>
+  </div>
+
+  <div class="post-description" [ngClass]="{ bigger: post.photoUrl === null }">
+    {{ post.description }}
+  </div>
+
+  <img
+    *ngIf="post.photoUrl"
+    class="post-image rounded-border"
+    src="{{ post.photoUrl }}"
+    alt="{{ post.fullName }}'s post image'"
+  />
+  <div class="post-likes-and-comments-count">
+    <div class="post-likes-count">{{ post.likesCount }} Likes</div>
+    <div class="post-comments-count">{{ post.commentsCount }} Comments</div>
+  </div>
+  <div class="post-bottom post-counts-borders">
+    <div class="post-actions" (click)="toggleLike(post)">
+      <span
+        class="material-symbols-rounded post-count-icons"
+        [ngClass]="{ filled: post.isLikedByCurrentUser }"
+      >
+        favorite
+      </span>
+      <p class="post-count">Like</p>
+    </div>
+    <div class="post-actions">
+      <span class="material-symbols-rounded post-count-icons"
+        >mode_comment</span
+      >
+      <p class="post-count">Comment</p>
+    </div>
+  </div>
+</div>

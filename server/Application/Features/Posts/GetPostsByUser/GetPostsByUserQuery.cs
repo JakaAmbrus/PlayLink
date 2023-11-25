@@ -1,15 +1,9 @@
-﻿using Application.Features.Posts.Common;
-using MediatR;
+﻿using MediatR;
 
 namespace Application.Features.Posts.GetPostsByUser
 {
-    public class GetPostsByUserQuery : IRequest<IEnumerable<PostDto>>
+    public class GetPostsByUserQuery : IRequest<GetPostsByUserResponse>
     {
-        public int AppUserId { get; set; }
-
-        public GetPostsByUserQuery(int userId)
-        {
-            AppUserId = userId;
-        }
+        public string Username { get; set; }
     }
 }

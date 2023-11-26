@@ -1,25 +1,41 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { PostContent, PostsResponse } from '../_models/posts';
+import { Post, PostContent, PostsResponse } from '../_models/posts';
 import { Observable, map } from 'rxjs';
+import { PaginatedResult, Pagination } from '../_models/pagination';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PostsService {
   baseUrl = environment.apiUrl;
+  paginatedResult: PaginatedResult<Post[]> = new PaginatedResult<Post[]>();
 
   constructor(private http: HttpClient) {}
 
-  getPosts(pageNumber: number, pageSize: number): Observable<PostsResponse> {
+  getPosts(
+    pageNumber: number,
+    pageSize: number
+  ): Observable<PaginatedResult<Post[]>> {
+    const params = new HttpParams()
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString());
+
     return this.http
-      .get<PostsResponse>(
-        `${this.baseUrl}/posts?pageNumber=${pageNumber}&pageSize=${pageSize}`
-      )
+      .get<{ posts: Post[]; pagination: Pagination }>(this.baseUrl + 'posts', {
+        observe: 'response',
+        params,
+      })
       .pipe(
         map((response) => {
-          return response;
+          this.paginatedResult.result = response.body?.posts;
+          if (response.headers.get('Pagination')) {
+            this.paginatedResult.pagination = JSON.parse(
+              response.headers.get('Pagination') as string
+            );
+          }
+          return this.paginatedResult;
         })
       );
   }

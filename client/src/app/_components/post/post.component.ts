@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Post } from 'src/app/_models/posts';
 import { LikesService } from 'src/app/_services/likes.service';
 import { PostsService } from 'src/app/_services/posts.service';
@@ -10,6 +10,8 @@ import { PostsService } from 'src/app/_services/posts.service';
 })
 export class PostComponent {
   @Input() post: Post | undefined;
+
+  @Output() postDeleted: EventEmitter<number> = new EventEmitter();
 
   constructor(
     private likesService: LikesService,
@@ -33,8 +35,11 @@ export class PostComponent {
   }
 
   deletePost(postId: number) {
-    this.postsService.deletePost(postId).subscribe(() => {
-      this.post = undefined;
-    });
+    if (confirm('Are you sure you want to delete this post?')) {
+      this.postsService.deletePost(postId).subscribe(() => {
+        this.post = undefined;
+        this.postDeleted.emit(postId);
+      });
+    }
   }
 }

@@ -25,17 +25,12 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedList<UserDto>>> GetUsers([FromQuery] UserParams userParams)
+        public async Task<ActionResult<PagedList<UserDto>>> GetUsers([FromQuery] UserParams userParams, CancellationToken cancellationToken)
         {
             var query = new GetUsersQuery { Params = userParams };
-            var users = await _mediator.Send(query);
+            var users = await _mediator.Send(query, cancellationToken);
 
             Response.AddPaginationHeader(new PaginationHeader(users.Users.CurrentPage, users.Users.PageSize, users.Users.TotalCount, users.Users.TotalPages));
-
-            if (users == null)
-            {
-                return NotFound("There are no users available");
-            }
 
             return Ok(users);
         }

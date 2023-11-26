@@ -1,5 +1,6 @@
 ﻿using Application.Exceptions;
 using Application.Features.Posts.Common;
+using Application.Utils;
 using Infrastructure.Data;
 using Infrastructure.Interfaces;
 using MediatR;
@@ -25,7 +26,8 @@ namespace Application.Features.Posts.GetPosts
 
             if (currentUserId == 0) throw new UnauthorizedException("You must be logged in to view posts");
 
-            var posts = await _context.Posts
+            var posts = _context.Posts
+            .AsQueryable()
             .OrderByDescending(post => post.DatePosted)
             .Select(post => new PostDto
             {
@@ -42,12 +44,12 @@ namespace Application.Features.Posts.GetPosts
                 CommentsCount = post.CommentsCount,
                 IsLikedByCurrentUser = post.Likes.Any(like => like.AppUserId == currentUserId),
                 IsAuthorized = post.AppUserId == currentUserId || isModerator
-            })
-            .ToListAsync(cancellationToken);
+            });
 
-            if (posts.Count == 0) throw new NotFoundException("There are no posts");
-            
-            return new GetPostsResponse { Posts = posts};
+            var pagedPosts = await PagedList<PostDto>
+                .CreateAsync(posts, request.Params.PageNumber, request.Params.PageSize);
+
+            return new GetPostsResponse { Posts = pagedPosts };
         }
     }
 }

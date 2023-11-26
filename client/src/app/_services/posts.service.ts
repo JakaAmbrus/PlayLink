@@ -12,12 +12,16 @@ export class PostsService {
 
   constructor(private http: HttpClient) {}
 
-  getPosts(): Observable<PostsResponse> {
-    return this.http.get<PostsResponse>(this.baseUrl + 'posts').pipe(
-      map((response) => {
-        return response;
-      })
-    );
+  getPosts(pageNumber: number, pageSize: number): Observable<PostsResponse> {
+    return this.http
+      .get<PostsResponse>(
+        `${this.baseUrl}/posts?pageNumber=${pageNumber}&pageSize=${pageSize}`
+      )
+      .pipe(
+        map((response) => {
+          return response;
+        })
+      );
   }
 
   uploadPost(postContent: PostContent): Observable<any> {

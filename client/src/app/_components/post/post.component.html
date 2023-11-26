@@ -21,6 +21,7 @@
     </a>
     <span
       *ngIf="post.isAuthorized"
+      (click)="deletePost(post.postId)"
       class="material-symbols-rounded filled post-icon-close"
     >
       close

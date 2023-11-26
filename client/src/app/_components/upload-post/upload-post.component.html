@@ -30,7 +30,74 @@
 </div>
 
 <!-- Upload post form modal -->
-
-<div id="upload-post-modal">
-  <form action="upload post"></form>
+<!-- [@growShrink]="animationState" -->
+<div id="upload-post-modal" *ngIf="isModalOpen">
+  <form
+    [@growShrink]="animationState"
+    [formGroup]="uploadPostForm"
+    (ngSubmit)="onSubmit()"
+    id="upload-form"
+    class="rounded-border secondary-background box-shadow rounded-border"
+  >
+    <span
+      *ngIf="!isLoading"
+      id="close-upload-post"
+      class="material-symbols-rounded filled"
+      (click)="closeUploadPostModal()"
+    >
+      close
+    </span>
+    <h1 id="upload-header">Create Your Post</h1>
+    <label class="form-label edit-labels"> Profile Description*</label>
+    <div class="relative">
+      <textarea
+        title="Description"
+        type="text"
+        rows="4"
+        formControlName="description"
+        class="form-input rounded-border edit-dropzone"
+        [class.input-invalid]="
+          uploadPostForm.get('description')?.touched &&
+          uploadPostForm.get('description')?.invalid
+        "
+      ></textarea>
+      <div
+        *ngIf="uploadPostForm.get('description')?.hasError('maxlength')"
+        class="validation-errors"
+      >
+        Post content cannot exceed 300 characters
+      </div>
+    </div>
+    <label class="form-label edit-labels"> Upload Photo*</label>
+    <ngx-dropzone
+      (change)="onSelect($event)"
+      (removedFile)="onRemove($event)"
+      [accept]="'image/png, image/jpeg'"
+      class="edit-dropzone rounded-border theme-border"
+      id="upload-dropzone"
+    >
+      <ngx-dropzone-label>+</ngx-dropzone-label>
+      <ngx-dropzone-image-preview
+        ngProjectAs="ngx-dropzone-preview"
+        *ngFor="let f of selectedFiles"
+        [file]="f"
+        [removable]="true"
+        (removed)="onRemove(f)"
+        class="ngx-dropzone-preview"
+      >
+      </ngx-dropzone-image-preview>
+    </ngx-dropzone>
+    <button
+      type="submit"
+      class="upload-submit reverse-parameters"
+      [disabled]="
+        uploadPostForm.invalid ||
+        isLoading ||
+        (!uploadPostForm.get('description')?.value?.trim() &&
+          selectedFiles.length === 0)
+      "
+    >
+      Upload Post
+    </button>
+  </form>
 </div>

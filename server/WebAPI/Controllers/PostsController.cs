@@ -61,11 +61,11 @@ namespace WebAPI.Controllers
 
         [Authorize(Policy = "RequireMemberRole")]
         [HttpDelete("{postId}")]
-        public async Task<ActionResult<Unit>> DeletePost(int postId)
+        public async Task<ActionResult<Unit>> DeletePost(int postId, CancellationToken cancellationToken)
         {
-            var command = new DeletePostCommand(postId);
+            var command = new DeletePostCommand { PostId = postId };
 
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(command, cancellationToken);
 
             return Ok(result);
         }

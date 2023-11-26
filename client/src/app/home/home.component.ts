@@ -27,4 +27,8 @@ export class HomeComponent implements OnInit {
       error: (err) => console.error(err),
     });
   }
+
+  onPostUpload(post: Post) {
+    this.posts = [post, ...this.posts];
+  }
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { PostsResponse } from '../_models/posts';
+import { PostContent, PostsResponse } from '../_models/posts';
 import { Observable, map } from 'rxjs';
 
 @Injectable({
@@ -20,7 +20,19 @@ export class PostsService {
     );
   }
 
-  uploadPost(formData: FormData): Observable<any> {
+  uploadPost(postContent: PostContent): Observable<any> {
+    const formData = new FormData();
+    if (postContent.description) {
+      formData.append('PostContentDto.Description', postContent.description);
+    }
+    if (postContent.photoFile) {
+      formData.append('PostContentDto.PhotoFile', postContent.photoFile);
+    }
+
     return this.http.post(this.baseUrl + 'posts', formData);
+  }
+
+  deletePost(postId: number): Observable<any> {
+    return this.http.delete(this.baseUrl + 'posts/' + postId);
   }
 }

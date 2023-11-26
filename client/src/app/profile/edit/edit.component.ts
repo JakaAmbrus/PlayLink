@@ -1,7 +1,6 @@
 import {
   ChangeDetectorRef,
   Component,
-  Host,
   HostListener,
   OnInit,
 } from '@angular/core';
@@ -9,10 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import countries from '../../../assets/data/countries.json';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
-import {
-  allOptionalFieldsEmptyValidator,
-  validCountryValidator,
-} from 'src/app/_forms/validators/registerFormValidators';
+import { validCountryValidator } from 'src/app/_forms/validators/registerFormValidators';
 import { EditUser, EditUserResponse } from 'src/app/_models/users';
 import { UsersService } from 'src/app/_services/users.service';
 import { ToastrService } from 'ngx-toastr';
@@ -80,20 +76,19 @@ export class EditComponent implements OnInit {
     );
   }
 
-  onSelect(event: any) {
+  onSelect(event: any): void {
     this.selectedFiles = event.addedFiles.slice(0, 1);
     this.isFileSelected = true;
   }
 
-  onRemove(event: any) {
+  onRemove(event: any): void {
     this.selectedFiles = [];
     this.isFileSelected = false;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.editUserForm.valid || this.isFileSelected) {
       this.isLoading = true;
-      const formData = new FormData();
 
       const editUserData: EditUser = {
         username: this.username,
@@ -101,7 +96,6 @@ export class EditComponent implements OnInit {
         description: this.editUserForm.get('description')?.value,
         country: this.editUserForm.get('country')?.value,
       };
-      console.log(editUserData);
 
       this.usersService.editUser(editUserData).subscribe({
         next: () => {

@@ -63,3 +63,76 @@
   height: 100%;
   background-color: rgba(0, 0, 0, 0.477);
 }
+#upload-form {
+  position: relative;
+  font-family: "Nexa Bold";
+  display: flex;
+  flex-direction: column;
+  width: 60em;
+  padding: 3.5em 2em;
+}
+#upload-header {
+  font-size: 3.5em;
+  margin-bottom: 0.6em;
+  text-align: center;
+}
+.relative {
+  position: relative;
+}
+.validation-errors {
+  position: absolute;
+  right: 1%;
+  bottom: -0.4em;
+  color: rgba(255, 0, 0, 0.703);
+  text-align: end;
+  font-family: "Nexa Light";
+  font-weight: bold;
+  font-size: 1.4em;
+  letter-spacing: 0.05em;
+}
+.form-label {
+  align-self: start;
+  margin-left: 0.4em;
+  font-size: 1.81em;
+  margin-bottom: 0.5em;
+}
+#upload-dropzone {
+  font-size: 5em;
+  width: 100%;
+  margin-bottom: 0.5em;
+}
+.form-input {
+  width: 100%;
+  font-size: 1.8em;
+  padding: 1em;
+  border: none;
+  margin-bottom: 1em;
+}
+
+.ngx-dropzone-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.upload-submit {
+  font-family: "Nexa Bold";
+  width: 100%;
+  font-size: 3em;
+  padding: 0.5em 0;
+  border-radius: 0.2em;
+  margin-top: 0.5em;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+.upload-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+#close-upload-post {
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+  font-size: 4em;
+  cursor: pointer;
+}

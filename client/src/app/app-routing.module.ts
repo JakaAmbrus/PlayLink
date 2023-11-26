@@ -17,7 +17,11 @@ import { GalleryComponent } from './profile/gallery/gallery.component';
 import { EditComponent } from './profile/edit/edit.component';
 import { MessageComponent } from './profile/message/message.component';
 
-import { canActivateGuard } from './_guards/auth.guard';
+import {
+  canActivateCurrentUserGuard,
+  canActivateGuard,
+  canActivateNotCurrentUserGuard,
+} from './_guards/auth.guard';
 import { canActivateLoginGuard } from './_guards/auth.guard';
 import { preventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 
@@ -65,11 +69,13 @@ const routes: Routes = [
         component: EditComponent,
         data: { animation: 'Edit' },
         canDeactivate: [preventUnsavedChangesGuard],
+        canActivate: [canActivateCurrentUserGuard],
       },
       {
         path: 'message',
         component: MessageComponent,
         data: { animation: 'Message' },
+        canActivate: [canActivateNotCurrentUserGuard],
       },
     ],
   },

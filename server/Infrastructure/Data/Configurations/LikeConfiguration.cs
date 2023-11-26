@@ -14,11 +14,13 @@ namespace Infrastructure.Data.Configurations
 
             entity.HasOne(l => l.Post)
                 .WithMany(p => p.Likes)
-                .HasForeignKey(l => l.PostId);
+                .HasForeignKey(l => l.PostId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasOne(l => l.Comment)
               .WithMany(c => c.Likes)
-              .HasForeignKey(l => l.CommentId);
+              .HasForeignKey(l => l.CommentId)
+              .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

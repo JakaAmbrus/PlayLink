@@ -5,9 +5,11 @@ using Application.Features.Posts.GetPostById;
 using Application.Features.Posts.GetPosts;
 using Application.Features.Posts.GetPostsByUser;
 using Application.Features.Posts.UploadPost;
+using Application.Utils;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Extensions;
 
 namespace WebAPI.Controllers
 {
@@ -21,13 +23,15 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPosts(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetPosts([FromQuery] PaginationParams paginationParams, CancellationToken cancellationToken)
         {
-            var query = new GetPostsQuery();
+            var query = new GetPostsQuery {Params = paginationParams };
 
-            var result = await _mediator.Send(query, cancellationToken);
+            var posts = await _mediator.Send(query, cancellationToken);
 
-            return Ok(result);
+            Response.AddPaginationHeader(new PaginationHeader(posts.Posts.CurrentPage, posts.Posts.PageSize, posts.Posts.TotalCount, posts.Posts.TotalPages));
+
+            return Ok(posts);
         }
 
         [HttpGet("{postId}")]

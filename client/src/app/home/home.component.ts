@@ -10,6 +10,8 @@ import { Post } from '../_models/posts';
 export class HomeComponent implements OnInit {
   isLoading: boolean = true;
   posts: Post[] = [];
+  pageNumber = 1;
+  pageSize = 6;
 
   constructor(private postsService: PostsService) {}
 
@@ -18,7 +20,7 @@ export class HomeComponent implements OnInit {
   }
 
   loadPosts() {
-    this.postsService.getPosts().subscribe({
+    this.postsService.getPosts(this.pageNumber, this.pageSize).subscribe({
       next: (response) => {
         this.posts = response.posts;
         this.isLoading = false;
@@ -28,7 +30,16 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  onScroll() {
+    this.pageNumber++;
+    this.loadPosts();
+  }
+
   onPostUpload(post: Post) {
     this.posts = [post, ...this.posts];
+  }
+
+  onPostDelete(postId: number) {
+    this.posts = this.posts.filter((post) => post.postId !== postId);
   }
 }

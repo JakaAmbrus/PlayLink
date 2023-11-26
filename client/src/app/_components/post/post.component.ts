@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Post } from 'src/app/_models/posts';
 import { LikesService } from 'src/app/_services/likes.service';
+import { PostsService } from 'src/app/_services/posts.service';
 
 @Component({
   selector: 'app-post',
@@ -10,7 +11,10 @@ import { LikesService } from 'src/app/_services/likes.service';
 export class PostComponent {
   @Input() post: Post | undefined;
 
-  constructor(private likesService: LikesService) {}
+  constructor(
+    private likesService: LikesService,
+    private postsService: PostsService
+  ) {}
 
   toggleLike(post: Post) {
     if (post.isLikedByCurrentUser) {
@@ -26,5 +30,11 @@ export class PostComponent {
         post.likesCount += 1;
       });
     }
+  }
+
+  deletePost(postId: number) {
+    this.postsService.deletePost(postId).subscribe(() => {
+      this.post = undefined;
+    });
   }
 }

@@ -9,7 +9,7 @@
   <!-- home middle -->
 
   <div id="home-middle">
-    <app-upload-post></app-upload-post>
+    <app-upload-post (postUploaded)="onPostUpload($event)"></app-upload-post>
     <div class="home-posts-container">
       <div
         class="posts secondary-background rounded-border box-shadow"

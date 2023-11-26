@@ -14,7 +14,8 @@ namespace Infrastructure.Data.Configurations
 
             entity.HasOne(c => c.Post)
                 .WithMany(p => p.Comments)
-                .HasForeignKey(c => c.PostId);
+                .HasForeignKey(c => c.PostId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

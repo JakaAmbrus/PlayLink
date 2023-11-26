@@ -70,13 +70,19 @@ namespace Application.Features.Posts.UploadPost
             {
                 PostDto = new PostDto
                 {
+                    PostId = newPost.PostId,
                     AppUserId = newPost.AppUserId,
                     Username = currentUser.UserName,
                     FullName = currentUser.FullName,
-                    PostId = newPost.PostId,
+                    ProfilePictureUrl = currentUser.ProfilePictureUrl,
+                    Gender = currentUser.Gender,
                     Description = newPost.Description,
                     PhotoUrl = newPost.PhotoUrl,
                     DatePosted = newPost.DatePosted,
+                    LikesCount = newPost.LikesCount,
+                    CommentsCount = newPost.CommentsCount,
+                    IsLikedByCurrentUser = false,
+                    IsAuthorized = true
                 },
             };
         }

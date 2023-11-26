@@ -17,3 +17,8 @@ export interface Post {
 export interface PostsResponse {
   posts: Post[];
 }
+
+export interface PostContent {
+  description: string;
+  photoFile: File | null;
+}

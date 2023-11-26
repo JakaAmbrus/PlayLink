@@ -12,7 +12,6 @@ namespace Application.Features.Posts.UploadPost
                 .NotNull().WithMessage("Post content is required.");
 
             RuleFor(x => x.PostContentDto.Description)
-                .NotEmpty().WithMessage("Description is required.")
                 .MaximumLength(300).WithMessage("Description cannot exceed 300 characters.");
 
             RuleFor(x => x.PostContentDto.PhotoFile)

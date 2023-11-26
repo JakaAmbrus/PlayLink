@@ -11,7 +11,8 @@ export class HomeComponent implements OnInit {
   isLoading: boolean = true;
   posts: Post[] = [];
   pageNumber = 1;
-  pageSize = 6;
+  pageSize = 8;
+  totalPosts: number | undefined;
 
   constructor(private postsService: PostsService) {}
 
@@ -22,17 +23,23 @@ export class HomeComponent implements OnInit {
   loadPosts() {
     this.postsService.getPosts(this.pageNumber, this.pageSize).subscribe({
       next: (response) => {
-        this.posts = response.posts;
-        this.isLoading = false;
-        console.log(response.posts);
+        if (response.result) {
+          this.posts.push(...response.result);
+          this.totalPosts = response.pagination?.totalItems;
+          this.isLoading = false;
+        }
       },
       error: (err) => console.error(err),
     });
   }
 
   onScroll() {
-    this.pageNumber++;
-    this.loadPosts();
+    if (this.totalPosts) {
+      if (this.posts.length < this.totalPosts) {
+        this.pageNumber++;
+        this.loadPosts();
+      }
+    }
   }
 
   onPostUpload(post: Post) {

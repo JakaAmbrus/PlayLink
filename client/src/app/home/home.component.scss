@@ -15,10 +15,14 @@
 #home-middle {
   margin-top: 2em;
   width: 68em;
-  height: auto;
 }
 
 .home-posts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+#posts-container {
   display: flex;
   flex-direction: column;
   gap: 2em;

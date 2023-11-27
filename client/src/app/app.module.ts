@@ -13,6 +13,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -45,6 +46,7 @@ import { CommentComponent } from './_components/comment/comment.component';
 import { RelativeTimePipe } from './_pipes/relative-time.pipe';
 import { PostSkeletonComponent } from './_components/post-skeleton/post-skeleton.component';
 import { UploadPostComponent } from './_components/upload-post/upload-post.component';
+import { QuizWidgetComponent } from './games/game-selection/quiz-widget/quiz-widget.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +79,7 @@ import { UploadPostComponent } from './_components/upload-post/upload-post.compo
     RelativeTimePipe,
     PostSkeletonComponent,
     UploadPostComponent,
+    QuizWidgetComponent,
   ],
   imports: [
     BrowserModule,
@@ -93,6 +96,7 @@ import { UploadPostComponent } from './_components/upload-post/upload-post.compo
     NgxDropzoneModule,
     NgxPaginationModule,
     MatButtonToggleModule,
+    InfiniteScrollModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-bottom-right',

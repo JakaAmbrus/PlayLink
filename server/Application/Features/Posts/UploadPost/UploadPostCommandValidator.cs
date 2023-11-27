@@ -9,14 +9,14 @@ namespace Application.Features.Posts.UploadPost
         public UploadPostCommandValidator()
         {
             RuleFor(x => x.PostContentDto)
-                .NotNull().WithMessage("Post content is required.");
+                .NotNull().WithMessage("Post content is required");
 
             RuleFor(x => x.PostContentDto.Description)
-                .MaximumLength(300).WithMessage("Description cannot exceed 300 characters.");
+                .MaximumLength(400).WithMessage("Description must not exceed 400 characters of space");
 
             RuleFor(x => x.PostContentDto.PhotoFile)
-                .Must(ValidationUtils.BeAppropriateSize).WithMessage("Photo must be smaller than 4MB.")
-                .Must(ValidationUtils.BeAValidType).WithMessage("Photo must be a PNG or JPEG.");
+                .Must(ValidationUtils.BeAppropriateSize).WithMessage("Photo must be smaller than 4MB")
+                .Must(ValidationUtils.BeAValidType).WithMessage("Photo must be a PNG or JPEG");
         }
 
         protected override bool PreValidate(ValidationContext<UploadPostCommand> context, ValidationResult result)

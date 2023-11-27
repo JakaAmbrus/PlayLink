@@ -63,7 +63,7 @@ export class UploadPostComponent implements OnInit {
 
   initializeForm(): void {
     this.uploadPostForm = this.fb.group({
-      description: ['', [Validators.maxLength(300)]],
+      description: ['', [Validators.maxLength(400)]],
     });
   }
 

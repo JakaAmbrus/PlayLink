@@ -13,13 +13,13 @@ import { FormControl } from '@angular/forms';
 export class DiscoverComponent implements OnInit, OnDestroy {
   users: User[] = [];
   pagination: Pagination | undefined;
-  pageNumber = 1;
-  pageSize = 6;
-  minAge = 12;
-  maxAge = 99;
-  gender = '';
-  country = '';
-  orderBy = 'lastActive';
+  pageNumber: number = 1;
+  pageSize: number = 6;
+  minAge: number = 12;
+  maxAge: number = 99;
+  gender: string = '';
+  country: string = '';
+  orderBy: string = 'lastActive';
   isLoading: boolean = true;
   dummyArray = new Array(6).fill(null);
   uniqueCountries: string[] = [];
@@ -128,5 +128,23 @@ export class DiscoverComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     localStorage.setItem('discoverFilters', JSON.stringify(this.userParams));
+  }
+
+  validateAgeMaxRange() {
+    if (this.minAge > this.maxAge) {
+      this.maxAge = this.minAge;
+    }
+  }
+
+  validateAgeMinRange() {
+    if (this.minAge > this.maxAge) {
+      this.minAge = this.maxAge;
+    }
+  }
+
+  preventTyping(event: KeyboardEvent): void {
+    if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') {
+      event.preventDefault();
+    }
   }
 }

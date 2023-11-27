@@ -1,4 +1,5 @@
-﻿using Application.Features.Comments.DeleteComment;
+﻿using Application.Features.Comments.Common;
+using Application.Features.Comments.DeleteComment;
 using Application.Features.Comments.GetComments;
 using Application.Features.Comments.UploadComment;
 using Application.Features.Likes.LikeComment;
@@ -29,9 +30,15 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<UploadCommentResponse>> UploadComment(UploadCommentCommand command, CancellationToken cancellationToken)
+        [HttpPost("{postId}")]
+        public async Task<ActionResult<UploadCommentResponse>> UploadComment(int postId, [FromBody] CommentContentDto comment, CancellationToken cancellationToken)
         {
+            var command = new UploadCommentCommand
+            {
+                PostId = postId,
+                CommentContentDto = comment
+            };
+
             var result = await _mediator.Send(command, cancellationToken);
 
             return Ok(result);

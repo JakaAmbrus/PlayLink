@@ -20,7 +20,7 @@ namespace Application.Features.Comments.UploadComment
         }
         public async Task<UploadCommentResponse> Handle(UploadCommentCommand request, CancellationToken cancellationToken)
         {
-            var post = await _context.Posts.FindAsync(request.CommentContent.PostId) 
+            var post = await _context.Posts.FindAsync(request.PostId) 
                 ?? throw new NotFoundException("Post not found");
 
             int currentUserId = _authenticatedUserService.UserId;
@@ -33,8 +33,8 @@ namespace Application.Features.Comments.UploadComment
             var newComment = new Comment
             {
                 AppUserId = currentUserId,
-                PostId = request.CommentContent.PostId,
-                Content = request.CommentContent.Content
+                PostId = request.PostId,
+                Content = request.CommentContentDto.Content
             };
 
             post.CommentsCount++;
@@ -53,11 +53,17 @@ namespace Application.Features.Comments.UploadComment
             {
                 CommentDto = new CommentDto
                 {
+                    CommentId = newComment.CommentId,
+                    PostId = newComment.PostId,
                     AppUserId = newComment.AppUserId,
                     Username = currentUser.UserName,
                     FullName = currentUser.FullName,
+                    Gender = currentUser.Gender,
+                    ProfilePictureUrl = currentUser.ProfilePictureUrl,
+                    LikesCount = newComment.LikesCount,
+                    IsAuthorized = true,
+                    IsLikedByCurrentUser = false,
                     TimeCommented = newComment.TimeCommented,
-                    PostId = newComment.PostId,
                     Content = newComment.Content
                 }
             };

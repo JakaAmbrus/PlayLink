@@ -93,7 +93,7 @@ $dark-theme: (
 
   .filter-inputs {
     color: #3a3b3c;
-    background-color: #d8dadf;
+    background-color: #f0f2f5;
     border: 0.1em solid #3a3b3c;
   }
   .mat-button-toggle-checked {
@@ -108,10 +108,18 @@ $dark-theme: (
     border-bottom: 0.1em solid #3d3a3a27;
   }
 
+  .comments-bottom-border {
+    border-bottom: 0.1em solid #3d3a3a27;
+  }
+
   .quiz-buttons-theme {
     color: map-get($light-theme, primary-text);
     border: 0.1em solid #3d3a3a27;
     background-color: map-get($light-theme, background-secondary);
+  }
+
+  .comments-content-background {
+    background-color: #f0f2f5;
   }
 }
 
@@ -190,7 +198,7 @@ $dark-theme: (
 
   .filter-inputs {
     color: rgba(255, 255, 255, 0.562);
-    background-color: #4e4f50;
+    background-color: #3a3b3c;
     border: 0.1em solid #b0b0b0;
   }
 
@@ -207,6 +215,13 @@ $dark-theme: (
   .post-counts-borders {
     border-top: 0.1em solid #3d3a3a;
     border-bottom: 0.1em solid #3d3a3a;
+  }
+
+  .comments-bottom-border {
+    border-bottom: 0.1em solid #3d3a3a;
+  }
+  .comments-content-background {
+    background-color: #3a3b3c;
   }
 
   .quiz-buttons-theme {

@@ -33,12 +33,14 @@ namespace Application.Features.Comments.GetComments
             .Select(comment => new CommentDto
             {
                 CommentId = comment.CommentId,
+                PostId = comment.PostId,
                 AppUserId = comment.AppUserId,
                 Username = comment.AppUser.UserName,
                 FullName = comment.AppUser.FullName,
                 Gender = comment.AppUser.Gender,
                 ProfilePictureUrl = comment.AppUser.ProfilePictureUrl,
                 Content = comment.Content,
+                LikesCount = comment.LikesCount,
                 TimeCommented = comment.TimeCommented,
                 IsLikedByCurrentUser = comment.Likes.Any(like => like.AppUserId == currentUserId),
                 IsAuthorized = comment.AppUserId == currentUserId || isModerator

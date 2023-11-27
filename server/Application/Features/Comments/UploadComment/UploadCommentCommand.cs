@@ -5,6 +5,7 @@ namespace Application.Features.Comments.UploadComment
 {
     public class UploadCommentCommand : IRequest<UploadCommentResponse>
     {
-        public CommentContentDto CommentContent { get; set; }
+        public int PostId { get; set; }
+        public CommentContentDto CommentContentDto { get; set; }
     }
 }

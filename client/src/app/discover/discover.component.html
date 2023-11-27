@@ -125,6 +125,8 @@
               name="minAge"
               min="12"
               max="99"
+              (keydown)="preventTyping($event)"
+              (ngModelChange)="validateAgeMaxRange()"
             />
             <p>—</p>
             <input
@@ -136,6 +138,8 @@
               name="maxAge"
               min="12"
               max="99"
+              (keydown)="preventTyping($event)"
+              (ngModelChange)="validateAgeMinRange()"
             />
           </div>
         </div>

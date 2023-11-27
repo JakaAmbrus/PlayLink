@@ -18,10 +18,21 @@
         <app-post-skeleton></app-post-skeleton>
       </div>
       <div
-        class="posts secondary-background rounded-border box-shadow"
-        *ngFor="let post of posts"
+        id="posts-container"
+        infiniteScroll
+        [infiniteScrollDistance]="1"
+        [infiniteScrollThrottle]="300"
+        (scrolled)="onScroll()"
       >
-        <app-post [post]="post" (postDeleted)="onPostDelete($event)"></app-post>
+        <div
+          class="posts secondary-background rounded-border box-shadow"
+          *ngFor="let post of posts"
+        >
+          <app-post
+            [post]="post"
+            (postDeleted)="onPostDelete($event)"
+          ></app-post>
+        </div>
       </div>
     </div>
   </div>

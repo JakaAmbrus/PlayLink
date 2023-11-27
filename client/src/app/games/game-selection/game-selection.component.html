@@ -1,5 +1,12 @@
 <section id="games-section-container">
   <div
+    id="games-tab-left"
+    class="secondary-background box-shadow rounded-border"
+  >
+    <app-quiz-widget></app-quiz-widget>
+  </div>
+
+  <div
     id="game-selection-container"
     class="secondary-background rounded-border box-shadow"
   >
@@ -18,5 +25,32 @@
     <a routerLink="/games/rock-paper-scissors" class="games">
       <img src="../../assets/images/games/rps_img.jpg" alt="RPS Preview" />
     </a>
+  </div>
+
+  <div
+    id="games-tab-right"
+    class="secondary-background rounded-border box-shadow"
+  >
+    <div id="astrofit-ad">
+      <div id="ad-top">
+        <h1>Sponsored</h1>
+        <p class="secondary-text">Fake Ad</p>
+      </div>
+      <img
+        id="astrofit-ad-img"
+        class="theme-border"
+        src="../../../assets/images/games/astrofit-ad.jpg"
+        alt="astrofit ad"
+      />
+      <div id="ad-bottom-header">
+        <h2>AstroFit</h2>
+        <p class="secondary-text">astrofit.com</p>
+      </div>
+      <p id="astrofit-slogan" class="secondary-text">
+        Navigate out vast selection of services and features customized to you
+        to reach your fitness goals. We offer a wide variety of services
+        including personalized training, diet plans, and more!
+      </p>
+    </div>
   </div>
 </section>

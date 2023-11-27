@@ -52,6 +52,8 @@
 .post-description {
   font-size: 1.6em;
   line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 .post-description.bigger {
   font-size: 2.2em;

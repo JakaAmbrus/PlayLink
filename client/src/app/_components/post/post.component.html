@@ -28,7 +28,12 @@
     </span>
   </div>
 
-  <div class="post-description" [ngClass]="{ bigger: post.photoUrl === null }">
+  <div
+    class="post-description"
+    [ngClass]="{
+      bigger: post.photoUrl === null
+    }"
+  >
     {{ post.description }}
   </div>
 

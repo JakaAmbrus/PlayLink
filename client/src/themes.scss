@@ -29,7 +29,7 @@ $dark-theme: (
     transition: all 0.3s ease;
 
     &:hover {
-      background-color: map-get($light-theme, primary-text);
+      background-color: rgb(77, 78, 79);
     }
   }
   .secondary-background {
@@ -106,6 +106,12 @@ $dark-theme: (
   .post-counts-borders {
     border-top: 0.1em solid #3d3a3a27;
     border-bottom: 0.1em solid #3d3a3a27;
+  }
+
+  .quiz-buttons-theme {
+    color: map-get($light-theme, primary-text);
+    border: 0.1em solid #3d3a3a27;
+    background-color: map-get($light-theme, background-secondary);
   }
 }
 
@@ -201,6 +207,12 @@ $dark-theme: (
   .post-counts-borders {
     border-top: 0.1em solid #3d3a3a;
     border-bottom: 0.1em solid #3d3a3a;
+  }
+
+  .quiz-buttons-theme {
+    color: map-get($dark-theme, primary-text);
+    border: 0.1em solid #3d3a3a;
+    background-color: map-get($dark-theme, background-secondary);
   }
 }
 .material-symbols-rounded {

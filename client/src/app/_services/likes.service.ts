@@ -22,10 +22,12 @@ export class LikesService {
   }
 
   likeComment(commentId: number): Observable<any> {
+    console.log('likeComment');
     return this.http.post(this.baseUrl + 'comments/' + commentId + '/like', {});
   }
 
   unlikeComment(commentId: number): Observable<any> {
+    console.log('unlikeComment');
     return this.http.delete(this.baseUrl + 'comments/' + commentId + '/like');
   }
 }

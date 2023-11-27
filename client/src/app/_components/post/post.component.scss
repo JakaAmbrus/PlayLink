@@ -84,6 +84,10 @@
   width: 50%;
   gap: 0.3em;
   cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   transition: background-color 0.2s ease-in-out;
 }
 .post-count-icons {
@@ -93,4 +97,12 @@
 }
 .post-count {
   margin-top: 0em;
+}
+
+.comments-container {
+  margin-top: 0.8em;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  width: 100%;
 }

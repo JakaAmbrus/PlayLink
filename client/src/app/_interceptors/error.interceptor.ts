@@ -46,7 +46,11 @@ export class ErrorInterceptor implements HttpInterceptor {
               break;
 
             case 404:
-              this.router.navigateByUrl('/not-found');
+              if (error.error.message) {
+                this.toastr.error(error.error.message);
+              } else {
+                this.toastr.error('Not Found', error.status.toString());
+              }
               break;
 
             case 500:

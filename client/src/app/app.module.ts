@@ -47,6 +47,8 @@ import { RelativeTimePipe } from './_pipes/relative-time.pipe';
 import { PostSkeletonComponent } from './_components/post-skeleton/post-skeleton.component';
 import { UploadPostComponent } from './_components/upload-post/upload-post.component';
 import { QuizWidgetComponent } from './games/game-selection/quiz-widget/quiz-widget.component';
+import { UploadCommentComponent } from './_components/upload-comment/upload-comment.component';
+import { TimeAgoPipe } from './_pipes/time-ago.pipe';
 
 @NgModule({
   declarations: [
@@ -80,6 +82,8 @@ import { QuizWidgetComponent } from './games/game-selection/quiz-widget/quiz-wid
     PostSkeletonComponent,
     UploadPostComponent,
     QuizWidgetComponent,
+    UploadCommentComponent,
+    TimeAgoPipe,
   ],
   imports: [
     BrowserModule,

@@ -53,6 +53,6 @@ export const quizQuestions: Questions[] = [
     options: ['Samus Aran', 'Lara Croft', 'Nicki Minaj', 'Aloy'],
     answer: 'Lara Croft',
     trivia:
-      'Lara Croft, the adventurer who made archaeology look cool.. no easy task. Would not mind her exploring my tomb.',
+      'Lara Croft, the adventurer who made archaeology look cool, and raiding tombs look even cooler.',
   },
 ];

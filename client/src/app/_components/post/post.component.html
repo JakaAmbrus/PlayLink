@@ -57,11 +57,24 @@
       </span>
       <p class="post-count">Like</p>
     </div>
-    <div class="post-actions">
+    <div class="post-actions" (click)="showComments()">
       <span class="material-symbols-rounded post-count-icons"
         >mode_comment</span
       >
       <p class="post-count">Comment</p>
     </div>
+  </div>
+
+  <div *ngIf="commentsShown" class="comments-container">
+    <div *ngFor="let comment of comments">
+      <app-comment
+        (commentDeleted)="onCommentDelete($event)"
+        [comment]="comment"
+      ></app-comment>
+    </div>
+    <app-upload-comment
+      (commentUploaded)="onCommentUpload($event)"
+      [postId]="post.postId"
+    ></app-upload-comment>
   </div>
 </div>

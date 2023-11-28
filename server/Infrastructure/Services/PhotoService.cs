@@ -18,6 +18,7 @@ namespace Infrastructure.Services
                 config.Value.ApiSecret);
 
             _cloudinary = new Cloudinary(acc);
+            _cloudinary.Api.Secure = true;
         }
 
         public async Task<ImageUploadResult> AddPhotoAsync(IFormFile file, string typeOfPhoto)

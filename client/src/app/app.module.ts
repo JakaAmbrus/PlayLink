@@ -23,7 +23,7 @@ import { HomeComponent } from './home/home.component';
 import { PortalComponent } from './portal/portal.component';
 import { DiscoverComponent } from './discover/discover.component';
 import { GamesComponent } from './games/games.component';
-import { FavoritesComponent } from './favorites/favorites.component';
+import { MessagesComponent } from './messages/messages.component';
 import { HollowXHollowComponent } from './games/hollow-x-hollow/hollow-x-hollow.component';
 import { PlaysketchPortableComponent } from './games/playsketch-portable/playsketch-portable.component';
 import { RockPaperScissorsComponent } from './games/rock-paper-scissors/rock-paper-scissors.component';
@@ -59,7 +59,7 @@ import { TimeAgoPipe } from './_pipes/time-ago.pipe';
     HomeComponent,
     DiscoverComponent,
     GamesComponent,
-    FavoritesComponent,
+    MessagesComponent,
     HollowXHollowComponent,
     PlaysketchPortableComponent,
     RockPaperScissorsComponent,

@@ -10,7 +10,7 @@ import {
 
 export const slideInAnimation = trigger('routeAnimations', [
   transition(
-    'Discover => Home, Games => Discover, Games => Home, Favorites => Home, Favorites => Discover, Games => Favorites, Edit => Gallery, Edit => Posts, Message => Gallery, Message => Posts, Gallery => Posts',
+    'Discover => Home, Games => Discover, Games => Home, Messages => Home, Messages => Discover, Games => Messages, Edit => Gallery, Edit => Posts, Message => Gallery, Message => Posts, Gallery => Posts',
     [
       style({ position: 'relative' }),
       query(':enter, :leave', [
@@ -34,7 +34,7 @@ export const slideInAnimation = trigger('routeAnimations', [
     ]
   ),
   transition(
-    'Home => Discover, Home => Games, Home => Favorites, Discover => Games, Discover => Favorites, Favorites => Games, Posts => Gallery, Posts => Edit, Posts => Message, Gallery => Edit, Gallery => Message',
+    'Home => Discover, Home => Games, Home => Messages, Discover => Games, Discover => Messages, Messages => Games, Posts => Gallery, Posts => Edit, Posts => Message, Gallery => Edit, Gallery => Message',
     [
       style({ position: 'relative' }),
       query(':enter, :leave', [

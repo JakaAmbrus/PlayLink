@@ -27,11 +27,8 @@ namespace Application.Features.Posts.UploadPost
 
             int currentUserId = _authenticatedUserService.UserId;
 
-            var currentUser = await _context.Users.FindAsync(currentUserId);
-            if (currentUser == null)
-            {
-                   throw new NotFoundException("User not found");
-            }
+            var currentUser = await _context.Users.FindAsync(currentUserId, cancellationToken) 
+                ?? throw new NotFoundException("User not found");
 
             var newPost = new Post
             {

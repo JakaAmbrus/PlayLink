@@ -1,5 +1,6 @@
 ﻿using Application.Exceptions;
 using Application.Features.Posts.Common;
+using Application.Utils;
 using Infrastructure.Data;
 using Infrastructure.Interfaces;
 using MediatR;
@@ -22,7 +23,7 @@ namespace Application.Features.Posts.GetPostsByUser
         {
             int currentUserId = _authenticatedUserService.UserId;
 
-            if (currentUserId == 0) throw new UnauthorizedException("You must be logged in to view comments");
+            if (currentUserId == 0) throw new UnauthorizedException("You must be logged in to view posts");
 
             var CurrentUserRole = _authenticatedUserService.UserRoles;
 
@@ -33,8 +34,10 @@ namespace Application.Features.Posts.GetPostsByUser
 
             var requestUserId = requestedUser.Id;
 
-            var posts = await _context.Posts
+            var posts = _context.Posts
+                .AsQueryable()
                 .Where(p => p.AppUserId == requestUserId)
+                .OrderByDescending(post => post.DatePosted)
                 .Select(p => new PostDto
                 {
                     AppUserId = p.AppUserId,
@@ -45,16 +48,17 @@ namespace Application.Features.Posts.GetPostsByUser
                     Description = p.Description,
                     DatePosted = p.DatePosted,
                     PhotoUrl = p.PhotoUrl,
+                    ProfilePictureUrl = requestedUser.ProfilePictureUrl,
                     LikesCount = p.LikesCount,
                     CommentsCount = p.CommentsCount,
                     IsLikedByCurrentUser = p.Likes.Any(like => like.AppUserId == currentUserId),
                     IsAuthorized = p.AppUserId == currentUserId || isModerator      
-                })
-                .ToListAsync(cancellationToken);
+                });
 
-            if(posts.Count == 0) throw new NotFoundException("User has no posts");
+            var pagedPosts = await PagedList<PostDto>
+                .CreateAsync(posts, request.Params.PageNumber, request.Params.PageSize);
 
-            return new GetPostsByUserResponse { Posts = posts};
+            return new GetPostsByUserResponse { Posts = pagedPosts };
         }
     }
 }

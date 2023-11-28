@@ -1,9 +1,10 @@
 ﻿using Application.Features.Posts.Common;
+using Application.Utils;
 
 namespace Application.Features.Posts.GetPostsByUser
 {
     public class GetPostsByUserResponse 
     {
-        public List<PostDto> Posts { get; set; }
+        public PagedList<PostDto> Posts { get; set; }
     }
 }

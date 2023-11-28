@@ -58,6 +58,7 @@ body {
   transition: opacity 0.6s ease;
 }
 #title-overlay {
+  margin-top: 3em;
   display: flex;
   justify-content: center;
 }

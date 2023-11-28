@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { DiscoverComponent } from './discover/discover.component';
 import { GamesComponent } from './games/games.component';
-import { FavoritesComponent } from './favorites/favorites.component';
+import { MessagesComponent } from './messages/messages.component';
 import { PortalComponent } from './portal/portal.component';
 import { GameSelectionComponent } from './games/game-selection/game-selection.component';
 import { HollowXHollowComponent } from './games/hollow-x-hollow/hollow-x-hollow.component';
@@ -104,9 +104,9 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'favorites',
-    component: FavoritesComponent,
-    data: { animation: 'Favorites' },
+    path: 'messages',
+    component: MessagesComponent,
+    data: { animation: 'Messages' },
     canActivate: [canActivateGuard],
   },
   {

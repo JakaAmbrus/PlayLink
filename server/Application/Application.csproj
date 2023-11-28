@@ -17,4 +17,10 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Messages\DeleteMessage\" />
+    <Folder Include="Features\Messages\GetMessage\" />
+    <Folder Include="Features\Messages\GetMessageThread\" />
+  </ItemGroup>
+
 </Project>

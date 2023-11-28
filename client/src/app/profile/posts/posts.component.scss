@@ -7,18 +7,19 @@
   margin-bottom: 2vh;
   height: 70em;
   overflow-y: scroll;
+
+  & h1 {
+    font-size: 4.2em;
+    font-weight: 600;
+    margin-top: 2em;
+  }
 }
 #posts-container {
   display: flex;
   flex-direction: column;
   gap: 2em;
-  margin-top: 2em;
+  margin: 2em 0;
   width: 68em;
-}
-#home-posts-container {
-  display: flex;
-  flex-direction: column;
-  gap: 2em;
 }
 .posts {
   padding: 3em;

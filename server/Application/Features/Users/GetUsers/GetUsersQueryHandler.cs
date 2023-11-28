@@ -21,11 +21,6 @@ namespace Application.Features.Users.GetUsers
         public async Task<GetUsersResponse> Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
 
-            if(_context.Users == null)
-            {
-                 throw new NotFoundException("Users not found");
-            }
-
             int authUserId = _authenticatedUserService.UserId;
 
             var minDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-request.Params.MaxAge - 1));

@@ -1,5 +1,6 @@
 ﻿using Application.Features.Messages.Common;
 using Application.Features.Messages.GetMessagesForUser;
+using Application.Features.Messages.GetMessageThread;
 using Application.Features.Messages.SendMessage;
 using Application.Utils;
 using MediatR;
@@ -29,6 +30,18 @@ namespace WebAPI.Controllers
             var result = await _mediator.Send(query, cancellationToken);
 
             Response.AddPaginationHeader(new PaginationHeader(result.Messages.CurrentPage, result.Messages.PageSize, result.Messages.TotalCount, result.Messages.TotalPages));
+
+            return Ok(result);
+        }
+        [HttpGet("thread/{recipientUsername}")]
+        public async Task<ActionResult<List<MessageDto>>> GetMessageThread(string recipientUsername, CancellationToken cancellationToken)
+        {
+            var query = new GetMessageThreadQuery
+            {
+                RecipientUsername = recipientUsername
+            };
+
+            var result = await _mediator.Send(query, cancellationToken);
 
             return Ok(result);
         }

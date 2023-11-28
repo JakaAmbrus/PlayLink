@@ -9,7 +9,7 @@ import {
   User,
   UsersResponse,
 } from '../_models/users';
-import { Observable, map, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map, of, tap } from 'rxjs';
 import { PaginatedResult, Pagination } from '../_models/pagination';
 import { UserParams } from '../_models/userParams';
 
@@ -24,6 +24,7 @@ export class UsersService {
   searchUsersCache: SearchUser[] = [];
   usersCache = new Map();
   private userCache = new Map<string, ProfileUser>();
+  private currentUserSubject = new BehaviorSubject<ProfileUser | null>(null);
 
   constructor(private http: HttpClient) {}
 
@@ -69,6 +70,12 @@ export class UsersService {
   }
 
   getUser(username: string, isCurrentUser: boolean): Observable<ProfileUser> {
+    if (isCurrentUser && this.currentUserSubject.value) {
+      return this.currentUserSubject
+        .asObservable()
+        .pipe(filter((user): user is ProfileUser => user !== null));
+    }
+
     if (!isCurrentUser) {
       const cachedUser = this.userCache.get(username);
       if (cachedUser) {
@@ -81,7 +88,10 @@ export class UsersService {
       .pipe(
         map((response) => {
           const user = response.user;
-          if (!isCurrentUser) {
+          if (isCurrentUser) {
+            console.log(user);
+            this.currentUserSubject.next(user);
+          } else {
             this.userCache.set(username, user);
           }
           return user;

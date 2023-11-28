@@ -40,6 +40,44 @@ export class PostsService {
       );
   }
 
+  getPostsByUsername(
+    username: string,
+    pageNumber: number,
+    pageSize: number
+  ): Observable<PaginatedResult<Post[]>> {
+    const params = new HttpParams()
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString());
+
+    return this.http
+      .get<{ posts: Post[]; pagination: Pagination }>(
+        this.baseUrl + 'posts/user/' + username,
+        {
+          observe: 'response',
+          params,
+        }
+      )
+      .pipe(
+        map((response) => {
+          this.paginatedResult.result = response.body?.posts;
+          if (response.headers.get('Pagination')) {
+            this.paginatedResult.pagination = JSON.parse(
+              response.headers.get('Pagination') as string
+            );
+          }
+          return this.paginatedResult;
+        })
+      );
+  }
+
+  getUserPostPhotos(username: string): Observable<string[]> {
+    return this.http
+      .get<{ photos: string[] }>(
+        this.baseUrl + 'posts/user/' + username + '/photos'
+      )
+      .pipe(map((response) => response.photos));
+  }
+
   uploadPost(postContent: PostContent): Observable<any> {
     const formData = new FormData();
     if (postContent.description) {

@@ -4,6 +4,7 @@ using Application.Features.Posts.DeletePost;
 using Application.Features.Posts.GetPostById;
 using Application.Features.Posts.GetPosts;
 using Application.Features.Posts.GetPostsByUser;
+using Application.Features.Posts.GetUserPostPhotos;
 using Application.Features.Posts.UploadPost;
 using Application.Utils;
 using MediatR;
@@ -45,9 +46,25 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("user/{username}")]
-        public async Task<IActionResult> GetPostsByUser(string username, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetPostsByUser(string username, [FromQuery] PaginationParams paginationParams, CancellationToken cancellationToken)
         {
-            var query = new GetPostsByUserQuery {Username = username };
+            var query = new GetPostsByUserQuery 
+            {
+                Username = username,
+                Params = paginationParams
+            };
+
+            var result = await _mediator.Send(query, cancellationToken);
+
+            Response.AddPaginationHeader(new PaginationHeader(result.Posts.CurrentPage, result.Posts.PageSize, result.Posts.TotalCount, result.Posts.TotalPages));
+
+            return Ok(result);
+        }
+
+        [HttpGet("user/{username}/photos")]
+        public async Task<IActionResult> GetUserPostPhotos(string username, CancellationToken cancellationToken)
+        {
+            var query = new GetUserPostPhotosQuery { Username = username };
 
             var result = await _mediator.Send(query, cancellationToken);
 

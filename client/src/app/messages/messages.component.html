@@ -1,3 +1,7 @@
 <div class="placeholder-container">
-  <div class="placeholder secondary-background"></div>
+  <div class="placeholder secondary-background">
+    <p *ngFor="let message of messages">
+      {{ message.content }}
+    </p>
+  </div>
 </div>

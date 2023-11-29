@@ -1,4 +1,5 @@
-﻿using Infrastructure.ExternalServices;
+﻿using CloudinaryDotNet;
+using Infrastructure.ExternalServices;
 using Infrastructure.Interfaces;
 using Infrastructure.Services;
 using Microsoft.Extensions.Configuration;

@@ -52,6 +52,7 @@ import { TimeAgoPipe } from './_pipes/time-ago.pipe';
 import { MessageDisplayComponent } from './messages/message-display/message-display.component';
 import { LimitTextPipe } from './_pipes/limit-text.pipe';
 import { FirstWordPipe } from './_pipes/first-word.pipe';
+import { MessageContentComponent } from './profile/message/message-content/message-content.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import { FirstWordPipe } from './_pipes/first-word.pipe';
     MessageDisplayComponent,
     LimitTextPipe,
     FirstWordPipe,
+    MessageContentComponent,
   ],
   imports: [
     BrowserModule,

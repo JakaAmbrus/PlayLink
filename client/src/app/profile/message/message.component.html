@@ -1,6 +1,28 @@
 <div id="message-tab" class="secondary-background rounded-border">
-  <h1 *ngIf="messages.length === 0">No messages yet, say hi!</h1>
-  <p *ngFor="let message of messages">
-    {{ message.content }}
-  </p>
+  <div #messageContainer class="message-container theme-border-bottom">
+    <h1 *ngIf="messages.length === 0">No messages yet, say hi!</h1>
+    <div *ngFor="let message of messages" class="message">
+      <app-message-content
+        [message]="message"
+        [username]="username"
+      ></app-message-content>
+    </div>
+  </div>
+  <form
+    #messageForm="ngForm"
+    (ngSubmit)="sendMessage()"
+    autocomplete="off"
+    id="send-message-form"
+  >
+    <input
+      id="send-message-input"
+      class="comments-content-background rounded-border"
+      name="messageContent"
+      required
+      [(ngModel)]="messageContent"
+      placeholder="Send a private message..."
+      type="text"
+    />
+    <button [disabled]="!messageForm.valid" type="submit">Send</button>
+  </form>
 </div>

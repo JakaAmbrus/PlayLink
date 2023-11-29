@@ -63,9 +63,7 @@ export class AccountService {
   }
 
   logout() {
-    localStorage.removeItem('loggedIn');
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.clear();
     this.setLoggedIn(false);
   }
 

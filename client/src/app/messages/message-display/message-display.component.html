@@ -2,8 +2,8 @@
   *ngIf="message"
   routerLink="{{
     container === 'Outbox'
-      ? '/user/' + message.recipientUsername + '/message'
-      : '/user/' + message.senderUsername
+      ? '/user/' + message.senderUsername
+      : '/user/' + message.senderUsername + '/message'
   }}"
   class="message-container theme-border-bottom"
 >
@@ -13,44 +13,21 @@
     <img
       title="user-avatar"
       class="message-user-img"
-      [src]="
-        container !== 'Outbox'
-          ? message.senderProfilePictureUrl
-          : message.recipientProfilePictureUrl
-      "
-      [alt]="
-        container !== 'Outbox'
-          ? message.senderFullName
-          : message.recipientFullName
-      "
-      *ngIf="
-        (container !== 'Outbox' && message.senderProfilePictureUrl) ||
-        (container === 'Outbox' && message.recipientProfilePictureUrl)
-      "
+      src="{{ message.senderProfilePictureUrl }}"
+      alt="{{ message.senderFullName }}"
+      *ngIf="message.senderProfilePictureUrl"
     />
     <span
       class="material-symbols-rounded filled message-icon-person"
       *ngIf="message.senderGender || message.recipientGender"
     >
-      {{
-        container !== "Outbox"
-          ? message.senderGender === "male"
-            ? "person"
-            : "person_2"
-          : message.recipientGender === "male"
-          ? "person"
-          : "person_2"
-      }}
+      {{ message.senderGender === "male" ? "person" : "person_2" }}
     </span>
   </div>
 
   <div class="message-content-container">
     <h1 class="message-user-name">
-      {{
-        container === "Outbox"
-          ? message.recipientFullName
-          : message.senderFullName
-      }}
+      {{ message.senderFullName }}
     </h1>
     <div class="message-content">
       {{ message.content | limitText : 60 }}

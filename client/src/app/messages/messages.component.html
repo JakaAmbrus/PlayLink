@@ -12,7 +12,6 @@
       name="options"
       aria-label="Select an option"
       id="message-buttons"
-      class="message-theme-border"
       [(ngModel)]="container"
     >
       <mat-button-toggle
@@ -31,7 +30,7 @@
     </mat-button-toggle-group>
 
     <div id="messages-content-container">
-      <h1 id="messages-content-header">
+      <h1 id="messages-content-header" class="header-text">
         {{ container }} Messages: {{ pagination?.totalItems ?? 0 }}
       </h1>
       <div

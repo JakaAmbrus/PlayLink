@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Messages\DeleteMessage\" />
     <Folder Include="Features\Messages\GetMessage\" />
   </ItemGroup>
 

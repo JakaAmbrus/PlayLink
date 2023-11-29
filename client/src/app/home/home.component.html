@@ -18,6 +18,7 @@
         <app-post-skeleton></app-post-skeleton>
       </div>
       <div
+        *ngIf="!isLoading"
         id="posts-container"
         infiniteScroll
         [infiniteScrollDistance]="0.8"

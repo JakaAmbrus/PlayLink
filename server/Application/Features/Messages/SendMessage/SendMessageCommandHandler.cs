@@ -63,10 +63,12 @@ namespace Application.Features.Messages.SendMessage
                 Message = new MessageDto
                 {
                     PrivateMessageId = message.PrivateMessageId,
-                    SenderId = message.Sender.Id,
+                    SenderFullName = message.Sender.FullName,
+                    SenderGender = message.Sender.Gender,
                     SenderUsername = message.SenderUsername,
-                    RecipientId = message.Recipient.Id,
                     RecipientUsername = message.RecipientUsername,
+                    RecipientFullName = message.Recipient.FullName,
+                    RecipientGender = message.Recipient.Gender,
                     Content = message.Content,
                     DateRead = message.DateRead,
                     PrivateMessageSent = message.PrivateMessageSent,

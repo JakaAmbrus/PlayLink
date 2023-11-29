@@ -8,7 +8,7 @@ namespace Application.Features.Messages.SendMessage
         {
             RuleFor(x => x.CreateMessageDto.Content)
                 .NotEmpty().WithMessage("Message cannot be empty")
-                .MaximumLength(100).WithMessage("Message cannot exceed 100 characters");
+                .MaximumLength(500).WithMessage("Message cannot exceed 500 characters");
 
             RuleFor(x => x.CreateMessageDto.RecipientUsername)
                 .NotEmpty().WithMessage("Must be valid recipient");

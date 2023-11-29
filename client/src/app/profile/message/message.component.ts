@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Message } from 'src/app/_models/messages';
-import { Pagination } from 'src/app/_models/pagination';
 import { MessagesService } from 'src/app/_services/messages.service';
 
 @Component({
@@ -9,29 +9,29 @@ import { MessagesService } from 'src/app/_services/messages.service';
   styleUrls: ['./message.component.scss'],
 })
 export class MessageComponent implements OnInit {
-  messages: Message[] | undefined;
-  pagination: Pagination | undefined;
-  container: string = 'Unread';
-  pageNumber: number = 1;
-  pageSize: number = 6;
+  username: any;
+  messages: Message[] = [];
 
-  constructor(private messagesService: MessagesService) {}
+  constructor(
+    private messagesService: MessagesService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.loadMessages();
   }
 
   loadMessages(): void {
-    this.messagesService
-      .getUserMessages(this.pageNumber, this.pageSize, this.container)
-      .subscribe({
-        next: (response) => {
-          this.messages = response.body?.messages;
-          console.log(this.messages);
-        },
-        error: (error) => {
-          console.error('Error fetching messages', error);
-        },
-      });
+    this.username = this.route.parent?.snapshot.paramMap.get('username');
+    if (!this.username) {
+      return;
+    }
+
+    this.messagesService.getMessageThread(this.username).subscribe({
+      next: (messages) => {
+        this.messages = messages;
+        console.log(messages);
+      },
+    });
   }
 }

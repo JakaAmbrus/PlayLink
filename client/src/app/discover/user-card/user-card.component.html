@@ -48,7 +48,7 @@
         {{ user.gender === "male" ? "person" : "person_2" }}
       </span>
       <p class="name-and-age">
-        {{ user.fullName.split(" ")[0] }}, {{ user.age }}
+        {{ user.fullName | firstWord }}, {{ user.age }}
       </p>
     </div>
     <p class="location">{{ user.country }}</p>

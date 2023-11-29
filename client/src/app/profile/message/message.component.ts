@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Message } from 'src/app/_models/messages';
 import { MessagesService } from 'src/app/_services/messages.service';
@@ -9,8 +10,13 @@ import { MessagesService } from 'src/app/_services/messages.service';
   styleUrls: ['./message.component.scss'],
 })
 export class MessageComponent implements OnInit {
+  @ViewChild('messageContainer') private messageContainer:
+    | ElementRef
+    | undefined;
+  @ViewChild('messageForm') messageForm?: NgForm;
   username: any;
   messages: Message[] = [];
+  messageContent: string = '';
 
   constructor(
     private messagesService: MessagesService,
@@ -31,7 +37,32 @@ export class MessageComponent implements OnInit {
       next: (messages) => {
         this.messages = messages;
         console.log(messages);
+        this.scrollToBottom();
       },
     });
+  }
+
+  sendMessage(): void {
+    if (!this.username) {
+      return;
+    }
+    this.messagesService
+      .sendMessage(this.username, this.messageContent)
+      .subscribe({
+        next: (message) => {
+          this.messages.push(message);
+          this.messageForm?.reset();
+          this.scrollToBottom();
+        },
+      });
+  }
+
+  private scrollToBottom(): void {
+    setTimeout(() => {
+      const element = this.messageContainer?.nativeElement;
+      if (element) {
+        element.scrollTop = element.scrollHeight;
+      }
+    }, 0);
   }
 }

@@ -43,7 +43,7 @@ namespace Application.Features.Messages.GetMessageThread
                     DateRead = m.DateRead,
                     PrivateMessageSent = m.PrivateMessageSent,
                     SenderGender = currentUser.Gender,
-                    RecipientGender = m.Sender.Gender,
+                    RecipientGender = m.Recipient.Gender,
                     SenderFullName = m.Sender.FullName,
                     RecipientFullName = m.Recipient.FullName
                 })

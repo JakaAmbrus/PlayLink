@@ -9,8 +9,34 @@
   & h1 {
     font-family: "Nexa Bold";
     text-align: center;
-    font-size: 4.2em;
-    font-weight: 600;
+    font-size: 3.2em;
     margin-top: 2em;
   }
+}
+.message-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1em;
+  height: 60em;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.message-container::-webkit-scrollbar {
+  display: none;
+}
+#send-message-form {
+  display: flex;
+  align-items: center;
+  padding: 0 1em;
+}
+#send-message-input {
+  width: 100%;
+  font-size: 1.6em;
+  padding: 1em;
+  border: none;
+  border-radius: 0.5em;
+  outline: none;
+  resize: none;
+  font-family: "Roboto Regular";
 }

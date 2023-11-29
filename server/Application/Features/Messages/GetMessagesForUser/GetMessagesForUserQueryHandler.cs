@@ -1,6 +1,7 @@
 ﻿using Application.Exceptions;
 using Application.Features.Messages.Common;
 using Application.Utils;
+using Domain.Entities;
 using Infrastructure.Data;
 using Infrastructure.Interfaces;
 using MediatR;
@@ -23,32 +24,47 @@ namespace Application.Features.Messages.GetMessagesForUser
         {
             int authUserId = _authenticatedUserService.UserId;
 
-            var user = await _context.Users.FindAsync(authUserId, cancellationToken)
+            var user = await _context.Users
+                .FindAsync(new object[] { authUserId }, cancellationToken)
                 ?? throw new NotFoundException("User not found");
 
-            var messages = _context.PrivateMessages
-                .AsQueryable()
+            IQueryable<PrivateMessage> messageQuery;
+
+            switch (request.Params.Container)
+            {
+                case "Inbox":
+                    messageQuery = _context.PrivateMessages
+                        .Where(u => u.RecipientUsername == user.UserName && u.RecipientDeleted == false);
+                    break;
+
+                case "Outbox":
+                    messageQuery = _context.PrivateMessages
+                        .Where(u => u.SenderUsername == user.UserName && u.SenderDeleted == false);
+                    break;
+
+                default:
+                    messageQuery = _context.PrivateMessages
+                        .Where(u => u.RecipientUsername == user.UserName && u.DateRead == null);
+                    break;
+            }
+
+            var messages = messageQuery
                 .OrderByDescending(m => m.PrivateMessageSent)
                 .Select(m => new MessageDto
                 {
                     PrivateMessageId = m.PrivateMessageId,
-                    SenderId = m.Sender.Id,
                     SenderUsername = m.SenderUsername,
                     SenderProfilePictureUrl = m.Sender.ProfilePictureUrl,
-                    RecipientId = m.Recipient.Id,
                     RecipientUsername = m.RecipientUsername,
                     RecipientProfilePictureUrl = m.Recipient.ProfilePictureUrl,
                     Content = m.Content,
                     DateRead = m.DateRead,
-                    PrivateMessageSent = m.PrivateMessageSent
+                    PrivateMessageSent = m.PrivateMessageSent,
+                    SenderGender = user.Gender,
+                    RecipientGender = m.Sender.Gender,
+                    SenderFullName = m.Sender.FullName,
+                    RecipientFullName = m.Recipient.FullName
                 });
-
-            messages = request.Params.Container switch
-            {
-                "Inbox" => messages.Where(u => u.RecipientUsername == user.UserName),
-                "Outbox" => messages.Where(u => u.SenderUsername == user.UserName),
-                _ => messages.Where(u => u.RecipientUsername == user.UserName && u.DateRead == null)
-            };
 
             var pagedMessages = await PagedList<MessageDto>
                 .CreateAsync(messages, request.Params.PageNumber, request.Params.PageSize);

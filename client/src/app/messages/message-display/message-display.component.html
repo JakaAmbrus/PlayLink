@@ -1,0 +1,70 @@
+<div
+  *ngIf="message"
+  routerLink="{{
+    container === 'Outbox'
+      ? '/user/' + message.recipientUsername + '/message'
+      : '/user/' + message.senderUsername
+  }}"
+  class="message-container theme-border-bottom"
+>
+  <div
+    class="message-user-img-container header-icons-right theme-border rounded-border"
+  >
+    <img
+      title="user-avatar"
+      class="message-user-img"
+      [src]="
+        container !== 'Outbox'
+          ? message.senderProfilePictureUrl
+          : message.recipientProfilePictureUrl
+      "
+      [alt]="
+        container !== 'Outbox'
+          ? message.senderFullName
+          : message.recipientFullName
+      "
+      *ngIf="
+        (container !== 'Outbox' && message.senderProfilePictureUrl) ||
+        (container === 'Outbox' && message.recipientProfilePictureUrl)
+      "
+    />
+    <span
+      class="material-symbols-rounded filled message-icon-person"
+      *ngIf="message.senderGender || message.recipientGender"
+    >
+      {{
+        container !== "Outbox"
+          ? message.senderGender === "male"
+            ? "person"
+            : "person_2"
+          : message.recipientGender === "male"
+          ? "person"
+          : "person_2"
+      }}
+    </span>
+  </div>
+
+  <div class="message-content-container">
+    <h1 class="message-user-name">
+      {{
+        container === "Outbox"
+          ? message.recipientFullName
+          : message.senderFullName
+      }}
+    </h1>
+    <div class="message-content">
+      {{ message.content | limitText : 60 }}
+      <span *ngIf="message.content.length > 100">...</span>
+    </div>
+    <p class="message-date">
+      {{ message.privateMessageSent | relativeTime }}
+    </p>
+  </div>
+  <span
+    *ngIf="container !== 'Unread'"
+    (click)="handleClick($event, message.privateMessageId)"
+    class="material-symbols-rounded filled message-icon-close"
+  >
+    close
+  </span>
+</div>

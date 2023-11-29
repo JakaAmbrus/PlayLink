@@ -1,4 +1,5 @@
 ﻿using Application.Features.Messages.Common;
+using Application.Features.Messages.DeleteMessage;
 using Application.Features.Messages.GetMessagesForUser;
 using Application.Features.Messages.GetMessageThread;
 using Application.Features.Messages.SendMessage;
@@ -50,6 +51,16 @@ namespace WebAPI.Controllers
         public async Task<ActionResult<MessageDto>> CreateMessage(CreateMessageDto createMessageDto, CancellationToken cancellationToken)
         {
             var command = new SendMessageCommand { CreateMessageDto = createMessageDto };
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteMessage(int id, CancellationToken cancellationToken)
+        {
+            var command = new DeleteMessageCommand { PrivateMessageId = id };
 
             var result = await _mediator.Send(command, cancellationToken);
 

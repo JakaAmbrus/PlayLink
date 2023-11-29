@@ -1,12 +1,14 @@
 export interface Message {
   privateMessageId: number;
-  senderId: number;
-  recipientId: number;
-  senderProfilePictureUrl: string;
-  recipientProfilePictureUrl: string;
   senderUsername: string;
+  senderFullName: string;
+  senderGender: string;
+  senderProfilePictureUrl: string;
   recipientUsername: string;
+  recipientFullName: string;
+  recipientGender: string;
+  recipientProfilePictureUrl: string;
   content: string;
-  dateRead?: Date;
+  dateRead: Date | null;
   privateMessageSent: Date;
 }

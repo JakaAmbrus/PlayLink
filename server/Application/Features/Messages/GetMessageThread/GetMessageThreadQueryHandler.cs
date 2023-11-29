@@ -27,21 +27,25 @@ namespace Application.Features.Messages.GetMessageThread
 
             var messages = await _context.PrivateMessages
                 .AsQueryable()
-                .Where(m => m.RecipientUsername == currentUser.UserName && m.SenderUsername == request.RecipientUsername
-                                   || m.RecipientUsername == request.RecipientUsername && m.SenderUsername == currentUser.UserName)
+                .Where(m => m.RecipientUsername == currentUser.UserName && m.RecipientDeleted == false
+                    && m.SenderUsername == request.RecipientUsername
+                    || m.RecipientUsername == request.RecipientUsername && m.SenderDeleted == false
+                    && m.SenderUsername == currentUser.UserName)
                 .OrderBy(m => m.PrivateMessageSent)
                 .Select(m => new MessageDto
                 {
                     PrivateMessageId = m.PrivateMessageId,
-                    SenderId = m.Sender.Id,
                     SenderUsername = m.SenderUsername,
                     SenderProfilePictureUrl = m.Sender.ProfilePictureUrl,
-                    RecipientId = m.Recipient.Id,
                     RecipientUsername = m.RecipientUsername,
                     RecipientProfilePictureUrl = m.Recipient.ProfilePictureUrl,
                     Content = m.Content,
                     DateRead = m.DateRead,
-                    PrivateMessageSent = m.PrivateMessageSent
+                    PrivateMessageSent = m.PrivateMessageSent,
+                    SenderGender = currentUser.Gender,
+                    RecipientGender = m.Sender.Gender,
+                    SenderFullName = m.Sender.FullName,
+                    RecipientFullName = m.Recipient.FullName
                 })
                 .ToListAsync(cancellationToken);
 

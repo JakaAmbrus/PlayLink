@@ -49,6 +49,9 @@ import { UploadPostComponent } from './_components/upload-post/upload-post.compo
 import { QuizWidgetComponent } from './games/game-selection/quiz-widget/quiz-widget.component';
 import { UploadCommentComponent } from './_components/upload-comment/upload-comment.component';
 import { TimeAgoPipe } from './_pipes/time-ago.pipe';
+import { MessageDisplayComponent } from './messages/message-display/message-display.component';
+import { LimitTextPipe } from './_pipes/limit-text.pipe';
+import { FirstWordPipe } from './_pipes/first-word.pipe';
 
 @NgModule({
   declarations: [
@@ -84,6 +87,9 @@ import { TimeAgoPipe } from './_pipes/time-ago.pipe';
     QuizWidgetComponent,
     UploadCommentComponent,
     TimeAgoPipe,
+    MessageDisplayComponent,
+    LimitTextPipe,
+    FirstWordPipe,
   ],
   imports: [
     BrowserModule,

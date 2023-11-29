@@ -1,0 +1,62 @@
+.message-container {
+  font-family: "Roboto Regular";
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  padding: 1em;
+  padding-top: 0;
+}
+.message-user-img-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 5.2em;
+  height: 5.2em;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.message-user-img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.message-icon-person {
+  font-size: 5em;
+}
+
+.message-content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.2em;
+  width: 100%;
+  padding-left: 1em;
+}
+.message-user-name-and-date {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  font-size: 1.2em;
+}
+.message-content {
+  font-size: 1.6em;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+.message-date {
+  font-size: 1.1em;
+}
+.message-icon-close {
+  position: absolute;
+  right: 0.2em;
+  top: 0em;
+  font-size: 3.5em;
+  height: 1em;
+  width: 1em;
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
+}
+.message-icon-close:hover {
+  opacity: 0.6;
+}

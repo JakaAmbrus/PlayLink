@@ -26,27 +26,13 @@ namespace Application.Features.Messages.GetMessageThread
                 ?? throw new NotFoundException("User not found");
 
             var messages = await _context.PrivateMessages
-                .AsQueryable()
+                .Include(m => m.Sender)
+                .Include(m => m.Recipient)
                 .Where(m => m.RecipientUsername == currentUser.UserName && m.RecipientDeleted == false
                     && m.SenderUsername == request.RecipientUsername
                     || m.RecipientUsername == request.RecipientUsername && m.SenderDeleted == false
                     && m.SenderUsername == currentUser.UserName)
                 .OrderBy(m => m.PrivateMessageSent)
-                .Select(m => new MessageDto
-                {
-                    PrivateMessageId = m.PrivateMessageId,
-                    SenderUsername = m.SenderUsername,
-                    SenderProfilePictureUrl = m.Sender.ProfilePictureUrl,
-                    RecipientUsername = m.RecipientUsername,
-                    RecipientProfilePictureUrl = m.Recipient.ProfilePictureUrl,
-                    Content = m.Content,
-                    DateRead = m.DateRead,
-                    PrivateMessageSent = m.PrivateMessageSent,
-                    SenderGender = currentUser.Gender,
-                    RecipientGender = m.Recipient.Gender,
-                    SenderFullName = m.Sender.FullName,
-                    RecipientFullName = m.Recipient.FullName
-                })
                 .ToListAsync(cancellationToken);
 
             var unreadMessages = messages
@@ -62,8 +48,24 @@ namespace Application.Features.Messages.GetMessageThread
 
                 await _context.SaveChangesAsync(cancellationToken);
             }
+            var messageDtos = messages.Select(m => new MessageDto
+            {
+                PrivateMessageId = m.PrivateMessageId,
+                SenderUsername = m.SenderUsername,
+                SenderProfilePictureUrl = m.Sender.ProfilePictureUrl,
+                RecipientUsername = m.RecipientUsername,
+                RecipientProfilePictureUrl = m.Recipient.ProfilePictureUrl,
+                Content = m.Content,
+                DateRead = m.DateRead,
+                PrivateMessageSent = m.PrivateMessageSent,
+                SenderGender = currentUser.Gender,
+                RecipientGender = m.Recipient.Gender,
+                SenderFullName = m.Sender.FullName,
+                RecipientFullName = m.Recipient.FullName
+            }).ToList();
 
-            return new GetMessageThreadResponse { Messages = messages };
+
+            return new GetMessageThreadResponse { Messages = messageDtos };
         }
     }
 }

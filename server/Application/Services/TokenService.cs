@@ -2,12 +2,12 @@
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Infrastructure.Interfaces;
+using Application.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 
-namespace Infrastructure.Services
+namespace Application.Services
 {
     public class TokenService : ITokenService
     {

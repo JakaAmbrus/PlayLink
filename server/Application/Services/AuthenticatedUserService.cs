@@ -1,8 +1,8 @@
-﻿using Infrastructure.Interfaces;
+﻿using Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
-namespace Infrastructure.Services
+namespace Application.Services
 {
     internal class AuthenticatedUserService : IAuthenticatedUserService
     {

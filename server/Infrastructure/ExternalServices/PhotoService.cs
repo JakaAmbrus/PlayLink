@@ -1,11 +1,11 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using Infrastructure.ExternalServices;
-using Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using Application.Interfaces;
+using Application.Models;
 
-namespace Infrastructure.Services
+namespace Infrastructure.ExternalServices
 {
     public class PhotoService : IPhotoService
     {
@@ -21,7 +21,7 @@ namespace Infrastructure.Services
             _cloudinary.Api.Secure = true;
         }
 
-        public async Task<ImageUploadResult> AddPhotoAsync(IFormFile file, string typeOfPhoto)
+        public async Task<PhotoUploadResult> AddPhotoAsync(IFormFile file, string typeOfPhoto)
         {
             var uploadResult = new ImageUploadResult();
 
@@ -61,15 +61,24 @@ namespace Infrastructure.Services
                 };
                 uploadResult = await _cloudinary.UploadAsync(uploadParams);
             }
+            var result = new PhotoUploadResult
+            {
+                PublicId = uploadResult.PublicId,
+                Url = uploadResult.Url.ToString()
+            };
 
-            return uploadResult;
+            return result;
         }
 
-        public async Task<DeletionResult> DeletePhotoAsync(string publicId)
+        public async Task<PhotoDeletionResult> DeletePhotoAsync(string publicId)
         {
-            var deleteParams = new DeletionParams(publicId);
 
-            return await _cloudinary.DestroyAsync(deleteParams);
+            var deletionResult = await _cloudinary.DestroyAsync(new DeletionParams(publicId));
+
+            return new PhotoDeletionResult
+            {
+                Succeeded = deletionResult.Result == "ok"
+            };
         }
 
     }

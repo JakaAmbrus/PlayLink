@@ -1,6 +1,8 @@
 using Application;
+using Application.Interfaces;
 using Infrastructure;
 using Infrastructure.Extensions;
+using Infrastructure.ExternalServices;
 using Serilog;
 using WebAPI.Extensions;
 using WebAPI.Filters;
@@ -18,6 +20,10 @@ builder.Services.AddControllers();
 builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<IPhotoService, PhotoService>();
 
 builder.Services.AddScoped<LogUserActivity>();
 

@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 
-namespace Infrastructure.Interfaces
+namespace Application.Interfaces
 {
     public interface ITokenService
     {

@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Data;
-using Infrastructure.Interfaces;
+using Application.Interfaces;
 
-namespace Infrastructure.Services
+namespace Application.Services
 {
     public class UserActivityService : IUserActivityService
     {

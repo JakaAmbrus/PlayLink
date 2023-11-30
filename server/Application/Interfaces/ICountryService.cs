@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Interfaces
+﻿namespace Application.Interfaces
 {
     public interface ICountryService
     {

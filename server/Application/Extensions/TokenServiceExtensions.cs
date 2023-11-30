@@ -1,8 +1,8 @@
-﻿using Infrastructure.Interfaces;
-using Infrastructure.Services;
+﻿using Application.Interfaces;
+using Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.Extensions
+namespace Application.Extensions
 {
     public static class TokenServiceExtensions
     {

@@ -10,6 +10,7 @@ namespace WebAPI.Middleware
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionMiddleware> _logger;
         private readonly IHostEnvironment _env;
+        private string details;
 
         public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger, IHostEnvironment env)
         {
@@ -17,8 +18,6 @@ namespace WebAPI.Middleware
             _logger = logger;
             _next = next;
         }
-
-        private string details;
 
         public async Task InvokeAsync(HttpContext context)
         {

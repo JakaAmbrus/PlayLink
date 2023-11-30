@@ -1,4 +1,8 @@
-<div *ngIf="message" class="message-content-container theme-border-bottom">
+<div
+  *ngIf="message"
+  [ngClass]="{ 'current-user': message.senderUsername !== username }"
+  class="message-content-container theme-border-bottom"
+>
   <div
     class="sender-avatar-container header-icons-right theme-border rounded-border"
   >
@@ -26,7 +30,10 @@
     <div class="sender-message-content">
       {{ message.content }}
     </div>
-    <p *ngIf="message.dateRead" class="sender-message-date">
+    <p
+      *ngIf="message.dateRead && message.senderUsername !== username"
+      class="sender-message-date"
+    >
       <b>Seen </b>{{ message.dateRead | timeAgo }}
     </p>
   </div>

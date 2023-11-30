@@ -11,6 +11,7 @@
   <div class="input-container">
     <label class="form-label" for="userName">Username*</label>
     <input
+      autocomplete="off"
       formControlName="username"
       [class.input-invalid]="
         registerForm.get('username')?.touched &&
@@ -54,6 +55,7 @@
   <div class="input-container">
     <label class="form-label" for="password">Full Name*</label>
     <input
+      autocomplete="off"
       title="Full Name"
       formControlName="fullName"
       [class.input-invalid]="
@@ -203,6 +205,7 @@
   <div class="input-container">
     <label class="form-label" for="password">Password*</label>
     <input
+      autocomplete="off"
       formControlName="password"
       [class.input-invalid]="
         registerForm.get('password')?.touched &&
@@ -246,6 +249,7 @@
   <div class="input-container">
     <label class="form-label" for="password">Confirm Password*</label>
     <input
+      autocomplete="off"
       title="Confirm Password"
       formControlName="confirmPassword"
       [class.input-invalid]="

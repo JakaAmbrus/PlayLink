@@ -41,7 +41,6 @@ app.UseSerilogRequestLogging();
 
 ApplicationStartupExtensions.ConfigureApplication(app, app.Services);
 
-
 app.MapControllers();
 
 app.MapHub<PresenceHub>("hubs/presence");

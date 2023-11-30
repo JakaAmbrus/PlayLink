@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Admin\AdminGetUsers\" />
     <Folder Include="Features\Messages\GetMessage\" />
   </ItemGroup>
 

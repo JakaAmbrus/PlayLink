@@ -2,7 +2,9 @@ using Application;
 using Infrastructure;
 using Infrastructure.Extensions;
 using Serilog;
+using WebAPI.Extensions;
 using WebAPI.Filters;
+using WebAPI.Hubs;
 using WebAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +20,8 @@ builder.Services
     .AddInfrastructure(builder.Configuration);
 
 builder.Services.AddScoped<LogUserActivity>();
+
+builder.Services.AddSignalRExtensions();
 
 builder.Host.UseSerilog((context, configuration) =>
 configuration.ReadFrom.Configuration(context.Configuration));
@@ -39,5 +43,7 @@ ApplicationStartupExtensions.ConfigureApplication(app, app.Services);
 
 
 app.MapControllers();
+
+app.MapHub<PresenceHub>("hubs/presence");
 
 app.Run();

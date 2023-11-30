@@ -2,7 +2,7 @@
   *ngIf="message"
   routerLink="{{
     container === 'Outbox'
-      ? '/user/' + message.senderUsername
+      ? '/user/' + message.recipientUsername + '/message'
       : '/user/' + message.senderUsername + '/message'
   }}"
   class="message-container theme-border-bottom"

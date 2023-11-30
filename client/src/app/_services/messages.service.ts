@@ -57,10 +57,12 @@ export class MessagesService {
   }
 
   sendMessage(username: string, content: string) {
-    return this.http.post<Message>(this.baseUrl + 'messages', {
-      recipientUsername: username,
-      content,
-    });
+    return this.http
+      .post<{ message: Message }>(this.baseUrl + 'messages', {
+        recipientUsername: username,
+        content,
+      })
+      .pipe(map((response) => response.message));
   }
 
   deleteMessage(id: number) {

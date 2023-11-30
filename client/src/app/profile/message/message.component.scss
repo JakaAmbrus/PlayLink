@@ -19,6 +19,7 @@
   width: 100%;
   gap: 1em;
   height: 60em;
+  flex-shrink: 0;
   overflow-y: auto;
   scrollbar-width: none;
 }
@@ -28,6 +29,7 @@
 #send-message-form {
   display: flex;
   align-items: center;
+  height: 100%;
   padding: 0 1em;
 }
 #send-message-input {
@@ -35,8 +37,15 @@
   font-size: 1.6em;
   padding: 1em;
   border: none;
-  border-radius: 0.5em;
+  border-radius: 0.5em 0 0 0.5em;
   outline: none;
   resize: none;
   font-family: "Roboto Regular";
+}
+#send-message-button {
+  cursor: pointer;
+  font-family: "Nexa Bold";
+  font-size: 1.8em;
+  padding: 0.8em 1.8em;
+  border-radius: 0 0.5em 0.5em 0;
 }

@@ -137,7 +137,7 @@ $dark-theme: (
     color: map-get($dark-theme, primary-text);
   }
   .reverse-parameters {
-    background-color: rgb(237, 234, 234);
+    background-color: rgba(237, 234, 234, 0.929);
     color: map-get($dark-theme, background);
     transition: all 0.3s ease;
 

@@ -50,7 +50,7 @@ export class MessageComponent implements OnInit {
       .sendMessage(this.username, this.messageContent)
       .subscribe({
         next: (message) => {
-          this.messages.push(message);
+          this.messages = [...this.messages, message];
           this.messageForm?.reset();
           this.scrollToBottom();
         },

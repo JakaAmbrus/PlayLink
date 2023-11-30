@@ -16,13 +16,20 @@
   >
     <input
       id="send-message-input"
-      class="comments-content-background rounded-border"
+      class="comments-content-background header-text"
       name="messageContent"
       required
       [(ngModel)]="messageContent"
       placeholder="Send a private message..."
       type="text"
     />
-    <button [disabled]="!messageForm.valid" type="submit">Send</button>
+    <button
+      id="send-message-button"
+      class="reverse-parameters"
+      [disabled]="!messageForm.valid"
+      type="submit"
+    >
+      Send
+    </button>
   </form>
 </div>

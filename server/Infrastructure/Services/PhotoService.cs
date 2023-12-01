@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 using Application.Interfaces;
 using Application.Models;
 
-namespace Infrastructure.ExternalServices
+namespace Infrastructure.Services
 {
     public class PhotoService : IPhotoService
     {
@@ -64,7 +64,8 @@ namespace Infrastructure.ExternalServices
             var result = new PhotoUploadResult
             {
                 PublicId = uploadResult.PublicId,
-                Url = uploadResult.Url.ToString()
+                Url = uploadResult.Url.ToString(),
+                Error = uploadResult.Error != null ? uploadResult.Error.Message : null
             };
 
             return result;
@@ -77,7 +78,8 @@ namespace Infrastructure.ExternalServices
 
             return new PhotoDeletionResult
             {
-                Succeeded = deletionResult.Result == "ok"
+                Succeeded = deletionResult.Result == "ok",
+                Error = deletionResult.Error != null ? deletionResult.Error.Message : null
             };
         }
 

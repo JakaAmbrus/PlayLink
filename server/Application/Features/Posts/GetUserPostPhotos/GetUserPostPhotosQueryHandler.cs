@@ -1,5 +1,5 @@
 ﻿using Application.Exceptions;
-using Infrastructure.Data;
+using Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,9 +7,9 @@ namespace Application.Features.Posts.GetUserPostPhotos
 {
     public class GetUserPostPhotosQueryHandler : IRequestHandler<GetUserPostPhotosQuery, GetUserPostPhotosResponse>
     {
-        private readonly DataContext _context;
+        private readonly IApplicationDbContext _context;
 
-        public GetUserPostPhotosQueryHandler(DataContext context) 
+        public GetUserPostPhotosQueryHandler(IApplicationDbContext context) 
         { 
             _context = context;
         }

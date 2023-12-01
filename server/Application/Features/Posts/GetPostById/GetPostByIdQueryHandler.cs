@@ -1,6 +1,6 @@
 ﻿using Application.Exceptions;
 using Application.Features.Posts.Common;
-using Infrastructure.Data;
+using Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,9 +8,9 @@ namespace Application.Features.Posts.GetPostById
 {
     public class GetPostByIdQueryHandler : IRequestHandler<GetPostByIdQuery, PostDto>
     {
-        private readonly DataContext _context;
+        private readonly IApplicationDbContext _context;
 
-        public GetPostByIdQueryHandler(DataContext context)
+        public GetPostByIdQueryHandler(IApplicationDbContext context)
         {
             _context = context;
         }

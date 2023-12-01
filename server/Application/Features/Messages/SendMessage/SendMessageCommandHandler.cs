@@ -1,8 +1,7 @@
 ﻿using Application.Exceptions;
 using Application.Features.Messages.Common;
+using Application.Interfaces;
 using Domain.Entities;
-using Infrastructure.Data;
-using Infrastructure.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,10 +9,10 @@ namespace Application.Features.Messages.SendMessage
 {
     public class SendMessageCommandHandler : IRequestHandler<SendMessageCommand, SendMessageResponse>
     {
-        private readonly DataContext _context;
+        private readonly IApplicationDbContext _context;
         private readonly IAuthenticatedUserService _authenticatedUserService;
 
-        public SendMessageCommandHandler(DataContext context,
+        public SendMessageCommandHandler(IApplicationDbContext context,
                        IAuthenticatedUserService authenticatedUserService)
         {
             _context = context;

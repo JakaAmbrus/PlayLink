@@ -1,18 +1,16 @@
 ﻿using Application.Exceptions;
 using Application.Features.Posts.Common;
+using Application.Interfaces;
 using Application.Utils;
-using Infrastructure.Data;
-using Infrastructure.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Posts.GetPosts
 {
     public class GetPostsQueryHandler : IRequestHandler<GetPostsQuery, GetPostsResponse>
     {
-        private readonly DataContext _context;
+        private readonly IApplicationDbContext _context;
         private readonly IAuthenticatedUserService _authenticatedUserService;
-        public GetPostsQueryHandler( DataContext context, IAuthenticatedUserService authenticatedUserService) 
+        public GetPostsQueryHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService) 
         {
             _context = context;
             _authenticatedUserService = authenticatedUserService;

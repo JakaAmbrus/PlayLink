@@ -1,19 +1,18 @@
 ﻿using Application.Exceptions;
 using Application.Features.Posts.Common;
+using Application.Interfaces;
 using Domain.Entities;
-using Infrastructure.Data;
-using Infrastructure.Interfaces;
 using MediatR;
 
 namespace Application.Features.Posts.UploadPost
 {
     public class UploadPostCommandHandler : IRequestHandler<UploadPostCommand, UploadPostResponse>
     {
-        private readonly DataContext _context;
+        private readonly IApplicationDbContext _context;
         private readonly IAuthenticatedUserService _authenticatedUserService;
         private readonly IPhotoService _photoService;
 
-        public UploadPostCommandHandler(DataContext context,
+        public UploadPostCommandHandler(IApplicationDbContext context,
             IAuthenticatedUserService authenticatedUserService,
             IPhotoService photoService)
         {
@@ -48,7 +47,7 @@ namespace Application.Features.Posts.UploadPost
                 }
                 else
                 {
-                    throw new ServerErrorException(uploadResult.Error.Message);
+                    throw new ServerErrorException(uploadResult.Error);
                 }
             }
 

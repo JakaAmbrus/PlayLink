@@ -1,23 +1,17 @@
 ﻿using Application.Exceptions;
+using Application.Interfaces;
 using Domain.Entities;
-using Infrastructure.Data;
-using Infrastructure.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.Likes.LikeComment
 {
     public class LikeCommentCommandHandler : IRequestHandler<LikeCommentCommand, LikeCommentResponse>
     {
-        private readonly DataContext _context;
+        private readonly IApplicationDbContext _context;
         private readonly IAuthenticatedUserService _authenticatedUserService;
 
-        public LikeCommentCommandHandler(DataContext context, IAuthenticatedUserService authenticatedUserService)
+        public LikeCommentCommandHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService)
         {
             _context = context;
             _authenticatedUserService = authenticatedUserService;

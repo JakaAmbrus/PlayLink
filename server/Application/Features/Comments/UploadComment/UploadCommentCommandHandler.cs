@@ -1,18 +1,17 @@
 ﻿using Application.Exceptions;
 using Application.Features.Comments.Common;
+using Application.Interfaces;
 using Domain.Entities;
-using Infrastructure.Data;
-using Infrastructure.Interfaces;
 using MediatR;
 
 namespace Application.Features.Comments.UploadComment
 {
     public class UploadCommentCommandHandler : IRequestHandler<UploadCommentCommand, UploadCommentResponse>
     {
-        private readonly DataContext _context;
+        private readonly IApplicationDbContext _context;
         private readonly IAuthenticatedUserService _authenticatedUserService;
 
-        public UploadCommentCommandHandler(DataContext context,
+        public UploadCommentCommandHandler(IApplicationDbContext context,
             IAuthenticatedUserService authenticatedUserService)
         {
             _context = context;
@@ -24,7 +23,7 @@ namespace Application.Features.Comments.UploadComment
                 ?? throw new NotFoundException("Post not found");
 
             int currentUserId = _authenticatedUserService.UserId;
-            var currentUser = await _context.Users.FindAsync(currentUserId);
+            var currentUser = await _context.Users.FindAsync(currentUserId, cancellationToken);
             if (currentUser == null)
             {
                 throw new NotFoundException("User not found");

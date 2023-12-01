@@ -1,18 +1,16 @@
-﻿using Application.Exceptions;
-using Application.Features.Users.Common;
+﻿using Application.Features.Users.Common;
+using Application.Interfaces;
 using Application.Utils;
-using Infrastructure.Data;
-using Infrastructure.Interfaces;
 using MediatR;
 
 namespace Application.Features.Users.GetUsers
 {
     public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, GetUsersResponse>
     {
-        private readonly DataContext _context;
+        private readonly IApplicationDbContext _context;
         private readonly IAuthenticatedUserService _authenticatedUserService;
 
-        public GetUsersQueryHandler(DataContext context, IAuthenticatedUserService authenticatedUserService)
+        public GetUsersQueryHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService)
         {
             _context = context;
             _authenticatedUserService = authenticatedUserService;

@@ -1,7 +1,6 @@
 ﻿using Application.Exceptions;
 using Application.Features.Comments.Common;
-using Infrastructure.Data;
-using Infrastructure.Interfaces;
+using Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,10 +8,10 @@ namespace Application.Features.Comments.GetComments
 {
     public class GetPostCommentsQueryHandler : IRequestHandler<GetPostCommentsQuery, GetPostCommentsResponse>
     {
-        private readonly DataContext _context;
+        private readonly IApplicationDbContext _context;
         private readonly IAuthenticatedUserService _authenticatedUserService;
 
-        public GetPostCommentsQueryHandler(DataContext context, IAuthenticatedUserService authenticatedUserService)
+        public GetPostCommentsQueryHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService)
         {
             _context = context;
             _authenticatedUserService = authenticatedUserService;

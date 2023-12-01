@@ -1,4 +1,4 @@
-﻿using Infrastructure.Interfaces;
+﻿using Application.Interfaces;
 using Microsoft.AspNetCore.SignalR;
 
 namespace WebAPI.Hubs

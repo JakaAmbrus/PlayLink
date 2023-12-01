@@ -8,9 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="7.0.13" />
-	  <None Update="Resources/countries.json">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
   </ItemGroup>
 
 </Project>

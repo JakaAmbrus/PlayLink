@@ -1,17 +1,15 @@
 ﻿using Application.Exceptions;
-using Application.Features.Posts.DeletePost;
-using Infrastructure.Data;
-using Infrastructure.Interfaces;
+using Application.Interfaces;
 using MediatR;
 
 namespace Application.Features.Comments.DeleteComment
 {
     public class DeleteCommentCommandHandler : IRequestHandler<DeleteCommentCommand, DeleteCommentResponse>
     {
-        private readonly DataContext _context;
+        private readonly IApplicationDbContext  _context;
         private readonly IAuthenticatedUserService _authenticatedUserService;
 
-        public DeleteCommentCommandHandler(DataContext context,
+        public DeleteCommentCommandHandler(IApplicationDbContext context,
             IAuthenticatedUserService authenticatedUserService)
         {
             _context = context;

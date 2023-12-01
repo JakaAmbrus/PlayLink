@@ -1,18 +1,16 @@
 ﻿using Application.Exceptions;
-using Infrastructure.Data;
-using Infrastructure.Interfaces;
+using Application.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Users.EditUserDetails
 {
     public class EditUserDetailsCommandHandler : IRequestHandler<EditUserDetailsCommand, EditUserDetailsResponse>
     {
-        private readonly DataContext _context;
+        private readonly IApplicationDbContext _context;
         private readonly IAuthenticatedUserService _authenticatedUserService;
         private readonly IPhotoService _photoService;
 
-        public EditUserDetailsCommandHandler(DataContext context,
+        public EditUserDetailsCommandHandler(IApplicationDbContext context,
                        IAuthenticatedUserService authenticatedUserService,
                                   IPhotoService photoService)
         {
@@ -49,7 +47,7 @@ namespace Application.Features.Users.EditUserDetails
 
                     if (deletionResult.Error != null)
                     {
-                        throw new ServerErrorException(deletionResult.Error.Message);
+                        throw new ServerErrorException(deletionResult.Error);
                     }
                 }
                 var uploadResult = await _photoService.AddPhotoAsync(request.EditUserDto.PhotoFile, "profile");
@@ -61,7 +59,7 @@ namespace Application.Features.Users.EditUserDetails
                 }
                 else
                 {
-                    throw new ServerErrorException(uploadResult.Error.Message);
+                    throw new ServerErrorException(uploadResult.Error);
                 }
             }
 

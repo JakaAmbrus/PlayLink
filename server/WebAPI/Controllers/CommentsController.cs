@@ -4,6 +4,7 @@ using Application.Features.Comments.GetComments;
 using Application.Features.Comments.UploadComment;
 using Application.Features.Likes.LikeComment;
 using Application.Features.Likes.UnlikeComment;
+using Application.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,13 +12,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers
 {
     [Authorize(Policy = "RequireMemberRole")]
-    public class CommentsController : BaseApiController
+    public class CommentsController : BaseAuthApiController
     {
-        private readonly ISender _mediator;
-
-        public CommentsController(ISender sender)
+        public CommentsController(ISender mediator, IAuthenticatedUserService authenticatedUserService) : base(mediator, authenticatedUserService)
         {
-            _mediator = sender;
         }
 
         [HttpGet("{postId}")]
@@ -25,7 +23,7 @@ namespace WebAPI.Controllers
         {
             var query = new GetPostCommentsQuery { PostId = postId};
 
-            var result = await _mediator.Send(query, cancellationToken);
+            var result = await Mediator.Send(query, cancellationToken);
 
             return Ok(result);
         }
@@ -39,7 +37,7 @@ namespace WebAPI.Controllers
                 CommentContentDto = comment
             };
 
-            var result = await _mediator.Send(command, cancellationToken);
+            var result = await Mediator.Send(command, cancellationToken);
 
             return Ok(result);
         }
@@ -47,9 +45,12 @@ namespace WebAPI.Controllers
         [HttpDelete("{commentId}")]
         public async Task<ActionResult<DeleteCommentResponse>> DeleteComment(int commentId, CancellationToken cancellationToken)
         {
-            var command = new DeleteCommentCommand(commentId);
+            int authUserId = GetCurrentUserId();
+            IEnumerable<string> authUserRoles = GetCurrentUserRoles();
 
-            var result = await _mediator.Send(command, cancellationToken);
+            var command = new DeleteCommentCommand(commentId, authUserId, authUserRoles);
+
+            var result = await Mediator.Send(command, cancellationToken);
 
             return Ok(result);
         }
@@ -59,7 +60,7 @@ namespace WebAPI.Controllers
         {
             var command = new LikeCommentCommand { CommentId = commentId};
 
-            var result = await _mediator.Send(command, cancellationToken);
+            var result = await Mediator.Send(command, cancellationToken);
 
             if (result.Liked)
             {
@@ -74,7 +75,7 @@ namespace WebAPI.Controllers
         {
             var command = new UnlikeCommentCommand { CommentId = commentId };
 
-            var result = await _mediator.Send(command, cancellationToken);
+            var result = await Mediator.Send(command, cancellationToken);
 
             if (result.Unliked)
             {

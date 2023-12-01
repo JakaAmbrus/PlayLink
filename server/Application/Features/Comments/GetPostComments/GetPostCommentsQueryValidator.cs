@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Application.Utils;
+using FluentValidation;
 
 namespace Application.Features.Comments.GetComments
 {
@@ -7,7 +8,13 @@ namespace Application.Features.Comments.GetComments
         public GetPostCommentsQueryValidator()
         {
             RuleFor(x => x.PostId)
-                .GreaterThan(0).WithMessage("Invalid Post Id");
+                .NotEmpty().WithMessage("PostId required.");
+
+            RuleFor(x => x.AuthUserId)
+                .NotEmpty().WithMessage("AuthUserId required.");
+
+            RuleFor(x => x.AuthUserRoles)
+                .Must(ValidationUtils.BeValidRole).WithMessage("Invalid role detected.");
         }
     }
 }

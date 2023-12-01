@@ -21,7 +21,10 @@ namespace WebAPI.Controllers
         [HttpGet("{postId}")]
         public async Task<IActionResult> GetPostComments(int postId, CancellationToken cancellationToken)
         {
-            var query = new GetPostCommentsQuery { PostId = postId};
+            int authUserId = GetCurrentUserId();
+            IEnumerable<string> authUserRoles = GetCurrentUserRoles();
+
+            var query = new GetPostCommentsQuery(postId, authUserId, authUserRoles);
 
             var result = await Mediator.Send(query, cancellationToken);
 
@@ -32,7 +35,6 @@ namespace WebAPI.Controllers
         public async Task<ActionResult<UploadCommentResponse>> UploadComment(int postId, [FromBody] CommentContentDto comment, CancellationToken cancellationToken)
         {
             int authUserId = GetCurrentUserId();
-            IEnumerable<string> authUserRoles = GetCurrentUserRoles();
 
             var command = new UploadCommentCommand(postId, comment, authUserId);
 

@@ -1,18 +1,16 @@
 ﻿using Application.Exceptions;
-using Domain.Entities;
-using Infrastructure.Data;
-using Infrastructure.Interfaces;
+using Application.Interfaces;
 using MediatR;
 
 namespace Application.Features.Posts.DeletePost
 {
     public class DeletePostCommandHandler : IRequestHandler<DeletePostCommand, DeletePostResponse>
     {
-        private readonly DataContext _context;
+        private readonly IApplicationDbContext _context;
         private readonly IAuthenticatedUserService _authenticatedUserService;
         private readonly IPhotoService _photoService;
 
-        public DeletePostCommandHandler(DataContext context,
+        public DeletePostCommandHandler(IApplicationDbContext context,
             IAuthenticatedUserService authenticatedUserService,
             IPhotoService photoService)
         {
@@ -45,7 +43,7 @@ namespace Application.Features.Posts.DeletePost
 
                 if (deletionResult.Error != null)
                 {
-                    throw new ServerErrorException(deletionResult.Error.Message);
+                    throw new ServerErrorException(deletionResult.Error);
                 }
             }
 

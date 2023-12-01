@@ -1,7 +1,6 @@
 ﻿using Application.Exceptions;
 using Application.Features.Messages.Common;
-using Infrastructure.Data;
-using Infrastructure.Interfaces;
+using Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,10 +8,10 @@ namespace Application.Features.Messages.GetMessageThread
 {
     public class GetMessageThreadQueryHandler : IRequestHandler<GetMessageThreadQuery, GetMessageThreadResponse>
     {
-        private readonly DataContext _context;
+        private readonly IApplicationDbContext _context;
         private readonly IAuthenticatedUserService _authenticatedUserService;
 
-        public GetMessageThreadQueryHandler(DataContext context, IAuthenticatedUserService authenticatedUserService)
+        public GetMessageThreadQueryHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService)
         {
             _context = context;
             _authenticatedUserService = authenticatedUserService;

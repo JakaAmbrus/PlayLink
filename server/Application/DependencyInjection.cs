@@ -26,10 +26,6 @@ namespace Application
 
             services.AddAuthenticatedUserServices();
 
-            services.AddSingleton<ICountryService, CountryService>();
-
-            services.AddScoped<IUserActivityService, UserActivityService>();
-
             return services;
         }
     }

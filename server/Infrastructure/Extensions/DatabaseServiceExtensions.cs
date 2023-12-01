@@ -1,4 +1,5 @@
-﻿using Infrastructure.Data;
+﻿using Application.Interfaces;
+using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +14,9 @@ namespace Infrastructure.Extensions
             {
                 options.UseNpgsql(config.GetConnectionString("DefaultConnection"));
             }); 
-            
+
+            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<DataContext>());
+
             services.AddCors();
 
             return services;

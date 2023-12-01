@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.ExternalServices
+﻿namespace Infrastructure.Services
 {
     public class CloudinarySettings
     {

@@ -1,16 +1,15 @@
 ﻿using Application.Exceptions;
-using Infrastructure.Data;
-using Infrastructure.Interfaces;
+using Application.Interfaces;
 using MediatR;
 
 namespace Application.Features.Messages.DeleteMessage
 {
     public class DeleteMessageCommandHandler : IRequestHandler<DeleteMessageCommand, DeleteMessageResponse>
     {
-        private readonly DataContext _context;
+        private readonly IApplicationDbContext _context;
         private readonly IAuthenticatedUserService _authenticatedUserService;
 
-        public DeleteMessageCommandHandler(DataContext context, IAuthenticatedUserService authenticatedUserService)
+        public DeleteMessageCommandHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService)
         {
             _context = context;
             _authenticatedUserService = authenticatedUserService;

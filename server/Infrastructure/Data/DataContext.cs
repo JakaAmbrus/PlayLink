@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Data.Configurations;
 using Domain.Entities;
+using Application.Interfaces;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastructure.Data
 {
     public class DataContext : IdentityDbContext<AppUser, AppRole, int,
           IdentityUserClaim<int>, AppUserRole, IdentityUserLogin<int>,
-          IdentityRoleClaim<int>, IdentityUserToken<int>>
+          IdentityRoleClaim<int>, IdentityUserToken<int>>, IApplicationDbContext
     {
         public DataContext(DbContextOptions options) : base(options) { }
 
@@ -53,6 +55,25 @@ namespace Infrastructure.Data
 
             //PrivatMessages
             builder.ApplyConfiguration(new PrivateMessageConfiguration());
+        }
+        public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken)
+        {
+            return await Database.BeginTransactionAsync(cancellationToken);
+        }
+
+        public async Task CommitTransactionAsync(IDbContextTransaction transaction, CancellationToken cancellationToken)
+        {
+            await transaction.CommitAsync(cancellationToken);
+        }
+
+        public async Task RollbackTransactionAsync(IDbContextTransaction transaction, CancellationToken cancellationToken)
+        {
+            await transaction.RollbackAsync(cancellationToken);
+        }
+
+        public void Add<TEntity>(TEntity entity) where TEntity : class
+        {
+            Set<TEntity>().Add(entity);
         }
     }
 }

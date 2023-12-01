@@ -1,6 +1,5 @@
 ﻿using Application.Exceptions;
-using Infrastructure.Data;
-using Infrastructure.Interfaces;
+using Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,10 +7,10 @@ namespace Application.Features.Users.GetUsersUniqueCountries
 {
     public class GetUsersUniqueCountriesQueryHandler : IRequestHandler<GetUsersUniqueCountriesQuery, GetUsersUniqueCountriesResponse>
     {
-        private readonly DataContext _context;
+        private readonly IApplicationDbContext _context;
         private readonly IAuthenticatedUserService _authenticatedUserService;
 
-        public GetUsersUniqueCountriesQueryHandler(DataContext context, IAuthenticatedUserService authenticatedUserService)
+        public GetUsersUniqueCountriesQueryHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService)
         {
             _context = context;
             _authenticatedUserService = authenticatedUserService;

@@ -1,6 +1,6 @@
 ﻿using Application.Exceptions;
 using Application.Features.Users.Common;
-using Infrastructure.Data;
+using Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,8 +8,8 @@ namespace Application.Features.Users.GetUserByUsername
 {
     public class GetUserByUsernameQueryHandler : IRequestHandler<GetUserByUsernameQuery, GetUserByUsernameResponse>
     {
-        private readonly DataContext _context;
-        public GetUserByUsernameQueryHandler(DataContext context)
+        private readonly IApplicationDbContext _context;
+        public GetUserByUsernameQueryHandler(IApplicationDbContext context)
         {
             _context = context;
         }

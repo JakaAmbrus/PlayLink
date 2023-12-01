@@ -1,6 +1,5 @@
 ﻿using Application.Features.Users.Common;
-using Infrastructure.Data;
-using Infrastructure.Interfaces;
+using Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,10 +7,10 @@ namespace Application.Features.Users.GetUsersForSearchBar
 {
     public class GetUsersForSearchBarQueryHandler : IRequestHandler<GetUsersForSearchBarQuery, GetUsersForSearchBarResponse>
     {
-        private readonly DataContext _context;
+        private readonly IApplicationDbContext _context;
         private readonly IAuthenticatedUserService _authenticatedUserService;
 
-        public GetUsersForSearchBarQueryHandler(DataContext context, IAuthenticatedUserService authenticatedUserService)
+        public GetUsersForSearchBarQueryHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService)
         {
             _context = context;
             _authenticatedUserService = authenticatedUserService;

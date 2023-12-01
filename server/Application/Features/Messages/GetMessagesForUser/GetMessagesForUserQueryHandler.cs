@@ -1,19 +1,18 @@
 ﻿using Application.Exceptions;
 using Application.Features.Messages.Common;
+using Application.Interfaces;
 using Application.Utils;
 using Domain.Entities;
-using Infrastructure.Data;
-using Infrastructure.Interfaces;
 using MediatR;
 
 namespace Application.Features.Messages.GetMessagesForUser
 {
     public class GetMessagesForUserQueryHandler : IRequestHandler<GetMessagesForUserQuery, GetMessagesForUserResponse>
     {
-        private readonly DataContext _context;
+        private readonly IApplicationDbContext _context;
         private readonly IAuthenticatedUserService _authenticatedUserService;
 
-        public GetMessagesForUserQueryHandler(DataContext context,
+        public GetMessagesForUserQueryHandler(IApplicationDbContext context,
                                   IAuthenticatedUserService authenticatedUserService)
         {
             _context = context;

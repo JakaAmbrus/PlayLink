@@ -4,11 +4,6 @@
     {
         public string PublicId { get; set; }
         public string Url { get; set; }
-
-    }
-
-    public class PhotoDeletionResult
-    {
-        public bool Succeeded { get; set; }
+        public string Error { get; set; }
     }
 }

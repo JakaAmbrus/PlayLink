@@ -31,11 +31,10 @@ namespace WebAPI.Controllers
         [HttpPost("{postId}")]
         public async Task<ActionResult<UploadCommentResponse>> UploadComment(int postId, [FromBody] CommentContentDto comment, CancellationToken cancellationToken)
         {
-            var command = new UploadCommentCommand
-            {
-                PostId = postId,
-                CommentContentDto = comment
-            };
+            int authUserId = GetCurrentUserId();
+            IEnumerable<string> authUserRoles = GetCurrentUserRoles();
+
+            var command = new UploadCommentCommand(authUserId, postId, comment);
 
             var result = await Mediator.Send(command, cancellationToken);
 

@@ -7,5 +7,13 @@ namespace Application.Features.Comments.UploadComment
     {
         public int PostId { get; set; }
         public CommentContentDto CommentContentDto { get; set; }
+        public int AuthUserId { get; set; }
+
+        public UploadCommentCommand(int postId, CommentContentDto commentContentDto, int authUserId)
+        {
+            PostId = postId;
+            CommentContentDto = commentContentDto;
+            AuthUserId = authUserId;
+        }
     }
 }

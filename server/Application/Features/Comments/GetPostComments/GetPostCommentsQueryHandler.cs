@@ -9,22 +9,17 @@ namespace Application.Features.Comments.GetComments
     public class GetPostCommentsQueryHandler : IRequestHandler<GetPostCommentsQuery, GetPostCommentsResponse>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IAuthenticatedUserService _authenticatedUserService;
 
-        public GetPostCommentsQueryHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService)
+        public GetPostCommentsQueryHandler(IApplicationDbContext context)
         {
             _context = context;
-            _authenticatedUserService = authenticatedUserService;
         }
 
         public async Task<GetPostCommentsResponse> Handle(GetPostCommentsQuery request, CancellationToken cancellationToken)
         {
-            int currentUserId = _authenticatedUserService.UserId;
-            var CurrentUserRole = _authenticatedUserService.UserRoles;
+            bool isModerator = request.AuthUserRoles.Contains("Moderator");
 
-            bool isModerator = CurrentUserRole.Contains("Moderator");
-
-            if (currentUserId == 0) throw new UnauthorizedException("You must be logged in to view comments");
+            if (request.AuthUserId == 0) throw new UnauthorizedException("You must be logged in to view comments");
 
             var comments = await _context.Comments
             .Where(comment => comment.PostId == request.PostId)
@@ -41,8 +36,8 @@ namespace Application.Features.Comments.GetComments
                 Content = comment.Content,
                 LikesCount = comment.LikesCount,
                 TimeCommented = comment.TimeCommented,
-                IsLikedByCurrentUser = comment.Likes.Any(like => like.AppUserId == currentUserId),
-                IsAuthorized = comment.AppUserId == currentUserId || isModerator
+                IsLikedByCurrentUser = comment.Likes.Any(like => like.AppUserId == request.AuthUserId),
+                IsAuthorized = comment.AppUserId == request.AuthUserId || isModerator
             })
             .ToListAsync(cancellationToken);
 

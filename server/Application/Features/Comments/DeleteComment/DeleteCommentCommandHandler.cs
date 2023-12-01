@@ -7,13 +7,10 @@ namespace Application.Features.Comments.DeleteComment
     public class DeleteCommentCommandHandler : IRequestHandler<DeleteCommentCommand, DeleteCommentResponse>
     {
         private readonly IApplicationDbContext  _context;
-        private readonly IAuthenticatedUserService _authenticatedUserService;
 
-        public DeleteCommentCommandHandler(IApplicationDbContext context,
-            IAuthenticatedUserService authenticatedUserService)
+        public DeleteCommentCommandHandler(IApplicationDbContext context)
         {
             _context = context;
-            _authenticatedUserService = authenticatedUserService;
         }
 
         public async Task<DeleteCommentResponse> Handle(DeleteCommentCommand request, CancellationToken cancellationToken)
@@ -24,11 +21,8 @@ namespace Application.Features.Comments.DeleteComment
             var selectedPost = await _context.Posts.FindAsync(selectedComment.PostId, cancellationToken)
                 ?? throw new NotFoundException("Post was not found");
 
-            var authUserId = _authenticatedUserService.UserId;
-            var authUserRole = _authenticatedUserService.UserRoles;
-
-            bool isPostOwner = selectedComment.AppUserId == authUserId;
-            bool isModerator = authUserRole.Contains("Moderator");
+            bool isPostOwner = selectedComment.AppUserId == request.AuthUserId;
+            bool isModerator = request.AuthUserRoles.Contains("Moderator");
 
             //Only the comments owner or a moderator/admin can delete a comment
             if (!isPostOwner && !isModerator)

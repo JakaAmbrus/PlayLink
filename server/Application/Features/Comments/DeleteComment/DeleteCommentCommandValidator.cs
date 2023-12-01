@@ -8,6 +8,12 @@ namespace Application.Features.Comments.DeleteComment
         {
             RuleFor(x => x.CommentId)
                 .NotEmpty().WithMessage("CommentId required.");
+
+            RuleFor(x => x.AuthUserId)
+                .NotEmpty().WithMessage("AuthUserId required.");
+
+            RuleFor(x => x.AuthUserRoles)
+                .NotEmpty().WithMessage("User must have a role.");
         }
     }
 }

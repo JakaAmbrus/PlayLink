@@ -9,11 +9,14 @@ namespace Application.Features.Comments.UploadComment
         {
 
             RuleFor(x => x.PostId)
-                .GreaterThan(0).WithMessage("Invalid Post Id");
+                .NotEmpty().WithMessage("Post Id required.");
 
             RuleFor(x => x.CommentContentDto.Content)
                 .NotNull().WithMessage("Comment content is required.")
                 .MaximumLength(300).WithMessage("Comment content must not exceed 300 characters.");
+
+            RuleFor(x => x.AuthUserId)
+                .NotEmpty().WithMessage("Authorized user Id required.");
         }
 
         protected override bool PreValidate(ValidationContext<UploadCommentCommand> context, ValidationResult result)

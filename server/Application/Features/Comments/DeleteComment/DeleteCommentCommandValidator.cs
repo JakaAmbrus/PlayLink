@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Application.Utils;
+using FluentValidation;
 
 namespace Application.Features.Comments.DeleteComment
 {
@@ -13,7 +14,7 @@ namespace Application.Features.Comments.DeleteComment
                 .NotEmpty().WithMessage("AuthUserId required.");
 
             RuleFor(x => x.AuthUserRoles)
-                .NotEmpty().WithMessage("User must have a role.");
+                .Must(ValidationUtils.BeValidRole).WithMessage("Invalid role detected.");
         }
     }
 }

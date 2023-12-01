@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
             int authUserId = GetCurrentUserId();
             IEnumerable<string> authUserRoles = GetCurrentUserRoles();
 
-            var command = new UploadCommentCommand(authUserId, postId, comment);
+            var command = new UploadCommentCommand(postId, comment, authUserId);
 
             var result = await Mediator.Send(command, cancellationToken);
 

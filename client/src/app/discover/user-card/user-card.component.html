@@ -30,10 +30,12 @@
     </div>
     <img
       *ngIf="user.profilePictureUrl"
-      src="{{ user.profilePictureUrl }}"
+      ngSrc="{{ user.profilePictureUrl }}"
       alt="{{ user.fullName }}'s profile picture'"
       class="profile-picture"
       [ngClass]="{ hover: isHovered }"
+      fill
+      priority="true"
     />
     <span
       class="material-symbols-rounded filled card-img"

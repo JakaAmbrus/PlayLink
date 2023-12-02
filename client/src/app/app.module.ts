@@ -14,6 +14,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { NgOptimizedImage, provideCloudinaryLoader } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -109,6 +110,7 @@ import { MessageContentComponent } from './profile/message/message-content/messa
     NgxPaginationModule,
     MatButtonToggleModule,
     InfiniteScrollModule,
+    NgOptimizedImage,
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-bottom-right',
@@ -120,6 +122,7 @@ import { MessageContentComponent } from './profile/message/message-content/messa
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    provideCloudinaryLoader('http://res.cloudinary.com/dsdleukb7'),
   ],
   bootstrap: [AppComponent],
 })

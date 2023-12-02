@@ -1,4 +1,5 @@
-﻿using Application.Features.Comments.DeleteComment;
+﻿using Application.Features.Comments.Common;
+using Application.Features.Comments.DeleteComment;
 using Application.Features.Comments.GetComments;
 using Application.Features.Comments.UploadComment;
 using Application.Features.Likes.LikeComment;
@@ -45,15 +46,14 @@ namespace WebAPI.Controllers
         /// <param name="postId">Post ID.</param>
         /// <param name="comment">Text content of a comment.</param>
         /// <returns>Comment DTO of the uploaded comment.</returns>
-        [HttpPost("{postId}")]
-        public async Task<ActionResult<UploadCommentResponse>> UploadComment(int postId, [FromBody] string comment, CancellationToken cancellationToken)
+        [HttpPost]
+        public async Task<IActionResult> UploadComment(CommentUploadDto commentUploadDto, CancellationToken cancellationToken)
         {
             int authUserId = GetCurrentUserId();
 
             var command = new UploadCommentCommand
             {
-                PostId = postId,
-                Content = comment,
+                Comment = commentUploadDto,
                 AuthUserId = authUserId, 
             };
 
@@ -69,7 +69,7 @@ namespace WebAPI.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns>Confirmation of deletion.</returns>
         [HttpDelete("{commentId}")]
-        public async Task<ActionResult<DeleteCommentResponse>> DeleteComment(int commentId, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteComment(int commentId, CancellationToken cancellationToken)
         {
             int authUserId = GetCurrentUserId();
             IEnumerable<string> authUserRoles = GetCurrentUserRoles();

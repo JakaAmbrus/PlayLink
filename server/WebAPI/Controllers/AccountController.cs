@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
         /// <param name="command">Required information for successful registration: Username, Password, Gender, Full Name, Country and Date of birth.</param>
         /// <returns>JWT and username.</returns>
         [HttpPost("register")] 
-        public async Task<ActionResult<UserRegistrationResponse>> Register(UserRegistrationCommand command)
+        public async Task<IActionResult> Register(UserRegistrationCommand command)
         {
             var result = await _mediator.Send(command);
 
@@ -38,7 +38,7 @@ namespace WebAPI.Controllers
         /// <param name="command">Username and Password.</param>
         /// <returns>JWTand username.</returns>
         [HttpPost("login")]
-        public async Task<ActionResult<UserLoginResponse>> Login(UserLoginCommand command)
+        public async Task<IActionResult> Login(UserLoginCommand command)
         {
             var result = await _mediator.Send(command);
 

@@ -10,21 +10,16 @@ namespace Application.Features.Messages.GetMessagesForUser
     public class GetMessagesForUserQueryHandler : IRequestHandler<GetMessagesForUserQuery, GetMessagesForUserResponse>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IAuthenticatedUserService _authenticatedUserService;
 
-        public GetMessagesForUserQueryHandler(IApplicationDbContext context,
-                                  IAuthenticatedUserService authenticatedUserService)
+        public GetMessagesForUserQueryHandler(IApplicationDbContext context)
         {
             _context = context;
-            _authenticatedUserService = authenticatedUserService;
         }
 
         public async Task<GetMessagesForUserResponse> Handle(GetMessagesForUserQuery request, CancellationToken cancellationToken)
         {
-            int authUserId = _authenticatedUserService.UserId;
-
             var user = await _context.Users
-                .FindAsync(new object[] { authUserId }, cancellationToken)
+                .FindAsync(new object[] { request.AuthUserId }, cancellationToken)
                 ?? throw new NotFoundException("User not found");
 
             IQueryable<PrivateMessage> messageQuery;

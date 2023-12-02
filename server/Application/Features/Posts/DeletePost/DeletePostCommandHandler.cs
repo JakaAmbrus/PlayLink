@@ -7,15 +7,11 @@ namespace Application.Features.Posts.DeletePost
     public class DeletePostCommandHandler : IRequestHandler<DeletePostCommand, DeletePostResponse>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IAuthenticatedUserService _authenticatedUserService;
         private readonly IPhotoService _photoService;
 
-        public DeletePostCommandHandler(IApplicationDbContext context,
-            IAuthenticatedUserService authenticatedUserService,
-            IPhotoService photoService)
+        public DeletePostCommandHandler(IApplicationDbContext context, IPhotoService photoService)
         {
             _context = context;
-            _authenticatedUserService = authenticatedUserService;
             _photoService = photoService;
         }
 
@@ -24,11 +20,8 @@ namespace Application.Features.Posts.DeletePost
             var selectedPost = await _context.Posts.FindAsync(request.PostId, cancellationToken) 
                 ?? throw new NotFoundException("Post was not found");
 
-            int authUserId = _authenticatedUserService.UserId;
-            var authUserRole = _authenticatedUserService.UserRoles;
-
-            bool isPostOwner = selectedPost.AppUserId == authUserId;
-            bool isModerator = authUserRole.Contains("Moderator");
+            bool isPostOwner = selectedPost.AppUserId == request.AuthUserId;
+            bool isModerator = request.AuthUserRoles.Contains("Moderator");
 
             //Only the posts owner or a moderator/admin can delete a post
             if (!isPostOwner && !isModerator)
@@ -48,16 +41,8 @@ namespace Application.Features.Posts.DeletePost
             }
 
             _context.Posts.Remove(selectedPost);
-
-            try
-            {
-                await _context.SaveChangesAsync(cancellationToken);
-            }
-            catch
-            {
-                throw new ServerErrorException("Problem deleting post");
-            }
-            
+            await _context.SaveChangesAsync(cancellationToken);
+ 
             return new DeletePostResponse { IsDeleted = true };
         }
     }

@@ -11,87 +11,94 @@ using Application.Utils;
 using WebAPI.Extensions;
 using Application.Features.Users.GetUsersUniqueCountries;
 using Application.Features.Users.GetUsersForSearchBar;
+using Application.Interfaces;
+using Application.Features.Users.Common;
 
 namespace WebAPI.Controllers
 {
     [Authorize(Roles = "Member")]
-    public class UsersController : BaseApiController
+    public class UsersController : BaseAuthApiController
     {
-        private readonly IMediator _mediator;
-
-        public UsersController(IMediator mediator)
+        public UsersController(ISender mediator, IAuthenticatedUserService authenticatedUserService) : base(mediator, authenticatedUserService)
         {
-            _mediator = mediator;
         }
 
         [HttpGet]
         public async Task<ActionResult<PagedList<UserDto>>> GetUsers([FromQuery] UserParams userParams, CancellationToken cancellationToken)
         {
-            var query = new GetUsersQuery { Params = userParams };
-            var users = await _mediator.Send(query, cancellationToken);
+            int authUserId = GetCurrentUserId();
+
+            var query = new GetUsersQuery 
+            { 
+                Params = userParams,
+                AuthUserId = authUserId
+            };
+
+            var users = await Mediator.Send(query, cancellationToken);
 
             Response.AddPaginationHeader(new PaginationHeader(users.Users.CurrentPage, users.Users.PageSize, users.Users.TotalCount, users.Users.TotalPages));
 
             return Ok(users);
         }
-        [HttpGet("searchbar")]
-        public async Task<ActionResult<GetUsersForSearchBarResponse>> GetUsersForSearchBar()
-        {
-            var query = new GetUsersForSearchBarQuery();
-            var users = await _mediator.Send(query);
 
-            if (users == null)
-            {
-                return NotFound("There are no users available");
-            }
+        [HttpGet("searchbar")]
+        public async Task<ActionResult<GetUsersForSearchBarResponse>> GetUsersForSearchBar(CancellationToken cancellationToken)
+        {
+            int authUserId = GetCurrentUserId();
+
+            var query = new GetUsersForSearchBarQuery { AuthUserId = authUserId};
+
+            var users = await Mediator.Send(query, cancellationToken);
 
             return Ok(users);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<AppUser>> GetUser(int id)
+        public async Task<ActionResult<GetUserByIdResponse>> GetUser(int id, CancellationToken cancellationToken)
         {
-           var user = await _mediator.Send(new GetUserByIdQuery(id));
+            var query = new GetUserByIdQuery { Id = id };
 
-            if (user == null)
-            {
-                return NotFound("User not found");
-            }
+            var user = await Mediator.Send(query, cancellationToken);
 
             return Ok(user); 
         }
 
-
         [HttpGet("username/{username}")]
-        public async Task<ActionResult<AppUser>> GetUserByUsername(string username)
+        public async Task<ActionResult<AppUser>> GetUserByUsername(string username, CancellationToken cancellationToken)
         {
-            var user = await _mediator.Send(new GetUserByUsernameQuery(username));
+            var query = new GetUserByUsernameQuery { Username = username };
 
-            if (user == null)
-            {
-                return NotFound("User not found");
-            }
+            var response = await Mediator.Send(query, cancellationToken);
 
-            return Ok(user);
+            return Ok(response);
         }
 
         [HttpGet("countries")]
-        public async Task<IActionResult> GetUniqueCountries()
+        public async Task<IActionResult> GetUniqueCountries(CancellationToken cancellationToken)
         {
-            var query = new GetUsersUniqueCountriesQuery();
-            var countries = await _mediator.Send(query);
-            return Ok(countries);
+            int authUserId = GetCurrentUserId();
+
+            var query = new GetUsersUniqueCountriesQuery { AuthUserId = authUserId };
+
+            var response = await Mediator.Send(query, cancellationToken);
+
+            return Ok(response);
         }
 
         [HttpPut("edit")]
-        public async Task<ActionResult<EditUserDetailsResponse>> EditUserDetails([FromForm] EditUserDetailsCommand command)
+        public async Task<ActionResult<EditUserDetailsResponse>> EditUserDetails([FromForm] EditUserDto editUserDto, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(command);
+            int authUserId = GetCurrentUserId();
+            IEnumerable<string> authUserRoles = GetCurrentUserRoles();
 
-            if (response == null)
+            var command = new EditUserDetailsCommand
             {
-                return BadRequest("Problem editing user");
-            }
+                EditUserDto = editUserDto,
+                AuthUserId = authUserId,
+                AuthUserRoles = authUserRoles
+            };
+
+            var response = await Mediator.Send(command, cancellationToken);
 
             return Ok(response);
         }

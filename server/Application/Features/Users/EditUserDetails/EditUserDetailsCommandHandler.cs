@@ -7,29 +7,22 @@ namespace Application.Features.Users.EditUserDetails
     public class EditUserDetailsCommandHandler : IRequestHandler<EditUserDetailsCommand, EditUserDetailsResponse>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IAuthenticatedUserService _authenticatedUserService;
         private readonly IPhotoService _photoService;
 
-        public EditUserDetailsCommandHandler(IApplicationDbContext context,
-                       IAuthenticatedUserService authenticatedUserService,
-                                  IPhotoService photoService)
+        public EditUserDetailsCommandHandler(IApplicationDbContext context,IPhotoService photoService)
         {
             _context = context;
-            _authenticatedUserService = authenticatedUserService;
             _photoService = photoService;
         }
 
         public async Task<EditUserDetailsResponse> Handle(EditUserDetailsCommand request, CancellationToken cancellationToken)
         {
-            var authUserId = _authenticatedUserService.UserId;
-
-            var selectedUser = await _context.Users.FindAsync(authUserId, cancellationToken)
+            var selectedUser = await _context.Users.FindAsync(request.AuthUserId, cancellationToken)
                 ?? throw new NotFoundException("User was not found");
 
             var username = selectedUser.UserName;
-            var authUserRole = _authenticatedUserService.UserRoles;
 
-            bool isModerator = authUserRole.Contains("Moderator");
+            bool isModerator = request.AuthUserRoles.Contains("Moderator");
             bool isUserOwner = username == request.EditUserDto.Username;
 
             //Only the owner or a moderator/admin can edit post
@@ -73,14 +66,7 @@ namespace Application.Features.Users.EditUserDetails
                 selectedUser.Country = request.EditUserDto.Country;
             }
 
-            try
-            {
-                await _context.SaveChangesAsync(cancellationToken);
-            }
-            catch
-            {
-                throw new ServerErrorException("Problem editing profile");
-            }
+            await _context.SaveChangesAsync(cancellationToken);
 
             return new EditUserDetailsResponse
             {

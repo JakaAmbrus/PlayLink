@@ -18,9 +18,9 @@ export class CommentsService {
       .pipe(map((response) => response.comments));
   }
 
-  uploadComment(postId: number, commentContent: string): Observable<Comment> {
+  uploadComment(postId: number, content: string): Observable<Comment> {
     return this.http.post<Comment>(this.baseUrl + 'comments/' + postId, {
-      content: commentContent,
+      content: content,
     });
   }
 

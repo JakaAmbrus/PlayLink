@@ -9,27 +9,24 @@ namespace Application.Features.Messages.GetMessageThread
     public class GetMessageThreadQueryHandler : IRequestHandler<GetMessageThreadQuery, GetMessageThreadResponse>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IAuthenticatedUserService _authenticatedUserService;
 
         public GetMessageThreadQueryHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService)
         {
             _context = context;
-            _authenticatedUserService = authenticatedUserService;
         }
 
         public async Task<GetMessageThreadResponse> Handle(GetMessageThreadQuery request, CancellationToken cancellationToken)
         {
-            int authUserId = _authenticatedUserService.UserId;
-
-            var currentUser = await _context.Users.FindAsync(authUserId, cancellationToken)
+            var currentUser = await _context.Users.FindAsync(request.AuthUserId, cancellationToken)
                 ?? throw new NotFoundException("User not found");
 
             var messages = await _context.PrivateMessages
                 .Include(m => m.Sender)
                 .Include(m => m.Recipient)
-                .Where(m => m.RecipientUsername == currentUser.UserName && m.RecipientDeleted == false
-                    && m.SenderUsername == request.RecipientUsername
-                    || m.RecipientUsername == request.RecipientUsername && m.SenderDeleted == false
+                .Where(m => m.RecipientUsername == currentUser.UserName 
+                    && m.RecipientDeleted == false
+                    && m.SenderUsername == request.RecipientUsername || m.RecipientUsername == request.RecipientUsername 
+                    && m.SenderDeleted == false
                     && m.SenderUsername == currentUser.UserName)
                 .OrderBy(m => m.PrivateMessageSent)
                 .ToListAsync(cancellationToken);

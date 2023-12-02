@@ -10,21 +10,15 @@ namespace Application.Features.Messages.SendMessage
     public class SendMessageCommandHandler : IRequestHandler<SendMessageCommand, SendMessageResponse>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IAuthenticatedUserService _authenticatedUserService;
 
-        public SendMessageCommandHandler(IApplicationDbContext context,
-                       IAuthenticatedUserService authenticatedUserService)
+        public SendMessageCommandHandler(IApplicationDbContext context)
         {
             _context = context;
-            _authenticatedUserService = authenticatedUserService;
         }
 
         public async Task<SendMessageResponse> Handle(SendMessageCommand request, CancellationToken cancellationToken)
         {
-
-            int senderId = _authenticatedUserService.UserId;
-
-            var sender = await _context.Users.FindAsync(senderId, cancellationToken)
+            var sender = await _context.Users.FindAsync(new object[] { request.AuthUserId }, cancellationToken)
                 ?? throw new NotFoundException("User not found");
 
             var recipient = await _context.Users
@@ -48,14 +42,7 @@ namespace Application.Features.Messages.SendMessage
 
             _context.Add(message);
 
-            try
-            {
-                await _context.SaveChangesAsync(cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                throw new ServerErrorException(ex.Message);
-            }
+            await _context.SaveChangesAsync(cancellationToken);
 
             return new SendMessageResponse
             {

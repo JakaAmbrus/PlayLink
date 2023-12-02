@@ -9,29 +9,23 @@ namespace Application.Features.Posts.UploadPost
     public class UploadPostCommandHandler : IRequestHandler<UploadPostCommand, UploadPostResponse>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IAuthenticatedUserService _authenticatedUserService;
         private readonly IPhotoService _photoService;
 
-        public UploadPostCommandHandler(IApplicationDbContext context,
-            IAuthenticatedUserService authenticatedUserService,
-            IPhotoService photoService)
+        public UploadPostCommandHandler(IApplicationDbContext context, IPhotoService photoService)
         {
             _context = context;
-            _authenticatedUserService = authenticatedUserService;
             _photoService = photoService;
         }
 
         public async Task<UploadPostResponse> Handle(UploadPostCommand request, CancellationToken cancellationToken)
         {
 
-            int currentUserId = _authenticatedUserService.UserId;
-
-            var currentUser = await _context.Users.FindAsync(currentUserId, cancellationToken) 
+            var currentUser = await _context.Users.FindAsync(new object[] { request.AuthUserId }, cancellationToken)
                 ?? throw new NotFoundException("User not found");
 
             var newPost = new Post
             {
-                AppUserId = currentUserId,
+                AppUserId = request.AuthUserId,
                 Description = request.PostContentDto.Description,
 
             };
@@ -52,15 +46,7 @@ namespace Application.Features.Posts.UploadPost
             }
 
             _context.Posts.Add(newPost);
-
-            try
-            {
-                await _context.SaveChangesAsync(cancellationToken);
-            }
-            catch
-            {
-                throw new ServerErrorException("Problem saving post");
-            }
+            await _context.SaveChangesAsync(cancellationToken);
 
             return new UploadPostResponse
             {

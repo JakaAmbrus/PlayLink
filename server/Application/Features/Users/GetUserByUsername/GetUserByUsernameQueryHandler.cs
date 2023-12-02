@@ -17,13 +17,9 @@ namespace Application.Features.Users.GetUserByUsername
         public async Task<GetUserByUsernameResponse> Handle(GetUserByUsernameQuery request, CancellationToken cancellationToken)
         {
             var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.UserName == request.Username, cancellationToken);
-
-            if (user == null)
-            {
-                throw new NotFoundException($"The user by the username: {request.Username} not found ");
-            }
-
+                .FirstOrDefaultAsync(u => u.UserName == request.Username, cancellationToken) 
+                ?? throw new NotFoundException($"The user by the username: {request.Username} not found ");
+            
             var profileUserDto = new ProfileUserDto
             {
                 AppUserId = user.Id,

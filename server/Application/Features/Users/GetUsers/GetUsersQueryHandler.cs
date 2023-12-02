@@ -8,25 +8,20 @@ namespace Application.Features.Users.GetUsers
     public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, GetUsersResponse>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IAuthenticatedUserService _authenticatedUserService;
 
         public GetUsersQueryHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService)
         {
             _context = context;
-            _authenticatedUserService = authenticatedUserService;
         }
 
         public async Task<GetUsersResponse> Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
-
-            int authUserId = _authenticatedUserService.UserId;
-
             var minDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-request.Params.MaxAge - 1));
             var maxDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-request.Params.MinAge));
 
             var users = _context.Users
                .AsQueryable()
-               .Where(u => u.Id != authUserId)
+               .Where(u => u.Id != request.AuthUserId)
                .Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob)
                .Where(u => string.IsNullOrEmpty(request.Params.Gender) || u.Gender == request.Params.Gender)
                .Where(u => string.IsNullOrEmpty(request.Params.Country) || u.Country == request.Params.Country)

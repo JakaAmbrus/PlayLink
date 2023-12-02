@@ -7,7 +7,10 @@ namespace Application.Features.Messages.DeleteMessage
         public DeleteMessageCommandValidator()
         {
             RuleFor(x => x.PrivateMessageId)
-                .GreaterThan(0).WithMessage("Invalid Private Messsage Id");
+                .NotEmpty().WithMessage("Messsage Id required.");
+
+            RuleFor(x => x.AuthUserId)
+                .NotEmpty().WithMessage("Authenticated user Id required.");
         }
     }
 }

@@ -8,6 +8,9 @@ namespace Application.Features.Messages.GetMessagesForUser
         {
             RuleFor(x => x.Params)
                 .NotEmpty().WithMessage("Parameters required");
+
+            RuleFor(x => x.AuthUserId)
+                .NotEmpty().WithMessage("Authenticated user Id required.");
         }
     }
 }

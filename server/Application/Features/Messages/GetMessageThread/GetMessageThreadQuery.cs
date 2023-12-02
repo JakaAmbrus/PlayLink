@@ -5,5 +5,6 @@ namespace Application.Features.Messages.GetMessageThread
     public class GetMessageThreadQuery : IRequest<GetMessageThreadResponse>
     {
         public string RecipientUsername { get; set; }
+        public int AuthUserId { get; set; }
     }
 }

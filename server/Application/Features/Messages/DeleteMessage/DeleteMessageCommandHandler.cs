@@ -7,20 +7,16 @@ namespace Application.Features.Messages.DeleteMessage
     public class DeleteMessageCommandHandler : IRequestHandler<DeleteMessageCommand, DeleteMessageResponse>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IAuthenticatedUserService _authenticatedUserService;
 
-        public DeleteMessageCommandHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService)
+        public DeleteMessageCommandHandler(IApplicationDbContext context)
         {
             _context = context;
-            _authenticatedUserService = authenticatedUserService;
         }
 
         public async Task<DeleteMessageResponse> Handle(DeleteMessageCommand request, CancellationToken cancellationToken)
         {
-            int authUserId = _authenticatedUserService.UserId;
-
             var user = await _context.Users
-                .FindAsync(new object[] { authUserId }, cancellationToken)
+                .FindAsync(new object[] { request.AuthUserId }, cancellationToken)
                 ?? throw new NotFoundException("User not found");
 
             var message = await _context.PrivateMessages

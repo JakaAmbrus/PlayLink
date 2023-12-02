@@ -9,20 +9,17 @@ namespace Application.Features.Posts.GetPosts
     public class GetPostsQueryHandler : IRequestHandler<GetPostsQuery, GetPostsResponse>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IAuthenticatedUserService _authenticatedUserService;
+
         public GetPostsQueryHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService) 
         {
             _context = context;
-            _authenticatedUserService = authenticatedUserService;
         }
         public async Task<GetPostsResponse> Handle(GetPostsQuery request, CancellationToken cancellationToken)
         {
-            int currentUserId = _authenticatedUserService.UserId;
-            var CurrentUserRole = _authenticatedUserService.UserRoles;
+            bool isModerator = request.AuthUserRoles.Contains("Moderator");
 
-            bool isModerator = CurrentUserRole.Contains("Moderator");
-
-            if (currentUserId == 0) throw new UnauthorizedException("You must be logged in to view posts");
+            if (request.AuthUserId == 0) 
+                throw new UnauthorizedException("You must be logged in to view posts");
 
             var posts = _context.Posts
             .AsQueryable()
@@ -40,8 +37,8 @@ namespace Application.Features.Posts.GetPosts
                 PhotoUrl = post.PhotoUrl,
                 LikesCount = post.LikesCount,
                 CommentsCount = post.CommentsCount,
-                IsLikedByCurrentUser = post.Likes.Any(like => like.AppUserId == currentUserId),
-                IsAuthorized = post.AppUserId == currentUserId || isModerator
+                IsLikedByCurrentUser = post.Likes.Any(like => like.AppUserId == request.AuthUserId),
+                IsAuthorized = post.AppUserId == request.AuthUserId || isModerator
             });
 
             var pagedPosts = await PagedList<PostDto>

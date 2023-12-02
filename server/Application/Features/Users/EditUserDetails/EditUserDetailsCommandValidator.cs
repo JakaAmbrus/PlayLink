@@ -1,5 +1,4 @@
-﻿using Application.Features.Users.Common;
-using Application.Utils;
+﻿using Application.Utils;
 using FluentValidation;
 
 namespace Application.Features.Users.EditUserDetails
@@ -21,6 +20,12 @@ namespace Application.Features.Users.EditUserDetails
             RuleFor(x => x.EditUserDto.PhotoFile)
                 .Must(ValidationUtils.BeAppropriateSize).WithMessage("Photo must be smaller than 4MB.")
                 .Must(ValidationUtils.BeAValidType).WithMessage("Photo must be a PNG or JPEG.");
+
+            RuleFor(x => x.AuthUserId)
+                .NotEmpty().WithMessage("Authenticated user Id required.");
+
+            RuleFor(x => x.AuthUserRoles)
+                .Must(ValidationUtils.BeValidRole).WithMessage("Invalid user role.");
         }
 
         protected override bool PreValidate(ValidationContext<EditUserDetailsCommand> context, FluentValidation.Results.ValidationResult result)

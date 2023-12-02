@@ -7,7 +7,10 @@ namespace Application.Features.Likes.UnlikeComment
         public UnlikeCommentCommandValidator()
         {
             RuleFor(x => x.CommentId)
-                .GreaterThan(0).WithMessage("Invalid Comment Id"); ;
+                 .NotEmpty().WithMessage("CommentId required.");
+
+            RuleFor(x => x.AuthUserId)
+                .NotEmpty().WithMessage("Authenticated user Id required.");
         }
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers
 {
     [Authorize(Policy = "RequireAdminRole")]
-    public class AdminController : BaseApiController
+    public class AdminController : ControllerBase
     {
     /*    private readonly IMediator _mediator;
 

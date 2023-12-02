@@ -15,7 +15,9 @@ using WebAPI.Extensions;
 
 namespace WebAPI.Controllers
 {
-  
+    /// <summary>
+    /// Manages posts related operations.
+    /// </summary>
     public class PostsController : BaseAuthApiController
     {
 
@@ -23,6 +25,11 @@ namespace WebAPI.Controllers
         {
         }
 
+        /// <summary>
+        /// Returns a list of posts from the Database.
+        /// </summary>
+        /// <param name="paginationParams">Parameters for pagination</param>
+        /// <returns>A list of Post DTOs representing all available posts and confirms if the user is authorized to perform certain critical actions tot he post.</returns>
         [HttpGet]
         public async Task<IActionResult> GetPosts([FromQuery] PaginationParams paginationParams, CancellationToken cancellationToken)
         {
@@ -42,6 +49,11 @@ namespace WebAPI.Controllers
             return Ok(posts);
         }
 
+        /// <summary>
+        /// Returns a single post from the Database from the provided ID.
+        /// </summary>
+        /// <param name="postId">ID of the Post</param>
+        /// <returns>A Post DTO with confirmation of authorization for the current user fetching the post</returns>
         [HttpGet("{postId}")]
         public async Task<IActionResult> GetPostById(int postId, CancellationToken cancellationToken)
         {
@@ -59,6 +71,13 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Returns a list of posts from the Database for the user with the provided username.
+        /// </summary>
+        /// <param name="username">Username of the user whose posts.</param>
+        /// <param name="paginationParams"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet("user/{username}")]
         public async Task<IActionResult> GetPostsByUser(string username, [FromQuery] PaginationParams paginationParams, CancellationToken cancellationToken)
         {
@@ -80,6 +99,11 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Returns a list of photos from the Database for the user with the provided username.
+        /// </summary>
+        /// <param name="username">User Username.</param>
+        /// <returns>A list of photo URLs from users posts and his profile photo.</returns>
         [HttpGet("user/{username}/photos")]
         public async Task<IActionResult> GetUserPostPhotos(string username, CancellationToken cancellationToken)
         {
@@ -90,6 +114,11 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Creates a new post and adds it to the Database and if there is a photo, adds it to cloudinary.
+        /// </summary>
+        /// <param name="postContent">PostContentDTO with the text content of the post and the photo file.</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<UploadPostResponse>> UploadPost([FromForm] PostContentDto postContent, CancellationToken cancellationToken)
         {
@@ -106,6 +135,12 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
+
+        /// <summary>
+        /// Deletes a post from the Database and if there is a photo, deletes it from cloudinary.
+        /// </summary>
+        /// <param name="postId">Post ID.</param>
+        /// <returns></returns>
         [HttpDelete("{postId}")]
         public async Task<ActionResult<Unit>> DeletePost(int postId, CancellationToken cancellationToken)
         {
@@ -124,6 +159,11 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Adds a like to a post.
+        /// </summary>
+        /// <param name="commentId">Post ID.</param>
+        /// <returns>Like confirmation.</returns>
         [HttpPost("{postId}/like")]
         public async Task<IActionResult> LikePost(int postId, CancellationToken cancellationToken)
         {
@@ -140,6 +180,11 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Removes a like from a post.
+        /// </summary>
+        /// <param name="commentId">Post ID.</param>
+        /// <returns>Confirmation of the unlike.</returns>
         [HttpDelete("{postId}/like")]
         public async Task<IActionResult> UnlikePost(int postId, CancellationToken cancellationToken)
         {

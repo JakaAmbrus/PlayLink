@@ -13,6 +13,7 @@ export interface Comment {
   isAuthorized: boolean;
 }
 
-export interface CommentContent {
+export interface CommentUploadDto {
+  postId: number;
   content: string;
 }

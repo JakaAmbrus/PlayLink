@@ -8,10 +8,10 @@ namespace Application.Features.Comments.UploadComment
         public UploadCommentCommandValidator()
         {
 
-            RuleFor(x => x.PostId)
+            RuleFor(x => x.Comment.PostId)
                 .NotEmpty().WithMessage("Post Id required.");
 
-            RuleFor(x => x.Content)
+            RuleFor(x => x.Comment.Content)
                 .NotNull().WithMessage("Comment content is required.")
                 .MaximumLength(300).WithMessage("Comment content must not exceed 300 characters.");
 
@@ -23,7 +23,7 @@ namespace Application.Features.Comments.UploadComment
         {
             var command = context.InstanceToValidate;
 
-            command.Content = command.Content?.Trim();
+            command.Comment.Content = command.Comment.Content?.Trim();
 
             return true;
         }

@@ -1,11 +1,11 @@
-﻿using MediatR;
+﻿using Application.Features.Comments.Common;
+using MediatR;
 
 namespace Application.Features.Comments.UploadComment
 {
     public class UploadCommentCommand : IRequest<UploadCommentResponse>
     {
-        public int PostId { get; set; }
-        public string Content { get; set; }
+        public CommentUploadDto Comment { get; set; }
         public int AuthUserId { get; set; }
     }
 }

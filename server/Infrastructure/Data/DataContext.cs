@@ -56,20 +56,6 @@ namespace Infrastructure.Data
             //PrivatMessages
             builder.ApplyConfiguration(new PrivateMessageConfiguration());
         }
-        public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken)
-        {
-            return await Database.BeginTransactionAsync(cancellationToken);
-        }
-
-        public async Task CommitTransactionAsync(IDbContextTransaction transaction, CancellationToken cancellationToken)
-        {
-            await transaction.CommitAsync(cancellationToken);
-        }
-
-        public async Task RollbackTransactionAsync(IDbContextTransaction transaction, CancellationToken cancellationToken)
-        {
-            await transaction.RollbackAsync(cancellationToken);
-        }
 
         public void Add<TEntity>(TEntity entity) where TEntity : class
         {

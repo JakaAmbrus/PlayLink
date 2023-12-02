@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,8 @@ namespace Infrastructure.Extensions
             }); 
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<DataContext>());
+
+            services.AddScoped<IUserManager, UserManagerService>();
 
             services.AddCors();
 

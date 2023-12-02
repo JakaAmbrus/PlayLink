@@ -8,12 +8,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
+    /// <summary>
+    /// Manages comments related operations.
+    /// </summary>
     public class CommentsController : BaseAuthApiController
     {
         public CommentsController(ISender mediator, IAuthenticatedUserService authenticatedUserService) : base(mediator, authenticatedUserService)
         {
         }
 
+        /// <summary>
+        /// Gets all comments for a post.
+        /// </summary>
+        /// <param name="postId">Post ID.</param>
+        /// <returns>A list of all comments from a post.</returns>
         [HttpGet("{postId}")]
         public async Task<IActionResult> GetPostComments(int postId, CancellationToken cancellationToken)
         {
@@ -31,6 +39,12 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Uploads a comment to a post.
+        /// </summary>
+        /// <param name="postId">Post ID.</param>
+        /// <param name="comment">Text content of a comment.</param>
+        /// <returns>Comment DTO of the uploaded comment.</returns>
         [HttpPost("{postId}")]
         public async Task<ActionResult<UploadCommentResponse>> UploadComment(int postId, [FromBody] string comment, CancellationToken cancellationToken)
         {
@@ -48,6 +62,12 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Deletes a comment.
+        /// </summary>
+        /// <param name="commentId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Confirmation of deletion.</returns>
         [HttpDelete("{commentId}")]
         public async Task<ActionResult<DeleteCommentResponse>> DeleteComment(int commentId, CancellationToken cancellationToken)
         {
@@ -66,6 +86,11 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Adds a like to a comment.
+        /// </summary>
+        /// <param name="commentId">Comment ID.</param>
+        /// <returns>Like confirmation.</returns>
         [HttpPost("{commentId}/like")]
         public async Task<IActionResult> LikeComment(int commentId, CancellationToken cancellationToken)
         {
@@ -81,6 +106,11 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Removes a like from a comment.
+        /// </summary>
+        /// <param name="commentId">Comment ID.</param>
+        /// <returns>Confirmation of the unlike.</returns>
         [HttpDelete("{commentId}/like")]
         public async Task<IActionResult> UnlikeComment(int commentId, CancellationToken cancellationToken)
         {

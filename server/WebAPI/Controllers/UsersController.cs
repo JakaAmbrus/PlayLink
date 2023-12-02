@@ -16,13 +16,20 @@ using Application.Features.Users.Common;
 
 namespace WebAPI.Controllers
 {
-    [Authorize(Roles = "Member")]
+    /// <summary>
+    /// Manages users related operations.
+    /// </summary>
     public class UsersController : BaseAuthApiController
     {
         public UsersController(ISender mediator, IAuthenticatedUserService authenticatedUserService) : base(mediator, authenticatedUserService)
         {
         }
 
+        /// <summary>
+        /// Returns all users based on filters: Age, Gender , Country, Activity and pagination parameters.
+        /// </summary>
+        /// <param name="paginationParams">Pagination parameters.</param>
+        /// <returns>A paginated and filtered list of users DTOs.</returns>
         [HttpGet]
         public async Task<ActionResult<PagedList<UserDto>>> GetUsers([FromQuery] UserParams userParams, CancellationToken cancellationToken)
         {
@@ -41,6 +48,10 @@ namespace WebAPI.Controllers
             return Ok(users);
         }
 
+        /// <summary>
+        /// Returns a list of users for the search bar.
+        /// </summary>
+        /// <returns>A DTO containing the users photo urls, genders, usernames, full names.</returns>
         [HttpGet("searchbar")]
         public async Task<ActionResult<GetUsersForSearchBarResponse>> GetUsersForSearchBar(CancellationToken cancellationToken)
         {
@@ -53,6 +64,11 @@ namespace WebAPI.Controllers
             return Ok(users);
         }
 
+        /// <summary>
+        /// Returns a single user from the Database from the provided ID.
+        /// </summary>
+        /// <param name="id">User ID.</param>
+        /// <returns>A user DTO.</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<GetUserByIdResponse>> GetUser(int id, CancellationToken cancellationToken)
         {
@@ -63,6 +79,11 @@ namespace WebAPI.Controllers
             return Ok(user); 
         }
 
+        /// <summary>
+        /// Returns a single user information from the Database from the provided username.
+        /// </summary>
+        /// <param name="username">User username</param>
+        /// <returns>A DTO of user details for their profile page.</returns>
         [HttpGet("username/{username}")]
         public async Task<ActionResult<AppUser>> GetUserByUsername(string username, CancellationToken cancellationToken)
         {
@@ -73,6 +94,10 @@ namespace WebAPI.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Returns a list of unique countries from the Database.
+        /// </summary>
+        /// <returns>A list of country names.</returns>
         [HttpGet("countries")]
         public async Task<IActionResult> GetUniqueCountries(CancellationToken cancellationToken)
         {
@@ -85,6 +110,11 @@ namespace WebAPI.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Edits user details.
+        /// </summary>
+        /// <param name="editUserDto">Description, Country or Photo file</param>
+        /// <returns>Updated user information: Description, Country or PhotoUrl</returns>
         [HttpPut("edit")]
         public async Task<ActionResult<EditUserDetailsResponse>> EditUserDetails([FromForm] EditUserDto editUserDto, CancellationToken cancellationToken)
         {

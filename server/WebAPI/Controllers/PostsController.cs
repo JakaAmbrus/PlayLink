@@ -120,7 +120,7 @@ namespace WebAPI.Controllers
         /// <param name="postContent">PostContentDTO with the text content of the post and the photo file.</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<UploadPostResponse>> UploadPost([FromForm] PostContentDto postContent, CancellationToken cancellationToken)
+        public async Task<IActionResult> UploadPost([FromForm] PostContentDto postContent, CancellationToken cancellationToken)
         {
             int authUserId = GetCurrentUserId();
 
@@ -142,7 +142,7 @@ namespace WebAPI.Controllers
         /// <param name="postId">Post ID.</param>
         /// <returns></returns>
         [HttpDelete("{postId}")]
-        public async Task<ActionResult<Unit>> DeletePost(int postId, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeletePost(int postId, CancellationToken cancellationToken)
         {
             int authUserId = GetCurrentUserId();
             IEnumerable<string> authUserRoles = GetCurrentUserRoles();

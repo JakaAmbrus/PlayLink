@@ -1,18 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.Features.Authentication.Common;
+using Application.Features.Users.Common;
+using Application.Features.Users.EditUserDetails;
+using Application.Features.Users.GetUserById;
+using Application.Features.Users.GetUserByUsername;
+using Application.Features.Users.GetUsers;
+using Application.Features.Users.GetUsersForSearchBar;
+using Application.Features.Users.GetUsersUniqueCountries;
+using Application.Interfaces;
+using Application.Utils;
 using Domain.Entities;
 using MediatR;
-using Application.Features.Users.GetUsers;
-using Application.Features.Users.GetUserById;
-using Microsoft.AspNetCore.Authorization;
-using Application.Features.Users.GetUserByUsername;
-using Application.Features.Users.EditUserDetails;
-using Application.Features.Authentication.Common;
-using Application.Utils;
+using Microsoft.AspNetCore.Mvc;
 using WebAPI.Extensions;
-using Application.Features.Users.GetUsersUniqueCountries;
-using Application.Features.Users.GetUsersForSearchBar;
-using Application.Interfaces;
-using Application.Features.Users.Common;
 
 namespace WebAPI.Controllers
 {
@@ -31,7 +30,7 @@ namespace WebAPI.Controllers
         /// <param name="paginationParams">Pagination parameters.</param>
         /// <returns>A paginated and filtered list of users DTOs.</returns>
         [HttpGet]
-        public async Task<ActionResult<PagedList<UserDto>>> GetUsers([FromQuery] UserParams userParams, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetUsers([FromQuery] UserParams userParams, CancellationToken cancellationToken)
         {
             int authUserId = GetCurrentUserId();
 
@@ -53,7 +52,7 @@ namespace WebAPI.Controllers
         /// </summary>
         /// <returns>A DTO containing the users photo urls, genders, usernames, full names.</returns>
         [HttpGet("searchbar")]
-        public async Task<ActionResult<GetUsersForSearchBarResponse>> GetUsersForSearchBar(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetUsersForSearchBar(CancellationToken cancellationToken)
         {
             int authUserId = GetCurrentUserId();
 
@@ -70,7 +69,7 @@ namespace WebAPI.Controllers
         /// <param name="id">User ID.</param>
         /// <returns>A user DTO.</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetUserByIdResponse>> GetUser(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetUser(int id, CancellationToken cancellationToken)
         {
             var query = new GetUserByIdQuery { Id = id };
 
@@ -85,7 +84,7 @@ namespace WebAPI.Controllers
         /// <param name="username">User username</param>
         /// <returns>A DTO of user details for their profile page.</returns>
         [HttpGet("username/{username}")]
-        public async Task<ActionResult<AppUser>> GetUserByUsername(string username, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetUserByUsername(string username, CancellationToken cancellationToken)
         {
             var query = new GetUserByUsernameQuery { Username = username };
 
@@ -116,7 +115,7 @@ namespace WebAPI.Controllers
         /// <param name="editUserDto">Description, Country or Photo file</param>
         /// <returns>Updated user information: Description, Country or PhotoUrl</returns>
         [HttpPut("edit")]
-        public async Task<ActionResult<EditUserDetailsResponse>> EditUserDetails([FromForm] EditUserDto editUserDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> EditUserDetails([FromForm] EditUserDto editUserDto, CancellationToken cancellationToken)
         {
             int authUserId = GetCurrentUserId();
             IEnumerable<string> authUserRoles = GetCurrentUserRoles();

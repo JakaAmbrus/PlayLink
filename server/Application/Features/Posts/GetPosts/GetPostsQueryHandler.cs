@@ -1,5 +1,4 @@
-﻿using Application.Exceptions;
-using Application.Features.Posts.Common;
+﻿using Application.Features.Posts.Common;
 using Application.Interfaces;
 using Application.Utils;
 using MediatR;
@@ -10,16 +9,14 @@ namespace Application.Features.Posts.GetPosts
     {
         private readonly IApplicationDbContext _context;
 
-        public GetPostsQueryHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService) 
+        public GetPostsQueryHandler(IApplicationDbContext context) 
         {
             _context = context;
         }
+
         public async Task<GetPostsResponse> Handle(GetPostsQuery request, CancellationToken cancellationToken)
         {
             bool isModerator = request.AuthUserRoles.Contains("Moderator");
-
-            if (request.AuthUserId == 0) 
-                throw new UnauthorizedException("You must be logged in to view posts");
 
             var posts = _context.Posts
             .AsQueryable()

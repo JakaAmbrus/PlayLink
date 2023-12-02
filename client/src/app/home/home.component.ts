@@ -26,8 +26,6 @@ export class HomeComponent implements OnInit {
   }
 
   loadPosts() {
-    //if there are posts in the state, prevents another API call
-    // const cachedPostsArr = this.postsStateService.getPosts();
     this.postsService.getPosts(this.pageNumber, this.pageSize).subscribe({
       next: (response) => {
         const loadedPosts = response.result;

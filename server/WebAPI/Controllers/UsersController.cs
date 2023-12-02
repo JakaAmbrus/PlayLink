@@ -1,5 +1,4 @@
-﻿using Application.Features.Authentication.Common;
-using Application.Features.Users.Common;
+﻿using Application.Features.Users.Common;
 using Application.Features.Users.EditUserDetails;
 using Application.Features.Users.GetUserById;
 using Application.Features.Users.GetUserByUsername;
@@ -8,7 +7,6 @@ using Application.Features.Users.GetUsersForSearchBar;
 using Application.Features.Users.GetUsersUniqueCountries;
 using Application.Interfaces;
 using Application.Utils;
-using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Extensions;

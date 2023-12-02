@@ -81,11 +81,12 @@ export class PostsService {
   uploadPost(postContent: PostContent): Observable<any> {
     const formData = new FormData();
     if (postContent.description) {
-      formData.append('PostContentDto.Description', postContent.description);
+      formData.append('Description', postContent.description);
     }
     if (postContent.photoFile) {
-      formData.append('PostContentDto.PhotoFile', postContent.photoFile);
+      formData.append('PhotoFile', postContent.photoFile);
     }
+    console.log(formData);
 
     return this.http.post(this.baseUrl + 'posts', formData);
   }

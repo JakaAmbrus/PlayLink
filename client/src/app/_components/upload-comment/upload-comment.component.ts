@@ -32,16 +32,19 @@ export class UploadCommentComponent implements OnInit {
   onSubmit() {
     if (this.uploadCommentForm.valid && this.postId) {
       const commentContent = this.uploadCommentForm.get('content')?.value;
-      this.commentsService
-        .uploadComment(this.postId, commentContent)
-        .subscribe({
-          next: (response) => {
-            console.log(response);
-            this.commentUploaded.emit(response);
-            this.uploadCommentForm.reset();
-          },
-          error: (err) => console.error(err),
-        });
+      console.log(commentContent);
+      const commentUploadDto = {
+        postId: this.postId,
+        content: commentContent,
+      };
+      this.commentsService.uploadComment(commentUploadDto).subscribe({
+        next: (response) => {
+          console.log(response);
+          this.commentUploaded.emit(response);
+          this.uploadCommentForm.reset();
+        },
+        error: (err) => console.error(err),
+      });
     }
   }
 }

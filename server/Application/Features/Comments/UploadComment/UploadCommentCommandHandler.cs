@@ -19,7 +19,7 @@ namespace Application.Features.Comments.UploadComment
         }
         public async Task<UploadCommentResponse> Handle(UploadCommentCommand request, CancellationToken cancellationToken)
         {
-            var post = await _context.Posts.FindAsync(new object[] { request.PostId }, cancellationToken)
+            var post = await _context.Posts.FindAsync(new object[] { request.Comment.PostId }, cancellationToken)
                 ?? throw new NotFoundException("Post not found");
 
             int currentUserId = _authenticatedUserService.UserId;
@@ -32,8 +32,8 @@ namespace Application.Features.Comments.UploadComment
             var newComment = new Comment
             {
                 AppUserId = currentUserId,
-                PostId = request.PostId,
-                Content = request.Content
+                PostId = request.Comment.PostId,
+                Content = request.Comment.Content
             };
 
             post.CommentsCount++;

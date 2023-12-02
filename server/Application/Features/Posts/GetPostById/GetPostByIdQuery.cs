@@ -1,13 +1,11 @@
-﻿using Application.Features.Posts.Common;
-using MediatR;
+﻿using MediatR;
 
 namespace Application.Features.Posts.GetPostById
 {
-    public class GetPostByIdQuery : IRequest<PostDto>
+    public class GetPostByIdQuery : IRequest<GetPostByIdResponse>
     {
         public int PostId { get; set; }
-        public GetPostByIdQuery(int postId) {
-            PostId = postId;
-        }
+        public int AuthUserId { get; set; }
+        public IEnumerable<string> AuthUserRoles { get; set; }
     }
 }

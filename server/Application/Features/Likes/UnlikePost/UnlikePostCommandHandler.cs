@@ -8,19 +8,21 @@ namespace Application.Features.Likes.UnlikePost
     public class UnlikePostCommandHandler : IRequestHandler<UnlikePostCommand, UnlikePostResponse>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IAuthenticatedUserService _authenticatedUserService;
 
         public UnlikePostCommandHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService)
         {
             _context = context;
-            _authenticatedUserService = authenticatedUserService;
         }
 
         public async Task<UnlikePostResponse> Handle(UnlikePostCommand request, CancellationToken cancellationToken)
         {
-            var CurrentuserId = _authenticatedUserService.UserId;
-            var like = await _context.Likes.FirstOrDefaultAsync(l => l.PostId == request.PostId && l.AppUserId == CurrentuserId, cancellationToken);
-            var post = await _context.Posts.FindAsync(request.PostId, cancellationToken);
+
+            var like = await _context.Likes
+                .FirstOrDefaultAsync(l => l.PostId == request.PostId 
+                && l.AppUserId == request.AuthUserId, cancellationToken);
+            
+            var post = await _context.Posts
+                .FindAsync(new object[] { request.PostId }, cancellationToken);
 
             if (like == null)
             {

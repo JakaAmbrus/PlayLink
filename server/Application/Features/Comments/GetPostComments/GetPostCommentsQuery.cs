@@ -7,12 +7,5 @@ namespace Application.Features.Comments.GetComments
         public int PostId { get; set; }
         public int AuthUserId { get; set; }
         public IEnumerable<string> AuthUserRoles { get; set; }
-
-        public GetPostCommentsQuery(int postId, int authUserId, IEnumerable<string> authUserRoles) 
-        { 
-            PostId = postId;
-            AuthUserId = authUserId;
-            AuthUserRoles = authUserRoles;
-        }
     }
 }

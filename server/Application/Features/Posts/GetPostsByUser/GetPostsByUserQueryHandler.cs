@@ -10,23 +10,18 @@ namespace Application.Features.Posts.GetPostsByUser
     public class GetPostsByUserQueryHandler : IRequestHandler<GetPostsByUserQuery, GetPostsByUserResponse>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IAuthenticatedUserService _authenticatedUserService;
 
-        public GetPostsByUserQueryHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService)
+        public GetPostsByUserQueryHandler(IApplicationDbContext context)
         {
             _context = context;
-            _authenticatedUserService = authenticatedUserService;
         }
 
         public async Task<GetPostsByUserResponse> Handle(GetPostsByUserQuery request, CancellationToken cancellationToken)
         {
-            int currentUserId = _authenticatedUserService.UserId;
+            if (request.AuthUserId == 0) 
+                throw new UnauthorizedException("You must be logged in to view posts");
 
-            if (currentUserId == 0) throw new UnauthorizedException("You must be logged in to view posts");
-
-            var CurrentUserRole = _authenticatedUserService.UserRoles;
-
-            bool isModerator = CurrentUserRole.Contains("Moderator");
+            bool isModerator = request.AuthUserRoles.Contains("Moderator");
 
             var requestedUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == request.Username, cancellationToken)
                 ?? throw new NotFoundException($"User with Username {request.Username} not found");
@@ -50,8 +45,8 @@ namespace Application.Features.Posts.GetPostsByUser
                     ProfilePictureUrl = requestedUser.ProfilePictureUrl,
                     LikesCount = p.LikesCount,
                     CommentsCount = p.CommentsCount,
-                    IsLikedByCurrentUser = p.Likes.Any(like => like.AppUserId == currentUserId),
-                    IsAuthorized = p.AppUserId == currentUserId || isModerator      
+                    IsLikedByCurrentUser = p.Likes.Any(like => like.AppUserId == request.AuthUserId),
+                    IsAuthorized = p.AppUserId == request.AuthUserId || isModerator      
                 });
 
             var pagedPosts = await PagedList<PostDto>

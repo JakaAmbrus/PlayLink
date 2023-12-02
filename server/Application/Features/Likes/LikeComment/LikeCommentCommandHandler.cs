@@ -9,27 +9,19 @@ namespace Application.Features.Likes.LikeComment
     public class LikeCommentCommandHandler : IRequestHandler<LikeCommentCommand, LikeCommentResponse>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IAuthenticatedUserService _authenticatedUserService;
 
         public LikeCommentCommandHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService)
         {
             _context = context;
-            _authenticatedUserService = authenticatedUserService;
         }
 
         public async Task<LikeCommentResponse> Handle(LikeCommentCommand request, CancellationToken cancellationToken)
         {
-            var currentUserId = _authenticatedUserService.UserId;
-
-            var comment = await _context.Comments.FindAsync(request.CommentId);
-
-            if (comment == null)
-            {
-                throw new NotFoundException("Comment not found");
-            }
+            var comment = await _context.Comments.FindAsync(new object[] { request.CommentId }, cancellationToken) 
+                ?? throw new NotFoundException("Comment not found");
 
             var existingLike = await _context.Likes
-                .AnyAsync(l => l.CommentId == request.CommentId && l.AppUserId == currentUserId);
+                .AnyAsync(l => l.CommentId == request.CommentId && l.AppUserId == request.AuthUserId, cancellationToken: cancellationToken);
 
             if (existingLike)
             {
@@ -38,7 +30,7 @@ namespace Application.Features.Likes.LikeComment
 
             var like = new Like
             {
-                AppUserId = currentUserId,
+                AppUserId = request.AuthUserId,
                 CommentId = request.CommentId
             };
 

@@ -18,9 +18,8 @@ namespace Application.Features.Posts.GetUserPostPhotos
         {
             var user = await _context.Users
                 .Include(user => user.Posts)
-                .SingleOrDefaultAsync(user => user.UserName == request.Username);
-
-            if (user == null) throw new NotFoundException($"User with username {request.Username} does not exist");
+                .SingleOrDefaultAsync(user => user.UserName == request.Username, cancellationToken)
+                ?? throw new NotFoundException($"User with username {request.Username} does not exist");
 
             var photos = user.Posts
                 .Where(post => !string.IsNullOrEmpty(post.PhotoUrl))
@@ -29,7 +28,8 @@ namespace Application.Features.Posts.GetUserPostPhotos
 
             if (!string.IsNullOrEmpty(user.ProfilePictureUrl))
             {
-                photos.Insert(0, user.ProfilePictureUrl); // I want to add the profile picture to the gallery
+                // includes the profile picture as the first photo in the gallery
+                photos.Insert(0, user.ProfilePictureUrl);
             }
 
             return new GetUserPostPhotosResponse { Photos = photos };

@@ -1,14 +1,14 @@
 ﻿using Application.Utils;
 using FluentValidation;
 
-namespace Application.Features.Comments.DeleteComment
+namespace Application.Features.Posts.GetPostById
 {
-    public class DeleteCommentCommandValidator : AbstractValidator<DeleteCommentCommand>
-    {
-        public DeleteCommentCommandValidator()
+    public class GetPostByIdQueryValidator : AbstractValidator<GetPostByIdQuery>
+    { 
+        public GetPostByIdQueryValidator()
         {
-            RuleFor(x => x.CommentId)
-                .NotEmpty().WithMessage("CommentId required.");
+            RuleFor(x => x.PostId)
+                .NotEmpty().WithMessage("PostId required.");
 
             RuleFor(x => x.AuthUserId)
                 .NotEmpty().WithMessage("Authenticated user Id required.");

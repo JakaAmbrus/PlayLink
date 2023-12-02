@@ -17,6 +17,9 @@ namespace Application.Features.Posts.UploadPost
             RuleFor(x => x.PostContentDto.PhotoFile)
                 .Must(ValidationUtils.BeAppropriateSize).WithMessage("Photo must be smaller than 4MB")
                 .Must(ValidationUtils.BeAValidType).WithMessage("Photo must be a PNG or JPEG");
+
+            RuleFor(x => x.AuthUserId)
+                .NotEmpty().WithMessage("Authenticated user Id required.");
         }
 
         protected override bool PreValidate(ValidationContext<UploadPostCommand> context, ValidationResult result)

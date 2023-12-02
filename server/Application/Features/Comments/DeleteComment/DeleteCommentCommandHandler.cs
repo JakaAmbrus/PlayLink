@@ -15,16 +15,15 @@ namespace Application.Features.Comments.DeleteComment
 
         public async Task<DeleteCommentResponse> Handle(DeleteCommentCommand request, CancellationToken cancellationToken)
         {
-            var selectedComment = await _context.Comments.FindAsync(request.CommentId, cancellationToken)
+            var selectedComment = await _context.Comments.FindAsync(new object[] { request.CommentId}, cancellationToken)
                 ?? throw new NotFoundException("Comment was not found");
 
-            var selectedPost = await _context.Posts.FindAsync(selectedComment.PostId, cancellationToken)
+            var selectedPost = await _context.Posts.FindAsync(new object[] { selectedComment.PostId }, cancellationToken)
                 ?? throw new NotFoundException("Post was not found");
 
             bool isPostOwner = selectedComment.AppUserId == request.AuthUserId;
             bool isModerator = request.AuthUserRoles.Contains("Moderator");
 
-            //Only the comments owner or a moderator/admin can delete a comment
             if (!isPostOwner && !isModerator)
             {
                 throw new UnauthorizedException("User not authorized to delete comment");

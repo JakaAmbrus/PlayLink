@@ -7,5 +7,7 @@ namespace Application.Features.Posts.GetPostsByUser
     {
         public string Username { get; set; }
         public PaginationParams Params { get; set; }
+        public int AuthUserId { get; set; }
+        public IEnumerable<string> AuthUserRoles { get; set; }
     }
 }

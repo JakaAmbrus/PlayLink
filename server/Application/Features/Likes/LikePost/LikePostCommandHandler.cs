@@ -8,23 +8,20 @@ namespace Application.Features.Likes.LikePost;
 public class LikePostCommandHandler : IRequestHandler<LikePostCommand, LikePostResponse>
 {
     private readonly IApplicationDbContext _context;
-    private readonly IAuthenticatedUserService _authenticatedUserService;
 
-    public LikePostCommandHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService)
+    public LikePostCommandHandler(IApplicationDbContext context)
     {
         _context = context;
-        _authenticatedUserService = authenticatedUserService;
     }
 
     public async Task<LikePostResponse> Handle(LikePostCommand request, CancellationToken cancellationToken)
     {
-        var currentUserId = _authenticatedUserService.UserId;
 
-        var post = await _context.Posts.FindAsync(request.PostId) 
+        var post = await _context.Posts.FindAsync(new object[] { request.PostId }, cancellationToken)
             ?? throw new NotFoundException("Post not found");
 
         var existingLike = await _context.Likes
-            .AnyAsync(l => l.PostId == request.PostId && l.AppUserId == currentUserId);
+            .AnyAsync(l => l.PostId == request.PostId && l.AppUserId == request.AuthUserId);
 
         if (existingLike)
         {
@@ -33,7 +30,7 @@ public class LikePostCommandHandler : IRequestHandler<LikePostCommand, LikePostR
 
         var like = new Like
         {
-            AppUserId = currentUserId,
+            AppUserId = request.AuthUserId,
             PostId = request.PostId
         };
 

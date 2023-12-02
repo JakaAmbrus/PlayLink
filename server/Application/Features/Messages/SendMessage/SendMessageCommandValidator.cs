@@ -12,6 +12,9 @@ namespace Application.Features.Messages.SendMessage
 
             RuleFor(x => x.CreateMessageDto.RecipientUsername)
                 .NotEmpty().WithMessage("Must be valid recipient");
+
+            RuleFor(x => x.AuthUserId)
+                .NotEmpty().WithMessage("Authenticated user Id required.");
         }
     }
 }

@@ -7,7 +7,10 @@ namespace Application.Features.Likes.UnlikePost
         public UnlikePostCommandValidator()
         {
             RuleFor(x => x.PostId)
-                .GreaterThan(0).WithMessage("Invalid Post Id"); ;
+                .NotEmpty().WithMessage("Post Id required.");
+
+            RuleFor(x => x.AuthUserId)
+                .NotEmpty().WithMessage("Authenticated user Id required.");
         }
     }
 }

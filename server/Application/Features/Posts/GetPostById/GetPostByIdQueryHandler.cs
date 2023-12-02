@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Posts.GetPostById
 {
-    public class GetPostByIdQueryHandler : IRequestHandler<GetPostByIdQuery, PostDto>
+    public class GetPostByIdQueryHandler : IRequestHandler<GetPostByIdQuery, GetPostByIdResponse>
     {
         private readonly IApplicationDbContext _context;
 
@@ -15,7 +15,7 @@ namespace Application.Features.Posts.GetPostById
             _context = context;
         }
 
-        public async Task<PostDto> Handle(GetPostByIdQuery request, CancellationToken cancellationToken)
+        public async Task<GetPostByIdResponse> Handle(GetPostByIdQuery request, CancellationToken cancellationToken)
         {
             var post = await _context.Posts
                .Where(p => p.PostId == request.PostId)
@@ -29,7 +29,9 @@ namespace Application.Features.Posts.GetPostById
                })
                .FirstOrDefaultAsync(cancellationToken);
 
-            return post ?? throw new NotFoundException($"Post with ID {request.PostId} not found.");
+            return post == null
+                ? throw new NotFoundException($"Post with ID {request.PostId} not found.")
+                : new GetPostByIdResponse { Post = post};
         }
     }
 }

@@ -23,7 +23,7 @@
     <h1 class="for-now">LOCATION</h1>
     <p class="for-now">{{ user.country }}</p>
     <h1 class="for-now">Birthday</h1>
-    <p class="for-now">{{ user.dateOfBirth.split("-").join("/") }}</p>
+    <p class="for-now">{{ user.dateOfBirth }}</p>
     <div *ngIf="!isCurrentUserProfile" id="button-container">
       <button
         class="theme-border rounded-border box-shadow for-now-buttons reverse-parameters"
@@ -61,7 +61,6 @@
       <a
         routerLink="/user/{{ user.username }}/gallery"
         routerLinkActive="active-link"
-        id="gallery-link"
         class="profile-navigation-links bottom-border-active"
       >
         <p class="profile-link-text-container">Gallery</p>

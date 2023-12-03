@@ -15,7 +15,7 @@ export interface ProfileUser {
   username: string;
   gender: string;
   fullName: string;
-  dateOfBirth: string;
+  dateOfBirth: Date;
   country: string;
   profilePictureUrl: string | null;
   description: string | null;
@@ -30,7 +30,7 @@ export interface EditUser {
 export interface EditUserResponse {
   photoUrl: string | null;
   description: string | null;
-  country: string | null;
+  country: string;
 }
 
 export interface SearchUser {

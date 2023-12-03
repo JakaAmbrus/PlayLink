@@ -1,8 +1,10 @@
 ﻿using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 namespace WebAPI.Hubs
 {
+    [Authorize]
     public class PresenceHub : Hub
     {
         private readonly IAuthenticatedUserService _authenticatedUserService;

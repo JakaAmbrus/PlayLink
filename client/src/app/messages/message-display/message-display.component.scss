@@ -6,23 +6,9 @@
   padding: 1em;
   padding-top: 0;
 }
-.message-user-img-container {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 5.2em;
+#message-user-avatar {
   height: 5.2em;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-.message-user-img {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-.message-icon-person {
-  font-size: 5em;
+  width: 5.2em;
 }
 
 .message-content-container {

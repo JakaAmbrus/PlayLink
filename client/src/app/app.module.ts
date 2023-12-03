@@ -55,6 +55,7 @@ import { LimitTextPipe } from './_pipes/limit-text.pipe';
 import { FirstWordPipe } from './_pipes/first-word.pipe';
 import { MessageContentComponent } from './profile/message/message-content/message-content.component';
 import { RelativeUrlPipe } from './_pipes/relative-url.pipe';
+import { UserAvatarComponent } from './_components/user-avatar/user-avatar.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { RelativeUrlPipe } from './_pipes/relative-url.pipe';
     LimitTextPipe,
     FirstWordPipe,
     MessageContentComponent,
+    UserAvatarComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

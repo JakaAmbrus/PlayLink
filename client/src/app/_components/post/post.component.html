@@ -1,29 +1,13 @@
 <div class="post-container" *ngIf="post">
   <div class="post-top">
     <a routerLink="/user/{{ post.username }}" class="post-header">
-      <div
-        class="post-user-img-container header-icons-right theme-border rounded-border"
-      >
-        <img
-          *ngIf="post.profilePictureUrl"
-          class="post-user-img"
-          ngSrc="{{
-            post.profilePictureUrl
-              | relativeUrl : 'https://res.cloudinary.com/dsdleukb7'
-          }} "
-          alt="{{ post.fullName }}"
-          height="100"
-          width="100"
-          preconnect="true"
-          priority
-        />
-        <span
-          *ngIf="!post.profilePictureUrl"
-          class="material-symbols-rounded filled post-icon-person"
-        >
-          {{ post.gender === "male" ? "person" : "person_2" }}
-        </span>
-      </div>
+      <app-user-avatar
+        class="theme-border rounded-border"
+        id="post-user-avatar"
+        [profilePictureUrl]="post.profilePictureUrl"
+        [fullName]="post.fullName"
+        [gender]="post.gender"
+      ></app-user-avatar>
       <div class="post-user-name-and-date">
         <h1 class="post-user-name">{{ post.fullName }}</h1>
         <p class="post-date">{{ post.datePosted | relativeTime }}</p>

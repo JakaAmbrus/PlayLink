@@ -1,24 +1,17 @@
-﻿using CloudinaryDotNet;
+﻿using Application.Interfaces;
+using Application.Models;
+using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
-using Application.Interfaces;
-using Application.Models;
 
 namespace Infrastructure.Services
 {
     public class PhotoService : IPhotoService
     {
         private readonly Cloudinary _cloudinary;
-        public PhotoService(IOptions<CloudinarySettings> config)
+        public PhotoService(Cloudinary cloudinary)
         {
-            var acc = new Account(
-                config.Value.CloudName,
-                config.Value.ApiKey,
-                config.Value.ApiSecret);
-
-            _cloudinary = new Cloudinary(acc);
-            _cloudinary.Api.Secure = true;
+            _cloudinary = cloudinary;
         }
 
         public async Task<PhotoUploadResult> AddPhotoAsync(IFormFile file, string typeOfPhoto)
@@ -59,12 +52,13 @@ namespace Infrastructure.Services
                     Transformation = transformation,
                     Folder = "playlink-images"
                 };
+
                 uploadResult = await _cloudinary.UploadAsync(uploadParams);
             }
             var result = new PhotoUploadResult
             {
                 PublicId = uploadResult.PublicId,
-                Url = uploadResult.Url.ToString(),
+                Url = uploadResult.SecureUrl.ToString(),
                 Error = uploadResult.Error != null ? uploadResult.Error.Message : null
             };
 

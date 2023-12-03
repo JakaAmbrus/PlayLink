@@ -30,12 +30,17 @@
     </div>
     <img
       *ngIf="user.profilePictureUrl"
-      ngSrc="{{ user.profilePictureUrl }}"
+      ngSrc="{{
+        user.profilePictureUrl
+          | relativeUrl : 'https://res.cloudinary.com/dsdleukb7'
+      }} "
       alt="{{ user.fullName }}'s profile picture'"
       class="profile-picture"
       [ngClass]="{ hover: isHovered }"
-      fill
-      priority="true"
+      height="200"
+      width="200"
+      preconnect="true"
+      priority
     />
     <span
       class="material-symbols-rounded filled card-img"

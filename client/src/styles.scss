@@ -5,33 +5,38 @@ $primaryColor: #3d3a3a;
 
 @font-face {
   font-family: "Nexa Bold";
-  src: url("./assets/fonts/nexa-bold.otf") format("truetype");
+  src: url("./assets/fonts/nexa-bold-webfont.woff2") format("truetype");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: "Nexa Light";
-  src: url("./assets/fonts/nexa-light.otf") format("truetype");
+  src: url("./assets/fonts/nexa-light-webfont.woff2") format("truetype");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: "Roboto Regular";
-  src: url("./assets/fonts/Roboto-Regular.ttf") format("truetype");
+  src: url("./assets/fonts/roboto-regular-webfont.woff2") format("truetype");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: "Roboto Medium";
-  src: url("./assets/fonts/Roboto-Medium.ttf") format("truetype");
+  src: url("./assets/fonts/roboto-medium-webfont.woff2") format("truetype");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: "Roboto Bold";
-  src: url("./assets/fonts/Roboto-Bold.ttf") format("truetype");
+  src: url("./assets/fonts/roboto-bold-webfont.woff2") format("truetype");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 //global styles

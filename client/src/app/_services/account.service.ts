@@ -9,6 +9,7 @@ import { AvatarService } from './avatar.service';
 })
 export class AccountService {
   baseUrl = environment.apiUrl;
+  userRoles: string[] = [];
   private loggedInStatus = new BehaviorSubject<boolean>(
     this.checkLoggedInStatus()
   );
@@ -30,6 +31,11 @@ export class AccountService {
   private handleUserResponse(response: any) {
     const { username, token, fullName, gender, profilePictureUrl } =
       response.user;
+
+    const roles = this.getDecodedToken(token).role;
+    this.userRoles = Array.isArray(roles) ? roles : [roles];
+    localStorage.setItem('roles', JSON.stringify(this.userRoles));
+    console.log(this.userRoles);
     this.saveToken(token);
     this.saveUser(username);
     this.setLoggedIn(true);
@@ -51,6 +57,10 @@ export class AccountService {
 
   getToken() {
     return localStorage.getItem('token');
+  }
+
+  getDecodedToken(token: string) {
+    return JSON.parse(atob(token.split('.')[1]));
   }
 
   get isLoggedIn() {

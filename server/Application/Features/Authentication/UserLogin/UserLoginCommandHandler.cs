@@ -24,12 +24,8 @@ namespace Application.Features.Authentication.UserLogin
         public async Task<UserLoginResponse> Handle(UserLoginCommand request, CancellationToken cancellationToken)
         {
  
-            var user = await _userManager.Users.SingleOrDefaultAsync(x => x.UserName == request.Username.ToLower().Trim(), cancellationToken);
-
-            if (user == null)
-            {
-                throw new UnauthorizedException("Invalid Username or Password");         
-            }
+            var user = await _userManager.Users.SingleOrDefaultAsync(x => x.UserName == request.Username.ToLower().Trim(), cancellationToken) 
+                ?? throw new UnauthorizedException("Invalid Username or Password");
 
             var result = await _userManager.CheckPasswordAsync(user, request.Password);
 
@@ -45,7 +41,10 @@ namespace Application.Features.Authentication.UserLogin
                 User = new UserDto
                 {
                     Username = userName,
-                    Token = await _tokenService.CreateToken(user)
+                    Token = await _tokenService.CreateToken(user),
+                    FullName = user.FullName,
+                    Gender = user.Gender,
+                    ProfilePictureUrl = user.ProfilePictureUrl
                 }
             };
         }

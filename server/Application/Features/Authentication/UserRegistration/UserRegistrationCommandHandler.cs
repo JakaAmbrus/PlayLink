@@ -36,7 +36,7 @@ namespace Application.Features.Authentication.UserRegistration
                     Created = DateTime.UtcNow,
                 };
 
-                string FormatPropertiesToTitleCase(string input)
+                static string FormatPropertiesToTitleCase(string input)
                 {
                     var inputInfo = CultureInfo.CurrentCulture.TextInfo;
                     return inputInfo.ToTitleCase(input.ToLower());
@@ -61,7 +61,10 @@ namespace Application.Features.Authentication.UserRegistration
                     User = new UserDto
                     {
                         Username = user.UserName,
-                        Token = await _tokenService.CreateToken(user)
+                        Token = await _tokenService.CreateToken(user),
+                        FullName = user.FullName,
+                        Gender = user.Gender,
+                        ProfilePictureUrl = user.ProfilePictureUrl
                     }
                 };
             }

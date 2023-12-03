@@ -1,12 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-profile-navigation',
-  standalone: true,
-  imports: [],
   templateUrl: './profile-navigation.component.html',
-  styleUrl: './profile-navigation.component.scss'
+  styleUrl: './profile-navigation.component.scss',
 })
 export class ProfileNavigationComponent {
-
+  @Input() username: string = '';
+  @Input() isCurrentUserProfile: boolean = false;
 }

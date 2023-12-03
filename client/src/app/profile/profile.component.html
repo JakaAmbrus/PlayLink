@@ -47,41 +47,10 @@
     </button>
   </div>
   <div id="profile-features">
-    <div
-      id="profile-features-navbar"
-      class="secondary-background rounded-border box-shadow header-text"
-    >
-      <a
-        routerLink="/user/{{ user.username }}/posts"
-        routerLinkActive="active-link"
-        class="profile-navigation-links bottom-border-active"
-      >
-        <p class="profile-link-text-container">Posts</p>
-      </a>
-      <a
-        routerLink="/user/{{ user.username }}/gallery"
-        routerLinkActive="active-link"
-        class="profile-navigation-links bottom-border-active"
-      >
-        <p class="profile-link-text-container">Gallery</p>
-      </a>
-      <a
-        *ngIf="!isCurrentUserProfile"
-        routerLink="/user/{{ user.username }}/message"
-        routerLinkActive="active-link"
-        class="profile-navigation-links bottom-border-active"
-      >
-        <p class="profile-link-text-container">Message</p>
-      </a>
-      <a
-        *ngIf="isCurrentUserProfile"
-        routerLink="/user/{{ user.username }}/edit"
-        routerLinkActive="active-link"
-        class="profile-navigation-links bottom-border-active"
-      >
-        <p class="profile-link-text-container">Edit Info</p>
-      </a>
-    </div>
+    <app-profile-navigation
+      [username]="user.username"
+      [isCurrentUserProfile]="isCurrentUserProfile"
+    ></app-profile-navigation>
 
     <div [@routeAnimations]="prepareRoute(outlet)" id="profile-routes">
       <router-outlet #outlet="outlet"></router-outlet>

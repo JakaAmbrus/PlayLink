@@ -4,8 +4,10 @@
     {
         private static readonly Dictionary<int, List<string>> OnlineUsers = new();
 
-        public Task UserConnected(int userId, string connectionId)
+        public Task<bool> UserConnected(int userId, string connectionId)
         {
+            bool isOnline = false;
+
             lock (OnlineUsers)
             {
                 if (OnlineUsers.ContainsKey(userId))
@@ -15,36 +17,40 @@
                 else
                 {
                     OnlineUsers.Add(userId, new List<string> { connectionId });
+                    isOnline = true;
                 }
 
-                return Task.CompletedTask;
+                return Task.FromResult(isOnline);
             }
         }
 
-        public Task UserDisconnected(int userId, string connectionId)
+        public Task<bool> UserDisconnected(int userId, string connectionId)
         {
+            bool isOffline = false;
+
             lock (OnlineUsers)
             {
-                if (!OnlineUsers.ContainsKey(userId)) return Task.CompletedTask;
+                if (!OnlineUsers.ContainsKey(userId)) return Task.FromResult(isOffline);
 
                 OnlineUsers[userId].Remove(connectionId);
 
                 if (OnlineUsers[userId].Count == 0)
                 {
                     OnlineUsers.Remove(userId);
+                    isOffline = true;
                 }
 
-                return Task.CompletedTask;
+                return Task.FromResult(isOffline);
             }
         }
 
-        public Task<string[]> GetOnlineUsers()
+        public Task<int[]> GetOnlineUsers()
         {
             lock (OnlineUsers)
             {
                 return Task.FromResult(OnlineUsers
                     .OrderBy(k => k.Key)
-                    .Select(k => k.Key.ToString())
+                    .Select(k => k.Key)
                     .ToArray());
             }
         }

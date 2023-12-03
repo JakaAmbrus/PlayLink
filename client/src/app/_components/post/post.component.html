@@ -7,10 +7,20 @@
         <img
           *ngIf="post.profilePictureUrl"
           class="post-user-img"
-          src="{{ post.profilePictureUrl }}"
+          ngSrc="{{
+            post.profilePictureUrl
+              | relativeUrl : 'https://res.cloudinary.com/dsdleukb7'
+          }} "
           alt="{{ post.fullName }}"
+          height="100"
+          width="100"
+          preconnect="true"
+          priority
         />
-        <span class="material-symbols-rounded filled post-icon-person">
+        <span
+          *ngIf="!post.profilePictureUrl"
+          class="material-symbols-rounded filled post-icon-person"
+        >
           {{ post.gender === "male" ? "person" : "person_2" }}
         </span>
       </div>
@@ -40,8 +50,14 @@
   <img
     *ngIf="post.photoUrl"
     class="post-image rounded-border"
-    src="{{ post.photoUrl }}"
+    ngSrc="{{
+      post.photoUrl | relativeUrl : 'https://res.cloudinary.com/dsdleukb7'
+    }}"
     alt="{{ post.fullName }}'s post image'"
+    height="600"
+    width="600"
+    preconnect="true"
+    priority
   />
   <div class="post-likes-and-comments-count">
     <div class="post-likes-count">{{ post.likesCount }} Likes</div>

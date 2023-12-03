@@ -54,6 +54,7 @@ import { MessageDisplayComponent } from './messages/message-display/message-disp
 import { LimitTextPipe } from './_pipes/limit-text.pipe';
 import { FirstWordPipe } from './_pipes/first-word.pipe';
 import { MessageContentComponent } from './profile/message/message-content/message-content.component';
+import { RelativeUrlPipe } from './_pipes/relative-url.pipe';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,12 @@ import { MessageContentComponent } from './profile/message/message-content/messa
     FirstWordPipe,
     MessageContentComponent,
   ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    provideCloudinaryLoader('https://res.cloudinary.com/dsdleukb7'),
+  ],
+  bootstrap: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -118,12 +125,7 @@ import { MessageContentComponent } from './profile/message/message-content/messa
       resetTimeoutOnDuplicate: true,
       progressBar: true,
     }),
+    RelativeUrlPipe,
   ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    provideCloudinaryLoader('http://res.cloudinary.com/dsdleukb7'),
-  ],
-  bootstrap: [AppComponent],
 })
 export class AppModule {}

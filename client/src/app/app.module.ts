@@ -15,6 +15,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgOptimizedImage, provideCloudinaryLoader } from '@angular/common';
+import { ProfileNavigationComponent } from './profile/components/profile-navigation/profile-navigation.component';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -96,6 +97,7 @@ import { UserAvatarComponent } from './_components/user-avatar/user-avatar.compo
     FirstWordPipe,
     MessageContentComponent,
     UserAvatarComponent,
+    ProfileNavigationComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

@@ -6,7 +6,7 @@ using Infrastructure.Services;
 using Serilog;
 using WebAPI.Extensions;
 using WebAPI.Filters;
-using WebAPI.Hubs;
+using WebAPI.SignalR;
 using WebAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);

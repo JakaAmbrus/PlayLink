@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AvatarService } from './avatar.service';
+import { PresenceService } from './presence.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,11 @@ export class AccountService {
     this.checkLoggedInStatus()
   );
 
-  constructor(private http: HttpClient, private avatarService: AvatarService) {}
+  constructor(
+    private http: HttpClient,
+    private presenceService: PresenceService,
+    private avatarService: AvatarService
+  ) {}
 
   login(model: any) {
     return this.http
@@ -31,6 +36,8 @@ export class AccountService {
   private handleUserResponse(response: any) {
     const { username, token, fullName, gender, profilePictureUrl } =
       response.user;
+
+    this.presenceService.createHubConnection(token);
 
     const roles = this.getDecodedToken(token).role;
     this.userRoles = Array.isArray(roles) ? roles : [roles];
@@ -80,6 +87,7 @@ export class AccountService {
   logout() {
     localStorage.clear();
     this.setLoggedIn(false);
+    this.presenceService.stopHubConnection();
   }
 
   private addAuthorizationHeader(headers: HttpHeaders) {

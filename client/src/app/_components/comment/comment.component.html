@@ -1,17 +1,10 @@
 <div class="comment-container comments-bottom-border" *ngIf="comment">
-  <div
-    class="comment-user-img-container header-icons-right theme-border rounded-border"
-  >
-    <img
-      *ngIf="comment.profilePictureUrl"
-      class="comment-user-img"
-      src="{{ comment.profilePictureUrl }}"
-      alt="{{ comment.fullName }}"
-    />
-    <span class="material-symbols-rounded filled comment-icon-person">
-      {{ comment.gender === "male" ? "person" : "person_2" }}
-    </span>
-  </div>
+  <app-user-avatar
+    id="comment-user-avatar"
+    [profilePictureUrl]="comment.profilePictureUrl"
+    [fullName]="comment.fullName"
+    [gender]="comment.gender"
+  ></app-user-avatar>
   <div class="comment-content-container">
     <div
       class="comment-name-and-content comments-content-background rounded-border"

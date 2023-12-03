@@ -3,19 +3,12 @@
   [ngClass]="{ 'current-user': message.senderUsername !== username }"
   class="message-content-container theme-border-bottom"
 >
-  <div
-    class="sender-avatar-container header-icons-right theme-border rounded-border"
-  >
-    <img
-      *ngIf="message.senderProfilePictureUrl"
-      src="{{ message.senderProfilePictureUrl }}"
-      alt="{{ message.senderFullName }}"
-      class="sender-img"
-    />
-    <span class="material-symbols-rounded filled sender-icon-person">
-      {{ message.senderGender === "male" ? "person" : "person_2" }}
-    </span>
-  </div>
+  <app-user-avatar
+    id="pm-user-avatar"
+    [profilePictureUrl]="message.senderProfilePictureUrl"
+    [fullName]="message.senderFullName"
+    [gender]="message.senderGender"
+  ></app-user-avatar>
 
   <div
     class="sender-message-content-container comments-content-background rounded-border"

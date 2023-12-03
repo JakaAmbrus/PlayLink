@@ -1,0 +1,20 @@
+<div class="user-img-container header-icons-right theme-border rounded-border">
+  <img
+    *ngIf="profilePictureUrl"
+    class="user-img"
+    [ngSrc]="
+      profilePictureUrl | relativeUrl : 'https://res.cloudinary.com/dsdleukb7'
+    "
+    [alt]="fullName"
+    height="100"
+    width="100"
+    preconnect="true"
+    priority
+  />
+  <span
+    *ngIf="!profilePictureUrl"
+    class="material-symbols-rounded filled icon-person"
+  >
+    {{ gender === "male" ? "person" : "person_2" }}
+  </span>
+</div>

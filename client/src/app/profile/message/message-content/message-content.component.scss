@@ -10,23 +10,10 @@
     flex-direction: row-reverse;
   }
 }
-.sender-avatar-container {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 5.2em;
+#pm-user-avatar {
+  margin-top: 0.1em;
   height: 5.2em;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-.sender-img {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-.sender-icon-person {
-  font-size: 5em;
+  width: 5.2em;
 }
 .sender-message-content-container {
   display: flex;

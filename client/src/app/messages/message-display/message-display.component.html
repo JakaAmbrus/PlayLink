@@ -7,23 +7,12 @@
   }}"
   class="message-container theme-border-bottom"
 >
-  <div
-    class="message-user-img-container header-icons-right theme-border rounded-border"
-  >
-    <img
-      title="user-avatar"
-      class="message-user-img"
-      src="{{ message.senderProfilePictureUrl }}"
-      alt="{{ message.senderFullName }}"
-      *ngIf="message.senderProfilePictureUrl"
-    />
-    <span
-      class="material-symbols-rounded filled message-icon-person"
-      *ngIf="message.senderGender || message.recipientGender"
-    >
-      {{ message.senderGender === "male" ? "person" : "person_2" }}
-    </span>
-  </div>
+  <app-user-avatar
+    id="message-user-avatar"
+    [profilePictureUrl]="message.senderProfilePictureUrl"
+    [fullName]="message.senderFullName"
+    [gender]="message.senderGender"
+  ></app-user-avatar>
 
   <div class="message-content-container">
     <h1 class="message-user-name">

@@ -118,15 +118,14 @@ export class RegisterComponent implements OnInit {
     this.accountService.register(values).subscribe({
       next: (response) => {
         console.log(response);
-        this.router.navigate(['/portal']);
-        this.exitRegistration.emit();
+        this.accountService.setLoggedIn(true);
+        this.router.navigate(['/home']);
       },
       error: () => console.log('Registration error'),
     });
   }
 
   cancel(): void {
-    console.log('cancelled');
     this.exitRegistration.emit();
   }
 

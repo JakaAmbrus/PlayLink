@@ -22,8 +22,7 @@ export class LoginComponent implements OnInit {
   login() {
     this.accountService.login(this.model).subscribe({
       next: (response) => {
-        console.log(response.user.username);
-        console.log(response.user.token);
+        console.log(response);
         this.loggedIn = true;
         this.accountService.setLoggedIn(true);
         this.router.navigate(['/home']);

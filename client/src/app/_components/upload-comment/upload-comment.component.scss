@@ -9,14 +9,10 @@
   width: 100%;
   gap: 1em;
 }
-.upload-comment-img-container {
+#comment-upload-user-avatar {
   flex-shrink: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 4.6em;
   height: 4.6em;
-  overflow: hidden;
 }
 .upload-input-container {
   position: relative;

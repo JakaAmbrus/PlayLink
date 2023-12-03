@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Avatar } from 'src/app/_models/avatar';
+import { AvatarService } from 'src/app/_services/avatar.service';
 import { CommentsService } from 'src/app/_services/comments.service';
 
 @Component({
@@ -13,14 +15,17 @@ export class UploadCommentComponent implements OnInit {
   @Input() postId: number | undefined;
 
   uploadCommentForm: FormGroup = new FormGroup({});
+  avatar!: Avatar;
 
   constructor(
     private fb: FormBuilder,
-    private commentsService: CommentsService
+    private commentsService: CommentsService,
+    private avatarService: AvatarService
   ) {}
 
   ngOnInit(): void {
     this.initializeForm();
+    this.avatar = this.avatarService.getAvatarDetails();
   }
 
   initializeForm() {

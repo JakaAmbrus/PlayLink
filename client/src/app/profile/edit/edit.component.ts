@@ -9,9 +9,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import countries from '../../../assets/data/countries.json';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
 import { validCountryValidator } from 'src/app/_forms/validators/registerFormValidators';
-import { EditUser, EditUserResponse } from 'src/app/_models/users';
+import { EditUser } from 'src/app/_models/users';
 import { UsersService } from 'src/app/_services/users.service';
 import { ToastrService } from 'ngx-toastr';
+import { AvatarService } from 'src/app/_services/avatar.service';
+import { UserDataService } from 'src/app/_services/user-data.service';
 
 @Component({
   selector: 'app-edit',
@@ -40,7 +42,9 @@ export class EditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private avatarService: AvatarService,
+    private userDataService: UserDataService
   ) {}
 
   ngOnInit(): void {
@@ -98,12 +102,21 @@ export class EditComponent implements OnInit {
       };
 
       this.usersService.editUser(editUserData).subscribe({
-        next: () => {
+        next: (response) => {
+          console.log(response);
           this.toastr.success('Profile updated successfully');
           this.editUserForm.reset();
           this.selectedFiles = [];
           this.cdRef.detectChanges();
           this.isLoading = false;
+          if (response.photoUrl) {
+            this.avatarService.updateAvatarPhoto(response.photoUrl);
+          }
+          this.userDataService.updateCurrentUserDetails(
+            response.country,
+            response.photoUrl,
+            response.description
+          );
           this.router
             .navigateByUrl('/RefreshComponent', { skipLocationChange: true })
             .then(() => {

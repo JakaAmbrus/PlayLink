@@ -7,11 +7,11 @@ import {
   ProfileUser,
   SearchUser,
   User,
-  UsersResponse,
 } from '../_models/users';
-import { BehaviorSubject, Observable, filter, map, of, tap } from 'rxjs';
+import { Observable, map, of, tap } from 'rxjs';
 import { PaginatedResult, Pagination } from '../_models/pagination';
 import { UserParams } from '../_models/userParams';
+import { UserDataService } from './user-data.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,9 +24,11 @@ export class UsersService {
   searchUsersCache: SearchUser[] = [];
   usersCache = new Map();
   private userCache = new Map<string, ProfileUser>();
-  private currentUserSubject = new BehaviorSubject<ProfileUser | null>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private userDataService: UserDataService
+  ) {}
 
   getUsers(userParams: UserParams): Observable<PaginatedResult<User[]>> {
     const key = Object.values(userParams).join('-');
@@ -70,10 +72,11 @@ export class UsersService {
   }
 
   getUser(username: string, isCurrentUser: boolean): Observable<ProfileUser> {
-    if (isCurrentUser && this.currentUserSubject.value) {
-      return this.currentUserSubject
-        .asObservable()
-        .pipe(filter((user): user is ProfileUser => user !== null));
+    if (isCurrentUser) {
+      const currentUser = this.userDataService.getCurrentUser();
+      if (currentUser.appUserId !== 0) {
+        return of(currentUser);
+      }
     }
 
     if (!isCurrentUser) {
@@ -89,8 +92,7 @@ export class UsersService {
         map((response) => {
           const user = response.user;
           if (isCurrentUser) {
-            console.log(user);
-            this.currentUserSubject.next(user);
+            this.userDataService.updateCurrentUser(user);
           } else {
             this.userCache.set(username, user);
           }

@@ -14,6 +14,13 @@ export class AvatarService {
     localStorage.setItem('avatar', JSON.stringify(details));
   }
 
+  updateAvatarPhoto(url: string): void {
+    const currentDetails = this.avatarDetails();
+    const updatedDetails = { ...currentDetails, pictureUrl: url };
+    this.avatarDetails.set(updatedDetails);
+    localStorage.setItem('avatar', JSON.stringify(updatedDetails));
+  }
+
   private getStoredAvatarDetails(): Avatar {
     const storedDetails = localStorage.getItem('avatar');
     return storedDetails

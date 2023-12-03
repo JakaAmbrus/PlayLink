@@ -7,7 +7,9 @@ import {
 } from '@angular/animations';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Avatar } from 'src/app/_models/avatar';
 import { PostContent } from 'src/app/_models/posts';
+import { AvatarService } from 'src/app/_services/avatar.service';
 import { PostsService } from 'src/app/_services/posts.service';
 
 @Component({
@@ -48,6 +50,7 @@ import { PostsService } from 'src/app/_services/posts.service';
 export class UploadPostComponent implements OnInit {
   @Output() postUploaded: EventEmitter<any> = new EventEmitter();
 
+  avatar!: Avatar;
   animationState = 'small';
   isModalOpen: boolean = false;
   uploadPostForm: FormGroup = new FormGroup({});
@@ -55,10 +58,15 @@ export class UploadPostComponent implements OnInit {
   isFileSelected: boolean = false;
   isLoading: boolean = false;
 
-  constructor(private fb: FormBuilder, private postsService: PostsService) {}
+  constructor(
+    private fb: FormBuilder,
+    private postsService: PostsService,
+    private avatarService: AvatarService
+  ) {}
 
   ngOnInit(): void {
     this.initializeForm();
+    this.avatar = this.avatarService.getAvatarDetails();
   }
 
   initializeForm(): void {

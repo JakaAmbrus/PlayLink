@@ -3,10 +3,12 @@
   class="secondary-background rounded-border box-shadow"
 >
   <div id="upload-post-popup-top">
-    <div
-      id="upload-post-popup-img-container"
-      class="rounded-border theme-border"
-    ></div>
+    <app-user-avatar
+      id="post-upload-user-avatar"
+      [profilePictureUrl]="avatar.profilePictureUrl"
+      [fullName]="avatar.fullName"
+      [gender]="avatar.gender"
+    ></app-user-avatar>
     <input
       (click)="openUploadPostModal()"
       id="upload-post-popup-input"

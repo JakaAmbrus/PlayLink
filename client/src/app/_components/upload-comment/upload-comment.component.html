@@ -3,7 +3,12 @@
   [formGroup]="uploadCommentForm"
   (ngSubmit)="onSubmit()"
 >
-  <div class="upload-comment-img-container theme-border rounded-border"></div>
+  <app-user-avatar
+    id="comment-upload-user-avatar"
+    [profilePictureUrl]="avatar.profilePictureUrl"
+    [fullName]="avatar.fullName"
+    [gender]="avatar.gender"
+  ></app-user-avatar>
   <div class="upload-input-container">
     <input
       id="upload-comment-input"

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { AvatarService } from './avatar.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,28 +13,32 @@ export class AccountService {
     this.checkLoggedInStatus()
   );
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private avatarService: AvatarService) {}
 
   login(model: any) {
-    return this.http.post(this.baseUrl + 'account/login', model).pipe(
-      tap((response: any) => {
-        const user = response.user.username;
-        const token = response.user.token;
-        this.saveToken(token);
-        this.saveUser(user);
-        this.setLoggedIn(true);
-      })
-    );
+    return this.http
+      .post(this.baseUrl + 'account/login', model)
+      .pipe(tap((response) => this.handleUserResponse(response)));
   }
+
   register(model: any) {
-    return this.http.post(this.baseUrl + 'account/register', model).pipe(
-      tap((response: any) => {
-        const user = response.username;
-        const token = response.token;
-        this.saveToken(token);
-        this.setLoggedIn(true);
-      })
-    );
+    return this.http
+      .post(this.baseUrl + 'account/register', model)
+      .pipe(tap((response) => this.handleUserResponse(response)));
+  }
+
+  private handleUserResponse(response: any) {
+    const { username, token, fullName, gender, profilePictureUrl } =
+      response.user;
+    this.saveToken(token);
+    this.saveUser(username);
+    this.setLoggedIn(true);
+    this.avatarService.updateAvatarDetails({
+      username,
+      fullName,
+      gender,
+      profilePictureUrl,
+    });
   }
 
   saveUser(user: string) {

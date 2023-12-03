@@ -51,7 +51,12 @@
   </div>
   <div class="user-info">
     <div class="name-age-activity theme-border-bottom">
-      <span class="material-symbols-rounded filled activity-icon">
+      <span
+        class="material-symbols-rounded filled activity-icon"
+        [class.is-online]="
+          (presenceService.onlineUsers$ | async)?.includes(user.appUserId)
+        "
+      >
         {{ user.gender === "male" ? "person" : "person_2" }}
       </span>
       <p class="name-and-age">

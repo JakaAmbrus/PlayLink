@@ -68,7 +68,10 @@
 .activity-icon {
   position: absolute;
   left: 0.3em;
-  font-size: 1.8em;
+  font-size: 2em;
+}
+.activity-icon.is-online {
+  color: #00ff00;
 }
 .location {
   font-size: 1.6em;

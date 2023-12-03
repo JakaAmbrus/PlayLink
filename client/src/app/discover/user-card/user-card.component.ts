@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { User } from 'src/app/_models/users';
+import { PresenceService } from 'src/app/_services/presence.service';
 
 @Component({
   selector: 'app-user-card',
@@ -17,7 +18,7 @@ export class UserCardComponent implements OnInit {
     this.isHovered = hovering;
   }
 
-  constructor() {}
+  constructor(public presenceService: PresenceService) {}
 
   ngOnInit(): void {
     this.username = localStorage.getItem('user');

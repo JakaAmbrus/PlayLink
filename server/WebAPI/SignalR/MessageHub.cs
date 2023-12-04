@@ -1,4 +1,12 @@
-﻿using Application.Features.Messages.Common;
+﻿using Application.Features.MessageGroups.AddConnectionToGroup;
+using Application.Features.MessageGroups.AddGroup;
+using Application.Features.MessageGroups.Common;
+using Application.Features.MessageGroups.GetGroupForConnection;
+using Application.Features.MessageGroups.GetMessageGroup;
+using Application.Features.MessageGroups.MarkMessageAsRead;
+using Application.Features.MessageGroups.RemoveConnection;
+using Application.Features.Messages.Common;
+using Application.Features.Messages.GetMessageById;
 using Application.Features.Messages.GetMessageThread;
 using Application.Features.Messages.SendMessage;
 using Application.Interfaces;
@@ -33,6 +41,11 @@ namespace WebAPI.SignalR
             var groupName = GetGroupName(authUsername, otherUser);
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 
+            var group = await AddToGroup(groupName);
+
+            await Clients.Group(groupName).SendAsync("UpdatedGroup", group);
+
+
             var query = new GetMessageThreadQuery
             {
                 AuthUserId = authUserId,
@@ -40,35 +53,84 @@ namespace WebAPI.SignalR
             };
             var messages = await _mediator.Send(query);
 
-            await Clients.Group(groupName).SendAsync("ReceiveMessageThread", messages);
+            await Clients.Caller.SendAsync("ReceiveMessageThread", messages);
         }
 
-        public override Task OnDisconnectedAsync(Exception exception)
+        public override async Task OnDisconnectedAsync(Exception exception)
         {
-            return base.OnDisconnectedAsync(exception);
+            var group = await RemoveFromMessageGroup();
+            await Clients.Group(group.Name).SendAsync("UpdatedGroup");
+            await base.OnDisconnectedAsync(exception);
         }
 
         public async Task SendMessage(CreateMessageDto createMessageDto)
         {
             int authUserId = _authenticatedUserService.UserId;
+            string authUsername = await _authenticatedUserUsernameService.GetUsernameByIdAsync();
 
             var command = new SendMessageCommand
             {
                 CreateMessageDto = createMessageDto,
                 AuthUserId = authUserId
-            };
+            };       
 
             var result = await _mediator.Send(command);
 
-            var group = GetGroupName(result.Message.SenderUsername, result.Message.RecipientUsername);
+            var groupName = GetGroupName(result.Message.SenderUsername, result.Message.RecipientUsername);
 
-            await Clients.Group(group).SendAsync("NewMessage", result.Message);
+            var groupDto = await _mediator.Send(new GetMessageGroupQuery { GroupName = groupName });
+
+            if (groupDto != null && groupDto.Connections.Any(c => c.Username == result.Message.RecipientUsername))
+            {
+                await _mediator.Send(new MarkMessageAsReadCommand { MessageId = result.Message.PrivateMessageId });
+                result.Message = await _mediator.Send(new GetMessageByIdQuery { MessageId = result.Message.PrivateMessageId });
+            }
+
+            await Clients.Group(groupName).SendAsync("NewMessage", result.Message);
         }
 
         private static string GetGroupName(string caller, string other)
         {
             var stringCompare = string.CompareOrdinal(caller, other) < 0;
             return stringCompare ? $"{caller}-{other}" : $"{other}-{caller}";
-        }    
+        }
+
+        private async Task<GroupDto> AddToGroup(string groupName)
+        {
+            var groupDto = await _mediator.Send(new GetMessageGroupQuery { GroupName = groupName });
+
+            if (groupDto == null)
+            {
+                _ = await _mediator.Send(new AddGroupCommand { GroupName = groupName });
+            }
+
+            string authUsername = await _authenticatedUserUsernameService.GetUsernameByIdAsync();
+            var connectionDto = new ConnectionDto
+            {
+                ConnectionId = Context.ConnectionId,
+                Username = authUsername
+            };
+
+            await _mediator.Send(new AddConnectionToGroupCommand { GroupName = groupName, ConnectionDto = connectionDto });
+
+            groupDto = await _mediator.Send(new GetMessageGroupQuery { GroupName = groupName });
+
+            return groupDto;
+        }
+
+        private async Task<GroupDto> RemoveFromMessageGroup()
+        {
+            var groupDto = await _mediator.Send(new GetGroupForConnectionQuery
+            {
+                ConnectionId = Context.ConnectionId
+            });
+
+            await _mediator.Send(new RemoveConnectionCommand
+            {
+                ConnectionId = Context.ConnectionId
+            });
+
+            return groupDto;
+        }
     }
 }

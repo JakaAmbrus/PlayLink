@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Application.Interfaces;
+using Domain.Entities;
+using Infrastructure.Data.Configurations;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Infrastructure.Data.Configurations;
-using Domain.Entities;
-using Application.Interfaces;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastructure.Data
 {
@@ -18,6 +17,8 @@ namespace Infrastructure.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Like> Likes { get; set;}
         public DbSet<PrivateMessage> PrivateMessages { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Connection> Connections { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

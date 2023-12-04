@@ -11,7 +11,7 @@ namespace Domain.Entities
 
         public Group(string name)
         {
-            Name = Name;
+            Name = name;
         }
 
         [Key]

@@ -10,6 +10,8 @@ namespace Application.Interfaces
         DbSet<Comment> Comments { get; set; }
         DbSet<Like> Likes { get; set; }
         DbSet<PrivateMessage> PrivateMessages { get; set; }
+        DbSet<Group> Groups { get; set; }
+        DbSet<Connection> Connections { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
         void Add<TEntity>(TEntity entity) where TEntity : class;

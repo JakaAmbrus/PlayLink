@@ -16,7 +16,7 @@
     <div class="sender-name-and-time">
       <h2 class="sender-name">{{ message.senderFullName }}</h2>
       <p class="sent-date">
-        {{ message.privateMessageSent | relativeTime }}
+        {{ message.privateMessageSent | timeago }}
       </p>
     </div>
 
@@ -27,7 +27,7 @@
       *ngIf="message.dateRead && message.senderUsername !== username"
       class="sender-message-date"
     >
-      <b>Seen </b>{{ message.dateRead | timeAgo }}
+      <b>Seen </b>{{ message.dateRead | timeago }}
     </p>
   </div>
 </div>

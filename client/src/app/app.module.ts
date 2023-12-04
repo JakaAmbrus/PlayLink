@@ -16,6 +16,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgOptimizedImage, provideCloudinaryLoader } from '@angular/common';
 import { ProfileNavigationComponent } from './profile/components/profile-navigation/profile-navigation.component';
+import { TimeagoModule } from 'ngx-timeago';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -57,6 +58,7 @@ import { FirstWordPipe } from './_pipes/first-word.pipe';
 import { MessageContentComponent } from './profile/message/message-content/message-content.component';
 import { RelativeUrlPipe } from './_pipes/relative-url.pipe';
 import { UserAvatarComponent } from './_components/user-avatar/user-avatar.component';
+import { ObjectToArrayPipe } from './_pipes/object-to-array.pipe';
 
 @NgModule({
   declarations: [
@@ -122,6 +124,7 @@ import { UserAvatarComponent } from './_components/user-avatar/user-avatar.compo
     MatButtonToggleModule,
     InfiniteScrollModule,
     NgOptimizedImage,
+    TimeagoModule.forRoot(),
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-bottom-right',
@@ -130,6 +133,7 @@ import { UserAvatarComponent } from './_components/user-avatar/user-avatar.compo
       progressBar: true,
     }),
     RelativeUrlPipe,
+    ObjectToArrayPipe,
   ],
 })
 export class AppModule {}

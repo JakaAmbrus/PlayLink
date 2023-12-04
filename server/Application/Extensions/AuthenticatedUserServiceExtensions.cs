@@ -10,6 +10,7 @@ namespace Application.Extensions
         {
 
             services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();
+            services.AddScoped<IAuthenticatedUserUsernameService, AuthenticatedUserUsernameService>();
 
             return services;
         }

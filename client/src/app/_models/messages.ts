@@ -12,3 +12,6 @@ export interface Message {
   dateRead: Date | null;
   privateMessageSent: Date;
 }
+export interface MessageThread {
+  messages: Message[];
+}

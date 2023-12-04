@@ -4,18 +4,50 @@ import { environment } from 'src/environments/environment';
 import { Message } from '../_models/messages';
 import { MessageParams } from '../_models/messageParams';
 import { PaginatedResult, Pagination } from '../_models/pagination';
-import { Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map, take } from 'rxjs';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MessagesService {
   baseUrl = environment.apiUrl;
+  hubUrl = environment.hubUrl;
+  private hubConnection?: HubConnection;
+  private messageThreadSource = new BehaviorSubject<Message[]>([]);
+  messageThread$ = this.messageThreadSource.asObservable();
   paginatedResult: PaginatedResult<Message[]> = new PaginatedResult<
     Message[]
   >();
 
   constructor(private http: HttpClient) {}
+
+  createHubConnection(token: any, otherUsername: string): void {
+    this.hubConnection = new HubConnectionBuilder()
+      .withUrl(this.hubUrl + 'message?user=' + otherUsername, {
+        accessTokenFactory: () => token,
+      })
+      .withAutomaticReconnect()
+      .build();
+
+    this.hubConnection.start().catch((error) => console.log(error));
+
+    this.hubConnection.on('ReceiveMessageThread', (response) => {
+      this.messageThreadSource.next(response.messages);
+    });
+
+    this.hubConnection.on('NewMessage', (message) => {
+      this.messageThread$.pipe(take(1)).subscribe((messages) => {
+        this.messageThreadSource.next([...messages, message]);
+      });
+    });
+  }
+
+  stopHubConnection(): void {
+    if (this.hubConnection) {
+      this.hubConnection.stop().catch((error) => console.log(error));
+    }
+  }
 
   getUserMessages(
     messageParams: MessageParams
@@ -63,6 +95,17 @@ export class MessagesService {
         content,
       })
       .pipe(map((response) => response.message));
+  }
+
+  async sendMessageThroughHub(username: string, content: string) {
+    console.log(username, content);
+
+    return this.hubConnection
+      ?.invoke('SendMessage', {
+        recipientUsername: username,
+        content,
+      })
+      .catch((error) => console.log(error));
   }
 
   deleteMessage(id: number) {

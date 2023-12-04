@@ -1,7 +1,13 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Message } from 'src/app/_models/messages';
+import { Message, MessageThread } from 'src/app/_models/messages';
 import { MessagesService } from 'src/app/_services/messages.service';
 
 @Component({
@@ -9,22 +15,36 @@ import { MessagesService } from 'src/app/_services/messages.service';
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.scss'],
 })
-export class MessageComponent implements OnInit {
+export class MessageComponent implements OnInit, OnDestroy {
   @ViewChild('messageContainer') private messageContainer:
     | ElementRef
     | undefined;
   @ViewChild('messageForm') messageForm?: NgForm;
   username: any;
+  messageThread: MessageThread | null = null;
   messages: Message[] = [];
   messageContent: string = '';
 
   constructor(
-    private messagesService: MessagesService,
+    public messagesService: MessagesService,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.loadMessages();
+    this.username = this.route.parent?.snapshot.paramMap.get('username');
+    const token = localStorage.getItem('token');
+    if (!token || !this.username) {
+      return;
+    }
+    this.messagesService.createHubConnection(token, this.username);
+    this.messagesService.messageThread$.subscribe((messages) => {
+      this.messages = messages;
+      this.scrollToBottom();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.messagesService.stopHubConnection();
   }
 
   loadMessages(): void {
@@ -40,6 +60,18 @@ export class MessageComponent implements OnInit {
         this.scrollToBottom();
       },
     });
+  }
+
+  sendMessageThroughHub(): void {
+    if (!this.username) {
+      return;
+    }
+    this.messagesService
+      .sendMessageThroughHub(this.username, this.messageContent)
+      .then(() => {
+        this.messageForm?.reset();
+        this.scrollToBottom();
+      });
   }
 
   sendMessage(): void {
@@ -63,6 +95,6 @@ export class MessageComponent implements OnInit {
       if (element) {
         element.scrollTop = element.scrollHeight;
       }
-    }, 0);
+    }, 200);
   }
 }

@@ -1,7 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommentsService } from 'src/app/_services/comments.service';
 import { LikesService } from 'src/app/_services/likes.service';
 import { Comment } from 'src/app/_models/comments';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-comment',
@@ -15,7 +17,8 @@ export class CommentComponent {
 
   constructor(
     private commentsService: CommentsService,
-    private likesService: LikesService
+    private likesService: LikesService,
+    public dialog: MatDialog
   ) {}
 
   toggleLike(comment: Comment) {
@@ -33,11 +36,20 @@ export class CommentComponent {
   }
 
   deleteComment(commentId: number) {
-    if (confirm('Are you sure you want to delete this comment?')) {
-      this.commentsService.deleteComment(commentId).subscribe(() => {
-        this.comment = undefined;
-        this.commentDeleted.emit(commentId);
-      });
-    }
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        title: 'Delete Comment',
+        message: 'Are you sure you want to delete this comment?',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.commentsService.deleteComment(commentId).subscribe(() => {
+          this.comment = undefined;
+          this.commentDeleted.emit(commentId);
+        });
+      }
+    });
   }
 }

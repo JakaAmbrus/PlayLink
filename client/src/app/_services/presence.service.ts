@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, take } from 'rxjs';
@@ -13,7 +14,7 @@ export class PresenceService {
   private onlineUsersSource = new BehaviorSubject<number[]>([]);
   onlineUsers$ = this.onlineUsersSource.asObservable();
 
-  constructor(private toastr: ToastrService) {}
+  constructor(private toastr: ToastrService, private router: Router) {}
 
   createHubConnection(token: any) {
     this.hubConnection = new HubConnectionBuilder()
@@ -43,6 +44,17 @@ export class PresenceService {
 
     this.hubConnection.on('GetOnlineUsers', (ids: number[]) => {
       this.onlineUsersSource.next(ids);
+    });
+
+    this.hubConnection.on('NewMessageReceived', ({ username, fullName }) => {
+      this.toastr
+        .info(fullName + ' has sent you a new message!')
+        .onTap.pipe(take(1))
+        .subscribe({
+          next: () => {
+            this.router.navigateByUrl('/user/' + username + '/message');
+          },
+        });
     });
   }
 

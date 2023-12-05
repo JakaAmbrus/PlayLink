@@ -9,6 +9,7 @@ using Application.Features.Messages.Common;
 using Application.Features.Messages.GetMessageById;
 using Application.Features.Messages.GetMessageThread;
 using Application.Features.Messages.SendMessage;
+using Application.Features.Users.GetUserIdFromUsername;
 using Application.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -22,12 +23,16 @@ namespace WebAPI.SignalR
         private readonly ISender _mediator;
         private readonly IAuthenticatedUserUsernameService _authenticatedUserUsernameService;
         private readonly IAuthenticatedUserService _authenticatedUserService;
+        private readonly IHubContext<PresenceHub> _presenceHub;
 
-        public MessageHub(ISender mediator, IAuthenticatedUserService authenticatedUserService , IAuthenticatedUserUsernameService authenticatedUserUsernameService)
+        public MessageHub(ISender mediator, IAuthenticatedUserService authenticatedUserService 
+            ,IAuthenticatedUserUsernameService authenticatedUserUsernameService,
+            IHubContext<PresenceHub> presenceHub)
         {
             _mediator = mediator;
             _authenticatedUserUsernameService = authenticatedUserUsernameService;
             _authenticatedUserService = authenticatedUserService;
+            _presenceHub = presenceHub;
         }
 
         public override async Task OnConnectedAsync()
@@ -85,7 +90,20 @@ namespace WebAPI.SignalR
                 await _mediator.Send(new MarkMessageAsReadCommand { MessageId = result.Message.PrivateMessageId });
                 result.Message = await _mediator.Send(new GetMessageByIdQuery { MessageId = result.Message.PrivateMessageId });
             }
+            else
+            {
+                int recipientId = await _mediator.Send(new GetUserIdByUsernameQuery { Username = result.Message.RecipientUsername });
 
+                var connections = await PresenceTracker.GetConnectionsForUser(recipientId);
+                if (connections != null)
+                {
+                    await _presenceHub.Clients.Clients(connections).SendAsync("NewMessageReceived", new
+                    {
+                        username = authUsername,
+                        fullName = result.Message.SenderFullName,
+                    });
+                }
+            }
             await Clients.Group(groupName).SendAsync("NewMessage", result.Message);
         }
 

@@ -56,7 +56,6 @@ export class MessageComponent implements OnInit, OnDestroy {
     this.messagesService.getMessageThread(this.username).subscribe({
       next: (messages) => {
         this.messages = messages;
-        console.log(messages);
         this.scrollToBottom();
       },
     });

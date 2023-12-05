@@ -19,6 +19,7 @@ export class MessagesComponent implements OnInit {
   buttons = messageButtons;
   isLoading: boolean = false;
   messageParams: MessageParams | undefined;
+  messageCountController: number = 0;
 
   constructor(private messagesService: MessagesService) {}
 
@@ -39,10 +40,10 @@ export class MessagesComponent implements OnInit {
     this.messagesService.getUserMessages(this.messageParams).subscribe({
       next: (response) => {
         if (response.result && response.pagination) {
+          this.messageCountController = 0;
           this.messages = response.result;
           this.pagination = response.pagination;
           this.isLoading = false;
-          console.log(this.messages);
         }
       },
       error: () => {
@@ -63,7 +64,7 @@ export class MessagesComponent implements OnInit {
           this.messages.findIndex((m) => m.privateMessageId === id),
           1
         );
-        console.log('Message deleted');
+        this.messageCountController++;
       },
     });
   }

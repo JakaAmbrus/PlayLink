@@ -5,6 +5,9 @@
   display: flex;
   padding: 1em;
   padding-top: 0;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 #message-user-avatar {
   height: 5.2em;

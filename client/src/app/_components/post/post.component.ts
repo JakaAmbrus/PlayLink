@@ -4,6 +4,8 @@ import { CommentsService } from 'src/app/_services/comments.service';
 import { LikesService } from 'src/app/_services/likes.service';
 import { PostsService } from 'src/app/_services/posts.service';
 import { Comment } from 'src/app/_models/comments';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-post',
@@ -21,7 +23,8 @@ export class PostComponent {
   constructor(
     private likesService: LikesService,
     private postsService: PostsService,
-    private commentsService: CommentsService
+    private commentsService: CommentsService,
+    public dialog: MatDialog
   ) {}
 
   toggleLike(post: Post) {
@@ -41,12 +44,21 @@ export class PostComponent {
   }
 
   deletePost(postId: number) {
-    if (confirm('Are you sure you want to delete this post?')) {
-      this.postsService.deletePost(postId).subscribe(() => {
-        this.post = undefined;
-        this.postDeleted.emit(postId);
-      });
-    }
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        title: 'Delete Post',
+        message: 'Are you sure you want to delete this post?',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.postsService.deletePost(postId).subscribe(() => {
+          this.post = undefined;
+          this.postDeleted.emit(postId);
+        });
+      }
+    });
   }
 
   showComments(): void {

@@ -59,6 +59,8 @@ import { MessageContentComponent } from './profile/message/message-content/messa
 import { RelativeUrlPipe } from './_pipes/relative-url.pipe';
 import { UserAvatarComponent } from './_components/user-avatar/user-avatar.component';
 import { ObjectToArrayPipe } from './_pipes/object-to-array.pipe';
+import { RouteReuseStrategy } from '@angular/router';
+import { CustomRouteReuseStrategy } from './_services/customRouteReuseStrategy';
 
 @NgModule({
   declarations: [
@@ -104,6 +106,7 @@ import { ObjectToArrayPipe } from './_pipes/object-to-array.pipe';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy },
     provideCloudinaryLoader('https://res.cloudinary.com/dsdleukb7'),
   ],
   bootstrap: [AppComponent],
@@ -126,7 +129,7 @@ import { ObjectToArrayPipe } from './_pipes/object-to-array.pipe';
     NgOptimizedImage,
     TimeagoModule.forRoot(),
     ToastrModule.forRoot({
-      timeOut: 3000,
+      timeOut: 4000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
       resetTimeoutOnDuplicate: true,

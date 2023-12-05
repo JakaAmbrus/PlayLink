@@ -54,5 +54,17 @@
                     .ToArray());
             }
         }
+
+        public static Task<List<string>> GetConnectionsForUser(int userId)
+        {
+            List<string> connectionIds;
+
+            lock (OnlineUsers)
+            {
+                connectionIds = OnlineUsers.GetValueOrDefault(userId);
+            }
+
+            return Task.FromResult(connectionIds);
+        }
     }
 }

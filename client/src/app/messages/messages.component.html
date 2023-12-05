@@ -31,7 +31,8 @@
 
     <div id="messages-content-container">
       <h1 id="messages-content-header" class="header-text">
-        {{ container }} Messages: {{ pagination?.totalItems ?? 0 }}
+        {{ container }} Messages:
+        {{ (pagination?.totalItems ?? 0) - messageCountController }}
       </h1>
       <div
         class="messages"

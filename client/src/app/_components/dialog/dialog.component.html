@@ -5,18 +5,10 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button
-    class="dialog-cancel-button rounded-border"
-    mat-button
-    mat-dialog-close
-  >
+  <button class="dialog-cancel-button" mat-button mat-dialog-close>
     {{ data.cancelText || "No" }}
   </button>
-  <button
-    class="dialog-confirm-button rounded-border"
-    mat-button
-    [mat-dialog-close]="true"
-  >
+  <button class="dialog-confirm-button" mat-button [mat-dialog-close]="true">
     {{ data.confirmText || "Yes" }}
   </button>
 </mat-dialog-actions>

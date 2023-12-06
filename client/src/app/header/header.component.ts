@@ -1,26 +1,34 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   @Input() theme!: 'theme-light' | 'theme-dark';
 
   @Output() themeButtonClicked = new EventEmitter<void>();
 
   username: string | null = null;
+  isDropdownOpen: boolean = false;
+  preventClose: boolean = false;
+  isAdmin: boolean = false;
+
+  ngOnInit() {
+    this.checkRoleAdmin();
+  }
 
   handleClick() {
     this.themeButtonClicked.emit();
   }
 
-  isDropdownOpen: boolean = false;
-  preventClose: boolean = false;
-
   toggleDropdown() {
     this.username = localStorage.getItem('user');
+
+    if (!this.username) {
+      return;
+    }
 
     if (this.isDropdownOpen) {
       this.isDropdownOpen = false;
@@ -49,5 +57,14 @@ export class HeaderComponent {
     }
     this.isDropdownOpen = false;
     this.unbindClickListener();
+  }
+
+  checkRoleAdmin(): void {
+    const storedRoles = localStorage.getItem('roles');
+    if (!storedRoles) {
+      return;
+    }
+    const roles = storedRoles ? JSON.parse(storedRoles) : [];
+    this.isAdmin = roles.includes('Admin');
   }
 }

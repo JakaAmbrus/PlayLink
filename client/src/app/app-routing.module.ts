@@ -109,11 +109,8 @@ const routes: Routes = [
     data: { animation: 'Messages' },
     canActivate: [canActivateGuard],
   },
-  {
-    path: '**',
-    component: NotFoundComponent,
-    pathMatch: 'full',
-  },
+  { path: 'not-found', component: NotFoundComponent },
+  { path: '**', redirectTo: '/not-found' },
 ];
 
 @NgModule({

@@ -30,3 +30,14 @@
     class="mobile-links secondary-background"
   ></app-header-nav-links>
 </header>
+
+<!-- Admin panned route navigation -->
+<a
+  *ngIf="isAdmin"
+  id="admin-panel-route-container"
+  class="secondary-background theme-border"
+>
+  <span class="material-symbols-rounded thicker-icon header-text">
+    shield_person
+  </span>
+</a>

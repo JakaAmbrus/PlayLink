@@ -60,6 +60,24 @@ app-header-nav-links,
   position: relative;
 }
 
+#admin-panel-route-container {
+  font-size: 10px;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 8em;
+  left: 8em;
+  height: 8em;
+  width: 8em;
+  border-radius: 1em;
+  z-index: 100;
+
+  & span {
+    font-size: 7em;
+  }
+}
+
 @media (max-width: 1100px) {
   #header-main-container {
     font-size: clamp(8px, 2.5vw, 10px);

@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { slideInAnimation } from './route-animations';
 import { Router, NavigationEnd } from '@angular/router';
@@ -20,7 +19,9 @@ export class AppComponent implements OnInit {
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.showNavbar = event.urlAfterRedirects !== '/portal';
+        this.showNavbar =
+          event.urlAfterRedirects !== '/portal' &&
+          event.urlAfterRedirects !== '/not-found';
       }
     });
   }

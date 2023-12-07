@@ -41,15 +41,16 @@ export class ProfileComponent implements OnInit {
 
   loadUser(): void {
     var username = this.route.snapshot.paramMap.get('username');
-
     if (username === null) {
       return;
     }
 
     this.isCurrentUserProfile = this.IsCurrentUser(username);
 
-    this.usersService.getUser(username, this.isCurrentUserProfile).subscribe({
+    this.usersService.getUser(username).subscribe({
       next: (user) => {
+        console.log(user);
+
         this.user = user;
       },
     });

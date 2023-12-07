@@ -68,10 +68,20 @@
 .activity-icon {
   position: absolute;
   left: 0.3em;
-  font-size: 2em;
+  font-size: 2.2em;
 }
 .activity-icon.is-online {
-  color: #00ff00;
+  color: #66bb6a;
+  animation: flash 1.6s infinite ease-in-out;
+}
+@keyframes flash {
+  0%,
+  100% {
+    color: #66bb6a;
+  }
+  50% {
+    color: #66bb6a89;
+  }
 }
 .location {
   font-size: 1.6em;

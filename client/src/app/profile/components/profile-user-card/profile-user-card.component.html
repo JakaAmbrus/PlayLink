@@ -9,55 +9,89 @@
   >
     <img
       *ngIf="user.profilePictureUrl"
-      src="{{ user.profilePictureUrl }}"
+      [ngSrc]="
+        user.profilePictureUrl
+          | relativeUrl : 'https://res.cloudinary.com/dsdleukb7'
+      "
+      height="400"
+      width="400"
+      preconnect="true"
+      priority
       alt="{{ user.fullName }}'s picture"
       id="profile-img"
     />
-    <span class="material-symbols-rounded filled card-img">
+    <span
+      *ngIf="!user.profilePictureUrl"
+      class="material-symbols-rounded filled card-avatar-icon"
+    >
       {{ user.gender === "male" ? "person" : "person_2" }}
     </span>
-  </div>
-  <h1 class="for-now-1">{{ user.fullName }}</h1>
-  <h1 class="for-now">About Me</h1>
-  <p class="for-now">{{ user.description }}</p>
-  <h1 class="for-now">LOCATION</h1>
-  <p class="for-now">{{ user.country }}</p>
-  <h1 class="for-now">Birthday</h1>
-  <p class="for-now">{{ user.dateOfBirth }}</p>
-  <div *ngIf="!isCurrentUserProfile" id="button-container">
-    <button
-      *ngIf="friendshipStatus === 'None'"
-      class="theme-border rounded-border box-shadow for-now-buttons reverse-parameters"
-      (click)="addFriend()"
+    <ng-container
+      *ngIf="
+        (presenceService.onlineUsers$ | async)?.includes(user.appUserId);
+        else offline
+      "
     >
-      <span class="for-now">Add Friend</span>
-    </button>
+      <div class="theme-border is-online current-status">Online</div>
+    </ng-container>
+    <ng-template #offline>
+      <div class="theme-border current-status">Offline</div>
+    </ng-template>
     <button
-      *ngIf="friendshipStatus === 'Pending'"
-      class="theme-border rounded-border box-shadow for-now-buttons reverse-parameters"
-      (click)="addFriend()"
+      *ngIf="user.authorized && user.profilePictureUrl"
+      (click)="moderatePicture()"
+      id="picture-moderation"
+      class="theme-border"
     >
-      <span class="for-now">Pending</span>
-    </button>
-    <button
-      *ngIf="friendshipStatus === 'Friends'"
-      class="theme-border rounded-border box-shadow for-now-buttons reverse-parameters"
-      (click)="removeFriend()"
-    >
-      <span class="for-now">Friends</span>
-    </button>
-    <button
-      class="theme-border rounded-border box-shadow for-now-buttons reverse-parameters"
-      [routerLink]="['/user', user.username, 'message']"
-    >
-      <span class="for-now">Message</span>
+      <span class="material-symbols-rounded filled moderator-icon">
+        shield_person
+      </span>
     </button>
   </div>
-  <button
-    *ngIf="isCurrentUserProfile"
-    class="theme-border rounded-border box-shadow for-now-buttons reverse-parameters"
-    [routerLink]="['/user', user.username, 'edit']"
-  >
-    <span class="for-now">Edit Profile</span>
-  </button>
+  <div id="profile-content-container">
+    <h1 class="for-now-1">{{ user.fullName }}</h1>
+    <h1 class="for-now">About Me</h1>
+    <p class="for-now">{{ user.description }}</p>
+    <h1 class="for-now">LOCATION</h1>
+    <p class="for-now">{{ user.country }}</p>
+    <h1 class="for-now">Birthday</h1>
+    <p class="for-now">{{ user.dateOfBirth }}</p>
+
+    <div
+      [ngSwitch]="friendshipStatus"
+      *ngIf="!isCurrentUserProfile"
+      id="button-container"
+    >
+      <button
+        *ngSwitchCase="'None'"
+        class="theme-border rounded-border box-shadow for-now-buttons reverse-parameters"
+        (click)="addFriend()"
+      >
+        <span class="for-now">Add Friend</span>
+      </button>
+
+      <button
+        *ngSwitchCase="'Pending'"
+        class="theme-border rounded-border box-shadow for-now-buttons reverse-parameters"
+      >
+        <span class="for-now">Pending</span>
+      </button>
+
+      <button
+        *ngSwitchCase="'Friends'"
+        class="theme-border rounded-border box-shadow for-now-buttons reverse-parameters"
+        (click)="removeFriend()"
+      >
+        <span class="for-now">Friends</span>
+      </button>
+    </div>
+
+    <button
+      *ngIf="isCurrentUserProfile"
+      class="theme-border rounded-border box-shadow for-now-buttons reverse-parameters"
+      [routerLink]="['/user', user.username, 'edit']"
+    >
+      <span class="for-now">Edit Profile</span>
+    </button>
+  </div>
 </div>

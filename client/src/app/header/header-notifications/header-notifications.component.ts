@@ -22,9 +22,10 @@ export class HeaderNotificationsComponent {
       })
       .subscribe({
         next: (response) => {
+          console.log(response);
           this.requestDeleted.emit(friendRequestId);
-          if (response.accepted) {
-            this.friendsService.addFriend(response.friend);
+          if (response.requestAccepted) {
+            this.friendsService.addFriend(response.friendDto);
           }
         },
       });

@@ -55,4 +55,20 @@ export class ProfileUserCardComponent implements OnInit {
       },
     });
   }
+
+  removeFriend(): void {
+    if (this.user === undefined) {
+      return;
+    }
+
+    this.friendsService.removeFriendship(this.user.username).subscribe({
+      next: () => {
+        this.friendshipStatus = 'None';
+        console.log('Friend removed');
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
 }

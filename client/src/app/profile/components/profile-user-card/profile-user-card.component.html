@@ -40,6 +40,13 @@
       <span class="for-now">Pending</span>
     </button>
     <button
+      *ngIf="friendshipStatus === 'Friends'"
+      class="theme-border rounded-border box-shadow for-now-buttons reverse-parameters"
+      (click)="removeFriend()"
+    >
+      <span class="for-now">Friends</span>
+    </button>
+    <button
       class="theme-border rounded-border box-shadow for-now-buttons reverse-parameters"
       [routerLink]="['/user', user.username, 'message']"
     >

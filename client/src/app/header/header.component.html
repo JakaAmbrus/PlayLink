@@ -5,10 +5,14 @@
     <div id="header-right">
       <div
         id="header-notifications-container"
-        (click)="toggleNotifications()"
         class="header-icons-right header-icons-right-container"
       >
-        <span class="material-symbols-rounded filled"> notifications </span>
+        <span
+          (click)="toggleNotifications()"
+          class="material-symbols-rounded filled"
+        >
+          notifications
+        </span>
         <app-header-notifications
           *ngIf="friendRequests.length > 0 && isNotificationsOpen"
           [friendRequests]="friendRequests"

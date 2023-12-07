@@ -60,10 +60,11 @@ import { RelativeUrlPipe } from './_pipes/relative-url.pipe';
 import { UserAvatarComponent } from './_components/user-avatar/user-avatar.component';
 import { ObjectToArrayPipe } from './_pipes/object-to-array.pipe';
 import { HeaderNotificationsComponent } from './header/header-notifications/header-notifications.component';
-import { CustomRouteReuseStrategy } from './_services/customRouteReuseStrategy';
+import { FriendDisplayComponent } from './home/friend-list/friend-display/friend-display.component';
 import { AdminComponent } from './admin/admin.component';
 import { AdminUserDisplayComponent } from './admin/admin-user-display/admin-user-display.component';
 import { ProfileUserCardComponent } from './profile/components/profile-user-card/profile-user-card.component';
+import { FriendListComponent } from './home/friend-list/friend-list.component';
 
 @NgModule({
   declarations: [
@@ -109,6 +110,8 @@ import { ProfileUserCardComponent } from './profile/components/profile-user-card
     ProfileNavigationComponent,
     ProfileUserCardComponent,
     HeaderNotificationsComponent,
+    FriendListComponent,
+    FriendDisplayComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

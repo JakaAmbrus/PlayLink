@@ -24,7 +24,7 @@ export class HeaderNotificationsComponent {
         next: (response) => {
           this.requestDeleted.emit(friendRequestId);
           if (response.accepted) {
-            console.log(response.friend);
+            this.friendsService.addFriend(response.friend);
           }
         },
       });

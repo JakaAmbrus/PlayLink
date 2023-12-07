@@ -84,7 +84,15 @@ namespace WebAPI.Controllers
         [HttpGet("username/{username}")]
         public async Task<IActionResult> GetUserByUsername(string username, CancellationToken cancellationToken)
         {
-            var query = new GetUserByUsernameQuery { Username = username };
+            int authUserId = GetCurrentUserId();
+            IEnumerable<string> authUserRoles = GetCurrentUserRoles();
+
+            var query = new GetUserByUsernameQuery 
+            { 
+                Username = username,
+                AuthUserId = authUserId,
+                AuthUserRoles = authUserRoles
+            };
 
             var response = await Mediator.Send(query, cancellationToken);
 

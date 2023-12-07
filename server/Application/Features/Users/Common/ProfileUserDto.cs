@@ -10,5 +10,8 @@
         public string Country { get; set; }
         public string ProfilePictureUrl { get; set; }
         public string Description { get; set; }
+        public DateTime Created { get; set; }
+        public DateTime LastActive { get; set; }
+        public bool Authorized { get; set; }
     }
 }

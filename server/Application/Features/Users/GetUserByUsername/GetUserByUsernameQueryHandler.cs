@@ -19,7 +19,10 @@ namespace Application.Features.Users.GetUserByUsername
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.UserName == request.Username, cancellationToken) 
                 ?? throw new NotFoundException($"The user by the username: {request.Username} not found ");
-            
+
+            bool isModerator = request.AuthUserRoles.Contains("Moderator");
+            bool isCurrentUser = request.AuthUserId == user.Id;
+
             var profileUserDto = new ProfileUserDto
             {
                 AppUserId = user.Id,
@@ -29,7 +32,10 @@ namespace Application.Features.Users.GetUserByUsername
                 DateOfBirth = user.DateOfBirth,
                 Country = user.Country,
                 ProfilePictureUrl = user.ProfilePictureUrl,
-                Description = user.Description
+                Description = user.Description,
+                Created = user.Created,
+                LastActive = user.LastActive,
+                Authorized = isModerator && !isCurrentUser
             };
 
             return new GetUserByUsernameResponse { User = profileUserDto };

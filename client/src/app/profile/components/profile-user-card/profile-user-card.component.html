@@ -1,1 +1,56 @@
-<p>profile-user-card works!</p>
+<div
+  *ngIf="user"
+  id="user-profile-details-container"
+  class="secondary-background rounded-border box-shadow"
+>
+  <div
+    id="profile-picture-container"
+    class="theme-border rounded-border header-icons-right"
+  >
+    <img
+      *ngIf="user.profilePictureUrl"
+      src="{{ user.profilePictureUrl }}"
+      alt="{{ user.fullName }}'s picture"
+      id="profile-img"
+    />
+    <span class="material-symbols-rounded filled card-img">
+      {{ user.gender === "male" ? "person" : "person_2" }}
+    </span>
+  </div>
+  <h1 class="for-now-1">{{ user.fullName }}</h1>
+  <h1 class="for-now">About Me</h1>
+  <p class="for-now">{{ user.description }}</p>
+  <h1 class="for-now">LOCATION</h1>
+  <p class="for-now">{{ user.country }}</p>
+  <h1 class="for-now">Birthday</h1>
+  <p class="for-now">{{ user.dateOfBirth }}</p>
+  <div *ngIf="!isCurrentUserProfile" id="button-container">
+    <button
+      *ngIf="friendshipStatus === 'None'"
+      class="theme-border rounded-border box-shadow for-now-buttons reverse-parameters"
+      (click)="addFriend()"
+    >
+      <span class="for-now">Add Friend</span>
+    </button>
+    <button
+      *ngIf="friendshipStatus === 'Pending'"
+      class="theme-border rounded-border box-shadow for-now-buttons reverse-parameters"
+      (click)="addFriend()"
+    >
+      <span class="for-now">Pending</span>
+    </button>
+    <button
+      class="theme-border rounded-border box-shadow for-now-buttons reverse-parameters"
+      [routerLink]="['/user', user.username, 'message']"
+    >
+      <span class="for-now">Message</span>
+    </button>
+  </div>
+  <button
+    *ngIf="isCurrentUserProfile"
+    class="theme-border rounded-border box-shadow for-now-buttons reverse-parameters"
+    [routerLink]="['/user', user.username, 'edit']"
+  >
+    <span class="for-now">Edit Profile</span>
+  </button>
+</div>

@@ -1,0 +1,84 @@
+#header-notifications {
+  font-family: "Nexa Bold";
+  width: 36em;
+  position: absolute;
+  left: -30em;
+  top: 5.5em;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  gap: 0.5em;
+  z-index: 100000;
+  cursor: default;
+
+  & h1 {
+    font-size: 1.8em;
+    letter-spacing: 0.05em;
+  }
+}
+.notifications {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  padding: 0.5em 0;
+  justify-content: center;
+}
+.pending-request {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.avatar-time-name {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+}
+.notifications-user-avatar {
+  flex-shrink: 0;
+  font-size: 0.8em;
+  height: 5.2em;
+  width: 5.2em;
+}
+.time-name {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+  cursor: pointer;
+
+  & h2 {
+    font-size: 1.4em;
+    letter-spacing: 0.05em;
+  }
+  & p {
+    font-size: 1.2em;
+    letter-spacing: 0.05em;
+  }
+}
+.accept-decline {
+  display: flex;
+  gap: 0.5em;
+}
+.accept-decline-button {
+  font-size: 1.4em;
+  letter-spacing: 0.05em;
+  font-family: "Nexa Light";
+  padding: 0.6em;
+  border-radius: 0.5em;
+  cursor: pointer;
+
+  &.decline {
+    opacity: 0.8;
+  }
+}
+.avatar-accepted-or-declined {
+  cursor: pointer;
+  display: flex;
+  gap: 1em;
+  align-items: center;
+
+  & p {
+    font-family: "Nexa Bold";
+    font-size: 1.2em;
+    letter-spacing: 0.05em;
+  }
+}

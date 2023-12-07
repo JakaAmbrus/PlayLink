@@ -3,8 +3,24 @@
     <app-header-logo [theme]="theme"></app-header-logo>
     <app-header-nav-links class="top-links"></app-header-nav-links>
     <div id="header-right">
-      <div class="header-icons-right header-icons-right-container">
+      <div
+        id="header-notifications-container"
+        (click)="toggleNotifications()"
+        class="header-icons-right header-icons-right-container"
+      >
         <span class="material-symbols-rounded filled"> notifications </span>
+        <app-header-notifications
+          *ngIf="friendRequests.length > 0 && isNotificationsOpen"
+          [friendRequests]="friendRequests"
+          (requestDeleted)="onRequestDelete($event)"
+        ></app-header-notifications>
+        <div
+          *ngIf="friendRequests.length > 0"
+          id="notification-count"
+          class="reverse-parameters"
+        >
+          {{ friendRequests.length }}
+        </div>
       </div>
       <div
         (click)="handleClick()"
@@ -18,7 +34,9 @@
         class="header-icons-right header-icons-right-container dropdown"
         (click)="toggleDropdown()"
       >
-        <span class="material-symbols-rounded thicker-icon"> person </span>
+        <span class="material-symbols-rounded thicker-icon header-avatar">
+          {{ isModerator ? "shield_person" : "person" }}
+        </span>
         <app-header-dropdown
           *ngIf="isDropdownOpen"
           [username]="username"
@@ -42,14 +60,3 @@
     shield_person
   </span>
 </a>
-
-<!-- Moderator indicator -->
-
-<div
-  *ngIf="isModerator && !isAdmin"
-  class="higher-roles-container secondary-background theme-border box-shadow"
->
-  <span class="material-symbols-rounded thicker-icon header-text">
-    local_police
-  </span>
-</div>

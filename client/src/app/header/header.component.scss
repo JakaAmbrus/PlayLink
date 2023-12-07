@@ -43,11 +43,23 @@ app-header-nav-links,
   -webkit-user-select: none;
   user-select: none;
 }
+#header-notifications-container {
+  position: relative;
+}
+#notification-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 1.6em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.2em;
+  width: 1.2em;
+  border-radius: 50%;
+}
 .header-icons-right-container .filled {
   font-size: 3em;
-}
-.material-symbols-rounded.filled {
-  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48;
 }
 .material-symbols-rounded.thicker-icon {
   font-size: 3.5em;
@@ -59,7 +71,9 @@ app-header-nav-links,
 .dropdown {
   position: relative;
 }
-
+.material-symbols-rounded.thicker-icon.header-avatar {
+  font-size: 4em;
+}
 .higher-roles-container {
   font-size: 10px;
   position: fixed;

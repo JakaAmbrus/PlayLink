@@ -14,5 +14,6 @@ namespace Application.Features.Friends.Common
         public string RecipientProfilePictureUrl { get; set; }
         public string RecipientGender { get; set; }
         public FriendRequestStatus Status { get; set; }
+        public DateTime TimeSent { get; set; }
     }
 }

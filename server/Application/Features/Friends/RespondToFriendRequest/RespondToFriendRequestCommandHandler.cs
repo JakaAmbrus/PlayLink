@@ -4,6 +4,7 @@ using Application.Interfaces;
 using Domain.Entities;
 using Domain.Enums;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Friends.RespondToFriendRequest
 {
@@ -45,18 +46,22 @@ namespace Application.Features.Friends.RespondToFriendRequest
                 await _context.Friendships.AddAsync(friend, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
 
+                var newFriend = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Id == friendRequest.SenderId, cancellationToken)
+                    ?? throw new NotFoundException("User not found");
+
                 return new RespondToFriendRequestResponse
                 {
                     RequestAccepted = true,
                     FriendDto = new FriendDto
                     {
-                        Username = friendRequest.Sender.UserName,
-                        FullName = friendRequest.Sender.FullName,
-                        ProfilePictureUrl = friendRequest.Sender.ProfilePictureUrl,
-                        Gender = friendRequest.Sender.Gender,
+                        Username = newFriend.UserName,
+                        FullName = newFriend.FullName,
+                        ProfilePictureUrl = newFriend.ProfilePictureUrl,
+                        Gender = newFriend.Gender,
                         DateEstablished = DateTime.UtcNow
                     }
-                    
+
                 };
             }
 

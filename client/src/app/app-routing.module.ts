@@ -16,6 +16,7 @@ import { PostsComponent } from './profile/posts/posts.component';
 import { GalleryComponent } from './profile/gallery/gallery.component';
 import { EditComponent } from './profile/edit/edit.component';
 import { MessageComponent } from './profile/message/message.component';
+import { AdminComponent } from './admin/admin.component';
 
 import {
   canActivateCurrentUserGuard,
@@ -24,6 +25,7 @@ import {
 } from './_guards/auth.guard';
 import { canActivateLoginGuard } from './_guards/auth.guard';
 import { preventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
+import { adminGuard } from './_guards/admin.guard';
 
 const routes: Routes = [
   {
@@ -108,6 +110,11 @@ const routes: Routes = [
     component: MessagesComponent,
     data: { animation: 'Messages' },
     canActivate: [canActivateGuard],
+  },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [canActivateGuard, adminGuard],
   },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: '/not-found' },

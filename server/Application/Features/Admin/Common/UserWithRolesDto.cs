@@ -6,7 +6,7 @@
         public string Username { get; set; }
         public string Gender { get; set; }
         public string FullName { get; set; }
-        public IEnumerable<string> Roles { get; set; }
+        public bool IsModerator { get; set; }
         public string ProfilePictureUrl { get; set; }
     }
 }

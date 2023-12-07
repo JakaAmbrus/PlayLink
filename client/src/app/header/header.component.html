@@ -31,13 +31,25 @@
   ></app-header-nav-links>
 </header>
 
-<!-- Admin panned route navigation -->
+<!-- Admin panel route navigation -->
+
 <a
+  routerLink="/admin"
   *ngIf="isAdmin"
-  id="admin-panel-route-container"
-  class="secondary-background theme-border"
+  class="higher-roles-container secondary-background theme-border"
 >
   <span class="material-symbols-rounded thicker-icon header-text">
     shield_person
   </span>
 </a>
+
+<!-- Moderator indicator -->
+
+<div
+  *ngIf="isModerator && !isAdmin"
+  class="higher-roles-container secondary-background theme-border box-shadow"
+>
+  <span class="material-symbols-rounded thicker-icon header-text">
+    local_police
+  </span>
+</div>

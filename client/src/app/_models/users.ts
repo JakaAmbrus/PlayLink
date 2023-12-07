@@ -7,9 +7,11 @@ export interface User {
   country: string;
   profilePictureUrl: string | null;
 }
+
 export interface UsersResponse {
   users: User[];
 }
+
 export interface ProfileUser {
   appUserId: number;
   username: string;
@@ -36,5 +38,14 @@ export interface EditUserResponse {
 export interface SearchUser {
   username: string;
   fullName: string;
+  profilePictureUrl: string | null;
+}
+
+export interface UserWithRoles {
+  appUserId: number;
+  username: string;
+  gender: string;
+  fullName: string;
+  isModerator: boolean;
   profilePictureUrl: string | null;
 }

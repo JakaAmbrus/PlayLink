@@ -61,10 +61,14 @@ import { UserAvatarComponent } from './_components/user-avatar/user-avatar.compo
 import { ObjectToArrayPipe } from './_pipes/object-to-array.pipe';
 import { RouteReuseStrategy } from '@angular/router';
 import { CustomRouteReuseStrategy } from './_services/customRouteReuseStrategy';
+import { AdminComponent } from './admin/admin.component';
+import { AdminUserDisplayComponent } from './admin/admin-user-display/admin-user-display.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    AdminComponent,
+    AdminUserDisplayComponent,
     HeaderComponent,
     HeaderLogoComponent,
     HeaderNavLinksComponent,
@@ -106,7 +110,6 @@ import { CustomRouteReuseStrategy } from './_services/customRouteReuseStrategy';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy },
     provideCloudinaryLoader('https://res.cloudinary.com/dsdleukb7'),
   ],
   bootstrap: [AppComponent],

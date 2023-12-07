@@ -32,12 +32,12 @@ namespace Application.Features.Admin.AdminEditRoles
 
             bool isModerator = await _userManager.IsInRoleAsync(user, "Moderator");
 
-            if (request.AssignModeratorRole && !isModerator)
+            if (!isModerator)
             {
                 await _userManager.AddToRoleAsync(user, "Moderator");
             }
           
-            else if (!request.AssignModeratorRole && isModerator)
+            else if (isModerator)
             {
                 await _userManager.RemoveFromRoleAsync(user, "Moderator");
             }

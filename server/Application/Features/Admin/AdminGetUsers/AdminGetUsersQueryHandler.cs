@@ -1,6 +1,7 @@
 ﻿using Application.Exceptions;
 using Application.Features.Admin.Common;
 using Application.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Application.Utils;
 using MediatR;
 using System.Data;
@@ -30,8 +31,9 @@ namespace Application.Features.Admin.AdminGetUsers
                 throw new UnauthorizedAccessException("Unauthorized, only an Admin can make this request.");
             }
 
-            var users = _context.Users
-                .AsQueryable()
+            var usersQuery = _context.Users
+                .Include(u => u.UserRoles)
+                    .ThenInclude(ur => ur.Role)
                 .Where(u => u.Id != request.AuthUserId)
                 .OrderByDescending(u => u.Created)
                 .Select(u => new UserWithRolesDto
@@ -40,12 +42,12 @@ namespace Application.Features.Admin.AdminGetUsers
                     Username = u.UserName,
                     Gender = u.Gender,
                     FullName = u.FullName,
-                    Roles = u.UserRoles.Select(ur => ur.Role.Name).ToList(),
+                    IsModerator = u.UserRoles.Any(ur => ur.Role.Name == "Moderator"),
                     ProfilePictureUrl = u.ProfilePictureUrl
                 });
 
             var pagedUsers = await PagedList<UserWithRolesDto>
-                .CreateAsync(users, request.Params.PageNumber, request.Params.PageSize);
+                .CreateAsync(usersQuery, request.Params.PageNumber, request.Params.PageSize);
 
             return new AdminGetUsersResponse { Users = pagedUsers };
         }

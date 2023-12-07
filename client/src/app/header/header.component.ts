@@ -14,9 +14,10 @@ export class HeaderComponent implements OnInit {
   isDropdownOpen: boolean = false;
   preventClose: boolean = false;
   isAdmin: boolean = false;
+  isModerator: boolean = false;
 
   ngOnInit() {
-    this.checkRoleAdmin();
+    this.checkRoles();
   }
 
   handleClick() {
@@ -59,12 +60,13 @@ export class HeaderComponent implements OnInit {
     this.unbindClickListener();
   }
 
-  checkRoleAdmin(): void {
+  checkRoles(): void {
     const storedRoles = localStorage.getItem('roles');
     if (!storedRoles) {
       return;
     }
     const roles = storedRoles ? JSON.parse(storedRoles) : [];
     this.isAdmin = roles.includes('Admin');
+    this.isModerator = roles.includes('Moderator');
   }
 }

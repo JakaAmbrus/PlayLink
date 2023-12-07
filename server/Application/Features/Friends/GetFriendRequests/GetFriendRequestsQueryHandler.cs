@@ -18,16 +18,17 @@ namespace Application.Features.Friends.GetFriendRequests
         public async Task<GetFriendRequestsResponse> Handle(GetFriendRequestsQuery request, CancellationToken cancellationToken)
         {
             var incomingRequests = await _context.FriendRequests
-                .Include(x => x.Sender)
-                .Where(x => x.ReceiverId == request.AuthUserId && x.Status == FriendRequestStatus.Pending)
-                .Select(x => new FriendRequestDto
+                .Include(fr => fr.Sender)
+                .Where(fr => fr.ReceiverId == request.AuthUserId && fr.Status == FriendRequestStatus.Pending)
+                .Select(fr => new FriendRequestDto
                 {
-                    FriendRequestId = x.FriendRequestId,
-                    SenderUsername = x.Sender.UserName,
-                    SenderFullName = x.Sender.FullName,
-                    SenderProfilePictureUrl = x.Sender.ProfilePictureUrl,
-                    SenderGender = x.Sender.Gender,
-                    Status = x.Status
+                    FriendRequestId = fr.FriendRequestId,
+                    SenderUsername = fr.Sender.UserName,
+                    SenderFullName = fr.Sender.FullName,
+                    SenderProfilePictureUrl = fr.Sender.ProfilePictureUrl,
+                    SenderGender = fr.Sender.Gender,
+                    Status = fr.Status,
+                    TimeSent = fr.TimeSent
                 })
                 .ToListAsync(cancellationToken);
 

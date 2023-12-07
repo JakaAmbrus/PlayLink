@@ -1,0 +1,65 @@
+<div
+  id="header-notifications"
+  class="secondary-background rounded-border box-shadow theme-border"
+>
+  <h1>Friend Requests:</h1>
+  <div
+    *ngFor="let request of friendRequests"
+    class="notifications theme-border-bottom"
+  >
+    <div *ngIf="request.status === 0" class="pending-request">
+      <div
+        routerLink="/user/{{ request.senderUsername }}"
+        class="avatar-time-name"
+      >
+        <app-user-avatar
+          class="notifications-user-avatar"
+          [profilePictureUrl]="request.senderProfilePictureUrl"
+          [fullName]="request.senderFullName"
+          [gender]="request.senderGender"
+        ></app-user-avatar>
+        <div class="time-name">
+          <h2>{{ request.senderFullName }}</h2>
+          <p>{{ request.timeSent | relativeTime }}</p>
+        </div>
+      </div>
+      <div class="accept-decline">
+        <button
+          (click)="respondToFriendRequest(request.friendRequestId, true)"
+          class="accept-decline-button reverse-parameters"
+        >
+          Accept
+        </button>
+        <button
+          (click)="respondToFriendRequest(request.friendRequestId, false)"
+          class="accept-decline-button reverse-parameters decline"
+        >
+          Decline
+        </button>
+      </div>
+    </div>
+    <div
+      *ngIf="request.status === 1 || request.status === 2"
+      class="accepted-or-declined"
+    >
+      <div
+        (click)="removeFriendRequest(request.friendRequestId)"
+        class="avatar-accepted-or-declined"
+      >
+        <app-user-avatar
+          class="notifications-user-avatar"
+          [profilePictureUrl]="request.recipientProfilePictureUrl"
+          [fullName]="request.recipientFullName"
+          [gender]="request.recipientGender"
+        ></app-user-avatar>
+        <div class="name">
+          <h2>{{ request.recipientFullName }}</h2>
+          <p>
+            Has {{ request.status === 1 ? " accepted" : " declined" }} your
+            friend request.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

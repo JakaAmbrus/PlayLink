@@ -59,10 +59,11 @@ import { MessageContentComponent } from './profile/message/message-content/messa
 import { RelativeUrlPipe } from './_pipes/relative-url.pipe';
 import { UserAvatarComponent } from './_components/user-avatar/user-avatar.component';
 import { ObjectToArrayPipe } from './_pipes/object-to-array.pipe';
-import { RouteReuseStrategy } from '@angular/router';
+import { HeaderNotificationsComponent } from './header/header-notifications/header-notifications.component';
 import { CustomRouteReuseStrategy } from './_services/customRouteReuseStrategy';
 import { AdminComponent } from './admin/admin.component';
 import { AdminUserDisplayComponent } from './admin/admin-user-display/admin-user-display.component';
+import { ProfileUserCardComponent } from './profile/components/profile-user-card/profile-user-card.component';
 
 @NgModule({
   declarations: [
@@ -106,6 +107,8 @@ import { AdminUserDisplayComponent } from './admin/admin-user-display/admin-user
     MessageContentComponent,
     UserAvatarComponent,
     ProfileNavigationComponent,
+    ProfileUserCardComponent,
+    HeaderNotificationsComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

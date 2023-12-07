@@ -8,6 +8,12 @@ namespace Application.Features.Users.GetUserByUsername
         {
             RuleFor(x => x.Username)
                 .NotEmpty().WithMessage("Username required.");
+
+            RuleFor(x => x.AuthUserId)
+                .NotEmpty().WithMessage("Authenticated user Id required.");
+
+            RuleFor(x => x.AuthUserRoles)
+                .NotEmpty().WithMessage("Authenticated user roles required.");
         }
     }
 }

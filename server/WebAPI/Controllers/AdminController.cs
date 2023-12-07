@@ -6,6 +6,7 @@ using Application.Utils;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Extensions;
 
 namespace WebAPI.Controllers
 {
@@ -25,7 +26,7 @@ namespace WebAPI.Controllers
         /// <param name="paginationParams">Parameters for pagination</param>
         /// <returns>List of user DTOs with the user ID, username, full name, roles and pictureURL/Gender(for the user display)</returns>
         [HttpGet("users")]
-        public ActionResult GetUsersWithRoles([FromQuery] PaginationParams paginationParams, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetUsersWithRoles([FromQuery] PaginationParams paginationParams, CancellationToken cancellationToken)
         {
             int authUserId = GetCurrentUserId();
 
@@ -35,7 +36,9 @@ namespace WebAPI.Controllers
                 AuthUserId = authUserId
             };
 
-            var result = Mediator.Send(query, cancellationToken);
+            var result = await Mediator.Send(query, cancellationToken);
+
+            Response.AddPaginationHeader(new PaginationHeader(result.Users.CurrentPage, result.Users.PageSize, result.Users.TotalCount, result.Users.TotalPages));
 
             return Ok(result);
         }
@@ -46,15 +49,14 @@ namespace WebAPI.Controllers
         /// <param name="UserId">User ID.</param>
         /// <param name="AssignModeratorRole">Boolean value that lets the controller know if the moderator role should be added or removed.</param>
         /// <returns>A confirmation of the edit success.</returns>
-        [HttpPost("edit-roles/{UserId}")]
-        public async Task<ActionResult> EditRoles(int UserId, [FromBody] bool AssignModeratorRole, CancellationToken cancellationToken)
+        [HttpPut("edit-roles/{UserId}")]
+        public async Task<ActionResult> EditRoles(int UserId, CancellationToken cancellationToken)
         {        
             int authUserId = GetCurrentUserId();
 
             var command = new AdminEditRolesCommand
             {
                 AppUserId = UserId,
-                AssignModeratorRole = AssignModeratorRole,
                 AuthUserId = authUserId
             };
 

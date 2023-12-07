@@ -42,7 +42,6 @@ export class AccountService {
     const roles = this.getDecodedToken(token).role;
     this.userRoles = Array.isArray(roles) ? roles : [roles];
     localStorage.setItem('roles', JSON.stringify(this.userRoles));
-    console.log(this.userRoles);
     this.saveToken(token);
     this.saveUser(username);
     this.setLoggedIn(true);

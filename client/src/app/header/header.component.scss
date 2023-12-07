@@ -60,18 +60,18 @@ app-header-nav-links,
   position: relative;
 }
 
-#admin-panel-route-container {
+.higher-roles-container {
   font-size: 10px;
-  position: absolute;
+  position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
   bottom: 8em;
   left: 8em;
-  height: 8em;
-  width: 8em;
   border-radius: 1em;
   z-index: 100;
+  -webkit-user-select: none;
+  user-select: none;
 
   & span {
     font-size: 7em;
@@ -131,6 +131,9 @@ app-header-nav-links,
 @media (min-width: 2500px) and (min-height: 1200px) and (orientation: landscape) {
   #header-main-container {
     font-size: 12px;
+  }
+  .higher-roles-container {
+    font-size: 13px;
   }
 }
 @media (min-width: 2800px) {

@@ -1,9 +1,10 @@
 ﻿using Application.Features.Admin.Common;
+using Application.Utils;
 
 namespace Application.Features.Admin.AdminGetUsers
 {
     public class AdminGetUsersResponse
     {
-        public List<UserWithRolesDto> Users { get; set; }
+        public PagedList<UserWithRolesDto> Users { get; set; }
     }
 }

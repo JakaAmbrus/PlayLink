@@ -52,7 +52,11 @@ export class PresenceService {
         .onTap.pipe(take(1))
         .subscribe({
           next: () => {
-            this.router.navigateByUrl('/user/' + username + '/message');
+            this.router
+              .navigateByUrl('/RefreshComponent', { skipLocationChange: true })
+              .then(() => {
+                this.router.navigate(['/user', username, 'message']);
+              });
           },
         });
     });

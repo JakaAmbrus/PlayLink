@@ -1,0 +1,29 @@
+.friend-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em 0;
+}
+.avatar-name-date-established {
+  display: flex;
+  align-items: center;
+  gap: 1.5em;
+  font-family: "Roboto Regular";
+}
+.name {
+  font-size: 1.8em;
+}
+.date-established {
+  font-size: 1.2em;
+  opacity: 0.8;
+}
+.message-friend {
+  font-size: 2em;
+  padding: 0.55em 1em;
+  border-radius: 0.2em;
+  font-family: "Roboto Regular";
+}
+.avatar {
+  width: 5em;
+  height: 5em;
+}

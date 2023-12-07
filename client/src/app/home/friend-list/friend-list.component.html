@@ -1,0 +1,17 @@
+<div
+  class="friend-list-container secondary-background rounded-border box-shadow"
+>
+  <h1 class="friend-list-count header-text">
+    PlayLink Friends: {{ friends.length }}
+  </h1>
+  <div *ngIf="friends.length === 0" class="no-friends-container">
+    <h2 class="no-friends">You currently have no friends on PlayLink</h2>
+    <a routerLink="/discover" class="find-friends reverse-parameters"
+      >Find Friends</a
+    >
+  </div>
+
+  <div *ngFor="let friend of friends" class="friends">
+    <app-friend-display [friend]="friend"></app-friend-display>
+  </div>
+</div>

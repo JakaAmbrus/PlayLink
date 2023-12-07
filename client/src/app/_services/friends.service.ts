@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, map, of, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import {
   Friend,
@@ -14,11 +14,39 @@ import {
 })
 export class FriendsService {
   baseUrl = environment.apiUrl;
+  private friendsSubject = new BehaviorSubject<Friend[]>([]);
+  friends$ = this.friendsSubject.asObservable();
+  private friendsCache: Friend[] | null = null;
 
   constructor(private http: HttpClient) {}
 
-  getUserFriends(): Observable<Friend[]> {
-    return this.http.get<Friend[]>(this.baseUrl + 'friends');
+  //changed my mind and decided to use the friends$ observable instead of this method
+  getUserFriends(): Observable<{ friends: Friend[] }> {
+    return this.http.get<{ friends: Friend[] }>(this.baseUrl + 'friends');
+  }
+  getFriends(forceRefresh: boolean = false): Observable<Friend[]> {
+    if (!forceRefresh && this.friendsCache) {
+      return of(this.friendsCache);
+    } else {
+      return this.http
+        .get<{ friends: Friend[] }>(this.baseUrl + 'friends')
+        .pipe(
+          tap((result) => {
+            this.friendsCache = result.friends;
+            this.friendsSubject.next(result.friends);
+          }),
+          map((result) => result.friends)
+        );
+    }
+  }
+
+  addFriend(newFriend: Friend): void {
+    if (this.friendsCache) {
+      this.friendsCache = [...this.friendsCache, newFriend];
+      this.friendsSubject.next(this.friendsCache);
+    } else {
+      this.getFriends(true).subscribe();
+    }
   }
 
   getFriendRequests(): Observable<{ friendRequests: FriendRequest[] }> {

@@ -1,0 +1,47 @@
+.friend-list-container {
+  position: fixed;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  width: 47em;
+  max-height: 44em;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.friend-list-container::-webkit-scrollbar {
+  display: none;
+}
+.friend-list-count {
+  font-family: "Nexa Bold";
+  font-size: 2.8em;
+  padding: 0.5em 0;
+  text-align: center;
+}
+.friends {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+.no-friends-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
+.no-friends {
+  text-align: center;
+  opacity: 0.9;
+  font-size: 1.6em;
+  padding-bottom: 0.5em;
+}
+.find-friends {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  font-size: 2.4em;
+  padding: 0.5em 0;
+  margin-bottom: 0.5em;
+  border-radius: 0.2em;
+}

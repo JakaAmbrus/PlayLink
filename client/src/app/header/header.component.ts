@@ -70,14 +70,8 @@ export class HeaderComponent implements OnInit {
     }
     if (this.isNotificationsOpen) {
       this.isNotificationsOpen = false;
-      this.unbindClickListener();
     } else {
-      this.preventClose = true;
       this.isNotificationsOpen = true;
-      setTimeout(() => {
-        this.bindClickListener();
-        this.preventClose = false;
-      });
     }
   }
 

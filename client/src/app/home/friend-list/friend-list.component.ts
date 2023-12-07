@@ -13,11 +13,12 @@ export class FriendListComponent implements OnInit {
   constructor(private friendsService: FriendsService) {}
 
   ngOnInit(): void {
-    this.loadFriends();
+    this.friendsService.getFriends().subscribe();
+    this.friendsUpdates();
   }
 
-  loadFriends() {
-    this.friendsService.getFriends().subscribe((friends) => {
+  friendsUpdates() {
+    this.friendsService.friends$.subscribe((friends) => {
       this.friends = friends;
     });
   }

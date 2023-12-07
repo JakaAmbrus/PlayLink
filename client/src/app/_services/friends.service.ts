@@ -34,6 +34,7 @@ export class FriendsService {
           tap((result) => {
             this.friendsCache = result.friends;
             this.friendsSubject.next(result.friends);
+            console.log(this.friendsCache);
           }),
           map((result) => result.friends)
         );
@@ -41,9 +42,11 @@ export class FriendsService {
   }
 
   addFriend(newFriend: Friend): void {
+    console.log('New friend being added:', newFriend);
     if (this.friendsCache) {
       this.friendsCache = [...this.friendsCache, newFriend];
       this.friendsSubject.next(this.friendsCache);
+      console.log(this.friendsCache);
     } else {
       this.getFriends(true).subscribe();
     }
@@ -69,8 +72,8 @@ export class FriendsService {
 
   respondToFriendRequest(
     responseDto: FriendRequestResponse
-  ): Observable<{ accepted: boolean; friend: Friend }> {
-    return this.http.put<{ accepted: boolean; friend: Friend }>(
+  ): Observable<{ requestAccepted: boolean; friendDto: Friend }> {
+    return this.http.put<{ requestAccepted: boolean; friendDto: Friend }>(
       this.baseUrl + 'friends/request-response',
       responseDto
     );

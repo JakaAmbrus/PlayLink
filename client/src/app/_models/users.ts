@@ -21,6 +21,9 @@ export interface ProfileUser {
   country: string;
   profilePictureUrl: string | null;
   description: string | null;
+  created: Date;
+  lastActive: Date;
+  authorized: boolean;
 }
 
 export interface EditUser {

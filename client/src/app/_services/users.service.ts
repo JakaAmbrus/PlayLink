@@ -11,7 +11,6 @@ import {
 import { Observable, map, of, tap } from 'rxjs';
 import { PaginatedResult, Pagination } from '../_models/pagination';
 import { UserParams } from '../_models/userParams';
-import { UserDataService } from './user-data.service';
 
 @Injectable({
   providedIn: 'root',
@@ -25,10 +24,7 @@ export class UsersService {
   usersCache = new Map();
   private userCache = new Map<string, ProfileUser>();
 
-  constructor(
-    private http: HttpClient,
-    private userDataService: UserDataService
-  ) {}
+  constructor(private http: HttpClient) {}
 
   getUsers(userParams: UserParams): Observable<PaginatedResult<User[]>> {
     const key = Object.values(userParams).join('-');
@@ -71,19 +67,10 @@ export class UsersService {
       );
   }
 
-  getUser(username: string, isCurrentUser: boolean): Observable<ProfileUser> {
-    if (isCurrentUser) {
-      const currentUser = this.userDataService.getCurrentUser();
-      if (currentUser.appUserId !== 0) {
-        return of(currentUser);
-      }
-    }
-
-    if (!isCurrentUser) {
-      const cachedUser = this.userCache.get(username);
-      if (cachedUser) {
-        return of(cachedUser);
-      }
+  getUser(username: string): Observable<ProfileUser> {
+    const cachedUser = this.userCache.get(username);
+    if (cachedUser) {
+      return of(cachedUser);
     }
 
     return this.http
@@ -91,14 +78,15 @@ export class UsersService {
       .pipe(
         map((response) => {
           const user = response.user;
-          if (isCurrentUser) {
-            this.userDataService.updateCurrentUser(user);
-          } else {
-            this.userCache.set(username, user);
-          }
+          this.userCache.set(username, user);
           return user;
         })
       );
+  }
+
+  //used when a moderator deletes a photo or description
+  invalidateUserCache(username: string): void {
+    this.userCache.delete(username);
   }
 
   getUsersUniqueCountries(): Observable<string[]> {

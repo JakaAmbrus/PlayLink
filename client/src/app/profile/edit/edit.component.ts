@@ -13,7 +13,6 @@ import { EditUser } from 'src/app/_models/users';
 import { UsersService } from 'src/app/_services/users.service';
 import { ToastrService } from 'ngx-toastr';
 import { AvatarService } from 'src/app/_services/avatar.service';
-import { UserDataService } from 'src/app/_services/user-data.service';
 
 @Component({
   selector: 'app-edit',
@@ -43,8 +42,7 @@ export class EditComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private cdRef: ChangeDetectorRef,
-    private avatarService: AvatarService,
-    private userDataService: UserDataService
+    private avatarService: AvatarService
   ) {}
 
   ngOnInit(): void {
@@ -112,11 +110,7 @@ export class EditComponent implements OnInit {
           if (response.photoUrl) {
             this.avatarService.updateAvatarPhoto(response.photoUrl);
           }
-          this.userDataService.updateCurrentUserDetails(
-            response.country,
-            response.photoUrl,
-            response.description
-          );
+          this.usersService.invalidateUserCache(this.username);
           this.router
             .navigateByUrl('/RefreshComponent', { skipLocationChange: true })
             .then(() => {

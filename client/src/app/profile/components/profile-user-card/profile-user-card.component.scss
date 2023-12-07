@@ -13,7 +13,11 @@
   width: 35em;
   overflow: hidden;
   border: 0.3em solid #3d3a3a;
-  border-radius: 50%;
+  border-radius: 0.8em;
+
+  .card-avatar-icon {
+    font-size: 45em;
+  }
 }
 #profile-img {
   position: absolute;
@@ -44,4 +48,43 @@
   display: flex;
   justify-content: center;
   width: 17em;
+}
+.current-status {
+  font-family: "Nexa Bold";
+  font-weight: 900;
+  position: absolute;
+  left: -0.1em;
+  top: -0.1em;
+  font-size: 2em;
+  letter-spacing: 0.05em;
+  padding: 0.5em 1em;
+  z-index: 10000;
+  border-bottom-right-radius: 0.2em;
+  background-color: #f0f2f5;
+  color: #3a3b3c;
+
+  &.is-online {
+    color: #66bb6a;
+    border-right: 0.1em solid #66bb6a;
+    border-bottom: 0.1em solid #66bb6a;
+  }
+}
+#picture-moderation {
+  position: absolute;
+  font-size: 1em;
+  z-index: 10000;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5em;
+  background-color: #f0f2f5;
+  color: #3a3b3c;
+  border-top-left-radius: 0.5em;
+  cursor: pointer;
+
+  .moderator-icon {
+    font-size: 5em;
+  }
 }

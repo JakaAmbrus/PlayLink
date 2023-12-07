@@ -1,10 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from 'src/app/_components/dialog/dialog.component';
 import {
   FriendshipStatus,
   FriendshipStatusResponse,
 } from 'src/app/_models/friends';
 import { ProfileUser } from 'src/app/_models/users';
 import { FriendsService } from 'src/app/_services/friends.service';
+import { ModeratorService } from 'src/app/_services/moderator.service';
+import { PresenceService } from 'src/app/_services/presence.service';
+import { UsersService } from 'src/app/_services/users.service';
 
 @Component({
   selector: 'app-profile-user-card',
@@ -18,7 +23,13 @@ export class ProfileUserCardComponent implements OnInit {
 
   friendshipStatus: string = '';
 
-  constructor(private friendsService: FriendsService) {}
+  constructor(
+    private friendsService: FriendsService,
+    public dialog: MatDialog,
+    public presenceService: PresenceService,
+    private moderatorService: ModeratorService,
+    private usersService: UsersService
+  ) {}
 
   ngOnInit(): void {
     this.loadFriendStatus();
@@ -60,15 +71,50 @@ export class ProfileUserCardComponent implements OnInit {
     if (this.user === undefined) {
       return;
     }
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        title: 'Remove Friend',
+        message: 'Are you sure you want to remove this friend?',
+      },
+    });
 
-    this.friendsService.removeFriendship(this.user.username).subscribe({
-      next: () => {
-        this.friendshipStatus = 'None';
-        console.log('Friend removed');
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.friendsService.removeFriendship(this.user!.username).subscribe({
+          next: () => {
+            this.friendshipStatus = 'None';
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+      }
+    });
+  }
+
+  moderatePicture(): void {
+    if (this.user === undefined) {
+      return;
+    }
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        title: 'Moderate Picture',
+        message: 'Are you sure you want to remove this picture?',
       },
-      error: (err) => {
-        console.log(err);
-      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.moderatorService.deleteUserPhoto(this.user!.username).subscribe({
+          next: () => {
+            this.usersService.invalidateUserCache(this.user!.username);
+            this.user!.profilePictureUrl = null;
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+      }
     });
   }
 }

@@ -15,7 +15,7 @@ export class MessagesComponent implements OnInit {
   pagination: Pagination | undefined;
   container: string = 'Unread';
   pageNumber: number = 1;
-  pageSize: number = 6;
+  pageSize: number = 5;
   buttons = messageButtons;
   isLoading: boolean = false;
   messageParams: MessageParams | undefined;

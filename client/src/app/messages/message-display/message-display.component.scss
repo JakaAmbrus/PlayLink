@@ -10,6 +10,7 @@
   user-select: none;
 }
 #message-user-avatar {
+  flex-shrink: 0;
   height: 5.2em;
   width: 5.2em;
 }

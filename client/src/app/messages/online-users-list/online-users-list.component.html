@@ -1,0 +1,11 @@
+<div id="online-users-list">
+  <h1 id="online-list-count" class="header-text">
+    Online Users: {{ onlineUsers.length }}
+  </h1>
+  <p *ngIf="onlineUsers.length === 0" id="no-users-online">
+    Currently you are the only active user
+  </p>
+  <div *ngFor="let user of onlineUsers" class="friends">
+    <app-online-user-display [user]="user"></app-online-user-display>
+  </div>
+</div>

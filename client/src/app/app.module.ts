@@ -67,6 +67,8 @@ import { ProfileUserCardComponent } from './profile/components/profile-user-card
 import { FriendListComponent } from './home/friend-list/friend-list.component';
 import { HomeUserCardComponent } from './home/home-user-card/home-user-card.component';
 import { SearchbarComponent } from './discover/searchbar/searchbar.component';
+import { OnlineUsersListComponent } from './messages/online-users-list/online-users-list.component';
+import { OnlineUserDisplayComponent } from './messages/online-users-list/online-user-display/online-user-display.component';
 
 @NgModule({
   declarations: [
@@ -116,6 +118,8 @@ import { SearchbarComponent } from './discover/searchbar/searchbar.component';
     FriendDisplayComponent,
     HomeUserCardComponent,
     SearchbarComponent,
+    OnlineUsersListComponent,
+    OnlineUserDisplayComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

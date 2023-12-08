@@ -32,6 +32,10 @@ export class ProfileUserCardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if (this.isCurrentUserProfile) {
+      this.friendshipStatus = 'Current';
+      return;
+    }
     this.loadFriendStatus();
   }
 

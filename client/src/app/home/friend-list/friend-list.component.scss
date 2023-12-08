@@ -16,12 +16,14 @@
   font-family: "Nexa Bold";
   font-size: 2.8em;
   padding: 0.5em 0;
+  padding-bottom: 1em;
   text-align: center;
 }
 .friends {
   display: flex;
   flex-direction: column;
   gap: 1em;
+  margin-bottom: 1em;
 }
 .no-friends-container {
   display: flex;

@@ -40,6 +40,7 @@
 }
 
 #messages-content-container {
+  font-family: "Nexa Bold";
   margin: 2em 0;
   display: flex;
   flex-direction: column;
@@ -85,9 +86,8 @@
 #messages-right {
   margin-top: 2em;
   width: 47em;
-  height: 15em;
+  padding: 2em;
   align-self: flex-start;
-  font-family: "Nexa Bold";
 }
 
 @media (min-width: 2400px) {

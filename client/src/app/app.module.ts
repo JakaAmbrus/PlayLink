@@ -65,6 +65,7 @@ import { AdminComponent } from './admin/admin.component';
 import { AdminUserDisplayComponent } from './admin/admin-user-display/admin-user-display.component';
 import { ProfileUserCardComponent } from './profile/components/profile-user-card/profile-user-card.component';
 import { FriendListComponent } from './home/friend-list/friend-list.component';
+import { HomeUserCardComponent } from './home/home-user-card/home-user-card.component';
 
 @NgModule({
   declarations: [
@@ -112,6 +113,7 @@ import { FriendListComponent } from './home/friend-list/friend-list.component';
     HeaderNotificationsComponent,
     FriendListComponent,
     FriendDisplayComponent,
+    HomeUserCardComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

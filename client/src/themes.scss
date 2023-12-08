@@ -61,6 +61,9 @@ $dark-theme: (
   .theme-border-bottom {
     border-bottom: 0.1em solid #3d3a3a27;
   }
+  .theme-border-top {
+    border-top: 0.1em solid #3d3a3a27;
+  }
   //navigation links themes light
   .profile-link-text-container:hover,
   .navigation-links-icons-container:hover,
@@ -166,6 +169,9 @@ $dark-theme: (
   }
   .theme-border-bottom {
     border-bottom: 0.1em solid #3d3a3a;
+  }
+  .theme-border-top {
+    border-top: 0.1em solid #3d3a3a;
   }
   //navigation links themes dark
   .header-icons-middle {

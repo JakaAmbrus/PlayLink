@@ -84,7 +84,7 @@ export class UsersService {
       );
   }
 
-  //used when a moderator deletes a photo or description
+  //used when a moderator deletes a photo or description or when a user updates their own profile
   invalidateUserCache(username: string): void {
     this.userCache.delete(username);
   }

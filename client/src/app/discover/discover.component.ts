@@ -1,9 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UsersService } from '../_services/users.service';
-import { SearchUser, User } from '../_models/users';
+import { User } from '../_models/users';
 import { Pagination } from '../_models/pagination';
 import { UserParams } from '../_models/userParams';
-import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-discover',
@@ -23,9 +22,6 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   isLoading: boolean = true;
   dummyArray = new Array(6).fill(null);
   uniqueCountries: string[] = [];
-  searchUsers: SearchUser[] = [];
-  filteredUsers: SearchUser[] = [];
-  searchControl = new FormControl();
   userParams: UserParams | undefined;
 
   constructor(private usersService: UsersService) {}
@@ -47,22 +43,10 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     }
     this.loadUsers();
     this.loadCountries();
-
-    this.searchControl.valueChanges.subscribe((val) => {
-      this.filterUsers(val);
-    });
-
-    this.loadSearchUsers();
   }
 
-  filterUsers(val: string) {
-    if (!val) {
-      this.filteredUsers = this.searchUsers;
-    } else {
-      this.filteredUsers = this.searchUsers.filter((user) =>
-        user.fullName.toLowerCase().includes(val.toLowerCase())
-      );
-    }
+  ngOnDestroy() {
+    localStorage.setItem('discoverFilters', JSON.stringify(this.userParams));
   }
 
   loadCountries() {
@@ -70,16 +54,6 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       next: (response) => {
         if (response) {
           this.uniqueCountries = response;
-        }
-      },
-    });
-  }
-
-  loadSearchUsers() {
-    this.usersService.getSearchUsers().subscribe({
-      next: (response) => {
-        if (response) {
-          this.searchUsers = response;
         }
       },
     });
@@ -124,10 +98,6 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     this.gender = '';
     this.country = '';
     this.orderBy = 'lastActive';
-  }
-
-  ngOnDestroy() {
-    localStorage.setItem('discoverFilters', JSON.stringify(this.userParams));
   }
 
   validateAgeMaxRange() {

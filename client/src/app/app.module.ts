@@ -66,6 +66,7 @@ import { AdminUserDisplayComponent } from './admin/admin-user-display/admin-user
 import { ProfileUserCardComponent } from './profile/components/profile-user-card/profile-user-card.component';
 import { FriendListComponent } from './home/friend-list/friend-list.component';
 import { HomeUserCardComponent } from './home/home-user-card/home-user-card.component';
+import { SearchbarComponent } from './discover/searchbar/searchbar.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import { HomeUserCardComponent } from './home/home-user-card/home-user-card.comp
     FriendListComponent,
     FriendDisplayComponent,
     HomeUserCardComponent,
+    SearchbarComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

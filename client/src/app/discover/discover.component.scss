@@ -11,48 +11,6 @@
   padding: 1em;
   align-self: flex-start;
 }
-#searchbar-container {
-  position: relative;
-}
-#user-searchbar {
-  width: 100%;
-  font-size: 2.2em;
-  padding: 0.6em 1.6em 0.6em 2.8em;
-  margin-top: 0.5em;
-}
-#searchbar-icon-container {
-  position: absolute;
-  left: 0;
-  bottom: 0.9em;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-.search-icon {
-  font-size: 4em;
-  margin-left: 0.3em;
-}
-.search-options {
-  font-size: 2em;
-}
-
-.search-options .option-content {
-  font-family: "Nexa Bold";
-  display: flex;
-  align-items: center;
-  position: relative;
-  width: 100%;
-  font-size: 1em;
-  padding-left: 2.4em;
-}
-.user-image {
-  position: absolute;
-  left: 0;
-  width: 1.9em;
-  height: 1.9em;
-  border-radius: 50%;
-  object-fit: cover;
-}
 
 #discover-middle {
   margin-top: 2em;

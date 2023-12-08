@@ -39,9 +39,11 @@ export interface EditUserResponse {
 }
 
 export interface SearchUser {
+  appUserId: number;
   username: string;
   fullName: string;
   profilePictureUrl: string | null;
+  gender: string;
 }
 
 export interface UserWithRoles {

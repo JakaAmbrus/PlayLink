@@ -20,9 +20,11 @@ namespace Application.Features.Users.GetUsersForSearchBar
                .OrderByDescending(u => u.LastActive)
                .Select(u => new SearchUserDto
                {
+                   AppUserId = u.Id,
                    Username = u.UserName,
                    FullName = u.FullName,
-                   ProfilePictureUrl = u.ProfilePictureUrl
+                   ProfilePictureUrl = u.ProfilePictureUrl,
+                   Gender = u.Gender,
                }).ToListAsync(cancellationToken);
 
             return new GetUsersForSearchBarResponse

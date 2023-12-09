@@ -1,5 +1,6 @@
 ﻿using Application.Features.Users.Common;
 using Application.Features.Users.EditUserDetails;
+using Application.Features.Users.GetNearestBirthdayUsers;
 using Application.Features.Users.GetUserById;
 using Application.Features.Users.GetUserByUsername;
 using Application.Features.Users.GetUsers;
@@ -55,6 +56,22 @@ namespace WebAPI.Controllers
             int authUserId = GetCurrentUserId();
 
             var query = new GetUsersForSearchBarQuery { AuthUserId = authUserId};
+
+            var users = await Mediator.Send(query, cancellationToken);
+
+            return Ok(users);
+        }
+
+        /// <summary>
+        /// Returns a list of 3 users that are closest to their birthdays.
+        /// </summary>
+        /// <returns>A DTO containing users photo urls, genders, usernames, full names and birthdays with days until birthday integer.</returns>
+        [HttpGet("nearest-birthday")]
+        public async Task<IActionResult> GetNearestBirthdayUsers(CancellationToken cancellationToken)
+        {
+            int authUserId = GetCurrentUserId();
+
+            var query = new GetNearestBirthdayUsersQuery { AuthUserId = authUserId };
 
             var users = await Mediator.Send(query, cancellationToken);
 

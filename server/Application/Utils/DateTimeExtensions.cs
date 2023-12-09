@@ -18,5 +18,18 @@
 
             return age;
         }
+
+        //Gets the days until the users birthday
+        public static int CalculateDaysUntilBirthday(DateOnly birthday, DateOnly today)
+        {
+            var currentYearBirthday = new DateOnly(today.Year, birthday.Month, birthday.Day);
+
+            if (currentYearBirthday < today)
+            {
+                currentYearBirthday = new DateOnly(today.Year + 1, birthday.Month, birthday.Day);
+            }
+
+            return currentYearBirthday.DayNumber - today.DayNumber;
+        }
     }
 }

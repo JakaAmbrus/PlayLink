@@ -85,6 +85,16 @@
             "Stay Curious! This User's Description is on the Way."
         }}
       </p>
+      <button
+        *ngIf="user.authorized && user.description"
+        (click)="moderateDescription()"
+        id="description-moderation"
+        class="theme-border"
+      >
+        <span class="material-symbols-rounded filled moderator-icon">
+          shield_person
+        </span>
+      </button>
     </div>
 
     <div id="joined-container">

@@ -121,4 +121,32 @@ export class ProfileUserCardComponent implements OnInit {
       }
     });
   }
+
+  moderateDescription(): void {
+    if (this.user === undefined) {
+      return;
+    }
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        title: 'Moderate Description',
+        message: 'Are you sure you want to remove this description?',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.moderatorService
+          .deleteUserDescription(this.user!.username)
+          .subscribe({
+            next: () => {
+              this.usersService.invalidateUserCache(this.user!.username);
+              this.user!.description = null;
+            },
+            error: (err) => {
+              console.log(err);
+            },
+          });
+      }
+    });
+  }
 }

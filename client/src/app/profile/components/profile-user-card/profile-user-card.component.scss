@@ -111,7 +111,9 @@
     width: 1em;
   }
 }
+
 #description-container {
+  position: relative;
   margin-top: 2em;
   height: 13.5em;
 
@@ -123,6 +125,26 @@
   .profile-description-text {
     font-size: 1.6em;
     word-wrap: break-word;
+  }
+
+  #description-moderation {
+    position: absolute;
+    font-size: 1em;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.2em;
+    background-color: #f0f2f5;
+    color: #3a3b3c;
+    border-radius: 0.5em;
+    cursor: pointer;
+
+    .moderator-icon {
+      font-size: 3em;
+    }
   }
 }
 #joined-container {

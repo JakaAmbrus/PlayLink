@@ -15,7 +15,10 @@
         <p>Member Since: {{ user.created | relativeTime }}</p>
       </div>
     </a>
-    <span class="material-symbols-rounded edit-profile header-text filled">
+    <span
+      routerLink="/user/{{ user.username }}/edit"
+      class="material-symbols-rounded edit-profile header-text filled"
+    >
       manage_accounts
     </span>
   </div>

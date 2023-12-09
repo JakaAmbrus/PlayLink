@@ -122,7 +122,7 @@
       <button
         *ngSwitchCase="'Current'"
         class="profile-buttons theme-border box-shadow reverse-parameters"
-        [routerLink]="['/user/' + user.username + '/edit']"
+        routerLink="/user/{{ user.username }}/edit"
       >
         <span class="button-text">Edit Profile</span>
       </button>

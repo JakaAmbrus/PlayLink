@@ -1,6 +1,6 @@
 ﻿namespace Application.Features.Users.EditUserDetails
 {
-    public class EditUserDetailsResponse
+    public class EditUserDetailsResult
     {
         public string PhotoUrl { get; set; }
         public string Description { get; set; }

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.Features.Users.EditUserDetails
 {
-    public class EditUserDetailsCommandHandler : IRequestHandler<EditUserDetailsCommand, EditUserDetailsResponse>
+    public class EditUserDetailsCommandHandler : IRequestHandler<EditUserDetailsCommand, EditUserDetailsResult>
     {
         private readonly IApplicationDbContext _context;
         private readonly IPhotoService _photoService;
@@ -15,7 +15,7 @@ namespace Application.Features.Users.EditUserDetails
             _photoService = photoService;
         }
 
-        public async Task<EditUserDetailsResponse> Handle(EditUserDetailsCommand request, CancellationToken cancellationToken)
+        public async Task<EditUserDetailsResult> Handle(EditUserDetailsCommand request, CancellationToken cancellationToken)
         {
             var selectedUser = await _context.Users.FindAsync(request.AuthUserId, cancellationToken)
                 ?? throw new NotFoundException("User was not found");
@@ -68,7 +68,7 @@ namespace Application.Features.Users.EditUserDetails
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return new EditUserDetailsResponse
+            return new EditUserDetailsResult
             {
                 PhotoUrl = selectedUser.ProfilePictureUrl,
                 Description = selectedUser.Description,

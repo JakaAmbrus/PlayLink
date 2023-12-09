@@ -1,0 +1,19 @@
+<div *ngIf="user" class="nearest-bd-user-display theme-border-bottom">
+  <a routerLink="/user/{{ user.username }}" class="avatar-name-days-until-bd">
+    <app-user-avatar
+      class="avatar"
+      [profilePictureUrl]="user.profilePictureUrl"
+      [fullName]="user.fullName"
+      [gender]="user.gender"
+    ></app-user-avatar>
+    <div class="name-bd">
+      <h1 class="name header-text">{{ user.fullName }}</h1>
+      <p class="days-until-bd">
+        Days until Birthday: {{ user.daysUntilBirthday }}
+      </p>
+    </div>
+  </a>
+  <h2 class="nearest-bd-date">
+    ({{ user.dateOfBirth | date : "mediumDate" }})
+  </h2>
+</div>

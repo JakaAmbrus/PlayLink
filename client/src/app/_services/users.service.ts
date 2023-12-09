@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import {
   EditUser,
   EditUserResponse,
+  NearestBirthdayUser,
   ProfileUser,
   SearchUser,
   User,
@@ -21,6 +22,7 @@ export class UsersService {
   paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
   countriesCache: string[] = [];
   searchUsersCache: SearchUser[] = [];
+  nearestBirthdayUsersCache: NearestBirthdayUser[] = [];
   usersCache = new Map();
   private userCache = new Map<string, ProfileUser>();
 
@@ -112,6 +114,24 @@ export class UsersService {
       .pipe(
         map((response) => response.users),
         tap((users) => (this.searchUsersCache = users))
+      );
+  }
+
+  getNearestBirthdayUsers(): Observable<NearestBirthdayUser[]> {
+    if (
+      this.nearestBirthdayUsersCache &&
+      this.nearestBirthdayUsersCache.length > 0
+    ) {
+      return of(this.nearestBirthdayUsersCache);
+    }
+
+    return this.http
+      .get<{ users: NearestBirthdayUser[] }>(
+        this.baseUrl + 'Users/nearest-birthday'
+      )
+      .pipe(
+        map((response) => response.users),
+        tap((users) => (this.nearestBirthdayUsersCache = users))
       );
   }
 

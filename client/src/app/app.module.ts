@@ -69,6 +69,8 @@ import { HomeUserCardComponent } from './home/home-user-card/home-user-card.comp
 import { SearchbarComponent } from './discover/searchbar/searchbar.component';
 import { OnlineUsersListComponent } from './messages/online-users-list/online-users-list.component';
 import { OnlineUserDisplayComponent } from './messages/online-users-list/online-user-display/online-user-display.component';
+import { NearestBdUsersListComponent } from './messages/nearest-bd-users-list/nearest-bd-users-list.component';
+import { NearestBdUserDisplayComponent } from './messages/nearest-bd-users-list/nearest-bd-user-display/nearest-bd-user-display.component';
 
 @NgModule({
   declarations: [
@@ -120,6 +122,8 @@ import { OnlineUserDisplayComponent } from './messages/online-users-list/online-
     SearchbarComponent,
     OnlineUsersListComponent,
     OnlineUserDisplayComponent,
+    NearestBdUsersListComponent,
+    NearestBdUserDisplayComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

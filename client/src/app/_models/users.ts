@@ -46,6 +46,15 @@ export interface SearchUser {
   gender: string;
 }
 
+export interface NearestBirthdayUser {
+  username: string;
+  fullName: string;
+  profilePictureUrl: string | null;
+  gender: string;
+  dateOfBirth: Date;
+  daysUntilBirthday: number;
+}
+
 export interface UserWithRoles {
   appUserId: number;
   username: string;

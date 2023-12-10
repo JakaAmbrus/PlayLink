@@ -26,11 +26,11 @@
       {{ message.privateMessageSent | relativeTime }}
     </p>
   </div>
-  <span
-    *ngIf="container !== 'Unread'"
-    (click)="handleClick($event, message.privateMessageId)"
-    class="material-symbols-rounded filled message-icon-close"
-  >
-    close
-  </span>
 </a>
+<span
+  *ngIf="container !== 'Unread' && message"
+  (click)="deleteMessage(message.privateMessageId)"
+  class="material-symbols-rounded filled message-icon-close"
+>
+  close
+</span>

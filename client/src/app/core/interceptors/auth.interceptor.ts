@@ -6,7 +6,7 @@ import {
   HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AccountService } from '../_services/account.service';
+import { AccountService } from '../../_services/account.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -24,7 +24,6 @@ export class AuthInterceptor implements HttpInterceptor {
       !request.url.endsWith('/account/login') &&
       !request.url.endsWith('/account/register')
     ) {
-      
       const clonedReq = request.clone({
         headers: request.headers.set('Authorization', `Bearer ${token}`),
       });

@@ -1,3 +1,5 @@
+import { CoreModule } from './core/core.module';
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -14,7 +16,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { NgOptimizedImage, provideCloudinaryLoader } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { ProfileNavigationComponent } from './profile/components/profile-navigation/profile-navigation.component';
 import { TimeagoModule } from 'ngx-timeago';
 
@@ -36,29 +38,27 @@ import { LoginComponent } from './portal/auth-form/login/login.component';
 import { RegisterComponent } from './portal/auth-form/register/register.component';
 import { LoginLogoComponent } from './portal/login-logo/login-logo.component';
 import { HeaderDropdownComponent } from './header/header-dropdown/header-dropdown.component';
-import { ErrorInterceptor } from './_interceptors/error.interceptor';
-import { AuthInterceptor } from './_interceptors/auth.interceptor';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { UserCardComponent } from './discover/user-card/user-card.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PostsComponent } from './profile/posts/posts.component';
 import { MessageComponent } from './profile/message/message.component';
 import { EditComponent } from './profile/edit/edit.component';
-import { PostComponent } from './_components/post/post.component';
-import { CommentComponent } from './_components/comment/comment.component';
-import { RelativeTimePipe } from './_pipes/relative-time.pipe';
-import { PostSkeletonComponent } from './_components/post-skeleton/post-skeleton.component';
-import { UploadPostComponent } from './_components/upload-post/upload-post.component';
+import { PostComponent } from './shared/components/post/post.component';
+import { CommentComponent } from './shared/components/comment/comment.component';
+import { RelativeTimePipe } from './shared/pipes/relative-time.pipe';
+import { PostSkeletonComponent } from './shared/components/post-skeleton/post-skeleton.component';
+import { UploadPostComponent } from './shared/components/upload-post/upload-post.component';
 import { QuizWidgetComponent } from './games/game-selection/quiz-widget/quiz-widget.component';
-import { UploadCommentComponent } from './_components/upload-comment/upload-comment.component';
-import { TimeAgoPipe } from './_pipes/time-ago.pipe';
+import { UploadCommentComponent } from './shared/components/upload-comment/upload-comment.component';
+import { TimeAgoPipe } from './shared/pipes/time-ago.pipe';
 import { MessageDisplayComponent } from './messages/message-display/message-display.component';
-import { LimitTextPipe } from './_pipes/limit-text.pipe';
-import { FirstWordPipe } from './_pipes/first-word.pipe';
+import { LimitTextPipe } from './shared/pipes/limit-text.pipe';
+import { FirstWordPipe } from './shared/pipes/first-word.pipe';
 import { MessageContentComponent } from './profile/message/message-content/message-content.component';
-import { RelativeUrlPipe } from './_pipes/relative-url.pipe';
-import { UserAvatarComponent } from './_components/user-avatar/user-avatar.component';
-import { ObjectToArrayPipe } from './_pipes/object-to-array.pipe';
+import { RelativeUrlPipe } from './shared/pipes/relative-url.pipe';
+import { UserAvatarComponent } from './shared/components/user-avatar/user-avatar.component';
+import { ObjectToArrayPipe } from './shared/pipes/object-to-array.pipe';
 import { HeaderNotificationsComponent } from './header/header-notifications/header-notifications.component';
 import { FriendDisplayComponent } from './home/friend-list/friend-display/friend-display.component';
 import { AdminComponent } from './admin/admin.component';
@@ -125,14 +125,10 @@ import { NearestBdUserDisplayComponent } from './messages/nearest-bd-users-list/
     NearestBdUsersListComponent,
     NearestBdUserDisplayComponent,
   ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    provideCloudinaryLoader('https://res.cloudinary.com/dsdleukb7'),
-  ],
   bootstrap: [AppComponent],
   imports: [
     BrowserModule,
+    CoreModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,

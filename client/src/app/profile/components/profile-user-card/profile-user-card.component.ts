@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogComponent } from 'src/app/_components/dialog/dialog.component';
+import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import {
   FriendshipStatus,
   FriendshipStatusResponse,

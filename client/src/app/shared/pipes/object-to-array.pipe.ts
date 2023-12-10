@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Message } from '../_models/messages';
+import { Message } from '../../_models/messages';
 
 @Pipe({
   name: 'objectToArray',

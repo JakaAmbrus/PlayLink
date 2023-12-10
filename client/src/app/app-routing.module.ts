@@ -22,8 +22,8 @@ import {
   canActivateCurrentUserGuard,
   canActivateGuard,
   canActivateNotCurrentUserGuard,
-} from './_guards/auth.guard';
-import { canActivateLoginGuard } from './_guards/auth.guard';
+} from './core/guards/auth.guard';
+import { canActivateLoginGuard } from './core/guards/auth.guard';
 import { preventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 import { adminGuard } from './_guards/admin.guard';
 

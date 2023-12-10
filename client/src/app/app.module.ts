@@ -23,13 +23,8 @@ import { HeaderComponent } from './core/components/header/header.component';
 import { HeaderLogoComponent } from './core/components/header/components/header-logo/header-logo.component';
 import { HeaderNavLinksComponent } from './core/components/header/components/header-nav-links/header-nav-links.component';
 import { HomeComponent } from './features/home/home.component';
-import { PortalComponent } from './features/portal/portal.component';
 import { DiscoverComponent } from './features/discover/discover.component';
 import { MessagesComponent } from './features/messages/messages.component';
-import { AuthFormComponent } from './features/portal/components/auth-form/auth-form.component';
-import { LoginComponent } from './features/portal/components/auth-form/login/login.component';
-import { RegisterComponent } from './features/portal/components/auth-form/register/register.component';
-import { LoginLogoComponent } from './features/portal/components/login-logo/login-logo.component';
 import { HeaderDropdownComponent } from './core/components/header/components/header-dropdown/header-dropdown.component';
 import { NotFoundComponent } from './core/components/not-found/not-found.component';
 import { UserCardComponent } from './features/discover/components/user-card/user-card.component';
@@ -62,6 +57,7 @@ import { NearestBdUsersListComponent } from './features/messages/components/near
 import { NearestBdUserDisplayComponent } from './features/messages/components/nearest-bd-users-list/nearest-bd-user-display/nearest-bd-user-display.component';
 import { NgOptimizedImage } from '@angular/common';
 import { SharedModule } from './shared/shared.module';
+import { PortalModule } from '@angular/cdk/portal';
 
 @NgModule({
   declarations: [
@@ -72,11 +68,6 @@ import { SharedModule } from './shared/shared.module';
     HomeComponent,
     DiscoverComponent,
     MessagesComponent,
-    PortalComponent,
-    AuthFormComponent,
-    LoginComponent,
-    RegisterComponent,
-    LoginLogoComponent,
     HeaderDropdownComponent,
     NotFoundComponent,
     UserCardComponent,
@@ -109,6 +100,7 @@ import { SharedModule } from './shared/shared.module';
   ],
   bootstrap: [AppComponent],
   imports: [
+    PortalModule,
     BrowserModule,
     CoreModule,
     AppRoutingModule,

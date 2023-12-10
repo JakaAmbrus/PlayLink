@@ -19,13 +19,11 @@ import { ProfileNavigationComponent } from './features/profile/components/profil
 import { TimeagoModule } from 'ngx-timeago';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './core/components/header/header.component';
-import { HeaderLogoComponent } from './core/components/header/components/header-logo/header-logo.component';
-import { HeaderNavLinksComponent } from './core/components/header/components/header-nav-links/header-nav-links.component';
+
 import { HomeComponent } from './features/home/home.component';
 import { DiscoverComponent } from './features/discover/discover.component';
 import { MessagesComponent } from './features/messages/messages.component';
-import { HeaderDropdownComponent } from './core/components/header/components/header-dropdown/header-dropdown.component';
+
 import { NotFoundComponent } from './core/components/not-found/not-found.component';
 import { UserCardComponent } from './features/discover/components/user-card/user-card.component';
 import { ProfileComponent } from './features/profile/profile.component';
@@ -45,7 +43,7 @@ import { FirstWordPipe } from './shared/pipes/first-word.pipe';
 import { MessageContentComponent } from './features/profile/pages/message/message-content/message-content.component';
 import { RelativeUrlPipe } from './shared/pipes/relative-url.pipe';
 import { ObjectToArrayPipe } from './shared/pipes/object-to-array.pipe';
-import { HeaderNotificationsComponent } from './core/components/header/components/header-notifications/header-notifications.component';
+
 import { FriendDisplayComponent } from './features/home/friend-list/friend-display/friend-display.component';
 import { ProfileUserCardComponent } from './features/profile/components/profile-user-card/profile-user-card.component';
 import { FriendListComponent } from './features/home/friend-list/friend-list.component';
@@ -57,18 +55,25 @@ import { NearestBdUsersListComponent } from './features/messages/components/near
 import { NearestBdUserDisplayComponent } from './features/messages/components/nearest-bd-users-list/nearest-bd-user-display/nearest-bd-user-display.component';
 import { NgOptimizedImage } from '@angular/common';
 import { SharedModule } from './shared/shared.module';
-import { PortalModule } from '@angular/cdk/portal';
+import { PortalModule } from './features/portal/portal.module';
+import { UserAvatarComponent } from './shared/components/user-avatar/user-avatar.component';
+import { HeaderComponent } from './core/components/header/header.component';
+import { HeaderLogoComponent } from './core/components/header/components/header-logo/header-logo.component';
+import { HeaderNavLinksComponent } from './core/components/header/components/header-nav-links/header-nav-links.component';
+import { HeaderDropdownComponent } from './core/components/header/components/header-dropdown/header-dropdown.component';
+import { HeaderNotificationsComponent } from './core/components/header/components/header-notifications/header-notifications.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
     HeaderComponent,
     HeaderLogoComponent,
     HeaderNavLinksComponent,
-    HomeComponent,
+    HeaderDropdownComponent,
+    HeaderNotificationsComponent,
     DiscoverComponent,
     MessagesComponent,
-    HeaderDropdownComponent,
     NotFoundComponent,
     UserCardComponent,
     ProfileComponent,
@@ -77,7 +82,6 @@ import { PortalModule } from '@angular/cdk/portal';
     EditComponent,
     PostComponent,
     CommentComponent,
-    RelativeTimePipe,
     PostSkeletonComponent,
     UploadPostComponent,
     UploadCommentComponent,
@@ -88,7 +92,6 @@ import { PortalModule } from '@angular/cdk/portal';
     MessageContentComponent,
     ProfileNavigationComponent,
     ProfileUserCardComponent,
-    HeaderNotificationsComponent,
     FriendListComponent,
     FriendDisplayComponent,
     HomeUserCardComponent,
@@ -100,6 +103,8 @@ import { PortalModule } from '@angular/cdk/portal';
   ],
   bootstrap: [AppComponent],
   imports: [
+    RelativeUrlPipe,
+    RelativeTimePipe,
     PortalModule,
     BrowserModule,
     CoreModule,
@@ -128,6 +133,7 @@ import { PortalModule } from '@angular/cdk/portal';
       progressBar: true,
     }),
     ObjectToArrayPipe,
+    UserAvatarComponent,
   ],
 })
 export class AppModule {}

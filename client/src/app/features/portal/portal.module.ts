@@ -8,8 +8,6 @@ import { RegisterComponent } from './components/auth-form/register/register.comp
 import { LoginLogoComponent } from './components/login-logo/login-logo.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
@@ -29,8 +27,6 @@ import { PortalRoutingModule } from './portal-routing.module';
     FormsModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatInputModule,
-    MatFormFieldModule,
     MatNativeDateModule,
     MatAutocompleteModule,
   ],

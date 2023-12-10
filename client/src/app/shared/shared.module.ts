@@ -6,8 +6,18 @@ import { RelativeUrlPipe } from './pipes/relative-url.pipe';
 import { NgOptimizedImage } from '@angular/common';
 
 @NgModule({
-  declarations: [UserAvatarComponent],
-  exports: [UserAvatarComponent],
-  imports: [CommonModule, NgOptimizedImage, RelativeUrlPipe],
+  declarations: [],
+  exports: [
+    CommonModule,
+    NgOptimizedImage,
+    RelativeUrlPipe,
+    UserAvatarComponent,
+  ],
+  imports: [
+    CommonModule,
+    NgOptimizedImage,
+    RelativeUrlPipe,
+    UserAvatarComponent,
+  ],
 })
 export class SharedModule {}

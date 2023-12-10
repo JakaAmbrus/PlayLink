@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from 'src/app/features/admin/admin.component';
@@ -9,12 +8,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [AdminComponent, AdminUserDisplayComponent],
-  imports: [
-    CommonModule,
-    AdminRoutingModule,
-    SharedModule,
-    NgxPaginationModule,
-  ],
+  imports: [AdminRoutingModule, SharedModule, NgxPaginationModule],
 })
 export class AdminModule {
   constructor() {

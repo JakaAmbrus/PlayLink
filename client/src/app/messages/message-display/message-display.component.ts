@@ -13,11 +13,6 @@ export class MessageDisplayComponent {
 
   @Output() messageDeleted: EventEmitter<number> = new EventEmitter();
 
-  handleClick(event: MouseEvent, messageId: number): void {
-    event.stopPropagation();
-    this.deleteMessage(messageId);
-  }
-
   deleteMessage(id: number): void {
     this.messageDeleted.emit(id);
   }

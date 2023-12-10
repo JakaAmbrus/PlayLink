@@ -38,7 +38,7 @@ namespace Application.Features.Comments.DeleteComment
             }
             catch
             {
-                throw new ServerErrorException("Problem deleting Commet");
+                throw new ServerErrorException("Problem deleting Comment");
             }
 
             return new DeleteCommentResponse { IsDeleted = true };

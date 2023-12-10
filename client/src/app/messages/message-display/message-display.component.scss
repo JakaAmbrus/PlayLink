@@ -1,6 +1,9 @@
+:host {
+  position: relative;
+}
+
 .message-container {
   font-family: "Roboto Regular";
-  position: relative;
   cursor: pointer;
   display: flex;
   padding: 1em;
@@ -38,6 +41,7 @@
   font-size: 1.1em;
 }
 .message-icon-close {
+  cursor: pointer;
   position: absolute;
   right: 0.2em;
   top: 0em;

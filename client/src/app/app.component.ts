@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { slideInAnimation } from './route-animations';
 import { Router, NavigationEnd } from '@angular/router';
-import { PresenceService } from './_services/presence.service';
+import { PresenceService } from './shared/services/presence.service';
 
 @Component({
   selector: 'app-root',

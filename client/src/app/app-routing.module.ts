@@ -1,22 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { HomeComponent } from './home/home.component';
-import { DiscoverComponent } from './discover/discover.component';
-import { GamesComponent } from './games/games.component';
-import { MessagesComponent } from './messages/messages.component';
-import { PortalComponent } from './portal/portal.component';
-import { GameSelectionComponent } from './games/game-selection/game-selection.component';
-import { HollowXHollowComponent } from './games/hollow-x-hollow/hollow-x-hollow.component';
-import { PlaysketchPortableComponent } from './games/playsketch-portable/playsketch-portable.component';
-import { RockPaperScissorsComponent } from './games/rock-paper-scissors/rock-paper-scissors.component';
-import { NotFoundComponent } from './errors/not-found/not-found.component';
-import { ProfileComponent } from './profile/profile.component';
-import { PostsComponent } from './profile/posts/posts.component';
-import { GalleryComponent } from './profile/gallery/gallery.component';
-import { EditComponent } from './profile/edit/edit.component';
-import { MessageComponent } from './profile/message/message.component';
-import { AdminComponent } from './admin/admin.component';
+import { HomeComponent } from './features/home/home.component';
+import { DiscoverComponent } from './features/discover/discover.component';
+import { GamesComponent } from './features/games/games.component';
+import { MessagesComponent } from './features/messages/messages.component';
+import { PortalComponent } from './features/portal/portal.component';
+import { GameSelectionComponent } from './features/games/pages/game-selection/game-selection.component';
+import { HollowXHollowComponent } from './features/games/pages/hollow-x-hollow/hollow-x-hollow.component';
+import { PlaysketchPortableComponent } from './features/games/pages/playsketch-portable/playsketch-portable.component';
+import { RockPaperScissorsComponent } from './features/games/pages/rock-paper-scissors/rock-paper-scissors.component';
+import { NotFoundComponent } from './core/components/not-found/not-found.component';
+import { ProfileComponent } from './features/profile/profile.component';
+import { PostsComponent } from './features/profile/components/posts/posts.component';
+import { GalleryComponent } from './features/profile/components/gallery/gallery.component';
+import { EditComponent } from './features/profile/components/edit/edit.component';
+import { MessageComponent } from './features/profile/components/message/message.component';
+import { AdminComponent } from './features/admin/admin.component';
 
 import {
   canActivateCurrentUserGuard,
@@ -24,8 +24,8 @@ import {
   canActivateNotCurrentUserGuard,
 } from './core/guards/auth.guard';
 import { canActivateLoginGuard } from './core/guards/auth.guard';
-import { preventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
-import { adminGuard } from './_guards/admin.guard';
+import { preventUnsavedChangesGuard } from './core/guards/prevent-unsaved-changes.guard';
+import { adminGuard } from './core/guards/admin.guard';
 
 const routes: Routes = [
   {

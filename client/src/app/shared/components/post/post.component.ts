@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Post } from 'src/app/_models/posts';
-import { CommentsService } from 'src/app/_services/comments.service';
-import { LikesService } from 'src/app/_services/likes.service';
-import { PostsService } from 'src/app/_services/posts.service';
-import { Comment } from 'src/app/_models/comments';
+import { Post } from 'src/app/shared/models/posts';
+import { CommentsService } from 'src/app/shared/services/comments.service';
+import { LikesService } from 'src/app/shared/services/likes.service';
+import { PostsService } from 'src/app/shared/services/posts.service';
+import { Comment } from 'src/app/shared/models/comments';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 

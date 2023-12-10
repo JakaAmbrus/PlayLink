@@ -7,10 +7,10 @@ import {
 } from '@angular/animations';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Avatar } from 'src/app/_models/avatar';
-import { PostContent } from 'src/app/_models/posts';
-import { AvatarService } from 'src/app/_services/avatar.service';
-import { PostsService } from 'src/app/_services/posts.service';
+import { Avatar } from 'src/app/shared/models/avatar';
+import { PostContent } from 'src/app/shared/models/posts';
+import { AvatarService } from 'src/app/shared/services/avatar.service';
+import { PostsService } from 'src/app/shared/services/posts.service';
 
 @Component({
   selector: 'app-upload-post',

@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Avatar } from 'src/app/_models/avatar';
-import { AvatarService } from 'src/app/_services/avatar.service';
-import { CommentsService } from 'src/app/_services/comments.service';
+import { Avatar } from 'src/app/shared/models/avatar';
+import { AvatarService } from 'src/app/shared/services/avatar.service';
+import { CommentsService } from 'src/app/shared/services/comments.service';
 
 @Component({
   selector: 'app-upload-comment',

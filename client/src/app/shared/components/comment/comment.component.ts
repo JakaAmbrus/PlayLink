@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommentsService } from 'src/app/_services/comments.service';
-import { LikesService } from 'src/app/_services/likes.service';
-import { Comment } from 'src/app/_models/comments';
+import { CommentsService } from 'src/app/shared/services/comments.service';
+import { LikesService } from 'src/app/shared/services/likes.service';
+import { Comment } from 'src/app/shared/models/comments';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 

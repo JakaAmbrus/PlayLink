@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { PortalComponent } from './features/portal/portal.component';
 import { NotFoundComponent } from './core/components/not-found/not-found.component';
-
 import {
   canActivateCurrentUserGuard,
   canActivateGuard,

@@ -8,6 +8,7 @@ using WebAPI.Extensions;
 using WebAPI.Filters;
 using WebAPI.SignalR;
 using WebAPI.Middleware;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +47,12 @@ if (app.Environment.IsDevelopment())
 app.UseSerilogRequestLogging();
 
 ApplicationStartupExtensions.ConfigureApplication(app, app.Services);
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+app.MapFallbackToController("Index", "Fallback");
+
 
 app.MapControllers();
 

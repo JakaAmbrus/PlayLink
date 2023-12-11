@@ -57,6 +57,8 @@ server/WebAPI/bin/
 server/WebAPI/Properties/launchSettings.json
 server/WebAPI/appsettings.json
 server/WebAPI/appsettings.Development.json
+server/WebAPI/wwwroot/
+server/WebAPI/wwwroot/assets
 
 # Visual Studio specific
 .vs/

@@ -10,6 +10,7 @@
 client/node_modules
 client/npm-debug.log
 client/yarn-error.log
+client/dist
 
 # IDEs and editors
 client/.idea/

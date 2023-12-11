@@ -1,0 +1,186 @@
+#user-profile-details-container {
+  font-family: "Roboto Regular";
+  margin-top: 2vh;
+  padding: 3.5em;
+  width: 42em;
+  height: 79.3em;
+  align-self: flex-start;
+}
+#profile-picture-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  height: 35em;
+  width: 35em;
+  overflow: hidden;
+  border: 0.3em solid #3d3a3a;
+  border-radius: 0.8em;
+
+  .card-avatar-icon {
+    font-size: 45em;
+  }
+
+  #profile-img {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+  }
+
+  .current-status {
+    font-family: "Nexa Bold";
+    font-weight: 900;
+    position: absolute;
+    left: -0.1em;
+    top: -0.1em;
+    font-size: 2em;
+    letter-spacing: 0.05em;
+    padding: 0.5em 1em;
+    z-index: 2;
+    border-bottom-right-radius: 0.2em;
+    background-color: #f0f2f5;
+    color: #3a3b3c;
+
+    &.is-online {
+      color: #66bb6a;
+      border-right: 0.1em solid #66bb6a;
+      border-bottom: 0.1em solid #66bb6a;
+    }
+  }
+
+  #picture-moderation {
+    position: absolute;
+    font-size: 1em;
+    z-index: 2;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5em;
+    background-color: #f0f2f5;
+    color: #3a3b3c;
+    border-top-left-radius: 0.5em;
+    cursor: pointer;
+
+    .moderator-icon {
+      font-size: 5em;
+    }
+  }
+}
+
+#profile-content-container {
+  height: 37em;
+}
+.name-gender {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .profile-name {
+    font-size: 3em;
+    padding: 0.5em 0;
+  }
+
+  .profile-gender {
+    font-size: 4em;
+    font-weight: bolder;
+  }
+}
+#country-and-birthday {
+  display: flex;
+  justify-content: space-between;
+
+  .country,
+  .birthday {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.4em;
+  }
+  .country {
+    gap: 0.2em;
+    transform: translateX(-0.4em);
+  }
+  .country-bd-text {
+    font-size: 1.8em;
+    font-weight: bolder;
+    opacity: 0.9;
+  }
+  .country-bd-icon {
+    font-size: 2.8em;
+    height: 1em;
+    width: 1em;
+  }
+}
+
+#description-container {
+  position: relative;
+  margin-top: 2em;
+  height: 13.5em;
+
+  .profile-description-header {
+    font-size: 1.8em;
+    padding-bottom: 0.2em;
+  }
+
+  .profile-description-text {
+    font-size: 1.6em;
+    word-wrap: break-word;
+  }
+
+  #description-moderation {
+    position: absolute;
+    font-size: 1em;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.2em;
+    background-color: #f0f2f5;
+    color: #3a3b3c;
+    border-radius: 0.5em;
+    cursor: pointer;
+
+    .moderator-icon {
+      font-size: 3em;
+    }
+  }
+}
+#joined-container {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+  padding-bottom: 1.2em;
+
+  .joined-icon {
+    font-size: 3em;
+  }
+
+  .joined {
+    font-size: 2em;
+
+    & span {
+      font-weight: 100;
+      font-size: 0.9em;
+    }
+  }
+}
+#button-container {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+  margin-top: 1em;
+}
+.profile-buttons {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 2.8em;
+  padding: 0.4em 0;
+  border-radius: 0.2em;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  font-family: "Roboto Regular";
+}

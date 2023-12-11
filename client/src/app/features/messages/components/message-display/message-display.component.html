@@ -1,0 +1,36 @@
+<a
+  *ngIf="message"
+  routerLink="{{
+    container === 'Outbox'
+      ? '/user/' + message.recipientUsername + '/message'
+      : '/user/' + message.senderUsername + '/message'
+  }}"
+  class="message-container theme-border-bottom"
+>
+  <app-user-avatar
+    id="message-user-avatar"
+    [profilePictureUrl]="message.senderProfilePictureUrl"
+    [fullName]="message.senderFullName"
+    [gender]="message.senderGender"
+  ></app-user-avatar>
+
+  <div class="message-content-container">
+    <h1 class="message-user-name">
+      {{ message.senderFullName }}
+    </h1>
+    <div class="message-content">
+      {{ message.content | limitText : 60 }}
+      <span *ngIf="message.content.length > 100">...</span>
+    </div>
+    <p class="message-date">
+      {{ message.privateMessageSent | relativeTime }}
+    </p>
+  </div>
+</a>
+<span
+  *ngIf="container !== 'Unread' && message"
+  (click)="deleteMessage(message.privateMessageId)"
+  class="material-symbols-rounded filled message-icon-close"
+>
+  close
+</span>

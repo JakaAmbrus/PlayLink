@@ -1,0 +1,44 @@
+.online-user-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em 0;
+}
+.avatar-name-established {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  font-family: "Roboto Regular";
+
+  .avatar {
+    flex-shrink: 0;
+    width: 5.2em;
+    height: 5.2em;
+  }
+}
+.name {
+  font-size: 2.4em;
+}
+.online {
+  font-size: 1.6em;
+  color: #66bb6a;
+}
+.online-icons-container {
+  display: flex;
+  gap: 1.2em;
+
+  .online-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 5.2em;
+    width: 5.2em;
+
+    .online-icon {
+      font-size: 3.6em;
+    }
+    .online-icon-mail {
+      font-size: 2.8em;
+    }
+  }
+}

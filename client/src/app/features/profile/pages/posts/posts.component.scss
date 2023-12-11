@@ -1,0 +1,30 @@
+#posts-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 1.8em;
+  margin-bottom: 2vh;
+  height: 70em;
+  overflow-y: auto;
+  scrollbar-width: none;
+
+  & h1 {
+    font-family: "Nexa Bold";
+    font-size: 3.2em;
+    margin-top: 2em;
+  }
+}
+#posts-tab::-webkit-scrollbar {
+  display: none;
+}
+#posts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  margin: 2em 0;
+  width: 68em;
+}
+.posts {
+  padding: 3em;
+}

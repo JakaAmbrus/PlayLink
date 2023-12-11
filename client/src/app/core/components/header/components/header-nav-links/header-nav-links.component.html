@@ -1,0 +1,17 @@
+<nav id="header-navigation">
+  <a
+    *ngFor="let link of navLinks"
+    [title]="link.title"
+    [routerLink]="link.path"
+    routerLinkActive="active"
+    class="navigation-links-container bottom-border-active"
+  >
+    <div class="navigation-links-icons-container">
+      <span
+        class="material-symbols-rounded navigation-icons header-icons-middle"
+      >
+        {{ link.icon }}
+      </span>
+    </div>
+  </a>
+</nav>

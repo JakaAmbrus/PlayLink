@@ -1,0 +1,24 @@
+#profile-route-container {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+}
+#profile-routes {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+#profile-features {
+  margin-top: 2vh;
+  display: flex;
+  flex-direction: column;
+  width: 100em;
+}
+
+@media (min-width: 2400px) {
+  #profile-route-container {
+    font-size: 12px;
+  }
+}

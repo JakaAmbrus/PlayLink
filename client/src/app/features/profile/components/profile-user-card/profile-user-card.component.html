@@ -1,0 +1,141 @@
+<div
+  *ngIf="user"
+  id="user-profile-details-container"
+  class="secondary-background rounded-border box-shadow"
+>
+  <div
+    id="profile-picture-container"
+    class="theme-border rounded-border header-icons-right"
+  >
+    <img
+      *ngIf="user.profilePictureUrl"
+      [ngSrc]="
+        user.profilePictureUrl
+          | relativeUrl : 'https://res.cloudinary.com/dsdleukb7'
+      "
+      height="400"
+      width="400"
+      preconnect="true"
+      priority
+      alt="{{ user.fullName }}'s picture"
+      id="profile-img"
+    />
+    <span
+      *ngIf="!user.profilePictureUrl"
+      class="material-symbols-rounded filled card-avatar-icon"
+    >
+      {{ user.gender === "male" ? "person" : "person_2" }}
+    </span>
+    <ng-container
+      *ngIf="
+        (presenceService.onlineUsers$ | async)?.includes(user.appUserId);
+        else offline
+      "
+    >
+      <div class="theme-border is-online current-status">Online</div>
+    </ng-container>
+    <ng-template #offline>
+      <div class="theme-border current-status">Offline</div>
+    </ng-template>
+    <button
+      *ngIf="user.authorized && user.profilePictureUrl"
+      (click)="moderatePicture()"
+      id="picture-moderation"
+      class="theme-border"
+    >
+      <span class="material-symbols-rounded filled moderator-icon">
+        shield_person
+      </span>
+    </button>
+  </div>
+  <div id="profile-content-container">
+    <div class="name-gender">
+      <h1 class="profile-name header-text">{{ user.fullName }}</h1>
+      <span class="material-symbols-rounded filled profile-gender header-text">
+        {{ user.gender === "male" ? "male" : "female" }}
+      </span>
+    </div>
+
+    <div id="country-and-birthday">
+      <div class="country">
+        <span
+          class="material-symbols-rounded filled country-bd-icon header-text"
+        >
+          location_on
+        </span>
+        <span class="country-bd-text">{{ user.country }}</span>
+      </div>
+      <div class="birthday">
+        <span
+          class="material-symbols-rounded filled country-bd-icon header-text"
+        >
+          cake
+        </span>
+        <span class="country-bd-text">{{
+          user.dateOfBirth | date : "mediumDate"
+        }}</span>
+      </div>
+    </div>
+
+    <div id="description-container">
+      <h2 class="profile-description-header header-text">About Me:</h2>
+      <p class="profile-description-text">
+        {{
+          user.description ??
+            "Stay Curious! This User's Description is on the Way."
+        }}
+      </p>
+      <button
+        *ngIf="user.authorized && user.description"
+        (click)="moderateDescription()"
+        id="description-moderation"
+        class="theme-border"
+      >
+        <span class="material-symbols-rounded filled moderator-icon">
+          shield_person
+        </span>
+      </button>
+    </div>
+
+    <div id="joined-container">
+      <span class="material-symbols-rounded filled joined-icon header-text">
+        how_to_reg
+      </span>
+      <h2 class="joined header-text">
+        Member Since:
+        <span class="secondary-text"> {{ user.created | relativeTime }}</span>
+      </h2>
+    </div>
+    <div [ngSwitch]="friendshipStatus" id="button-container">
+      <button
+        *ngSwitchCase="'None'"
+        class="profile-buttons theme-border box-shadow reverse-parameters"
+        (click)="addFriend()"
+      >
+        <span class="button-text">Add Friend</span>
+      </button>
+
+      <button
+        *ngSwitchCase="'Pending'"
+        class="profile-buttons theme-border box-shadow reverse-parameters"
+      >
+        <span class="button-text">Pending</span>
+      </button>
+
+      <button
+        *ngSwitchCase="'Friends'"
+        class="profile-buttons theme-border box-shadow reverse-parameters"
+        (click)="removeFriend()"
+      >
+        <span class="button-text">Friends</span>
+      </button>
+      <button
+        *ngSwitchCase="'Current'"
+        class="profile-buttons theme-border box-shadow reverse-parameters"
+        routerLink="/user/{{ user.username }}/edit"
+      >
+        <span class="button-text">Edit Profile</span>
+      </button>
+    </div>
+  </div>
+</div>

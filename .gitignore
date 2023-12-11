@@ -10,6 +10,7 @@
 client/node_modules
 client/npm-debug.log
 client/yarn-error.log
+client/dist
 
 # IDEs and editors
 client/.idea/
@@ -57,6 +58,8 @@ server/WebAPI/bin/
 server/WebAPI/Properties/launchSettings.json
 server/WebAPI/appsettings.json
 server/WebAPI/appsettings.Development.json
+server/WebAPI/wwwroot/
+server/WebAPI/wwwroot/assets
 
 # Visual Studio specific
 .vs/

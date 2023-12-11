@@ -1,0 +1,30 @@
+<div *ngIf="user" class="online-user-display theme-border-bottom">
+  <a routerLink="/user/{{ user.username }}" class="avatar-name-established">
+    <app-user-avatar
+      class="avatar"
+      [profilePictureUrl]="user.profilePictureUrl"
+      [fullName]="user.fullName"
+      [gender]="user.gender"
+    ></app-user-avatar>
+    <div class="name-online">
+      <h1 class="name header-text">{{ user.fullName }}</h1>
+      <p class="online">Online</p>
+    </div>
+  </a>
+  <div class="online-icons-container">
+    <a
+      routerLink="/user/{{ user.username }}"
+      class="online-icons reverse-parameters rounded-border"
+    >
+      <span class="material-symbols-rounded filled online-icon"> person </span>
+    </a>
+    <a
+      routerLink="/user/{{ user.username }}/message"
+      class="online-icons reverse-parameters rounded-border"
+    >
+      <span class="material-symbols-rounded filled online-icon-mail">
+        mail
+      </span>
+    </a>
+  </div>
+</div>

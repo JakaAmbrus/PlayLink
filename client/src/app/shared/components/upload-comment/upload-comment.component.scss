@@ -1,0 +1,67 @@
+:host {
+  width: 100%;
+}
+
+#upload-comment-form {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 1em;
+}
+#comment-upload-user-avatar {
+  flex-shrink: 0;
+  width: 4.6em;
+  height: 4.6em;
+}
+.upload-input-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+#upload-comment-input {
+  width: 100%;
+  font-size: 1.6em;
+  padding: 0.9em 4em 0.9em 1.5em;
+  border: none;
+}
+#upload-comment {
+  position: absolute;
+  right: 1em;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  & span {
+    margin-top: 0.06em;
+    font-size: 3em;
+    width: 1em;
+    height: 1em;
+    border: none;
+  }
+
+  &:disabled {
+    opacity: 0.9;
+    cursor: not-allowed;
+  }
+}
+.validation-errors {
+  font-family: "Nexa Light";
+  position: absolute;
+  right: 1%;
+  bottom: -1.4em;
+  color: rgba(255, 0, 0, 0.231);
+  text-align: end;
+  font-weight: bold;
+  font-size: 1.4em;
+  letter-spacing: 0.05em;
+}
+.z2 {
+  z-index: 2;
+}
+.input-invalid {
+  box-shadow: 0px 0px 0px 0.1em rgba(255, 0, 0, 0.231);
+}

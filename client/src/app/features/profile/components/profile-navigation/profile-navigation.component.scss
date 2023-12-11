@@ -1,0 +1,26 @@
+#profile-features-navbar {
+  display: flex;
+  justify-content: center;
+  font-family: "Nexa Bold" !important;
+}
+.profile-navigation-links {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  font-size: 3em;
+  letter-spacing: 0.02em;
+  width: 33.3%;
+  height: 2.5em;
+  border-bottom: 0.15em solid transparent;
+}
+.profile-link-text-container {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 5%;
+  height: 95%;
+  width: 100%;
+  border-radius: 0.3em;
+  transition: all 0.2s ease;
+}

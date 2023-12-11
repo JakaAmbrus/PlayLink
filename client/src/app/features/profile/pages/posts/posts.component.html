@@ -1,0 +1,27 @@
+<div id="posts-tab" class="secondary-background rounded-border" #scrollable>
+  <h1 *ngIf="noPosts">User has no posts</h1>
+  <div class="home-posts-container">
+    <div
+      class="posts secondary-background rounded-border box-shadow"
+      *ngIf="isLoading"
+    >
+      <app-post-skeleton></app-post-skeleton>
+    </div>
+    <div
+      id="posts-container"
+      #scrollable
+      infiniteScroll
+      [infiniteScrollContainer]="scrollable"
+      [infiniteScrollDistance]="0.8"
+      [infiniteScrollThrottle]="300"
+      (scrolled)="onScroll()"
+    >
+      <div
+        class="posts secondary-background rounded-border box-shadow theme-border"
+        *ngFor="let post of posts"
+      >
+        <app-post [post]="post" (postDeleted)="onPostDelete($event)"></app-post>
+      </div>
+    </div>
+  </div>
+</div>

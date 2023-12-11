@@ -1,0 +1,107 @@
+#header-logo {
+  font-size: 3.4em;
+  display: flex;
+  margin-left: 0.2em;
+  font-family: "Nexa Bold";
+  font-weight: bolder;
+  width: 6em;
+  cursor: pointer;
+}
+#header-logo:visited {
+  color: inherit;
+}
+#logo-img-container {
+  width: 1.875em;
+  height: 1.875em;
+  position: relative;
+}
+#logo-img {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+.animate-logo {
+  animation: logoSpin 2s ease-in-out forwards;
+}
+#logo-text-container {
+  display: flex;
+}
+#logo-play-text-container {
+  width: 2.05em;
+  height: 1.875em;
+  position: relative;
+}
+#logo-text-play {
+  position: absolute;
+  top: 0.42em;
+}
+.animate-play {
+  animation: playLogoTextAnimation 2s ease forwards;
+}
+#logo-link-text-container {
+  position: relative;
+}
+#logo-text-link {
+  position: absolute;
+  top: 0.42em;
+}
+.animate-link {
+  animation: linkLogoTextAnimation 2s ease forwards;
+}
+@keyframes logoSpin {
+  0% {
+    transform: rotate(0);
+  }
+  6% {
+    transform: rotate(10deg);
+  }
+  18% {
+    transform: rotate(-10deg);
+  }
+  25% {
+    transform: rotate(0);
+  }
+  30% {
+    transform: translateX(-0.23em);
+  }
+  35% {
+    transform: translateX(0.23em);
+  }
+  50% {
+    transform: translate(0);
+  }
+}
+
+@keyframes playLogoTextAnimation {
+  35% {
+    transform: translate(0);
+  }
+  45% {
+    transform: translateX(0.12em);
+  }
+  52% {
+    transform: translate(0.12em);
+  }
+  70% {
+    transform: translateX(-0.09em);
+  }
+  85% {
+    transform: translateX(0.04em);
+  }
+}
+
+@keyframes linkLogoTextAnimation {
+  35% {
+    transform: translate(0);
+  }
+  45% {
+    transform: translateX(0.19em);
+  }
+
+  70% {
+    transform: translateX(-0.075em);
+  }
+  85% {
+    transform: translateX(0.04em);
+  }
+}

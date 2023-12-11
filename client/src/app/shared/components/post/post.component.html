@@ -1,0 +1,79 @@
+<div class="post-container" *ngIf="post">
+  <div class="post-top">
+    <a routerLink="/user/{{ post.username }}" class="post-header">
+      <app-user-avatar
+        id="post-user-avatar"
+        [profilePictureUrl]="post.profilePictureUrl"
+        [fullName]="post.fullName"
+        [gender]="post.gender"
+      ></app-user-avatar>
+      <div class="post-user-name-and-date">
+        <h1 class="post-user-name">{{ post.fullName }}</h1>
+        <p class="post-date">{{ post.datePosted | relativeTime }}</p>
+      </div>
+    </a>
+    <span
+      *ngIf="post.isAuthorized"
+      (click)="deletePost(post.postId)"
+      class="material-symbols-rounded filled post-icon-close"
+    >
+      close
+    </span>
+  </div>
+
+  <div
+    class="post-description"
+    [ngClass]="{
+      bigger: post.photoUrl === null
+    }"
+  >
+    {{ post.description }}
+  </div>
+
+  <img
+    *ngIf="post.photoUrl"
+    class="post-image rounded-border"
+    ngSrc="{{
+      post.photoUrl | relativeUrl : 'https://res.cloudinary.com/dsdleukb7'
+    }}"
+    alt="{{ post.fullName }}'s post image'"
+    height="600"
+    width="600"
+    preconnect="true"
+    priority
+  />
+  <div class="post-likes-and-comments-count">
+    <div class="post-likes-count">{{ post.likesCount }} Likes</div>
+    <div class="post-comments-count">{{ post.commentsCount }} Comments</div>
+  </div>
+  <div class="post-bottom post-counts-borders">
+    <div class="post-actions" (click)="toggleLike(post)">
+      <span
+        class="material-symbols-rounded post-count-icons"
+        [ngClass]="{ filled: post.isLikedByCurrentUser }"
+      >
+        favorite
+      </span>
+      <p class="post-count">Like</p>
+    </div>
+    <div class="post-actions" (click)="showComments()">
+      <span class="material-symbols-rounded post-count-icons"
+        >mode_comment</span
+      >
+      <p class="post-count">Comment</p>
+    </div>
+  </div>
+
+  <div *ngIf="commentsShown" class="comments-container">
+    <div *ngFor="let comment of comments">
+      <app-comment
+        (commentDeleted)="onCommentDelete($event)"
+        [comment]="comment"
+      ></app-comment>
+    </div>
+    <app-upload-comment
+      (commentUploaded)="onCommentUpload($event)"
+      [postId]="post.postId"
+    ></app-upload-comment>
+  </div>
+</div>

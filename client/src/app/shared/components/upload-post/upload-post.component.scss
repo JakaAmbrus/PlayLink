@@ -1,0 +1,139 @@
+#upload-post-popup {
+  font-family: "Roboto Medium";
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding: 1.8em 3em;
+  padding-bottom: 0.2em;
+  width: 100%;
+  margin-bottom: 2em;
+}
+#upload-post-popup-top {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+#post-upload-user-avatar {
+  flex-shrink: 0;
+  height: 5.2em;
+  width: 5.2em;
+}
+#upload-post-popup-input {
+  border: none;
+  font-size: 1.8em;
+  padding: 0.8em;
+  width: 100%;
+  cursor: pointer;
+}
+#upload-post-popup-bottom {
+  border-bottom: none;
+  display: flex;
+  padding-top: 0.1em;
+  font-size: 1.8em;
+}
+.material-symbols-rounded.filled {
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48;
+}
+.post-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5em;
+  height: 2.5em;
+  width: 50%;
+  gap: 0.6em;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+.pen-and-photo-icons {
+  font-size: 1.6em;
+  height: 1em;
+  width: 1em;
+}
+
+//upload post modal
+#upload-post-modal {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.477);
+}
+#upload-form {
+  position: relative;
+  font-family: "Nexa Bold";
+  display: flex;
+  flex-direction: column;
+  width: 60em;
+  padding: 3.5em 2em;
+}
+#upload-header {
+  font-size: 3.5em;
+  margin-bottom: 0.6em;
+  text-align: center;
+}
+.relative {
+  position: relative;
+}
+.validation-errors {
+  position: absolute;
+  right: 1%;
+  bottom: -0.4em;
+  color: rgba(255, 0, 0, 0.703);
+  text-align: end;
+  font-family: "Nexa Light";
+  font-weight: bold;
+  font-size: 1.4em;
+  letter-spacing: 0.05em;
+}
+.form-label {
+  align-self: start;
+  margin-left: 0.4em;
+  font-size: 1.81em;
+  margin-bottom: 0.5em;
+}
+#upload-dropzone {
+  font-size: 5em;
+  width: 100%;
+  margin-bottom: 0.5em;
+}
+.form-input {
+  width: 100%;
+  font-size: 1.8em;
+  padding: 1em;
+  border: none;
+  margin-bottom: 1em;
+}
+
+.ngx-dropzone-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.upload-submit {
+  font-family: "Nexa Bold";
+  width: 100%;
+  font-size: 3em;
+  padding: 0.5em 0;
+  border-radius: 0.2em;
+  margin-top: 0.5em;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+.upload-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+#close-upload-post {
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+  font-size: 4em;
+  cursor: pointer;
+}

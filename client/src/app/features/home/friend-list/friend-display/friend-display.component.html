@@ -1,0 +1,25 @@
+<div *ngIf="friend" class="friend-display theme-border-bottom">
+  <a
+    routerLink="/user/{{ friend.username }}"
+    class="avatar-name-date-established"
+  >
+    <app-user-avatar
+      class="avatar"
+      [profilePictureUrl]="friend.profilePictureUrl"
+      [fullName]="friend.fullName"
+      [gender]="friend.gender"
+    ></app-user-avatar>
+    <div class="name-date-established">
+      <h1 class="name header-text">{{ friend.fullName }}</h1>
+      <p class="date-established">
+        Friends since: {{ friend.dateEstablished | date : "mediumDate" }}
+      </p>
+    </div>
+  </a>
+  <a
+    routerLink="/user/{{ friend.username }}/message"
+    class="message-friend reverse-parameters"
+  >
+    Message
+  </a>
+</div>

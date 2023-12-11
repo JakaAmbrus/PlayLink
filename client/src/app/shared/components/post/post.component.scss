@@ -1,0 +1,93 @@
+.post-container {
+  font-family: "Roboto Regular";
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  width: 100%;
+  border-radius: 0.5em;
+}
+.post-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+#post-user-avatar {
+  height: 5.2em;
+  width: 5.2em;
+}
+
+.post-user-name {
+  font-size: 1.8em;
+}
+.post-date {
+  margin-top: 0.1em;
+  font-size: 1.4em;
+}
+.post-icon-close {
+  align-self: flex-start;
+  font-size: 3.5em;
+  cursor: pointer;
+}
+
+.post-description {
+  font-size: 1.6em;
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+.post-description.bigger {
+  font-size: 2.2em;
+}
+
+.post-image {
+  width: 100%;
+}
+.post-likes-and-comments-count {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.6em;
+}
+.post-bottom {
+  font-family: "Roboto Medium";
+  display: flex;
+  justify-content: space-around;
+  font-size: 1.8em;
+  padding: 0.1em 0;
+}
+.post-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5em;
+  height: 2.5em;
+  width: 50%;
+  gap: 0.3em;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  transition: background-color 0.2s ease-in-out;
+}
+.post-count-icons {
+  font-size: 1.6em;
+  height: 1em;
+  width: 1em;
+}
+.post-count {
+  margin-top: 0em;
+}
+
+.comments-container {
+  margin-top: 0.8em;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  width: 100%;
+}

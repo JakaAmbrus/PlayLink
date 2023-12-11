@@ -1,0 +1,45 @@
+<div id="quiz-container">
+  <div id="quiz-start-container" *ngIf="!quizStarted && !quizEnded">
+    <h1 class="header-text">Quiz Up!</h1>
+    <button class="reverse-parameters" id="start-quiz" (click)="startQuiz()">
+      Start Quiz
+    </button>
+  </div>
+
+  <div *ngIf="quizStarted" id="quiz-started-content">
+    <h1 *ngIf="!showAnswers">
+      {{ questions[currentQuestionNumber].question }}
+    </h1>
+    <p *ngIf="showAnswers" class="trivia">{{ currentTrivia }}</p>
+    <div *ngFor="let option of questions[currentQuestionNumber].options">
+      <button
+        class="quiz-buttons rounded-border quiz-buttons-theme"
+        [ngClass]="getOptionClass(option)"
+        (click)="selectAnswer(option)"
+        [disabled]="showAnswers"
+      >
+        {{ option }}
+      </button>
+    </div>
+    <div id="show-answer-button-container">
+      <button
+        *ngIf="showAnswers"
+        id="next-question-button"
+        class="quiz-buttons reverse-parameters rounded-border"
+        (click)="nextQuestion()"
+      >
+        Next Question
+      </button>
+    </div>
+  </div>
+  <div *ngIf="quizEnded" id="quiz-ended">
+    <h1>Your score:</h1>
+    <p>{{ score }}/{{ questions.length }}</p>
+    <button
+      class="quiz-buttons reverse-parameters rounded-border"
+      (click)="restartQuiz()"
+    >
+      Restart Quiz
+    </button>
+  </div>
+</div>

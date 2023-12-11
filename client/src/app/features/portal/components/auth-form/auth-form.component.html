@@ -1,0 +1,23 @@
+<div class="auth-container">
+  <div class="tabs">
+    <button
+      [ngClass]="{ 'active-form': formStateLogin }"
+      class="tab form-buttons"
+      (click)="toggleFormStateLogin()"
+    >
+      Sign In
+    </button>
+    <button
+      [ngClass]="{ 'active-form': !formStateLogin }"
+      class="tab form-buttons"
+      (click)="toggleFormStateRegister()"
+    >
+      Sign Up
+    </button>
+  </div>
+  <app-login *ngIf="formStateLogin"></app-login>
+  <app-register
+    (exitRegistration)="toggleFormStateLogin()"
+    *ngIf="!formStateLogin"
+  ></app-register>
+</div>

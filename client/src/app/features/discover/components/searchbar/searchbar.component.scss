@@ -1,0 +1,45 @@
+#searchbar-container {
+  position: relative;
+}
+#user-searchbar {
+  width: 100%;
+  font-size: 2.2em;
+  padding: 0.6em 1.6em 0.6em 2.8em;
+  margin-top: 0.5em;
+}
+#searchbar-icon-container {
+  position: absolute;
+  left: 0;
+  bottom: 0.9em;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.search-icon {
+  font-size: 4em;
+  margin-left: 0.3em;
+}
+.search-options {
+  font-size: 2em;
+}
+
+.search-options .option-content {
+  font-family: "Nexa Bold";
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  width: 100%;
+  font-size: 1em;
+}
+.filter-label {
+  align-self: flex-start;
+  font-size: 2.2em;
+  margin-left: 0.2em;
+  margin-bottom: 0.5em;
+}
+#search-user-avatar {
+  height: 5.2em;
+  width: 5.2em;
+  font-size: 0.4em;
+  flex-shrink: 0;
+}

@@ -19,12 +19,10 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app/app-routing.module';
 import { CoreModule } from './app/core/core.module';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
-import { PortalModule } from './app/features/portal/portal.module';
 
 bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(
-      PortalModule,
       BrowserModule,
       CoreModule,
       AppRoutingModule,

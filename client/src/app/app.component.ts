@@ -1,13 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { slideInAnimation } from './route-animations';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { PresenceService } from './shared/services/presence.service';
+import { HeaderComponent } from './core/components/header/header.component';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  animations: [slideInAnimation],
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    animations: [slideInAnimation],
+    standalone: true,
+    imports: [
+        NgIf,
+        HeaderComponent,
+        RouterOutlet,
+    ],
 })
 export class AppComponent implements OnInit {
   theme: 'theme-light' | 'theme-dark' = 'theme-light';

@@ -8,8 +8,8 @@ describe('AuthFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AuthFormComponent],
-    });
+    imports: [AuthFormComponent],
+});
     fixture = TestBed.createComponent(AuthFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

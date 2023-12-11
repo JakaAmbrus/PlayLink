@@ -8,8 +8,8 @@ describe('HeaderDropdownComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [HeaderDropdownComponent]
-    });
+    imports: [HeaderDropdownComponent]
+});
     fixture = TestBed.createComponent(HeaderDropdownComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

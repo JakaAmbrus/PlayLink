@@ -1,11 +1,23 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FriendRequest } from 'src/app/shared/models/friends';
 import { FriendsService } from 'src/app/shared/services/friends.service';
+import { RelativeTimePipe } from '../../../../../shared/pipes/relative-time.pipe';
+import { UserAvatarComponent } from '../../../../../shared/components/user-avatar/user-avatar.component';
+import { RouterLink } from '@angular/router';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-header-notifications',
-  templateUrl: './header-notifications.component.html',
-  styleUrl: './header-notifications.component.scss',
+    selector: 'app-header-notifications',
+    templateUrl: './header-notifications.component.html',
+    styleUrl: './header-notifications.component.scss',
+    standalone: true,
+    imports: [
+        NgFor,
+        NgIf,
+        RouterLink,
+        UserAvatarComponent,
+        RelativeTimePipe,
+    ],
 })
 export class HeaderNotificationsComponent {
   @Input() friendRequests: FriendRequest[] = [];

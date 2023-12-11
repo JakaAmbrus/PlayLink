@@ -10,11 +10,27 @@ import { FriendsService } from 'src/app/shared/services/friends.service';
 import { ModeratorService } from 'src/app/shared/services/moderator.service';
 import { PresenceService } from 'src/app/shared/services/presence.service';
 import { UsersService } from 'src/app/shared/services/users.service';
+import { RelativeTimePipe } from '../../../../shared/pipes/relative-time.pipe';
+import { RelativeUrlPipe } from '../../../../shared/pipes/relative-url.pipe';
+import { RouterLink } from '@angular/router';
+import { NgIf, NgOptimizedImage, NgSwitch, NgSwitchCase, AsyncPipe, DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-profile-user-card',
-  templateUrl: './profile-user-card.component.html',
-  styleUrl: './profile-user-card.component.scss',
+    selector: 'app-profile-user-card',
+    templateUrl: './profile-user-card.component.html',
+    styleUrl: './profile-user-card.component.scss',
+    standalone: true,
+    imports: [
+        NgIf,
+        NgOptimizedImage,
+        NgSwitch,
+        NgSwitchCase,
+        RouterLink,
+        RelativeUrlPipe,
+        RelativeTimePipe,
+        AsyncPipe,
+        DatePipe,
+    ],
 })
 export class ProfileUserCardComponent implements OnInit {
   @Input() user: ProfileUser | undefined;

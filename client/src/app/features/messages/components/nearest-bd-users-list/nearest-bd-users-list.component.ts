@@ -1,11 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { NearestBirthdayUser } from 'src/app/shared/models/users';
 import { UsersService } from 'src/app/shared/services/users.service';
+import { NearestBdUserDisplayComponent } from './nearest-bd-user-display/nearest-bd-user-display.component';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-nearest-bd-users-list',
-  templateUrl: './nearest-bd-users-list.component.html',
-  styleUrl: './nearest-bd-users-list.component.scss',
+    selector: 'app-nearest-bd-users-list',
+    templateUrl: './nearest-bd-users-list.component.html',
+    styleUrl: './nearest-bd-users-list.component.scss',
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        NearestBdUserDisplayComponent,
+    ],
 })
 export class NearestBdUsersListComponent implements OnInit {
   nearestBirthdayUsers: NearestBirthdayUser[] = [];

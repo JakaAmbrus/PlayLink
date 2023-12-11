@@ -14,21 +14,19 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { PortalRoutingModule } from './portal-routing.module';
 
 @NgModule({
-  declarations: [
-    PortalComponent,
-    AuthFormComponent,
-    LoginComponent,
-    RegisterComponent,
-    LoginLogoComponent,
-  ],
-  imports: [
-    CommonModule,
-    PortalRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatAutocompleteModule,
-  ],
+    imports: [
+        CommonModule,
+        PortalRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatAutocompleteModule,
+        PortalComponent,
+        AuthFormComponent,
+        LoginComponent,
+        RegisterComponent,
+        LoginLogoComponent,
+    ],
 })
 export class PortalModule {}

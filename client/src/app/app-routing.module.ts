@@ -1,16 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { HomeComponent } from './features/home/home.component';
-import { DiscoverComponent } from './features/discover/discover.component';
-import { MessagesComponent } from './features/messages/messages.component';
 import { PortalComponent } from './features/portal/portal.component';
 import { NotFoundComponent } from './core/components/not-found/not-found.component';
-import { ProfileComponent } from './features/profile/profile.component';
-import { PostsComponent } from './features/profile/pages/posts/posts.component';
-import { GalleryComponent } from './features/profile/pages/gallery/gallery.component';
-import { EditComponent } from './features/profile/pages/edit/edit.component';
-import { MessageComponent } from './features/profile/pages/message/message.component';
 
 import {
   canActivateCurrentUserGuard,
@@ -19,6 +11,7 @@ import {
 } from './core/guards/auth.guard';
 import { canActivateLoginGuard } from './core/guards/auth.guard';
 import { preventUnsavedChangesGuard } from './core/guards/prevent-unsaved-changes.guard';
+import { adminGuard } from './features/admin/guards/admin.guard';
 
 const routes: Routes = [
   {
@@ -33,63 +26,117 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    component: HomeComponent,
     data: { animation: 'Home' },
     canActivate: [canActivateGuard],
+    loadComponent: () =>
+      import('./features/home/home.component').then((m) => m.HomeComponent),
   },
   {
     path: 'discover',
-    component: DiscoverComponent,
     data: { animation: 'Discover' },
     canActivate: [canActivateGuard],
+    loadComponent: () =>
+      import('./features/discover/discover.component').then(
+        (m) => m.DiscoverComponent
+      ),
   },
   {
     path: 'user/:username',
-    component: ProfileComponent,
     canActivate: [canActivateGuard],
+    loadComponent: () =>
+      import('./features/profile/profile.component').then(
+        (m) => m.ProfileComponent
+      ),
     children: [
       { path: '', redirectTo: 'posts', pathMatch: 'full' },
       {
         path: 'posts',
-        component: PostsComponent,
         data: { animation: 'Posts' },
+        loadComponent: () =>
+          import('./features/profile/pages/posts/posts.component').then(
+            (m) => m.PostsComponent
+          ),
       },
       {
         path: 'gallery',
-        component: GalleryComponent,
         data: { animation: 'Gallery' },
+        loadComponent: () =>
+          import('./features/profile/pages/gallery/gallery.component').then(
+            (m) => m.GalleryComponent
+          ),
       },
       {
         path: 'edit',
-        component: EditComponent,
         data: { animation: 'Edit' },
         canDeactivate: [preventUnsavedChangesGuard],
         canActivate: [canActivateCurrentUserGuard],
+        loadComponent: () =>
+          import('./features/profile/pages/edit/edit.component').then(
+            (m) => m.EditComponent
+          ),
       },
       {
         path: 'message',
-        component: MessageComponent,
         data: { animation: 'Message' },
         canActivate: [canActivateNotCurrentUserGuard],
+        loadComponent: () =>
+          import('./features/profile/pages/message/message.component').then(
+            (m) => m.MessageComponent
+          ),
       },
     ],
   },
   {
     path: 'messages',
-    component: MessagesComponent,
     data: { animation: 'Messages' },
     canActivate: [canActivateGuard],
+    loadComponent: () =>
+      import('./features/messages/messages.component').then(
+        (m) => m.MessagesComponent
+      ),
   },
   {
     path: 'games',
-    loadChildren: () =>
-      import('./features/games/games.module').then((m) => m.GamesModule),
+    loadComponent: () =>
+      import('./features/games/games.component').then((m) => m.GamesComponent),
+    data: { animation: 'Games' },
+    canActivate: [canActivateGuard],
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import(
+            './features/games/pages/game-selection/game-selection.component'
+          ).then((m) => m.GameSelectionComponent),
+      },
+      {
+        path: 'hollow-x-hollow',
+        loadComponent: () =>
+          import(
+            './features/games/pages/hollow-x-hollow/hollow-x-hollow.component'
+          ).then((m) => m.HollowXHollowComponent),
+      },
+      {
+        path: 'playsketch-portable',
+        loadComponent: () =>
+          import(
+            './features/games/pages/playsketch-portable/playsketch-portable.component'
+          ).then((m) => m.PlaysketchPortableComponent),
+      },
+      {
+        path: 'rock-paper-scissors',
+        loadComponent: () =>
+          import(
+            './features/games/pages/rock-paper-scissors/rock-paper-scissors.component'
+          ).then((m) => m.RockPaperScissorsComponent),
+      },
+    ],
   },
   {
     path: 'admin',
-    canActivate: [canActivateGuard],
-    loadChildren: () =>
-      import('./features/admin/admin.module').then((m) => m.AdminModule),
+    canActivate: [canActivateGuard, adminGuard],
+    loadComponent: () =>
+      import('./features/admin/admin.component').then((m) => m.AdminComponent),
   },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: '/not-found' },

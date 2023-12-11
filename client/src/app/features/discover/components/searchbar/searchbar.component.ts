@@ -1,12 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchUser } from 'src/app/shared/models/users';
 import { UsersService } from 'src/app/shared/services/users.service';
+import { UserAvatarComponent } from '../../../../shared/components/user-avatar/user-avatar.component';
+import { RouterLink } from '@angular/router';
+import { MatOptionModule } from '@angular/material/core';
+import { NgFor } from '@angular/common';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
-  selector: 'app-searchbar',
-  templateUrl: './searchbar.component.html',
-  styleUrl: './searchbar.component.scss',
+    selector: 'app-searchbar',
+    templateUrl: './searchbar.component.html',
+    styleUrl: './searchbar.component.scss',
+    standalone: true,
+    imports: [
+        MatInputModule,
+        FormsModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        NgFor,
+        MatOptionModule,
+        RouterLink,
+        UserAvatarComponent,
+    ],
 })
 export class SearchbarComponent implements OnInit {
   searchUsers: SearchUser[] = [];

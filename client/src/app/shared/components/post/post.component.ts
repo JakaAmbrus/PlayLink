@@ -6,11 +6,31 @@ import { PostsService } from 'src/app/shared/services/posts.service';
 import { Comment } from 'src/app/shared/models/comments';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
+import { RelativeTimePipe } from '../../pipes/relative-time.pipe';
+import { RelativeUrlPipe } from '../../pipes/relative-url.pipe';
+import { UploadCommentComponent } from '../upload-comment/upload-comment.component';
+import { CommentComponent } from '../comment/comment.component';
+import { UserAvatarComponent } from '../user-avatar/user-avatar.component';
+import { RouterLink } from '@angular/router';
+import { NgIf, NgClass, NgOptimizedImage, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-post',
-  templateUrl: './post.component.html',
-  styleUrls: ['./post.component.scss'],
+    selector: 'app-post',
+    templateUrl: './post.component.html',
+    styleUrls: ['./post.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        RouterLink,
+        UserAvatarComponent,
+        NgClass,
+        NgOptimizedImage,
+        NgFor,
+        CommentComponent,
+        UploadCommentComponent,
+        RelativeUrlPipe,
+        RelativeTimePipe,
+    ],
 })
 export class PostComponent {
   @Input() post: Post | undefined;

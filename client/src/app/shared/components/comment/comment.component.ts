@@ -4,11 +4,21 @@ import { LikesService } from 'src/app/shared/services/likes.service';
 import { Comment } from 'src/app/shared/models/comments';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
+import { TimeAgoPipe } from '../../pipes/time-ago.pipe';
+import { UserAvatarComponent } from '../user-avatar/user-avatar.component';
+import { NgIf, NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-comment',
-  templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.scss'],
+    selector: 'app-comment',
+    templateUrl: './comment.component.html',
+    styleUrls: ['./comment.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        UserAvatarComponent,
+        NgClass,
+        TimeAgoPipe,
+    ],
 })
 export class CommentComponent {
   @Input() comment: Comment | undefined;

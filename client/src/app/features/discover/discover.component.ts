@@ -3,11 +3,27 @@ import { UsersService } from '../../shared/services/users.service';
 import { User } from '../../shared/models/users';
 import { Pagination } from '../../shared/models/pagination';
 import { UserParams } from '../../shared/models/userParams';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { UserCardComponent } from './components/user-card/user-card.component';
+import { NgIf, NgFor } from '@angular/common';
+import { SearchbarComponent } from './components/searchbar/searchbar.component';
 
 @Component({
-  selector: 'app-discover',
-  templateUrl: './discover.component.html',
-  styleUrls: ['./discover.component.scss'],
+    selector: 'app-discover',
+    templateUrl: './discover.component.html',
+    styleUrls: ['./discover.component.scss'],
+    standalone: true,
+    imports: [
+        SearchbarComponent,
+        NgIf,
+        NgFor,
+        UserCardComponent,
+        NgxPaginationModule,
+        FormsModule,
+        MatButtonToggleModule,
+    ],
 })
 export class DiscoverComponent implements OnInit, OnDestroy {
   users: User[] = [];

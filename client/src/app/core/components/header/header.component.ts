@@ -1,11 +1,26 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FriendsService } from '../../../shared/services/friends.service';
 import { FriendRequest } from '../../../shared/models/friends';
+import { RouterLink } from '@angular/router';
+import { HeaderDropdownComponent } from './components/header-dropdown/header-dropdown.component';
+import { HeaderNotificationsComponent } from './components/header-notifications/header-notifications.component';
+import { NgIf } from '@angular/common';
+import { HeaderNavLinksComponent } from './components/header-nav-links/header-nav-links.component';
+import { HeaderLogoComponent } from './components/header-logo/header-logo.component';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
+    standalone: true,
+    imports: [
+        HeaderLogoComponent,
+        HeaderNavLinksComponent,
+        NgIf,
+        HeaderNotificationsComponent,
+        HeaderDropdownComponent,
+        RouterLink,
+    ],
 })
 export class HeaderComponent implements OnInit {
   @Input() theme!: 'theme-light' | 'theme-dark';

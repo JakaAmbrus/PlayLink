@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'limitText',
+    name: 'limitText',
+    standalone: true,
 })
 export class LimitTextPipe implements PipeTransform {
   transform(value: string, maxLength: number = 20): string {

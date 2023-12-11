@@ -8,8 +8,8 @@ describe('HollowXHollowComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [HollowXHollowComponent]
-    });
+    imports: [HollowXHollowComponent]
+});
     fixture = TestBed.createComponent(HollowXHollowComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

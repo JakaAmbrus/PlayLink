@@ -4,7 +4,7 @@ import {
   HostListener,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import countries from '../../../../../assets/data/countries.json';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
@@ -13,11 +13,26 @@ import { EditUser } from 'src/app/shared/models/users';
 import { UsersService } from 'src/app/shared/services/users.service';
 import { ToastrService } from 'ngx-toastr';
 import { AvatarService } from 'src/app/shared/services/avatar.service';
+import { MatOptionModule } from '@angular/material/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { NgFor, NgIf, AsyncPipe } from '@angular/common';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @Component({
-  selector: 'app-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss'],
+    selector: 'app-edit',
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.scss'],
+    standalone: true,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        NgxDropzoneModule,
+        NgFor,
+        NgIf,
+        MatAutocompleteModule,
+        MatOptionModule,
+        AsyncPipe,
+    ],
 })
 export class EditComponent implements OnInit {
   @HostListener('window:beforeunload', ['$event']) unloadNotification(

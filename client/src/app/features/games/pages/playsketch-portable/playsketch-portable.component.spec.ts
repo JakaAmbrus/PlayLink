@@ -8,8 +8,8 @@ describe('PlaysketchPortableComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PlaysketchPortableComponent]
-    });
+    imports: [PlaysketchPortableComponent]
+});
     fixture = TestBed.createComponent(PlaysketchPortableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

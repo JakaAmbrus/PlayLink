@@ -8,8 +8,8 @@ describe('GameSelectionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [GameSelectionComponent],
-    });
+    imports: [GameSelectionComponent],
+});
     fixture = TestBed.createComponent(GameSelectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

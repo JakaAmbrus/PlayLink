@@ -2,11 +2,29 @@ import { Component, OnInit } from '@angular/core';
 import { PostsService } from '../../shared/services/posts.service';
 import { Post } from '../../shared/models/posts';
 import { PostsStateService } from '../../shared/services/state/posts-state.service';
+import { FriendListComponent } from './friend-list/friend-list.component';
+import { PostComponent } from '../../shared/components/post/post.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { PostSkeletonComponent } from '../../shared/components/post-skeleton/post-skeleton.component';
+import { NgIf, NgFor } from '@angular/common';
+import { UploadPostComponent } from '../../shared/components/upload-post/upload-post.component';
+import { HomeUserCardComponent } from './home-user-card/home-user-card.component';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    standalone: true,
+    imports: [
+        HomeUserCardComponent,
+        UploadPostComponent,
+        NgIf,
+        PostSkeletonComponent,
+        InfiniteScrollModule,
+        NgFor,
+        PostComponent,
+        FriendListComponent,
+    ],
 })
 export class HomeComponent implements OnInit {
   isLoading: boolean = true;

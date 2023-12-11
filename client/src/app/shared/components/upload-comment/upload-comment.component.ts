@@ -1,13 +1,22 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Avatar } from 'src/app/shared/models/avatar';
 import { AvatarService } from 'src/app/shared/services/avatar.service';
 import { CommentsService } from 'src/app/shared/services/comments.service';
+import { NgIf } from '@angular/common';
+import { UserAvatarComponent } from '../user-avatar/user-avatar.component';
 
 @Component({
-  selector: 'app-upload-comment',
-  templateUrl: './upload-comment.component.html',
-  styleUrls: ['./upload-comment.component.scss'],
+    selector: 'app-upload-comment',
+    templateUrl: './upload-comment.component.html',
+    styleUrls: ['./upload-comment.component.scss'],
+    standalone: true,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        UserAvatarComponent,
+        NgIf,
+    ],
 })
 export class UploadCommentComponent implements OnInit {
   @Output() commentUploaded: EventEmitter<any> = new EventEmitter();

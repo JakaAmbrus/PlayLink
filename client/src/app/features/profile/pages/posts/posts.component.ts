@@ -2,11 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Post } from 'src/app/shared/models/posts';
 import { PostsService } from 'src/app/shared/services/posts.service';
+import { PostComponent } from '../../../../shared/components/post/post.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { PostSkeletonComponent } from '../../../../shared/components/post-skeleton/post-skeleton.component';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-posts',
-  templateUrl: './posts.component.html',
-  styleUrls: ['./posts.component.scss'],
+    selector: 'app-posts',
+    templateUrl: './posts.component.html',
+    styleUrls: ['./posts.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        PostSkeletonComponent,
+        InfiniteScrollModule,
+        NgFor,
+        PostComponent,
+    ],
 })
 export class PostsComponent implements OnInit {
   isLoading: boolean = true;

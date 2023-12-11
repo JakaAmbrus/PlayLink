@@ -5,15 +5,24 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Message, MessageThread } from 'src/app/shared/models/messages';
 import { MessagesService } from 'src/app/shared/services/messages.service';
+import { MessageContentComponent } from './message-content/message-content.component';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-message',
-  templateUrl: './message.component.html',
-  styleUrls: ['./message.component.scss'],
+    selector: 'app-message',
+    templateUrl: './message.component.html',
+    styleUrls: ['./message.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        MessageContentComponent,
+        FormsModule,
+    ],
 })
 export class MessageComponent implements OnInit, OnDestroy {
   @ViewChild('messageContainer') private messageContainer:

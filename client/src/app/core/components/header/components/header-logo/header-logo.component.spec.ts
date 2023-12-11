@@ -8,8 +8,8 @@ describe('HeaderLogoComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [HeaderLogoComponent]
-    });
+    imports: [HeaderLogoComponent]
+});
     fixture = TestBed.createComponent(HeaderLogoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

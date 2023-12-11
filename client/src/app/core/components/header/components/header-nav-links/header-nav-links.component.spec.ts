@@ -8,8 +8,8 @@ describe('HeaderNavLinksComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [HeaderNavLinksComponent]
-    });
+    imports: [HeaderNavLinksComponent]
+});
     fixture = TestBed.createComponent(HeaderNavLinksComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

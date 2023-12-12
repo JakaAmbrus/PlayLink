@@ -1,4 +1,4 @@
-import { Questions } from 'src/app/shared/models/quiz';
+import { Questions } from 'src/app/features/games/models/quiz';
 
 export const quizQuestions: Questions[] = [
   {

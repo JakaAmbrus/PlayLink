@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Pagination } from '../../shared/models/pagination';
-import { Message } from '../../shared/models/messages';
+import { Message } from '../../shared/models/message';
 import { MessagesService } from '../../shared/services/messages.service';
-import { messageButtons } from './message-buttons';
-import { MessageParams } from '../../shared/models/messageParams';
+import { messageButtons } from './constants/message-buttons';
+import { MessageParams } from './models/messageParams';
 import { OnlineUsersListComponent } from './components/online-users-list/online-users-list.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageDisplayComponent } from './components/message-display/message-display.component';
@@ -13,19 +13,19 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { NearestBdUsersListComponent } from './components/nearest-bd-users-list/nearest-bd-users-list.component';
 
 @Component({
-    selector: 'app-messages',
-    templateUrl: './messages.component.html',
-    styleUrls: ['./messages.component.scss'],
-    standalone: true,
-    imports: [
-        NearestBdUsersListComponent,
-        MatButtonToggleModule,
-        FormsModule,
-        NgFor,
-        MessageDisplayComponent,
-        NgxPaginationModule,
-        OnlineUsersListComponent,
-    ],
+  selector: 'app-messages',
+  templateUrl: './messages.component.html',
+  styleUrls: ['./messages.component.scss'],
+  standalone: true,
+  imports: [
+    NearestBdUsersListComponent,
+    MatButtonToggleModule,
+    FormsModule,
+    NgFor,
+    MessageDisplayComponent,
+    NgxPaginationModule,
+    OnlineUsersListComponent,
+  ],
 })
 export class MessagesComponent implements OnInit {
   messages: Message[] = [];

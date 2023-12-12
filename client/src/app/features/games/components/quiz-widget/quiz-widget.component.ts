@@ -1,18 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Questions } from 'src/app/shared/models/quiz';
-import { quizQuestions } from './quizQuestions';
+import { Questions } from 'src/app/features/games/models/quiz';
+import { quizQuestions } from '../../constants/quizQuestions';
 import { NgIf, NgFor, NgClass } from '@angular/common';
 
 @Component({
-    selector: 'app-quiz-widget',
-    templateUrl: './quiz-widget.component.html',
-    styleUrls: ['./quiz-widget.component.scss'],
-    standalone: true,
-    imports: [
-        NgIf,
-        NgFor,
-        NgClass,
-    ],
+  selector: 'app-quiz-widget',
+  templateUrl: './quiz-widget.component.html',
+  styleUrls: ['./quiz-widget.component.scss'],
+  standalone: true,
+  imports: [NgIf, NgFor, NgClass],
 })
 export class QuizWidgetComponent implements OnInit {
   quizStarted: boolean = false;

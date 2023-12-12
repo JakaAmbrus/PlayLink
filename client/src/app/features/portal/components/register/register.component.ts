@@ -1,5 +1,11 @@
 import { Component, Output, OnInit, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountService } from 'src/app/shared/services/account.service';
 import {
@@ -11,28 +17,28 @@ import {
   validCountryValidator,
 } from 'src/app/shared/validators/registerFormValidators';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
-import countries from '../../../../../../assets/data/countries.json';
+import countries from '../../../../../assets/data/countries.json';
 import { MatOptionModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'app-register',
-    templateUrl: './register.component.html',
-    styleUrls: ['./register.component.scss'],
-    standalone: true,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        NgIf,
-        MatDatepickerModule,
-        MatAutocompleteModule,
-        NgFor,
-        MatOptionModule,
-        NgClass,
-        AsyncPipe,
-    ],
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss'],
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    MatDatepickerModule,
+    MatAutocompleteModule,
+    NgFor,
+    MatOptionModule,
+    NgClass,
+    AsyncPipe,
+  ],
 })
 export class RegisterComponent implements OnInit {
   model: any = {};

@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Message } from '../models/messages';
-import { MessageParams } from '../models/messageParams';
+import { Message } from '../models/message';
+import { MessageParams } from '../../features/messages/models/messageParams';
 import { PaginatedResult, Pagination } from '../models/pagination';
 import { BehaviorSubject, Observable, map, take } from 'rxjs';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';

@@ -3,19 +3,15 @@ import { combineLatest, map } from 'rxjs';
 import { SearchUser } from 'src/app/shared/models/users';
 import { PresenceService } from 'src/app/shared/services/presence.service';
 import { UsersService } from 'src/app/shared/services/users.service';
-import { OnlineUserDisplayComponent } from './online-user-display/online-user-display.component';
+import { OnlineUserDisplayComponent } from '../online-user-display/online-user-display.component';
 import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-    selector: 'app-online-users-list',
-    templateUrl: './online-users-list.component.html',
-    styleUrl: './online-users-list.component.scss',
-    standalone: true,
-    imports: [
-        NgIf,
-        NgFor,
-        OnlineUserDisplayComponent,
-    ],
+  selector: 'app-online-users-list',
+  templateUrl: './online-users-list.component.html',
+  styleUrl: './online-users-list.component.scss',
+  standalone: true,
+  imports: [NgIf, NgFor, OnlineUserDisplayComponent],
 })
 export class OnlineUsersListComponent implements OnInit {
   onlineUsers: SearchUser[] = [];

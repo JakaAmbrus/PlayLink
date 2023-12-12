@@ -1,29 +1,30 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UsersService } from '../../shared/services/users.service';
-import { User } from '../../shared/models/users';
 import { Pagination } from '../../shared/models/pagination';
-import { UserParams } from '../../shared/models/userParams';
+import { UserParams } from './models/userParams';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UserCardComponent } from './components/user-card/user-card.component';
 import { NgIf, NgFor } from '@angular/common';
 import { SearchbarComponent } from './components/searchbar/searchbar.component';
+import { DiscoverUsersService } from './services/discover-users.service';
+import { User } from './models/discoverUser';
 
 @Component({
-    selector: 'app-discover',
-    templateUrl: './discover.component.html',
-    styleUrls: ['./discover.component.scss'],
-    standalone: true,
-    imports: [
-        SearchbarComponent,
-        NgIf,
-        NgFor,
-        UserCardComponent,
-        NgxPaginationModule,
-        FormsModule,
-        MatButtonToggleModule,
-    ],
+  selector: 'app-discover',
+  templateUrl: './discover.component.html',
+  styleUrls: ['./discover.component.scss'],
+  standalone: true,
+  imports: [
+    SearchbarComponent,
+    NgIf,
+    NgFor,
+    UserCardComponent,
+    NgxPaginationModule,
+    FormsModule,
+    MatButtonToggleModule,
+  ],
 })
 export class DiscoverComponent implements OnInit, OnDestroy {
   users: User[] = [];
@@ -40,7 +41,10 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   uniqueCountries: string[] = [];
   userParams: UserParams | undefined;
 
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private discoverUsersService: DiscoverUsersService
+  ) {}
 
   ngOnInit(): void {
     const savedFilters = localStorage.getItem('discoverFilters');
@@ -86,7 +90,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       orderBy: this.orderBy,
     };
 
-    this.usersService.getUsers(this.userParams).subscribe({
+    this.discoverUsersService.getUsers(this.userParams).subscribe({
       next: (response) => {
         if (response.result && response.pagination) {
           this.users = response.result;

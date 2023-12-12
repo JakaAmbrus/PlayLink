@@ -1,19 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from '../register/register.component';
+import { LoginComponent } from '../login/login.component';
 import { NgClass, NgIf } from '@angular/common';
 
 @Component({
-    selector: 'app-auth-form',
-    templateUrl: './auth-form.component.html',
-    styleUrls: ['./auth-form.component.scss'],
-    standalone: true,
-    imports: [
-        NgClass,
-        NgIf,
-        LoginComponent,
-        RegisterComponent,
-    ],
+  selector: 'app-auth-form',
+  templateUrl: './auth-form.component.html',
+  styleUrls: ['./auth-form.component.scss'],
+  standalone: true,
+  imports: [NgClass, NgIf, LoginComponent, RegisterComponent],
 })
 export class AuthFormComponent implements OnInit {
   formStateLogin: boolean = true;

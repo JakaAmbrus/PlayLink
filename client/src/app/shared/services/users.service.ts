@@ -1,73 +1,19 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import {
-  EditUser,
-  EditUserResponse,
-  NearestBirthdayUser,
-  ProfileUser,
-  SearchUser,
-  User,
-} from '../models/users';
+import { ProfileUser, SearchUser } from '../models/users';
 import { Observable, map, of, tap } from 'rxjs';
-import { PaginatedResult, Pagination } from '../models/pagination';
-import { UserParams } from '../models/userParams';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
   baseUrl = environment.apiUrl;
-  users: User[] = [];
-  paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
   countriesCache: string[] = [];
   searchUsersCache: SearchUser[] = [];
-  nearestBirthdayUsersCache: NearestBirthdayUser[] = [];
-  usersCache = new Map();
   private userCache = new Map<string, ProfileUser>();
 
   constructor(private http: HttpClient) {}
-
-  getUsers(userParams: UserParams): Observable<PaginatedResult<User[]>> {
-    const key = Object.values(userParams).join('-');
-    const cachedResponse = this.usersCache.get(key);
-
-    if (cachedResponse) {
-      return of({ ...cachedResponse });
-    }
-
-    const params = new HttpParams()
-      .set('pageNumber', userParams.pageNumber?.toString() || '')
-      .set('pageSize', userParams.pageSize?.toString() || '')
-      .set('Gender', userParams.gender || '')
-      .set('MinAge', userParams.minAge?.toString() || '')
-      .set('MaxAge', userParams.maxAge?.toString() || '')
-      .set('Country', userParams.country || '')
-      .set('OrderBy', userParams.orderBy || '');
-
-    return this.http
-      .get<{ users: User[]; pagination: Pagination }>(this.baseUrl + 'Users', {
-        observe: 'response',
-        params,
-      })
-      .pipe(
-        map((response) => {
-          if (response.body) {
-            this.paginatedResult.result = response.body.users;
-
-            const pagination = response.headers.get('Pagination');
-
-            if (pagination) {
-              this.paginatedResult.pagination = JSON.parse(
-                response.headers.get('Pagination') as string
-              );
-            }
-          }
-          this.usersCache.set(key, { ...this.paginatedResult });
-          return this.paginatedResult;
-        })
-      );
-  }
 
   getUser(username: string): Observable<ProfileUser> {
     const cachedUser = this.userCache.get(username);
@@ -115,46 +61,5 @@ export class UsersService {
         map((response) => response.users),
         tap((users) => (this.searchUsersCache = users))
       );
-  }
-
-  getNearestBirthdayUsers(): Observable<NearestBirthdayUser[]> {
-    if (
-      this.nearestBirthdayUsersCache &&
-      this.nearestBirthdayUsersCache.length > 0
-    ) {
-      return of(this.nearestBirthdayUsersCache);
-    }
-
-    return this.http
-      .get<{ users: NearestBirthdayUser[] }>(
-        this.baseUrl + 'Users/nearest-birthday'
-      )
-      .pipe(
-        map((response) => response.users),
-        tap((users) => (this.nearestBirthdayUsersCache = users))
-      );
-  }
-
-  editUser(editUserData: EditUser): Observable<EditUserResponse> {
-    const formData = new FormData();
-
-    formData.append('EditUserDto.Username', editUserData.username);
-
-    if (editUserData.image) {
-      formData.append('EditUserDto.PhotoFile', editUserData.image);
-    }
-
-    if (editUserData.description) {
-      formData.append('EditUserDto.Description', editUserData.description);
-    }
-
-    if (editUserData.country) {
-      formData.append('EditUserDto.Country', editUserData.country);
-    }
-
-    return this.http.put<EditUserResponse>(
-      this.baseUrl + 'Users/edit',
-      formData
-    );
   }
 }

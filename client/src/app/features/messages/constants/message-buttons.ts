@@ -1,4 +1,4 @@
-import { MessagesButtons } from '../../shared/models/navigation';
+import { MessagesButtons } from '../models/messagesButtons';
 
 export const messageButtons: MessagesButtons[] = [
   { value: 'Unread', label: 'Unread', icon: 'mail' },

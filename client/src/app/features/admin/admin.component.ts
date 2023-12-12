@@ -1,21 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { UserWithRoles } from '../../shared/models/users';
-import { AdminService } from '../../shared/services/admin.service';
+import { UserWithRoles } from './models/user-with-roles';
+import { AdminService } from './services/admin.service';
 import { Pagination } from '../../shared/models/pagination';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AdminUserDisplayComponent } from './components/admin-user-display/admin-user-display.component';
 import { NgFor } from '@angular/common';
 
 @Component({
-    selector: 'app-admin',
-    templateUrl: './admin.component.html',
-    styleUrl: './admin.component.scss',
-    standalone: true,
-    imports: [
-        NgFor,
-        AdminUserDisplayComponent,
-        NgxPaginationModule,
-    ],
+  selector: 'app-admin',
+  templateUrl: './admin.component.html',
+  styleUrl: './admin.component.scss',
+  standalone: true,
+  imports: [NgFor, AdminUserDisplayComponent, NgxPaginationModule],
 })
 export class AdminComponent implements OnInit {
   users: UserWithRoles[] = [];

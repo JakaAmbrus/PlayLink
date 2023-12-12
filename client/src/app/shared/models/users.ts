@@ -54,12 +54,3 @@ export interface NearestBirthdayUser {
   dateOfBirth: Date;
   daysUntilBirthday: number;
 }
-
-export interface UserWithRoles {
-  appUserId: number;
-  username: string;
-  gender: string;
-  fullName: string;
-  isModerator: boolean;
-  profilePictureUrl: string | null;
-}

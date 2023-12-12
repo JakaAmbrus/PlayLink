@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { PaginatedResult, Pagination } from '../models/pagination';
-import { UserWithRoles } from '../models/users';
+import { PaginatedResult, Pagination } from '../../../shared/models/pagination';
+import { UserWithRoles } from '../models/user-with-roles';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable, map } from 'rxjs';

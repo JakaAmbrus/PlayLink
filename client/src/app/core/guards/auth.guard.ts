@@ -32,27 +32,3 @@ export const canActivateLoginGuard: CanActivateFn = (
   }
   return true;
 };
-
-export const canActivateCurrentUserGuard: CanActivateFn = (
-  route: ActivatedRouteSnapshot
-): boolean | UrlTree => {
-  const router = inject(Router);
-  const loggedInUsername = localStorage.getItem('user');
-  const routeUsername = route.parent?.paramMap.get('username');
-  if (loggedInUsername !== routeUsername) {
-    return router.parseUrl('/home');
-  }
-  return true;
-};
-
-export const canActivateNotCurrentUserGuard: CanActivateFn = (
-  route: ActivatedRouteSnapshot
-): boolean | UrlTree => {
-  const router = inject(Router);
-  const loggedInUsername = localStorage.getItem('user');
-  const routeUsername = route.parent?.paramMap.get('username');
-  if (loggedInUsername === routeUsername) {
-    return router.parseUrl('/home');
-  }
-  return true;
-};

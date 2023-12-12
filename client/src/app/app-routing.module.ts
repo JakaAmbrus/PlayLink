@@ -3,13 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { PortalComponent } from './features/portal/portal.component';
 import { NotFoundComponent } from './core/components/not-found/not-found.component';
-import {
-  canActivateCurrentUserGuard,
-  canActivateGuard,
-  canActivateNotCurrentUserGuard,
-} from './core/guards/auth.guard';
+
+import { canActivateGuard } from './core/guards/auth.guard';
+import { currentUserRestrictionGuard } from './features/profile/guards/current-user-restriction.guard';
+import { notCurrentUserRestrictionGuard } from './features/profile/guards/not-current-user-restriction.guard';
 import { canActivateLoginGuard } from './core/guards/auth.guard';
-import { preventUnsavedChangesGuard } from './core/guards/prevent-unsaved-changes.guard';
+import { preventUnsavedChangesGuard } from './features/profile/guards/prevent-unsaved-changes.guard';
 import { adminGuard } from './features/admin/guards/admin.guard';
 
 const routes: Routes = [
@@ -68,7 +67,7 @@ const routes: Routes = [
         path: 'edit',
         data: { animation: 'Edit' },
         canDeactivate: [preventUnsavedChangesGuard],
-        canActivate: [canActivateCurrentUserGuard],
+        canActivate: [notCurrentUserRestrictionGuard],
         loadComponent: () =>
           import('./features/profile/pages/edit/edit.component').then(
             (m) => m.EditComponent
@@ -77,7 +76,7 @@ const routes: Routes = [
       {
         path: 'message',
         data: { animation: 'Message' },
-        canActivate: [canActivateNotCurrentUserGuard],
+        canActivate: [currentUserRestrictionGuard],
         loadComponent: () =>
           import('./features/profile/pages/message/message.component').then(
             (m) => m.MessageComponent

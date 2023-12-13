@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { combineLatest, map } from 'rxjs';
+import { Observable, combineLatest, map } from 'rxjs';
 import { SearchUser } from 'src/app/shared/models/users';
 import { PresenceService } from 'src/app/shared/services/presence.service';
 import { OnlineUserDisplayComponent } from '../online-user-display/online-user-display.component';
-import { NgIf, NgFor } from '@angular/common';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { UserSearchService } from 'src/app/shared/services/user-search.service';
 
 @Component({
@@ -11,38 +11,24 @@ import { UserSearchService } from 'src/app/shared/services/user-search.service';
   templateUrl: './online-users-list.component.html',
   styleUrl: './online-users-list.component.scss',
   standalone: true,
-  imports: [NgIf, NgFor, OnlineUserDisplayComponent],
+  imports: [AsyncPipe, NgIf, NgFor, OnlineUserDisplayComponent],
 })
 export class OnlineUsersListComponent implements OnInit {
-  onlineUsers: SearchUser[] = [];
+  onlineUsers$?: Observable<SearchUser[]>;
 
   constructor(
-    private userSearchService: UserSearchService,
+    public userSearchService: UserSearchService,
     private presenceService: PresenceService
   ) {}
 
   ngOnInit(): void {
-    this.loadOnlineUsers();
-  }
-
-  loadOnlineUsers(): void {
-    combineLatest([
+    this.onlineUsers$ = combineLatest([
       this.userSearchService.getSearchUsers(),
       this.presenceService.onlineUsers$,
-    ])
-      .pipe(
-        map(([users, onlineUserIds]) => {
-          return users.filter((user) => onlineUserIds.includes(user.appUserId));
-        })
+    ]).pipe(
+      map(([users, onlineUserIds]) =>
+        users.filter((user) => onlineUserIds.includes(user.appUserId))
       )
-      .subscribe({
-        next: (filteredUsers) => {
-          this.onlineUsers = filteredUsers;
-          console.log(this.onlineUsers);
-        },
-        error: (err) => {
-          console.error('Error loading online users', err);
-        },
-      });
+    );
   }
 }

@@ -7,18 +7,14 @@ import { DialogComponent } from '../dialog/dialog.component';
 import { TimeAgoPipe } from '../../pipes/time-ago.pipe';
 import { UserAvatarComponent } from '../user-avatar/user-avatar.component';
 import { NgIf, NgClass } from '@angular/common';
+import { first } from 'rxjs';
 
 @Component({
-    selector: 'app-comment',
-    templateUrl: './comment.component.html',
-    styleUrls: ['./comment.component.scss'],
-    standalone: true,
-    imports: [
-        NgIf,
-        UserAvatarComponent,
-        NgClass,
-        TimeAgoPipe,
-    ],
+  selector: 'app-comment',
+  templateUrl: './comment.component.html',
+  styleUrls: ['./comment.component.scss'],
+  standalone: true,
+  imports: [NgIf, UserAvatarComponent, NgClass, TimeAgoPipe],
 })
 export class CommentComponent {
   @Input() comment: Comment | undefined;
@@ -33,15 +29,21 @@ export class CommentComponent {
 
   toggleLike(comment: Comment) {
     if (comment.isLikedByCurrentUser) {
-      this.likesService.unlikeComment(comment.commentId).subscribe(() => {
-        comment.isLikedByCurrentUser = false;
-        comment.likesCount -= 1;
-      });
+      this.likesService
+        .unlikeComment(comment.commentId)
+        .pipe(first())
+        .subscribe(() => {
+          comment.isLikedByCurrentUser = false;
+          comment.likesCount -= 1;
+        });
     } else {
-      this.likesService.likeComment(comment.commentId).subscribe(() => {
-        comment.isLikedByCurrentUser = true;
-        comment.likesCount += 1;
-      });
+      this.likesService
+        .likeComment(comment.commentId)
+        .pipe(first())
+        .subscribe(() => {
+          comment.isLikedByCurrentUser = true;
+          comment.likesCount += 1;
+        });
     }
   }
 
@@ -53,13 +55,16 @@ export class CommentComponent {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.commentsService.deleteComment(commentId).subscribe(() => {
-          this.comment = undefined;
-          this.commentDeleted.emit(commentId);
-        });
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(first())
+      .subscribe((result) => {
+        if (result) {
+          this.commentsService.deleteComment(commentId).subscribe(() => {
+            this.comment = undefined;
+            this.commentDeleted.emit(commentId);
+          });
+        }
+      });
   }
 }

@@ -8,6 +8,7 @@ import { NgFor } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { UserSearchService } from 'src/app/shared/services/user-search.service';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-searchbar',
@@ -51,12 +52,15 @@ export class SearchbarComponent implements OnInit {
   }
 
   loadSearchUsers() {
-    this.userSearchService.getSearchUsers().subscribe({
-      next: (response) => {
-        if (response) {
-          this.searchUsers = response;
-        }
-      },
-    });
+    this.userSearchService
+      .getSearchUsers()
+      .pipe(first())
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            this.searchUsers = response;
+          }
+        },
+      });
   }
 }

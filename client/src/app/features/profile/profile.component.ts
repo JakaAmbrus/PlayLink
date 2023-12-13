@@ -5,8 +5,9 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { slideInAnimation } from '../../route-animations';
 import { ProfileNavigationComponent } from './components/profile-navigation/profile-navigation.component';
 import { ProfileUserCardComponent } from './components/profile-user-card/profile-user-card.component';
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { UserProfileService } from 'src/app/shared/services/user-profile.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -23,6 +24,7 @@ import { UserProfileService } from 'src/app/shared/services/user-profile.service
   ],
   standalone: true,
   imports: [
+    AsyncPipe,
     NgIf,
     ProfileUserCardComponent,
     ProfileNavigationComponent,
@@ -30,26 +32,15 @@ import { UserProfileService } from 'src/app/shared/services/user-profile.service
   ],
 })
 export class ProfileComponent implements OnInit {
-  user: ProfileUser | undefined;
-  dateOfBirth: string | undefined;
+  user$?: Observable<ProfileUser>;
   isCurrentUserProfile: boolean = false;
 
   constructor(
-    private userProfileService: UserProfileService,
+    public userProfileService: UserProfileService,
     private route: ActivatedRoute
   ) {}
 
-  prepareRoute(outlet: any) {
-    return (
-      outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation
-    );
-  }
-
   ngOnInit(): void {
-    this.loadUser();
-  }
-
-  loadUser(): void {
     var username = this.route.snapshot.paramMap.get('username');
     if (username === null) {
       return;
@@ -57,13 +48,13 @@ export class ProfileComponent implements OnInit {
 
     this.isCurrentUserProfile = this.IsCurrentUser(username);
 
-    this.userProfileService.getUser(username).subscribe({
-      next: (user) => {
-        console.log(user);
+    this.user$ = this.userProfileService.getUser(username);
+  }
 
-        this.user = user;
-      },
-    });
+  prepareRoute(outlet: any) {
+    return (
+      outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation
+    );
   }
 
   IsCurrentUser(username: string): boolean {

@@ -11,6 +11,7 @@ import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { NearestBdUsersListComponent } from './components/nearest-bd-users-list/nearest-bd-users-list.component';
+import { Subject, first, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-messages',
@@ -37,6 +38,7 @@ export class MessagesComponent implements OnInit {
   isLoading: boolean = false;
   messageParams: MessageParams | undefined;
   messageCountController: number = 0;
+  private destroy$ = new Subject<void>();
 
   constructor(private messagesService: MessagesService) {}
 
@@ -54,19 +56,22 @@ export class MessagesComponent implements OnInit {
       container: this.container,
     };
     this.isLoading = true;
-    this.messagesService.getUserMessages(this.messageParams).subscribe({
-      next: (response) => {
-        if (response.result && response.pagination) {
-          this.messageCountController = 0;
-          this.messages = response.result;
-          this.pagination = response.pagination;
+    this.messagesService
+      .getUserMessages(this.messageParams)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (response.result && response.pagination) {
+            this.messageCountController = 0;
+            this.messages = response.result;
+            this.pagination = response.pagination;
+            this.isLoading = false;
+          }
+        },
+        error: () => {
           this.isLoading = false;
-        }
-      },
-      error: () => {
-        this.isLoading = false;
-      },
-    });
+        },
+      });
   }
 
   pageChanged(event: any): void {
@@ -75,14 +80,17 @@ export class MessagesComponent implements OnInit {
   }
 
   onMessageDelete(id: number): void {
-    this.messagesService.deleteMessage(id).subscribe({
-      next: () => {
-        this.messages?.splice(
-          this.messages.findIndex((m) => m.privateMessageId === id),
-          1
-        );
-        this.messageCountController++;
-      },
-    });
+    this.messagesService
+      .deleteMessage(id)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.messages?.splice(
+            this.messages.findIndex((m) => m.privateMessageId === id),
+            1
+          );
+          this.messageCountController++;
+        },
+      });
   }
 }

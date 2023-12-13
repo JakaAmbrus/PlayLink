@@ -5,6 +5,7 @@ import { Pagination } from '../../shared/models/pagination';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AdminUserDisplayComponent } from './components/admin-user-display/admin-user-display.component';
 import { NgFor } from '@angular/common';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-admin',
@@ -19,6 +20,7 @@ export class AdminComponent implements OnInit {
   pageSize: number = 6;
   totalUsers: number | undefined;
   pagination: Pagination | undefined;
+  private destroy$ = new Subject<void>();
 
   constructor(private adminService: AdminService) {}
 
@@ -29,6 +31,7 @@ export class AdminComponent implements OnInit {
   loadUsers() {
     this.adminService
       .getUsersWithRoles(this.pageNumber, this.pageSize)
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
           const loadedUsers = response.result;

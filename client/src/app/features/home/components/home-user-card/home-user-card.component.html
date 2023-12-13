@@ -1,6 +1,6 @@
 <div
   class="home-user-card secondary-background rounded-border box-shadow"
-  *ngIf="user && !isLoading"
+  *ngIf="user$ | async as user; else loading"
 >
   <div class="avatar-name-created-gender">
     <a routerLink="/user/{{ user.username }}" class="avatar-name-created">
@@ -42,15 +42,18 @@
 
 <!-- Loading placeholder -->
 
-<div
-  *ngIf="isLoading"
-  class="home-user-card secondary-background rounded-border box-shadow"
-  id="home-user-card-loading"
->
-  <div class="avatar-placeholder primary-parameters rounded-border">
-    <span class="material-symbols-rounded filled placeholder-icon header-text">
-      person
-    </span>
+<ng-template #loading>
+  <div
+    class="home-user-card secondary-background rounded-border box-shadow"
+    id="home-user-card-loading"
+  >
+    <div class="avatar-placeholder primary-parameters rounded-border">
+      <span
+        class="material-symbols-rounded filled placeholder-icon header-text"
+      >
+        person
+      </span>
+    </div>
+    <h1>Loading user...</h1>
   </div>
-  <h1>Loading user...</h1>
-</div>
+</ng-template>

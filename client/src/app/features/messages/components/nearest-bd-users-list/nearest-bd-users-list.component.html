@@ -5,8 +5,17 @@
     </span>
     <h1>Upcoming Birthdays:</h1>
   </div>
-  <p *ngIf="isLoading" id="loading-text">Loading...</p>
-  <div *ngFor="let user of nearestBirthdayUsers" class="friends">
-    <app-nearest-bd-user-display [user]="user"></app-nearest-bd-user-display>
-  </div>
+
+  <ng-container
+    *ngIf="nearestBirthdayUsers$ | async as nearestBirthdayUsers; else loading"
+  >
+    <div *ngFor="let user of nearestBirthdayUsers" class="friends">
+      <app-nearest-bd-user-display [user]="user"></app-nearest-bd-user-display>
+    </div>
+  </ng-container>
+
+  <!-- Loading indicator -->
+  <ng-template #loading>
+    <p id="loading-text">Loading...</p>
+  </ng-template>
 </div>

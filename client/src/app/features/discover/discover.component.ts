@@ -10,6 +10,7 @@ import { SearchbarComponent } from './components/searchbar/searchbar.component';
 import { DiscoverUsersService } from './services/discover-users.service';
 import { User } from './models/discoverUser';
 import { CountriesService } from './services/countries.service';
+import { Subject, first, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-discover',
@@ -40,6 +41,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   dummyArray = new Array(6).fill(null);
   uniqueCountries: string[] = [];
   userParams: UserParams | undefined;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private discoverUsersService: DiscoverUsersService,
@@ -69,16 +71,6 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     localStorage.setItem('discoverFilters', JSON.stringify(this.userParams));
   }
 
-  loadCountries() {
-    this.countriesService.getUsersUniqueCountries().subscribe({
-      next: (response) => {
-        if (response) {
-          this.uniqueCountries = response;
-        }
-      },
-    });
-  }
-
   loadUsers() {
     this.userParams = {
       pageNumber: this.pageNumber,
@@ -90,15 +82,31 @@ export class DiscoverComponent implements OnInit, OnDestroy {
       orderBy: this.orderBy,
     };
 
-    this.discoverUsersService.getUsers(this.userParams).subscribe({
-      next: (response) => {
-        if (response.result && response.pagination) {
-          this.users = response.result;
-          this.pagination = response.pagination;
-          this.isLoading = false;
-        }
-      },
-    });
+    this.discoverUsersService
+      .getUsers(this.userParams)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (response.result && response.pagination) {
+            this.users = response.result;
+            this.pagination = response.pagination;
+            this.isLoading = false;
+          }
+        },
+      });
+  }
+
+  loadCountries() {
+    this.countriesService
+      .getUsersUniqueCountries()
+      .pipe(first())
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            this.uniqueCountries = response;
+          }
+        },
+      });
   }
 
   validateAgeMaxRange() {

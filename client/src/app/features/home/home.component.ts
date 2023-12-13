@@ -9,6 +9,7 @@ import { PostSkeletonComponent } from '../../shared/components/post-skeleton/pos
 import { NgIf, NgFor } from '@angular/common';
 import { UploadPostComponent } from '../../shared/components/upload-post/upload-post.component';
 import { HomeUserCardComponent } from './components/home-user-card/home-user-card.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -33,31 +34,32 @@ export class HomeComponent implements OnInit {
   pageSize: number = 8;
   totalPosts: number | undefined;
   allPostsLoaded: boolean = false;
+  private destroy$ = new Subject<void>();
 
-  constructor(
-    private postsService: PostsService,
-    private postsStateService: PostsStateService
-  ) {}
+  constructor(private postsService: PostsService) {}
 
   ngOnInit(): void {
     this.loadPosts();
   }
 
   loadPosts() {
-    this.postsService.getPosts(this.pageNumber, this.pageSize).subscribe({
-      next: (response) => {
-        const loadedPosts = response.result;
-        if (loadedPosts) {
-          this.posts.push(...loadedPosts);
-          this.totalPosts = response.pagination?.totalItems;
-          this.isLoading = false;
-          if (!response.pagination || loadedPosts.length < this.pageSize) {
-            this.allPostsLoaded = true;
+    this.postsService
+      .getPosts(this.pageNumber, this.pageSize)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          const loadedPosts = response.result;
+          if (loadedPosts) {
+            this.posts.push(...loadedPosts);
+            this.totalPosts = response.pagination?.totalItems;
+            this.isLoading = false;
+            if (!response.pagination || loadedPosts.length < this.pageSize) {
+              this.allPostsLoaded = true;
+            }
           }
-        }
-      },
-      error: (err) => console.error(err),
-    });
+        },
+        error: (err) => console.error(err),
+      });
   }
 
   onScroll() {

@@ -13,24 +13,25 @@ import { CommentComponent } from '../comment/comment.component';
 import { UserAvatarComponent } from '../user-avatar/user-avatar.component';
 import { RouterLink } from '@angular/router';
 import { NgIf, NgClass, NgOptimizedImage, NgFor } from '@angular/common';
+import { Subject, first, takeUntil } from 'rxjs';
 
 @Component({
-    selector: 'app-post',
-    templateUrl: './post.component.html',
-    styleUrls: ['./post.component.scss'],
-    standalone: true,
-    imports: [
-        NgIf,
-        RouterLink,
-        UserAvatarComponent,
-        NgClass,
-        NgOptimizedImage,
-        NgFor,
-        CommentComponent,
-        UploadCommentComponent,
-        RelativeUrlPipe,
-        RelativeTimePipe,
-    ],
+  selector: 'app-post',
+  templateUrl: './post.component.html',
+  styleUrls: ['./post.component.scss'],
+  standalone: true,
+  imports: [
+    NgIf,
+    RouterLink,
+    UserAvatarComponent,
+    NgClass,
+    NgOptimizedImage,
+    NgFor,
+    CommentComponent,
+    UploadCommentComponent,
+    RelativeUrlPipe,
+    RelativeTimePipe,
+  ],
 })
 export class PostComponent {
   @Input() post: Post | undefined;
@@ -39,6 +40,7 @@ export class PostComponent {
 
   comments: Comment[] = [];
   commentsShown: boolean = false;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private likesService: LikesService,
@@ -47,23 +49,27 @@ export class PostComponent {
     public dialog: MatDialog
   ) {}
 
-  toggleLike(post: Post) {
+  toggleLike(post: Post): void {
     if (post.isLikedByCurrentUser) {
-      console.log('unlike');
-      this.likesService.unlikePost(post.postId).subscribe(() => {
-        post.isLikedByCurrentUser = false;
-        post.likesCount -= 1;
-      });
+      this.likesService
+        .unlikePost(post.postId)
+        .pipe(first())
+        .subscribe(() => {
+          post.isLikedByCurrentUser = false;
+          post.likesCount -= 1;
+        });
     } else {
-      console.log('like');
-      this.likesService.likePost(post.postId).subscribe(() => {
-        post.isLikedByCurrentUser = true;
-        post.likesCount += 1;
-      });
+      this.likesService
+        .likePost(post.postId)
+        .pipe(first())
+        .subscribe(() => {
+          post.isLikedByCurrentUser = true;
+          post.likesCount += 1;
+        });
     }
   }
 
-  deletePost(postId: number) {
+  deletePost(postId: number): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
         title: 'Delete Post',
@@ -71,14 +77,17 @@ export class PostComponent {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.postsService.deletePost(postId).subscribe(() => {
-          this.post = undefined;
-          this.postDeleted.emit(postId);
-        });
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(first())
+      .subscribe((result) => {
+        if (result) {
+          this.postsService.deletePost(postId).subscribe(() => {
+            this.post = undefined;
+            this.postDeleted.emit(postId);
+          });
+        }
+      });
   }
 
   showComments(): void {
@@ -89,24 +98,23 @@ export class PostComponent {
     this.loadComments();
   }
 
-  loadComments() {
+  loadComments(): void {
     if (this.post?.postId) {
       this.commentsService
         .getPostComments(this.post.postId)
+        .pipe(takeUntil(this.destroy$))
         .subscribe((comments) => {
           this.comments = comments;
-          console.log(this.comments);
         });
     }
   }
 
-  onCommentUpload(comment: any) {
+  onCommentUpload(comment: any): void {
     this.comments = [comment.commentDto, ...this.comments];
     this.post!.commentsCount += 1;
-    console.log(this.comments);
   }
 
-  onCommentDelete(commentId: number) {
+  onCommentDelete(commentId: number): void {
     this.comments = this.comments.filter(
       (comment) => comment.commentId !== commentId
     );

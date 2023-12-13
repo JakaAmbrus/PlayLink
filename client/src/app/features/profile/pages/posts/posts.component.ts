@@ -6,19 +6,20 @@ import { PostComponent } from '../../../../shared/components/post/post.component
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PostSkeletonComponent } from '../../../../shared/components/post-skeleton/post-skeleton.component';
 import { NgIf, NgFor } from '@angular/common';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
-    selector: 'app-posts',
-    templateUrl: './posts.component.html',
-    styleUrls: ['./posts.component.scss'],
-    standalone: true,
-    imports: [
-        NgIf,
-        PostSkeletonComponent,
-        InfiniteScrollModule,
-        NgFor,
-        PostComponent,
-    ],
+  selector: 'app-posts',
+  templateUrl: './posts.component.html',
+  styleUrls: ['./posts.component.scss'],
+  standalone: true,
+  imports: [
+    NgIf,
+    PostSkeletonComponent,
+    InfiniteScrollModule,
+    NgFor,
+    PostComponent,
+  ],
 })
 export class PostsComponent implements OnInit {
   isLoading: boolean = true;
@@ -29,6 +30,7 @@ export class PostsComponent implements OnInit {
   allPostsLoaded: boolean = false;
   username: any;
   noPosts: boolean = false;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private postsService: PostsService,
@@ -47,6 +49,7 @@ export class PostsComponent implements OnInit {
 
     this.postsService
       .getPostsByUsername(this.username, this.pageNumber, this.pageSize)
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
           const loadedPosts = response.result;

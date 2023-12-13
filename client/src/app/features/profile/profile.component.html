@@ -1,4 +1,8 @@
-<section id="profile-route-container" [@ProfileAnimation] *ngIf="user">
+<section
+  id="profile-route-container"
+  [@ProfileAnimation]
+  *ngIf="user$ | async as user"
+>
   <app-profile-user-card
     [user]="user"
     [isCurrentUserProfile]="isCurrentUserProfile"

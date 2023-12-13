@@ -73,6 +73,8 @@ export class MessageComponent implements OnInit, OnDestroy {
     });
   }
 
+  //Not used anymore due to transition to SignalR
+
   // loadMessages(): void {
   //   this.username = this.route.parent?.snapshot.paramMap.get('username');
   //   if (!this.username) {

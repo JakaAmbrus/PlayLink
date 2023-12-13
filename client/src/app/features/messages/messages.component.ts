@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Pagination } from '../../shared/models/pagination';
 import { Message } from '../../shared/models/message';
-import { MessagesService } from '../../shared/services/messages.service';
+import { MessagesService } from '../profile/services/message.service';
 import { messageButtons } from './constants/message-buttons';
 import { MessageParams } from './models/messageParams';
 import { OnlineUsersListComponent } from './components/online-users-list/online-users-list.component';
@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { NearestBdUsersListComponent } from './components/nearest-bd-users-list/nearest-bd-users-list.component';
 import { Subject, first, takeUntil } from 'rxjs';
+import { MessageDisplayService } from './services/message-display.service';
 
 @Component({
   selector: 'app-messages',
@@ -40,7 +41,7 @@ export class MessagesComponent implements OnInit {
   messageCountController: number = 0;
   private destroy$ = new Subject<void>();
 
-  constructor(private messagesService: MessagesService) {}
+  constructor(private messageDisplyService: MessageDisplayService) {}
 
   ngOnInit(): void {
     this.container = localStorage.getItem('Container') || 'Unread';
@@ -56,7 +57,7 @@ export class MessagesComponent implements OnInit {
       container: this.container,
     };
     this.isLoading = true;
-    this.messagesService
+    this.messageDisplyService
       .getUserMessages(this.messageParams)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -80,7 +81,7 @@ export class MessagesComponent implements OnInit {
   }
 
   onMessageDelete(id: number): void {
-    this.messagesService
+    this.messageDisplyService
       .deleteMessage(id)
       .pipe(first())
       .subscribe({

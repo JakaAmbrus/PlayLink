@@ -1,16 +1,19 @@
-<div id="online-users-list">
+<div
+  id="online-users-list"
+  *ngIf="onlineUsers$ | async as onlineUsers; else loading"
+>
   <h1 id="online-list-count" class="header-text">
-    Online Users:
-    <ng-container *ngIf="onlineUsers$ | async as onlineUsers">{{
-      onlineUsers.length
-    }}</ng-container>
+    Online Users: {{ onlineUsers.length }}
   </h1>
 
-  <p *ngIf="(onlineUsers$ | async)?.length === 0" id="no-users-online">
+  <p *ngIf="onlineUsers.length === 0" id="no-users-online">
     Currently you are the only active user
   </p>
 
-  <div *ngFor="let onlineUser of onlineUsers$ | async">
+  <div *ngFor="let onlineUser of onlineUsers">
     <app-online-user-display [user]="onlineUser"></app-online-user-display>
   </div>
 </div>
+<ng-template #loading>
+  <h1 class="header-text">Online Users Loading...</h1>
+</ng-template>

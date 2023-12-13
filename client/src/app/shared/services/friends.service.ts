@@ -20,10 +20,6 @@ export class FriendsService {
 
   constructor(private http: HttpClient) {}
 
-  //changed my mind and decided to use the friends$ observable instead of this method
-  getUserFriends(): Observable<{ friends: Friend[] }> {
-    return this.http.get<{ friends: Friend[] }>(this.baseUrl + 'friends');
-  }
   getFriends(forceRefresh: boolean = false): Observable<Friend[]> {
     if (!forceRefresh && this.friendsCache) {
       return of(this.friendsCache);
@@ -34,7 +30,6 @@ export class FriendsService {
           tap((result) => {
             this.friendsCache = result.friends;
             this.friendsSubject.next(result.friends);
-            console.log(this.friendsCache);
           }),
           map((result) => result.friends)
         );
@@ -46,7 +41,6 @@ export class FriendsService {
     if (this.friendsCache) {
       this.friendsCache = [...this.friendsCache, newFriend];
       this.friendsSubject.next(this.friendsCache);
-      console.log(this.friendsCache);
     } else {
       this.getFriends(true).subscribe();
     }

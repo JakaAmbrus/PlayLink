@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { AccountService } from '../../../../../shared/services/account.service';
+import { AccountService } from '../../../../services/account.service';
 
 @Component({
-    selector: 'app-header-dropdown',
-    templateUrl: './header-dropdown.component.html',
-    styleUrls: ['./header-dropdown.component.scss'],
-    standalone: true,
+  selector: 'app-header-dropdown',
+  templateUrl: './header-dropdown.component.html',
+  styleUrls: ['./header-dropdown.component.scss'],
+  standalone: true,
 })
 export class HeaderDropdownComponent {
   constructor(private accountService: AccountService, private router: Router) {}

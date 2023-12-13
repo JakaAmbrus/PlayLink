@@ -1,9 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Message } from '../models/message';
-import { MessageParams } from '../../features/messages/models/messageParams';
-import { PaginatedResult, Pagination } from '../models/pagination';
+import { Message } from '../../../shared/models/message';
 import { BehaviorSubject, Observable, map, take } from 'rxjs';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { Group } from '../models/group';
@@ -17,9 +15,6 @@ export class MessagesService {
   private hubConnection?: HubConnection;
   private messageThreadSource = new BehaviorSubject<Message[]>([]);
   messageThread$ = this.messageThreadSource.asObservable();
-  paginatedResult: PaginatedResult<Message[]> = new PaginatedResult<
-    Message[]
-  >();
 
   constructor(private http: HttpClient) {}
 
@@ -64,37 +59,6 @@ export class MessagesService {
     }
   }
 
-  getUserMessages(
-    messageParams: MessageParams
-  ): Observable<PaginatedResult<Message[]>> {
-    let params = new HttpParams()
-      .set('pageNumber', messageParams.pageNumber.toString())
-      .set('pageSize', messageParams.pageSize.toString())
-      .set('Container', messageParams.container);
-
-    return this.http
-      .get<{ messages: Message[]; pagination: Pagination }>(
-        this.baseUrl + 'messages/user',
-        { observe: 'response', params }
-      )
-      .pipe(
-        map((response) => {
-          if (response.body) {
-            this.paginatedResult.result = response.body.messages;
-
-            const pagination = response.headers.get('Pagination');
-
-            if (pagination) {
-              this.paginatedResult.pagination = JSON.parse(
-                response.headers.get('Pagination') as string
-              );
-            }
-          }
-          return this.paginatedResult;
-        })
-      );
-  }
-
   getMessageThread(username: string): Observable<Message[]> {
     return this.http
       .get<{ messages: Message[] }>(
@@ -121,9 +85,5 @@ export class MessagesService {
         content,
       })
       .catch((error) => console.log(error));
-  }
-
-  deleteMessage(id: number) {
-    return this.http.delete(this.baseUrl + 'messages/' + id);
   }
 }

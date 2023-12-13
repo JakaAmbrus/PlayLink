@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import {
@@ -40,7 +40,7 @@ import { Subject, takeUntil } from 'rxjs';
     DatePipe,
   ],
 })
-export class ProfileUserCardComponent implements OnInit {
+export class ProfileUserCardComponent implements OnInit, OnDestroy {
   @Input() user: ProfileUser | undefined;
 
   @Input() isCurrentUserProfile: boolean = false;

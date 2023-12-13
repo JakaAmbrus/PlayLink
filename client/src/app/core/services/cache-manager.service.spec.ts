@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PostsStateService } from './posts-state.service';
+import { CacheManagerService } from './cache-manager.service';
 
-describe('PostsStateService', () => {
-  let service: PostsStateService;
+describe('CacheManagerService', () => {
+  let service: CacheManagerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(PostsStateService);
+    service = TestBed.inject(CacheManagerService);
   });
 
   it('should be created', () => {

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProfileUser } from '../../shared/models/users';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { slideInAnimation } from '../../route-animations';
+import { slideInAnimation } from '../../core/animations/route-animations';
 import { ProfileNavigationComponent } from './components/profile-navigation/profile-navigation.component';
 import { ProfileUserCardComponent } from './components/profile-user-card/profile-user-card.component';
 import { AsyncPipe, NgIf } from '@angular/common';

@@ -43,6 +43,7 @@
       priority
     />
     <span
+      *ngIf="!user.profilePictureUrl"
       class="material-symbols-rounded filled card-img"
       [ngClass]="{ hover: isHovered }"
     >

@@ -1,9 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, tap } from 'rxjs';
+import { BehaviorSubject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { AvatarService } from './avatar.service';
-import { PresenceService } from './presence.service';
+import { AvatarService } from '../../shared/services/avatar.service';
+import { PresenceService } from '../../shared/services/presence.service';
 
 @Injectable({
   providedIn: 'root',
@@ -53,6 +53,12 @@ export class AccountService {
     });
   }
 
+  logout() {
+    localStorage.clear();
+    this.setLoggedIn(false);
+    this.presenceService.stopHubConnection();
+  }
+
   saveUser(user: string) {
     localStorage.setItem('user', user);
   }
@@ -81,25 +87,5 @@ export class AccountService {
   private checkLoggedInStatus(): boolean {
     const loggedIn = localStorage.getItem('loggedIn');
     return loggedIn === 'true';
-  }
-
-  logout() {
-    localStorage.clear();
-    this.setLoggedIn(false);
-    this.presenceService.stopHubConnection();
-  }
-
-  private addAuthorizationHeader(headers: HttpHeaders) {
-    const token = this.getToken();
-    if (token) {
-      headers = headers.set('Authorization', 'Bearer ' + token);
-    }
-    return headers;
-  }
-
-  getAuthenticatedData() {
-    let headers = new HttpHeaders();
-    headers = this.addAuthorizationHeader(headers);
-    return this.http.get(this.baseUrl + 'some-endpoint', { headers });
   }
 }

@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AccountService } from 'src/app/shared/services/account.service';
+import { AccountService } from 'src/app/core/services/account.service';
 import {
   atLeastOneNumberValidator,
   matchValues,

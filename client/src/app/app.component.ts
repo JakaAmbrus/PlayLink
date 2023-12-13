@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { slideInAnimation } from './route-animations';
+import { slideInAnimation } from './core/animations/route-animations';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { PresenceService } from './shared/services/presence.service';
 import { HeaderComponent } from './core/components/header/header.component';

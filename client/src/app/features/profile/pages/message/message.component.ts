@@ -8,7 +8,7 @@ import {
 import { NgForm, FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Message } from 'src/app/shared/models/message';
-import { MessagesService } from 'src/app/shared/services/messages.service';
+import { MessagesService } from 'src/app/features/profile/services/message.service';
 import { MessageContentComponent } from '../../components/message-content/message-content.component';
 import { NgIf, NgFor } from '@angular/common';
 import { MessageThread } from 'src/app/features/discover/models/messageThread';

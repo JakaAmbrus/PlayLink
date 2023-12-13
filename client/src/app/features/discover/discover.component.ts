@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UsersService } from '../../shared/services/users.service';
 import { Pagination } from '../../shared/models/pagination';
 import { UserParams } from './models/userParams';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -10,6 +9,7 @@ import { NgIf, NgFor } from '@angular/common';
 import { SearchbarComponent } from './components/searchbar/searchbar.component';
 import { DiscoverUsersService } from './services/discover-users.service';
 import { User } from './models/discoverUser';
+import { CountriesService } from './services/countries.service';
 
 @Component({
   selector: 'app-discover',
@@ -42,8 +42,8 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   userParams: UserParams | undefined;
 
   constructor(
-    private usersService: UsersService,
-    private discoverUsersService: DiscoverUsersService
+    private discoverUsersService: DiscoverUsersService,
+    private countriesService: CountriesService
   ) {}
 
   ngOnInit(): void {
@@ -70,7 +70,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   }
 
   loadCountries() {
-    this.usersService.getUsersUniqueCountries().subscribe({
+    this.countriesService.getUsersUniqueCountries().subscribe({
       next: (response) => {
         if (response) {
           this.uniqueCountries = response;
@@ -101,6 +101,24 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     });
   }
 
+  validateAgeMaxRange() {
+    if (this.minAge > this.maxAge) {
+      this.maxAge = this.minAge;
+    }
+  }
+
+  validateAgeMinRange() {
+    if (this.minAge > this.maxAge) {
+      this.minAge = this.maxAge;
+    }
+  }
+
+  preventTyping(event: KeyboardEvent): void {
+    if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') {
+      event.preventDefault();
+    }
+  }
+
   pageChanged(event: any): void {
     this.pageNumber = event;
     this.loadUsers();
@@ -118,23 +136,5 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     this.gender = '';
     this.country = '';
     this.orderBy = 'lastActive';
-  }
-
-  validateAgeMaxRange() {
-    if (this.minAge > this.maxAge) {
-      this.maxAge = this.minAge;
-    }
-  }
-
-  validateAgeMinRange() {
-    if (this.minAge > this.maxAge) {
-      this.minAge = this.maxAge;
-    }
-  }
-
-  preventTyping(event: KeyboardEvent): void {
-    if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') {
-      event.preventDefault();
-    }
   }
 }

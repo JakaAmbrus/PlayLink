@@ -15,7 +15,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import countries from '../../../../../assets/data/countries.json';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
 import { validCountryValidator } from 'src/app/shared/validators/registerFormValidators';
-import { UsersService } from 'src/app/shared/services/users.service';
 import { ToastrService } from 'ngx-toastr';
 import { AvatarService } from 'src/app/shared/services/avatar.service';
 import { MatOptionModule } from '@angular/material/core';
@@ -24,6 +23,7 @@ import { NgFor, NgIf, AsyncPipe } from '@angular/common';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { EditUserService } from '../../services/edit-user.service';
 import { EditUser } from '../../models/edit-user';
+import { UserProfileService } from 'src/app/shared/services/user-profile.service';
 
 @Component({
   selector: 'app-edit',
@@ -59,7 +59,7 @@ export class EditComponent implements OnInit {
 
   constructor(
     private editUserService: EditUserService,
-    private usersService: UsersService,
+    private userProfileService: UserProfileService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
@@ -133,14 +133,14 @@ export class EditComponent implements OnInit {
           if (response.photoUrl) {
             this.avatarService.updateAvatarPhoto(response.photoUrl);
           }
-          this.usersService.invalidateUserCache(this.username);
+          this.userProfileService.invalidateUserCache(this.username);
           this.router
             .navigateByUrl('/RefreshComponent', { skipLocationChange: true })
             .then(() => {
               this.router.navigate(['/user', this.username, 'edit']);
             });
         },
-        error: (error) => {
+        error: () => {
           this.isLoading = false;
         },
       });

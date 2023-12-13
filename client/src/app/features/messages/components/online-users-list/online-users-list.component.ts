@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { combineLatest, map } from 'rxjs';
 import { SearchUser } from 'src/app/shared/models/users';
 import { PresenceService } from 'src/app/shared/services/presence.service';
-import { UsersService } from 'src/app/shared/services/users.service';
 import { OnlineUserDisplayComponent } from '../online-user-display/online-user-display.component';
 import { NgIf, NgFor } from '@angular/common';
+import { UserSearchService } from 'src/app/shared/services/user-search.service';
 
 @Component({
   selector: 'app-online-users-list',
@@ -17,7 +17,7 @@ export class OnlineUsersListComponent implements OnInit {
   onlineUsers: SearchUser[] = [];
 
   constructor(
-    private usersService: UsersService,
+    private userSearchService: UserSearchService,
     private presenceService: PresenceService
   ) {}
 
@@ -27,7 +27,7 @@ export class OnlineUsersListComponent implements OnInit {
 
   loadOnlineUsers(): void {
     combineLatest([
-      this.usersService.getSearchUsers(),
+      this.userSearchService.getSearchUsers(),
       this.presenceService.onlineUsers$,
     ])
       .pipe(

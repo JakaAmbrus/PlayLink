@@ -28,8 +28,8 @@ namespace Infrastructure.Services
                 if (typeOfPhoto == "profile")
                 {
                     transformation = new Transformation()
-                        .Height(500)
-                        .Width(500)
+                        .Height(400)
+                        .Width(400)
                         .Crop("fill")
                         .Gravity("face")
                         .Quality("auto:best")
@@ -38,8 +38,8 @@ namespace Infrastructure.Services
                 else if (typeOfPhoto == "post")
                 {
                     transformation = new Transformation()
-                        .Height(800)
-                        .Width(800)
+                        .Height(600)
+                        .Width(600)
                         .Crop("fill")
                         .Gravity("face")
                         .Quality("auto:best")

@@ -84,8 +84,10 @@ export class UploadPostComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.initializeForm();
     this.avatar = this.avatarService.getAvatarDetails();
+    console.log(this.avatar);
+
+    this.initializeForm();
   }
 
   initializeForm(): void {

@@ -14,7 +14,7 @@ export class AvatarService {
 
   updateAvatarPhoto(url: string): void {
     const currentDetails = this.avatarDetails();
-    const updatedDetails = { ...currentDetails, pictureUrl: url };
+    const updatedDetails = { ...currentDetails, profilePictureUrl: url };
     this.avatarDetails.set(updatedDetails);
     localStorage.setItem('avatar', JSON.stringify(updatedDetails));
   }
@@ -23,7 +23,7 @@ export class AvatarService {
     const storedDetails = localStorage.getItem('avatar');
     return storedDetails
       ? JSON.parse(storedDetails)
-      : { pictureUrl: '', fullName: '', gender: '' };
+      : { profilePictureUrl: '', fullName: '', gender: '' };
   }
 
   getAvatarDetails() {

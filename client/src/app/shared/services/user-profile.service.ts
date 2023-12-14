@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ProfileUser } from '../models/users';
 import { Observable, map, of } from 'rxjs';
+import { CacheManagerService } from 'src/app/core/services/cache-manager.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +12,15 @@ export class UserProfileService {
   baseUrl = environment.apiUrl;
   private userCache = new Map<string, ProfileUser>();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private cacheManager: CacheManagerService
+  ) {}
 
   getUser(username: string): Observable<ProfileUser> {
-    const cachedUser = this.userCache.get(username);
+    const cachedUser = this.cacheManager.getCache<ProfileUser>(
+      'user-' + username
+    );
     if (cachedUser) {
       return of(cachedUser);
     }
@@ -24,7 +30,7 @@ export class UserProfileService {
       .pipe(
         map((response) => {
           const user = response.user;
-          this.userCache.set(username, user);
+          this.cacheManager.setCache('user-' + username, user);
           return user;
         })
       );
@@ -32,6 +38,6 @@ export class UserProfileService {
 
   //used when a moderator deletes a photo or description or when a user updates their own profile
   invalidateUserCache(username: string): void {
-    this.userCache.delete(username);
+    this.cacheManager.clearCache('user-' + username);
   }
 }

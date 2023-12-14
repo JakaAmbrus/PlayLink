@@ -6,6 +6,7 @@ import { UserParams } from 'src/app/features/discover/models/userParams';
 
 import { environment } from 'src/environments/environment';
 import { User } from '../models/discoverUser';
+import { CacheManagerService } from 'src/app/core/services/cache-manager.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,11 +16,15 @@ export class DiscoverUsersService {
   paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
   usersCache = new Map();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private cacheManager: CacheManagerService
+  ) {}
 
   getUsers(userParams: UserParams): Observable<PaginatedResult<User[]>> {
-    const key = Object.values(userParams).join('-');
-    const cachedResponse = this.usersCache.get(key);
+    const cacheKey = 'users-' + Object.values(userParams).join('-');
+    const cachedResponse =
+      this.cacheManager.getCache<PaginatedResult<User[]>>(cacheKey);
 
     if (cachedResponse) {
       return of({ ...cachedResponse });
@@ -52,7 +57,7 @@ export class DiscoverUsersService {
               );
             }
           }
-          this.usersCache.set(key, { ...this.paginatedResult });
+          this.cacheManager.setCache(cacheKey, { ...this.paginatedResult });
           return this.paginatedResult;
         })
       );

@@ -3,22 +3,25 @@ import { environment } from 'src/environments/environment';
 import { NearestBirthdayUser } from '../models/nearestBirthdayUser';
 import { Observable, map, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { CacheManagerService } from 'src/app/core/services/cache-manager.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NearestBirthdayService {
   baseUrl = environment.apiUrl;
-  nearestBirthdayUsersCache: NearestBirthdayUser[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private cacheManager: CacheManagerService
+  ) {}
 
   getNearestBirthdayUsers(): Observable<NearestBirthdayUser[]> {
-    if (
-      this.nearestBirthdayUsersCache &&
-      this.nearestBirthdayUsersCache.length > 0
-    ) {
-      return of(this.nearestBirthdayUsersCache);
+    const cachedUsers = this.cacheManager.getCache<NearestBirthdayUser[]>(
+      'nearestBirthdayUsers'
+    );
+    if (cachedUsers) {
+      return of(cachedUsers);
     }
 
     return this.http
@@ -27,7 +30,9 @@ export class NearestBirthdayService {
       )
       .pipe(
         map((response) => response.users),
-        tap((users) => (this.nearestBirthdayUsersCache = users))
+        tap((users) =>
+          this.cacheManager.setCache('nearestBirthdayUsers', users)
+        )
       );
   }
 }

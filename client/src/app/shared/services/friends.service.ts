@@ -8,6 +8,7 @@ import {
   FriendRequestResponse,
   FriendshipStatusResponse,
 } from '../models/friends';
+import { CacheManagerService } from 'src/app/core/services/cache-manager.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,34 +17,34 @@ export class FriendsService {
   baseUrl = environment.apiUrl;
   private friendsSubject = new BehaviorSubject<Friend[]>([]);
   friends$ = this.friendsSubject.asObservable();
-  private friendsCache: Friend[] | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private cacheManager: CacheManagerService
+  ) {}
 
   getFriends(forceRefresh: boolean = false): Observable<Friend[]> {
-    if (!forceRefresh && this.friendsCache) {
-      return of(this.friendsCache);
-    } else {
-      return this.http
-        .get<{ friends: Friend[] }>(this.baseUrl + 'friends')
-        .pipe(
-          tap((result) => {
-            this.friendsCache = result.friends;
-            this.friendsSubject.next(result.friends);
-          }),
-          map((result) => result.friends)
-        );
+    if (!forceRefresh) {
+      const cachedFriends = this.cacheManager.getCache<Friend[]>('friends');
+      if (cachedFriends) {
+        return of(cachedFriends);
+      }
     }
+    return this.http.get<{ friends: Friend[] }>(this.baseUrl + 'friends').pipe(
+      tap((result) => {
+        this.cacheManager.setCache('friends', result.friends);
+        this.friendsSubject.next(result.friends);
+      }),
+      map((result) => result.friends)
+    );
   }
 
   addFriend(newFriend: Friend): void {
-    console.log('New friend being added:', newFriend);
-    if (this.friendsCache) {
-      this.friendsCache = [...this.friendsCache, newFriend];
-      this.friendsSubject.next(this.friendsCache);
-    } else {
-      this.getFriends(true).subscribe();
-    }
+    this.getFriends().subscribe((friends) => {
+      const updatedFriends = [...friends, newFriend];
+      this.cacheManager.setCache('friends', updatedFriends);
+      this.friendsSubject.next(updatedFriends);
+    });
   }
 
   getFriendRequests(): Observable<{ friendRequests: FriendRequest[] }> {
@@ -74,7 +75,11 @@ export class FriendsService {
   }
 
   removeFriendship(username: string): Observable<void> {
-    return this.http.delete<void>(this.baseUrl + 'friends/' + username);
+    return this.http.delete<void>(this.baseUrl + 'friends/' + username).pipe(
+      tap(() => {
+        this.getFriends(true).subscribe();
+      })
+    );
   }
 
   removeFriendRequest(requestId: number): Observable<void> {

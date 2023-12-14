@@ -107,6 +107,7 @@
     <div id="dob-and-gender-container">
       <div class="date-picker-container">
         <input
+          (click)="picker.open()"
           matInput
           [matDatepicker]="picker"
           [min]="minDate"
@@ -126,7 +127,12 @@
           matIconSuffix
           [for]="picker"
         ></mat-datepicker-toggle>
-        <mat-datepicker color="warn" #picker></mat-datepicker>
+        <mat-datepicker
+          [touchUi]="true"
+          id="date-picker"
+          color="warn"
+          #picker
+        ></mat-datepicker>
         <div
           *ngIf="
             registerForm.get('dateOfBirth')?.touched &&
@@ -165,6 +171,7 @@
   <div class="input-container">
     <label class="form-label" for="userName">Country*</label>
     <input
+      autocomplete="off"
       title="Country"
       formControlName="country"
       [class.input-invalid]="
@@ -177,6 +184,7 @@
     />
     <mat-autocomplete #auto="matAutocomplete">
       <mat-option
+        class="country-option"
         *ngFor="let country of filteredCountries | async"
         [value]="country"
       >

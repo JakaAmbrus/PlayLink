@@ -73,15 +73,6 @@ app-login-logo {
     opacity: 0.65;
   }
 }
-@media (min-width: 2200px) {
-  #auth-page {
-    font-size: 12px;
-  }
-  #logo-and-subtext {
-    font-size: 1.1em;
-    margin-right: 3em;
-  }
-}
 @media (max-width: 1600px) {
   #subtext-h1 {
     display: none;
@@ -105,6 +96,7 @@ app-login-logo {
 @media (max-width: 800px) {
   #auth-page-container {
     justify-content: start;
+    gap: 5vh;
   }
   #logo-and-subtext {
     margin-top: 5vh;
@@ -118,5 +110,63 @@ app-login-logo {
 @media (max-height: 750px) and (orientation: landscape) and (min-width: 1000px) {
   #logo-and-subtext {
     display: none;
+  }
+}
+@media (min-height: 2500px) and (orientation: portrait) {
+  #auth-page {
+    font-size: 1vh;
+  }
+  #auth-page-container {
+    gap: 5vh;
+  }
+  #logo-and-subtext {
+    position: absolute;
+    top: 3vh;
+    font-size: 0.45em;
+  }
+  #subtext-h1 {
+    display: flex;
+    margin-top: 1.2em;
+  }
+  #subtext-h2 {
+    display: flex;
+    margin-top: 0.7em;
+  }
+  #auth-page-container {
+    flex-direction: column;
+  }
+}
+@media (max-width: 1100px) and (min-height: 2000px) and (orientation: portrait) {
+  #auth-page {
+    background-image: none;
+    font-size: 1vh;
+  }
+  #auth-page-container {
+    gap: 5vh;
+  }
+  #logo-and-subtext {
+    position: absolute;
+    top: 3vh;
+    font-size: 0.4em;
+  }
+  #subtext-h1 {
+    display: flex;
+    margin-top: 1.2em;
+  }
+  #subtext-h2 {
+    display: flex;
+    margin-top: 0.7em;
+  }
+  #auth-page-container {
+    flex-direction: column;
+  }
+}
+@media (min-width: 2200px) {
+  #auth-page {
+    font-size: 12px;
+  }
+  #logo-and-subtext {
+    font-size: 1.1em;
+    margin-right: 3em;
   }
 }

@@ -6,7 +6,7 @@
     class="rounded-border"
   >
     <h1 id="edit-header">Edit profile details</h1>
-    <label class="form-label edit-labels"> Profile Photo*</label>
+    <label class="form-label edit-labels"> Profile Photo</label>
     <ngx-dropzone
       (change)="onSelect($event)"
       (removedFile)="onRemove($event)"
@@ -25,7 +25,7 @@
       >
       </ngx-dropzone-image-preview>
     </ngx-dropzone>
-    <label class="form-label edit-labels"> Profile Description*</label>
+    <label class="form-label edit-labels"> Profile Description</label>
     <div class="relative">
       <textarea
         title="Description"
@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <label class="form-label edit-labels"> Current Country*</label>
+    <label class="form-label edit-labels"> Current Country</label>
     <div class="relative">
       <input
         title="Country"

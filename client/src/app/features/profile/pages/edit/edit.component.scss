@@ -78,3 +78,36 @@
   align-items: center;
   width: 100%;
 }
+@media (max-width: 900px) {
+  #edit-tab {
+    width: 100%;
+    margin-bottom: 0;
+  }
+  #edit-form {
+    width: 100%;
+  }
+}
+@media (min-height: 2500px) and (orientation: portrait) {
+  #edit-tab {
+    width: 100%;
+    margin-bottom: 0;
+  }
+  #edit-form {
+    width: 100%;
+  }
+  #edit-dropzone {
+    height: 15vh;
+  }
+}
+@media (max-width: 1100px) and (min-height: 2000px) and (orientation: portrait) {
+  #edit-tab {
+    width: 100%;
+    margin-bottom: 0;
+  }
+  #edit-form {
+    width: 100%;
+  }
+  #edit-dropzone {
+    height: 15vh;
+  }
+}

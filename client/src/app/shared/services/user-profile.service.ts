@@ -10,7 +10,6 @@ import { CacheManagerService } from 'src/app/core/services/cache-manager.service
 })
 export class UserProfileService {
   baseUrl = environment.apiUrl;
-  private userCache = new Map<string, ProfileUser>();
 
   constructor(
     private http: HttpClient,

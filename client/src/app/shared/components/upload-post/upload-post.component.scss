@@ -1,10 +1,10 @@
 #upload-post-popup {
-  font-family: "Roboto Medium";
+  font-family: "Roboto Regular";
   display: flex;
   flex-direction: column;
   gap: 1em;
   padding: 1.8em 3em;
-  padding-bottom: 0.2em;
+  padding-bottom: 0.3em;
   width: 100%;
   margin-bottom: 2em;
 }
@@ -30,9 +30,6 @@
   display: flex;
   padding-top: 0.1em;
   font-size: 1.8em;
-}
-.material-symbols-rounded.filled {
-  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48;
 }
 .post-actions {
   display: flex;
@@ -136,4 +133,28 @@
   right: 0.5em;
   font-size: 4em;
   cursor: pointer;
+}
+@media (max-width: 900px) {
+  #upload-post-popup {
+    padding: 1.8em 2em;
+    padding-bottom: 0.3em;
+  }
+}
+@media (max-width: 1100px) and (min-height: 2000px) and (orientation: portrait) {
+  #upload-post-popup {
+    padding: 1.8em 2em;
+    padding-bottom: 0.3em;
+  }
+  #upload-dropzone {
+    height: 18vh;
+  }
+}
+@media (min-height: 2500px) and (orientation: portrait) {
+  #upload-post-popup {
+    padding: 1.8em 2em;
+    padding-bottom: 0.3em;
+  }
+  #upload-dropzone {
+    height: 18vh;
+  }
 }

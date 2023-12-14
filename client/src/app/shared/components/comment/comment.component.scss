@@ -5,6 +5,7 @@
   font-family: "Roboto Regular";
 }
 #comment-user-avatar {
+  flex-shrink: 0;
   margin-top: 0.2em;
   font-size: 0.85em;
   height: 5.2em;
@@ -53,10 +54,6 @@
   gap: 0.2em;
 }
 .comment-count-icons {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   font-size: 1.8em;
   cursor: pointer;
 }

@@ -43,3 +43,20 @@
   font-size: 0.4em;
   flex-shrink: 0;
 }
+
+@media (min-height: 2500px) and (orientation: portrait) {
+  ::ng-deep div.mat-mdc-autocomplete-panel {
+    max-height: 30vh !important;
+  }
+  .search-options {
+    font-size: 8em;
+  }
+}
+@media (max-width: 1100px) and (min-height: 2000px) and (orientation: portrait) {
+  ::ng-deep div.mat-mdc-autocomplete-panel {
+    max-height: 30vh !important;
+  }
+  .search-options {
+    font-size: 6em;
+  }
+}

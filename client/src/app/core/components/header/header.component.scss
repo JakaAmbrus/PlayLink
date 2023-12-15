@@ -88,11 +88,21 @@
   }
 }
 
-@media (max-width: 420px) {
+@media (min-width: 2500px) and (min-height: 1200px) and (orientation: landscape) {
   #header-main-container {
-    font-size: 9.6px;
+    font-size: 12px;
+  }
+  .higher-roles-container {
+    font-size: 13px;
   }
 }
+
+@media (min-width: 2800px) {
+  #header-container {
+    max-width: 2000px;
+  }
+}
+
 @media (max-width: 1100px) {
   #header-main-container {
     font-size: clamp(8px, 2.5vw, 10px);
@@ -111,43 +121,14 @@
     background-color: transparent;
   }
 }
-@media only screen and (min-device-width: 1000px) and (min-device-height: 1500px) and (orientation: portrait) {
+
+@media (max-width: 420px) {
   #header-main-container {
-    font-size: 22px;
-    height: auto;
+    font-size: 9.6px;
   }
 }
-@media (min-height: 2500px) and (orientation: portrait) {
+@media (max-width: 380px) {
   #header-main-container {
-    font-size: 8px;
-    height: auto;
-  }
-  .top-links {
-    display: none;
-  }
-  .mobile-links {
-    display: flex;
-    justify-content: center;
-    width: 100vw;
-    border-bottom: 0.1em solid #3a3b3c;
-  }
-  .header-icons-right {
-    background-color: transparent;
-  }
-  #header-main-container {
-    font-size: 28px;
-  }
-}
-@media (min-width: 2500px) and (min-height: 1200px) and (orientation: landscape) {
-  #header-main-container {
-    font-size: 12px;
-  }
-  .higher-roles-container {
-    font-size: 13px;
-  }
-}
-@media (min-width: 2800px) {
-  #header-container {
-    max-width: 2000px;
+    font-size: 9.2px;
   }
 }

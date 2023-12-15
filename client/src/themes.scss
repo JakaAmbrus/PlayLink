@@ -23,6 +23,10 @@ $dark-theme: (
     background-color: map-get($light-theme, background);
     color: map-get($light-theme, primary-text);
   }
+  .user-cards-theme {
+    background-color: map-get($light-theme, background);
+    color: map-get($light-theme, primary-text);
+  }
   .reverse-parameters {
     background-color: #3a3b3c;
     color: white;
@@ -137,6 +141,10 @@ $dark-theme: (
 
   .primary-parameters {
     background-color: map-get($dark-theme, background);
+    color: map-get($dark-theme, primary-text);
+  }
+  .user-cards-theme {
+    background-color: #3a3b3c;
     color: map-get($dark-theme, primary-text);
   }
   .reverse-parameters {

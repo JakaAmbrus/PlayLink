@@ -139,22 +139,7 @@
     padding: 1.8em 2em;
     padding-bottom: 0.3em;
   }
-}
-@media (max-width: 1100px) and (min-height: 2000px) and (orientation: portrait) {
-  #upload-post-popup {
-    padding: 1.8em 2em;
-    padding-bottom: 0.3em;
-  }
-  #upload-dropzone {
-    height: 18vh;
-  }
-}
-@media (min-height: 2500px) and (orientation: portrait) {
-  #upload-post-popup {
-    padding: 1.8em 2em;
-    padding-bottom: 0.3em;
-  }
-  #upload-dropzone {
-    height: 18vh;
+  .post-actions {
+    gap: 0.2em;
   }
 }

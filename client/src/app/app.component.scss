@@ -13,14 +13,14 @@
     min-height: calc(100vh - 13.5em);
   }
 }
-@media (max-width: 1100px) and (min-height: 2000px) and (orientation: portrait) {
+@media (max-width: 420px) {
   .main-content-container {
-    min-height: calc(100vh - 29.8em);
+    min-height: calc(100vh - 12em);
   }
 }
-@media (min-width: 2500px) and (min-height: 1200px) and (orientation: landscape) {
+@media (max-width: 380px) {
   .main-content-container {
-    min-height: calc(100vh - 8.9em);
+    min-height: calc(100vh - 12.45em);
   }
 }
 @media (min-height: 2500px) and (orientation: portrait) {

@@ -98,45 +98,19 @@
 }
 @media (max-width: 900px) {
   #messages-middle {
+    margin: 0;
     width: 100%;
-    font-size: 1vh;
+    font-size: 2.1vw;
   }
   #messages-content-container {
-    height: 55em;
+    font-size: 1.2em;
+    height: 53em;
+  }
+  #messages-content-header {
+    padding: 0 0 0.5em 0;
   }
 }
-@media (min-height: 2500px) and (orientation: portrait) {
-  #messages-right,
-  #messages-left {
-    display: none;
-  }
-  #messages-middle {
-    width: 100%;
-    font-size: 1vh;
-  }
-  #messages-content-container {
-    height: 58em;
-  }
-  .button-toggle {
-    padding: 2vh 0;
-  }
-}
-@media (max-width: 1100px) and (min-height: 2000px) and (orientation: portrait) {
-  #messages-right,
-  #messages-left {
-    display: none;
-  }
-  #messages-middle {
-    width: 100%;
-    font-size: 1vh;
-  }
-  #messages-content-container {
-    height: 58em;
-  }
-  .button-toggle {
-    padding: 2vh 0;
-  }
-}
+
 @media (min-width: 2400px) {
   #messages-section-container {
     font-size: 13px;

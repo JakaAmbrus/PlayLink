@@ -38,6 +38,11 @@
   font-family: "Nexa Bold";
   position: relative;
 }
+@media (min-width: 2400px) {
+  #home-section-container {
+    font-size: 13px;
+  }
+}
 @media (max-width: 1600px) {
   #home-left,
   #home-right {
@@ -51,10 +56,22 @@
 }
 @media (max-width: 900px) {
   #home-middle {
+    margin: 0;
     width: 100%;
+    font-size: 11px;
   }
   .posts {
     padding: 3em 2em;
+  }
+}
+@media only screen and (max-width: 800px) {
+  #home-middle {
+    font-size: 11px;
+  }
+}
+@media only screen and (max-width: 450px) {
+  #home-middle {
+    font-size: 9px;
   }
 }
 @media (min-height: 2500px) and (orientation: portrait) {
@@ -73,10 +90,5 @@
   }
   .posts {
     padding: 3em 2em;
-  }
-}
-@media (min-width: 2400px) {
-  #home-section-container {
-    font-size: 13px;
   }
 }

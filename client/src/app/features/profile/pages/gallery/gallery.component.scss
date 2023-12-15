@@ -20,3 +20,15 @@
   height: 80%;
   background: transparent;
 }
+@media only screen and (min-device-width: 1000px) and (orientation: portrait) {
+  #gallery-tab {
+    width: 100%;
+    margin: 0;
+  }
+}
+@media only screen and (max-device-width: 999px) {
+  #gallery-tab {
+    width: 100%;
+    margin: 0;
+  }
+}

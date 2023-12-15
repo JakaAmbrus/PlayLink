@@ -27,49 +27,18 @@
   background-color: #3d3a3a;
   color: white;
 }
-@media (max-width: 800px) {
+@media only screen and (max-width: 600px) {
   .auth-container {
+    margin-top: 34em;
     box-shadow: none;
     background: #f0f2f5;
     width: 98vw;
     border: none;
     border-radius: 0em;
-  }
-  .tabs {
-    overflow: hidden;
-    border: 0.2em solid #3d3a3a;
-    border-radius: 1em;
-  }
-  .tab {
-    border: none;
-  }
-}
-@media (min-height: 2500px) and (orientation: portrait) {
-  .auth-container {
-    margin-top: 17vh;
-    box-shadow: none;
-    background: #f0f2f5;
-    width: 98vw;
-    border: none;
-    border-radius: 0em;
-  }
-  .tabs {
-    overflow: hidden;
-    border: 0.2em solid #3d3a3a;
-    border-radius: 1em;
-  }
-  .tab {
-    border: none;
-  }
-}
-@media (max-width: 1100px) and (min-height: 2000px) and (orientation: portrait) {
-  .auth-container {
-    margin-top: 17vh;
-    box-shadow: none;
-    background: #f0f2f5;
-    width: 98vw;
-    border: none;
-    border-radius: 0em;
+
+    &.register-state {
+      margin-top: 18em;
+    }
   }
   .tabs {
     overflow: hidden;

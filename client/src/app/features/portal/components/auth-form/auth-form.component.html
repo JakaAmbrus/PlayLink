@@ -1,4 +1,4 @@
-<div class="auth-container">
+<div class="auth-container" [ngClass]="{ 'register-state': !formStateLogin }">
   <div class="tabs">
     <button
       [ngClass]="{ 'active-form': formStateLogin }"

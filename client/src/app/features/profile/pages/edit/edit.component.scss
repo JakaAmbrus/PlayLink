@@ -79,6 +79,7 @@
 }
 @media (max-width: 900px) {
   #edit-tab {
+    justify-content: flex-start;
     width: 100%;
     margin: 0;
   }
@@ -88,5 +89,10 @@
   }
   #edit-header {
     font-size: 2.5em;
+    margin-top: 0.5em;
+  }
+  #edit-description,
+  .edit-description-label {
+    display: none;
   }
 }

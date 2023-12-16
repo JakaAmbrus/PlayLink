@@ -56,8 +56,8 @@ namespace Application.Features.Messages.SendMessage
                     RecipientFullName = message.Recipient.FullName,
                     RecipientGender = message.Recipient.Gender,
                     Content = message.Content,
-                    DateRead = message.DateRead.HasValue ? DateTime.SpecifyKind(message.DateRead.Value, DateTimeKind.Utc) : null,
-                    PrivateMessageSent = DateTime.SpecifyKind(message.PrivateMessageSent, DateTimeKind.Utc),
+                    DateRead = message.DateRead.HasValue ? message.DateRead.Value.ToUniversalTime() : (DateTime?)null,
+                    PrivateMessageSent = message.PrivateMessageSent.ToUniversalTime(),
                     SenderProfilePictureUrl = message.Sender.ProfilePictureUrl,
                     RecipientProfilePictureUrl = message.Recipient.ProfilePictureUrl    
                 }

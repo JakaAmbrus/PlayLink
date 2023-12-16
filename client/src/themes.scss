@@ -133,6 +133,11 @@ $dark-theme: (
   .comments-content-background {
     background-color: #f0f2f5;
   }
+
+  .visible-mobile-filter #filter-form {
+    background-color: map-get($light-theme, background-secondary);
+    border-radius: 0.5em;
+  }
 }
 
 .theme-dark {
@@ -250,5 +255,10 @@ $dark-theme: (
     color: map-get($dark-theme, primary-text);
     border: 0.1em solid #3d3a3a;
     background-color: map-get($dark-theme, background-secondary);
+  }
+
+  .visible-mobile-filter #filter-form {
+    background-color: map-get($dark-theme, background-secondary);
+    border-radius: 0.5em;
   }
 }

@@ -184,8 +184,30 @@ button {
   #discover-right {
     display: none;
   }
-  #discover-middle {
+  #discover-right.visible-mobile-filter {
+    display: flex;
+    position: fixed;
+    justify-content: center;
+    z-index: 10000;
+    top: 0px;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     margin: 0;
+    padding: 0;
+    background-color: #18191a45;
+
+    #filter-form {
+      width: 100%;
+      margin-top: 15vh;
+      padding: 3em 2em;
+      max-width: 600px;
+      align-self: flex-start;
+
+      #country option {
+        font-size: 0.7em;
+      }
+    }
   }
 
   #discover-left {
@@ -199,6 +221,7 @@ button {
   }
   #discover-middle,
   #discover-left {
+    margin: 0;
     border-radius: 0;
     width: 100%;
   }

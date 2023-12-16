@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchUser } from 'src/app/shared/models/users';
 import { UserAvatarComponent } from '../../../../shared/components/user-avatar/user-avatar.component';
@@ -27,6 +27,8 @@ import { first } from 'rxjs';
   ],
 })
 export class SearchbarComponent implements OnInit {
+  @Output() filter = new EventEmitter<void>();
+
   searchUsers: SearchUser[] = [];
   filteredUsers: SearchUser[] = [];
   searchControl = new FormControl();
@@ -62,5 +64,9 @@ export class SearchbarComponent implements OnInit {
           }
         },
       });
+  }
+
+  toggleFilter(): void {
+    this.filter.emit();
   }
 }

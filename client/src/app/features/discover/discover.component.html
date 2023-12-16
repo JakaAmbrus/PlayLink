@@ -5,7 +5,7 @@
     id="discover-left"
     class="secondary-background rounded-border box-shadow"
   >
-    <app-searchbar></app-searchbar>
+    <app-searchbar (filter)="showMobileFilterToggle()"></app-searchbar>
   </div>
 
   <!-- discover-middle -->
@@ -60,6 +60,7 @@
   <div
     id="discover-right"
     class="secondary-background rounded-border box-shadow"
+    [ngClass]="{ 'visible-mobile-filter': isMobileFilterVisible }"
   >
     <form (ngSubmit)="onSubmit()" id="filter-form">
       <label for="orderBy" class="filter-label">Order By:</label>

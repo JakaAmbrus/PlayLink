@@ -2,9 +2,22 @@
   <div id="searchbar-icon-container">
     <span class="material-symbols-rounded filled search-icon"> search </span>
   </div>
-  <label for="orderBy" class="filter-label"
-    >Community Size: {{ searchUsers.length + 1 }}</label
-  >
+  <div class="label-and-filter-button">
+    <label for="orderBy" class="filter-label"
+      >Community Size: {{ searchUsers.length + 1 }}</label
+    >
+    <button
+      (click)="toggleFilter()"
+      id="filter-users-button"
+      class="reverse-parameters rounded-border"
+    >
+      <p>Filter Users</p>
+      <span class="material-symbols-rounded filled icon-filter">
+        filter_alt
+      </span>
+    </button>
+  </div>
+
   <input
     id="user-searchbar"
     class="filter-inputs"

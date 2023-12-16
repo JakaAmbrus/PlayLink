@@ -5,7 +5,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UserCardComponent } from './components/user-card/user-card.component';
-import { NgIf, NgFor } from '@angular/common';
+import { NgIf, NgFor, CommonModule } from '@angular/common';
 import { SearchbarComponent } from './components/searchbar/searchbar.component';
 import { DiscoverUsersService } from './services/discover-users.service';
 import { User } from './models/discoverUser';
@@ -18,6 +18,7 @@ import { Subject, first, takeUntil } from 'rxjs';
   styleUrls: ['./discover.component.scss'],
   standalone: true,
   imports: [
+    CommonModule,
     SearchbarComponent,
     NgIf,
     NgFor,
@@ -42,6 +43,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   uniqueCountries: string[] = [];
   userParams: UserParams | undefined;
   private destroy$ = new Subject<void>();
+  isMobileFilterVisible: boolean = false;
 
   constructor(
     private discoverUsersService: DiscoverUsersService,
@@ -122,6 +124,9 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   }
 
   preventTyping(event: KeyboardEvent): void {
+    if (this.isMobileFilterVisible) {
+      return;
+    }
     if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') {
       event.preventDefault();
     }
@@ -135,6 +140,9 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.isLoading = true;
     this.pageNumber = 1;
+    if (this.isMobileFilterVisible) {
+      this.isMobileFilterVisible = false;
+    }
     this.loadUsers();
   }
   resetFilters(): void {
@@ -144,5 +152,10 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     this.gender = '';
     this.country = '';
     this.orderBy = 'lastActive';
+  }
+
+  showMobileFilterToggle(): void {
+    this.isMobileFilterVisible = !this.isMobileFilterVisible;
+    console.log(this.isMobileFilterVisible);
   }
 }

@@ -4,7 +4,6 @@
   justify-content: center;
   width: 100%;
   margin-top: 1.8em;
-  margin-bottom: 2vh;
   height: 70em;
 
   & h1 {
@@ -20,15 +19,15 @@
   height: 80%;
   background: transparent;
 }
-@media only screen and (min-device-width: 1000px) and (orientation: portrait) {
+
+@media only screen and (max-device-width: 900px) {
   #gallery-tab {
+    align-items: start;
     width: 100%;
     margin: 0;
-  }
-}
-@media only screen and (max-device-width: 999px) {
-  #gallery-tab {
-    width: 100%;
-    margin: 0;
+
+    & h1 {
+      font-size: 2.5em;
+    }
   }
 }

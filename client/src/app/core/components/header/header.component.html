@@ -19,6 +19,7 @@
           (requestDeleted)="onRequestDelete($event)"
         ></app-header-notifications>
         <div
+          (click)="toggleNotifications()"
           *ngIf="friendRequests.length > 0"
           id="notification-count"
           class="reverse-parameters"

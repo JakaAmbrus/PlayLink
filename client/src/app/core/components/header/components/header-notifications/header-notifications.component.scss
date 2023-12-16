@@ -82,3 +82,14 @@
     letter-spacing: 0.05em;
   }
 }
+@media (max-width: 600px) {
+  #header-notifications {
+    left: -20em;
+  }
+}
+@media (max-width: 450px) {
+  #header-notifications {
+    left: -22em;
+    font-size: 1.18em;
+  }
+}

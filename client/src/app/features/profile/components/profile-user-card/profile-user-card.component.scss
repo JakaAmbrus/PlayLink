@@ -193,13 +193,29 @@
     padding: 1.5em;
     width: 100vw;
     height: auto;
+    border-radius: 0;
   }
   #profile-picture-container {
     flex-shrink: 0;
     font-size: 0.3em;
+    border-radius: 2em;
 
     .current-status {
-      font-size: 2.5em;
+      font-size: 3.5em;
+      color: transparent;
+      width: 1.2em;
+      border-bottom-right-radius: 0.4em;
+      background-color: #e57373;
+      border: none;
+
+      &.is-online {
+        background-color: #66bb6a;
+        color: transparent;
+      }
+    }
+
+    #picture-moderation {
+      font-size: 2em;
     }
   }
   #profile-content-container {
@@ -222,13 +238,14 @@
       display: none;
     }
     #button-container {
-      justify-content: end;
+      justify-content: start;
     }
     .profile-buttons {
       cursor: pointer;
       display: flex;
       justify-content: center;
       width: 100%;
+      max-width: 15em;
       font-size: 2.4em;
       padding: 0.4em 0;
       border-radius: 0.2em;
@@ -238,57 +255,16 @@
     }
   }
 }
-
-@media only screen and (min-device-width: 1000px) and (orientation: portrait) {
+@media only screen and (max-width: 800px) {
   #user-profile-details-container {
-    display: flex;
-    gap: 2em;
-    margin-top: 0;
-    padding: 1.5em;
-    width: 100vw;
-    height: auto;
+    font-size: 1em;
   }
-  #profile-picture-container {
-    flex-shrink: 0;
-    font-size: 0.3em;
-
-    .current-status {
-      font-size: 2.5em;
-    }
+}
+@media only screen and (max-width: 450px) {
+  #user-profile-details-container {
+    font-size: 0.8em;
   }
-  #profile-content-container {
-    width: 100%;
-    height: auto;
-    .name-gender {
-      justify-content: flex-start;
-      gap: 2em;
-    }
-    .profile-name {
-      padding: 0;
-    }
-    #country-and-birthday {
-      display: none;
-    }
-    #description-container {
-      display: none;
-    }
-    #joined-container {
-      display: none;
-    }
-    #button-container {
-      justify-content: end;
-    }
-    .profile-buttons {
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      font-size: 2.4em;
-      padding: 0.4em 0;
-      border-radius: 0.2em;
-      font-weight: 900;
-      letter-spacing: 0.05em;
-      font-family: "Roboto Regular";
-    }
+  #profile-content-container .profile-buttons {
+    max-width: 100%;
   }
 }

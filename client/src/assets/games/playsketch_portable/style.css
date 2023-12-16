@@ -252,15 +252,3 @@ h1 {
     font-size: 6vw;
   }
 }
-@media (min-height: 2500px) {
-  #entire-game {
-    transform: scale(1, 0.6);
-  }
-
-  span {
-    font-size: 8vw;
-  }
-  h1 {
-    font-size: 6vw;
-  }
-}

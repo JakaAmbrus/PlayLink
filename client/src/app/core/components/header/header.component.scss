@@ -36,8 +36,6 @@
   width: 5em;
   border-radius: 50%;
   cursor: pointer;
-  -webkit-user-select: none;
-  user-select: none;
 }
 #header-notifications-container {
   position: relative;
@@ -121,14 +119,19 @@
     background-color: transparent;
   }
 }
-
-@media (max-width: 420px) {
-  #header-main-container {
-    font-size: 9.6px;
+@media (max-width: 600px) {
+  .higher-roles-container {
+    bottom: 0;
+    left: 0;
+  }
+  #header-right {
+    gap: 0.5em;
+    width: 17em;
   }
 }
-@media (max-width: 380px) {
+
+@media (max-width: 460px) {
   #header-main-container {
-    font-size: 9.2px;
+    font-size: 8.2px;
   }
 }

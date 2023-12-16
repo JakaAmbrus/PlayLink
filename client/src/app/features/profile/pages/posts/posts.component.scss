@@ -4,7 +4,6 @@
   align-items: center;
   width: 100%;
   margin-top: 1.8em;
-  margin-bottom: 2vh;
   height: 70em;
   overflow-y: auto;
   scrollbar-width: none;
@@ -32,27 +31,31 @@
   #posts-tab {
     width: 100%;
     margin: 0;
+
+    & h1 {
+      font-size: 2.5em;
+    }
   }
   #posts-container {
     width: 100%;
-    font-size: 2vw;
+    font-size: 11px;
+    gap: 0.5em;
+    margin: 0;
+    margin-top: 0.5em;
   }
   .posts {
     width: 100vw;
     padding: 3em 2em;
+    border-radius: 0;
   }
 }
-@media only screen and (min-device-width: 1000px) and (orientation: portrait) {
-  #posts-tab {
-    width: 100%;
-    margin: 0;
-  }
+@media only screen and (max-width: 800px) {
   #posts-container {
-    width: 100%;
-    font-size: 2vw;
+    font-size: 11px;
   }
-  .posts {
-    width: 100vw;
-    padding: 3em 2em;
+}
+@media only screen and (max-width: 450px) {
+  #posts-container {
+    font-size: 9px;
   }
 }

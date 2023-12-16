@@ -16,6 +16,11 @@
   flex-direction: column;
   width: 100em;
 }
+@media (min-width: 2400px) {
+  #profile-route-container {
+    font-size: 13px;
+  }
+}
 @media (max-width: 1100px) {
   #profile-route-container {
     flex-direction: column;
@@ -27,10 +32,8 @@
     margin: 0;
   }
 }
-
-@media only screen and (min-device-width: 1000px) and (orientation: portrait) {
+@media (max-width: 1100px) {
   #profile-route-container {
-    font-size: 2vw;
     flex-direction: column;
     align-items: center;
     gap: 0;
@@ -40,8 +43,8 @@
     margin: 0;
   }
 }
-@media (min-width: 2400px) {
+@media only screen and (max-width: 800px) {
   #profile-route-container {
-    font-size: 13px;
+    font-size: 9px;
   }
 }

@@ -7,17 +7,17 @@
 .avatar-name-established {
   display: flex;
   align-items: center;
-  gap: 1em;
+  gap: 1.5em;
   font-family: "Roboto Regular";
 
   .avatar {
     flex-shrink: 0;
-    width: 5.2em;
-    height: 5.2em;
+    width: 5em;
+    height: 5em;
   }
 }
 .name {
-  font-size: 2.4em;
+  font-size: 2em;
 }
 .online {
   font-size: 1.6em;
@@ -31,8 +31,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 5.2em;
-    width: 5.2em;
+    height: 5em;
+    width: 5em;
 
     .online-icon {
       font-size: 3.6em;

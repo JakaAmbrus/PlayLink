@@ -26,6 +26,7 @@
   cursor: pointer;
 }
 #upload-post-popup-bottom {
+  font-family: "Roboto Medium";
   border-bottom: none;
   display: flex;
   padding-top: 0.1em;
@@ -138,6 +139,8 @@
   #upload-post-popup {
     padding: 1.8em 2em;
     padding-bottom: 0.3em;
+    margin-bottom: 0.5em;
+    border-radius: 0;
   }
   .post-actions {
     gap: 0.2em;

@@ -9,7 +9,7 @@
   font-family: "Nexa Bold";
   margin-top: 2em;
   width: 47em;
-  padding: 2em;
+  padding: 1em 2em;
   align-self: flex-start;
 }
 
@@ -86,7 +86,7 @@
 #messages-right {
   margin-top: 2em;
   width: 47em;
-  padding: 2em;
+  padding: 1em 2em;
   align-self: flex-start;
 }
 
@@ -101,6 +101,7 @@
     margin: 0;
     width: 100%;
     font-size: 2.1vw;
+    border-radius: 0;
   }
   #messages-content-container {
     font-size: 1.2em;
@@ -108,6 +109,11 @@
   }
   #messages-content-header {
     padding: 0 0 0.5em 0;
+    font-size: 2.5em;
+  }
+  #message-buttons {
+    border-radius: 0;
+    border: none;
   }
 }
 

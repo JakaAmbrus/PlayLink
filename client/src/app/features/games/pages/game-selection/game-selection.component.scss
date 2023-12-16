@@ -113,6 +113,9 @@
   }
 }
 @media (max-width: 900px) {
+  #game-selection-container {
+    border-radius: 0;
+  }
   .games {
     height: auto;
     width: 90%;

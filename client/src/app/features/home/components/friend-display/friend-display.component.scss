@@ -11,10 +11,10 @@
   font-family: "Roboto Regular";
 }
 .name {
-  font-size: 1.8em;
+  font-size: 2em;
 }
 .date-established {
-  font-size: 1.2em;
+  font-size: 1.6em;
   opacity: 0.8;
 }
 .message-friend {
@@ -26,4 +26,5 @@
 .avatar {
   width: 5em;
   height: 5em;
+  flex-shrink: 0;
 }

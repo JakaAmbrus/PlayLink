@@ -24,3 +24,15 @@
   border-radius: 0.3em;
   transition: all 0.2s ease;
 }
+
+@media only screen and (max-width: 900px) {
+  #profile-features-navbar {
+    border-bottom: 0.1em solid #3a3b3c23;
+    border-radius: 0;
+  }
+}
+@media only screen and (max-width: 450px) {
+  #profile-features-navbar {
+    font-size: 0.8em;
+  }
+}

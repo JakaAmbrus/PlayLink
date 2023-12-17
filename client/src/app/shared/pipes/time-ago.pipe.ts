@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'timeAgo',
-    standalone: true,
+  name: 'timeAgo',
+  standalone: true,
 })
 export class TimeAgoPipe implements PipeTransform {
   transform(value: Date | string): string {
@@ -12,7 +12,9 @@ export class TimeAgoPipe implements PipeTransform {
     const date = new Date(value);
     const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-    if (seconds < 60) {
+    if (seconds < 0) {
+      return `0s ago`;
+    } else if (seconds < 60) {
       return `${seconds}s ago`;
     } else if (seconds < 3600) {
       return `${Math.floor(seconds / 60)}min`;

@@ -12,8 +12,9 @@ export class RelativeTimePipe implements PipeTransform {
       const seconds = Math.floor(
         (currentDate.getTime() - inputDate.getTime()) / 1000
       );
-
-      if (seconds < 60) {
+      if (seconds < 0) {
+        return `0 seconds ago`;
+      } else if (seconds < 60) {
         return `${seconds} seconds ago`;
       } else if (seconds < 3600) {
         return `${Math.floor(seconds / 60)} minutes ago`;

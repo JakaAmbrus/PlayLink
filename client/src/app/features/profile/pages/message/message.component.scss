@@ -15,7 +15,6 @@
 .message-container {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   width: 100%;
   gap: 1em;
   height: 60em;
@@ -59,12 +58,19 @@
   }
   .message-container {
     height: 63em;
+    max-height: 70vh;
   }
   #send-message-form {
     height: 100%;
   }
 }
 @media (max-width: 900px) {
+  #message-tab {
+    height: auto;
+  }
+  #send-message-form {
+    padding: 1em;
+  }
   #send-message-input {
     padding: 0.8em 1em;
   }

@@ -14,7 +14,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import countries from '../../../../../assets/data/countries.json';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
-import { validCountryValidator } from 'src/app/shared/validators/registerFormValidators';
+import { validCountryValidator } from 'src/app/shared/validators/formValidators';
 import { ToastrService } from 'ngx-toastr';
 import { AvatarService } from 'src/app/shared/services/avatar.service';
 import { MatOptionModule } from '@angular/material/core';

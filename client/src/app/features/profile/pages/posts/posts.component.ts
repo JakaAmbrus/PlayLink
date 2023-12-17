@@ -52,6 +52,8 @@ export class PostsComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
+          console.log(response);
+
           const loadedPosts = response.result;
           if (loadedPosts) {
             this.posts.push(...loadedPosts);

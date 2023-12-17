@@ -15,7 +15,7 @@ import {
   standardLettersOnlyValidator,
   standardLettersAndSpacesValidator,
   validCountryValidator,
-} from 'src/app/shared/validators/registerFormValidators';
+} from 'src/app/shared/validators/formValidators';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
 import countries from '../../../../../assets/data/countries.json';
 import { MatOptionModule } from '@angular/material/core';

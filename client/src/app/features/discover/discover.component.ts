@@ -11,6 +11,7 @@ import { DiscoverUsersService } from './services/discover-users.service';
 import { User } from './models/discoverUser';
 import { CountriesService } from './services/countries.service';
 import { Subject, first, takeUntil } from 'rxjs';
+import { LocalStorageService } from 'src/app/core/services/local-storage.service';
 
 @Component({
   selector: 'app-discover',
@@ -47,12 +48,13 @@ export class DiscoverComponent implements OnInit, OnDestroy {
 
   constructor(
     private discoverUsersService: DiscoverUsersService,
-    private countriesService: CountriesService
+    private countriesService: CountriesService,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit(): void {
-    const savedFilters = localStorage.getItem('discoverFilters');
-    if (savedFilters) {
+    const savedFilters = this.localStorageService.getItem('discoverFilters');
+    if (typeof savedFilters === 'string' && savedFilters) {
       const savedParams: UserParams = JSON.parse(savedFilters);
       this.userParams = JSON.parse(savedFilters);
       this.pageNumber = savedParams.pageNumber;
@@ -70,7 +72,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    localStorage.setItem('discoverFilters', JSON.stringify(this.userParams));
+    this.localStorageService.setItem('discoverFilters', this.userParams);
   }
 
   loadUsers() {
@@ -156,6 +158,5 @@ export class DiscoverComponent implements OnInit, OnDestroy {
 
   showMobileFilterToggle(): void {
     this.isMobileFilterVisible = !this.isMobileFilterVisible;
-    console.log(this.isMobileFilterVisible);
   }
 }

@@ -1,5 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { LocalStorageService } from 'src/app/core/services/local-storage.service';
 
 export const adminGuard: CanActivateFn = () => {
   const router = inject(Router);
@@ -11,7 +12,11 @@ export const adminGuard: CanActivateFn = () => {
 };
 
 const checkIfAdmin = (): boolean => {
-  const storedRoles = localStorage.getItem('roles');
-  const roles = storedRoles ? JSON.parse(storedRoles) : [];
-  return roles.includes('Admin');
+  const localStorageService = inject(LocalStorageService);
+  const storedRoles = localStorageService.getItem('roles');
+  if (typeof storedRoles === 'string') {
+    const roles = JSON.parse(storedRoles);
+    return roles.includes('Admin');
+  }
+  return false;
 };

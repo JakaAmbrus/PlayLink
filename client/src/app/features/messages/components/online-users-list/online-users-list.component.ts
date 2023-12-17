@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, combineLatest, map } from 'rxjs';
 import { SearchUser } from 'src/app/shared/models/users';
-import { PresenceService } from 'src/app/shared/services/presence.service';
+import { PresenceService } from 'src/app/core/services/presence.service';
 import { OnlineUserDisplayComponent } from '../online-user-display/online-user-display.component';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { UserSearchService } from 'src/app/shared/services/user-search.service';

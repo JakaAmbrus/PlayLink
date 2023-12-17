@@ -8,6 +8,7 @@ import { ProfileUserCardComponent } from './components/profile-user-card/profile
 import { AsyncPipe, NgIf } from '@angular/common';
 import { UserProfileService } from 'src/app/shared/services/user-profile.service';
 import { Observable } from 'rxjs';
+import { LocalStorageService } from 'src/app/core/services/local-storage.service';
 
 @Component({
   selector: 'app-profile',
@@ -37,7 +38,8 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     public userProfileService: UserProfileService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit(): void {
@@ -58,7 +60,7 @@ export class ProfileComponent implements OnInit {
   }
 
   IsCurrentUser(username: string): boolean {
-    const currentUser = localStorage.getItem('user');
+    const currentUser = this.localStorageService.getItem<string>('username');
     if (currentUser === username) {
       return true;
     }

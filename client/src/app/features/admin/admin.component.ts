@@ -39,7 +39,6 @@ export class AdminComponent implements OnInit {
             this.users.push(...loadedUsers);
             this.totalUsers = response.pagination?.totalItems;
             this.pagination = response.pagination;
-            console.log(this.users);
           }
         },
         error: (err) => console.error(err),

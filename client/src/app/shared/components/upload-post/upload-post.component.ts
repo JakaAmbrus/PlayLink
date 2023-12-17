@@ -85,7 +85,6 @@ export class UploadPostComponent implements OnInit {
 
   ngOnInit(): void {
     this.avatar = this.avatarService.getAvatarDetails();
-    console.log(this.avatar);
 
     this.initializeForm();
   }
@@ -96,24 +95,24 @@ export class UploadPostComponent implements OnInit {
     });
   }
 
-  openUploadPostModal() {
+  openUploadPostModal(): void {
     this.isModalOpen = true;
     this.animationState = 'large';
   }
 
-  closeUploadPostModal() {
+  closeUploadPostModal(): void {
     this.animationState = 'small';
     setTimeout(() => {
       this.isModalOpen = false;
     }, 105);
   }
 
-  onSelect(event: any) {
+  onSelect(event: any): void {
     this.selectedFiles = event.addedFiles.slice(0, 1);
     this.isFileSelected = true;
   }
 
-  onRemove(event: any) {
+  onRemove(event: any): void {
     this.selectedFiles = [];
     this.isFileSelected = false;
   }

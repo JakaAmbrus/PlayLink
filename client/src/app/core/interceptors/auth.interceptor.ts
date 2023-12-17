@@ -6,18 +6,18 @@ import {
   HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AccountService } from '../services/account.service';
+import { TokenService } from '../services/token.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private accountService: AccountService) {}
+  constructor(private tokenService: TokenService) {}
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     // add authorization header with jwt token if available
-    const token = this.accountService.getToken();
+    const token = this.tokenService.getToken();
 
     if (
       token &&

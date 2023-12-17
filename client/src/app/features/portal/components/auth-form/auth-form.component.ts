@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RegisterComponent } from '../register/register.component';
 import { LoginComponent } from '../login/login.component';
 import { NgClass, NgIf } from '@angular/common';
+import { LocalStorageService } from 'src/app/core/services/local-storage.service';
 
 @Component({
   selector: 'app-auth-form',
@@ -13,22 +14,24 @@ import { NgClass, NgIf } from '@angular/common';
 export class AuthFormComponent implements OnInit {
   formStateLogin: boolean = true;
 
+  constructor(private localStorageService: LocalStorageService) {}
+
   ngOnInit(): void {
     this.loadFormState();
   }
 
   toggleFormStateLogin() {
     this.formStateLogin = true;
-    localStorage.setItem('formState', 'login');
+    this.localStorageService.setItem('formState', 'login');
   }
 
   toggleFormStateRegister() {
     this.formStateLogin = false;
-    localStorage.setItem('formState', 'register');
+    this.localStorageService.setItem('formState', 'register');
   }
 
   loadFormState() {
-    const savedState = localStorage.getItem('formState');
+    const savedState = this.localStorageService.getItem('formState');
     if (savedState) {
       this.formStateLogin = savedState === 'login';
     }

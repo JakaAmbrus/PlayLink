@@ -5,9 +5,11 @@ import {
   UrlTree,
 } from '@angular/router';
 import { inject } from '@angular/core';
+import { LocalStorageService } from '../services/local-storage.service';
 
 const checkIfLoggedIn = (): boolean => {
-  const loggedIn = localStorage.getItem('loggedIn');
+  const localStorageService = inject(LocalStorageService);
+  const loggedIn = localStorageService.getItem('loggedIn');
   return loggedIn === 'true';
 };
 
@@ -21,9 +23,7 @@ export const canActivateGuard: CanActivateFn = (): boolean | UrlTree => {
   return true;
 };
 
-export const canActivateLoginGuard: CanActivateFn = (
-  route: ActivatedRouteSnapshot
-): boolean | UrlTree => {
+export const canActivateLoginGuard: CanActivateFn = (): boolean | UrlTree => {
   const router = inject(Router);
 
   const isLoggedIn = checkIfLoggedIn();

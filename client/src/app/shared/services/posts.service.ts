@@ -86,7 +86,6 @@ export class PostsService {
     if (postContent.photoFile) {
       formData.append('PhotoFile', postContent.photoFile);
     }
-    console.log(formData);
 
     return this.http.post(this.baseUrl + 'posts', formData);
   }

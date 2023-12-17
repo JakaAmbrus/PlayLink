@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from 'src/app/core/services/account.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { LoginRequest } from 'src/app/shared/models/auth';
 
 @Component({
   selector: 'app-login',
@@ -11,26 +12,27 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule],
 })
 export class LoginComponent implements OnInit {
-  model: any = {};
+  loginData: LoginRequest = {
+    username: '',
+    password: '',
+  };
   loggedIn: boolean = false;
 
   constructor(private accountService: AccountService, private router: Router) {}
 
   ngOnInit(): void {}
   guestLogin() {
-    this.model.username = 'jakaambrus';
-    this.model.password = 'ambrus123';
+    this.loginData.username = 'jakaambrus';
+    this.loginData.password = 'ambrus123';
     this.login();
   }
   login() {
-    this.accountService.login(this.model).subscribe({
-      next: (response) => {
-        console.log(response);
+    this.accountService.login(this.loginData).subscribe({
+      next: () => {
         this.loggedIn = true;
         this.accountService.setLoggedIn(true);
         this.router.navigate(['/home']);
       },
-      error: (error) => console.log(error),
     });
   }
 }

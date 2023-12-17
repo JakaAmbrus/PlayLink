@@ -41,7 +41,6 @@ import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
   ],
 })
 export class RegisterComponent implements OnInit {
-  model: any = {};
   registerForm: FormGroup = new FormGroup({});
   minDate: Date;
   maxDate: Date;
@@ -138,12 +137,10 @@ export class RegisterComponent implements OnInit {
     const values = { ...this.registerForm.value, dateOfBirth: dob };
 
     this.accountService.register(values).subscribe({
-      next: (response) => {
-        console.log(response);
+      next: () => {
         this.accountService.setLoggedIn(true);
         this.router.navigate(['/home']);
       },
-      error: () => console.log('Registration error'),
     });
   }
 

@@ -8,7 +8,7 @@ import {
 import { ProfileUser } from 'src/app/shared/models/users';
 import { FriendsService } from 'src/app/shared/services/friends.service';
 import { ModeratorService } from 'src/app/shared/services/moderator.service';
-import { PresenceService } from 'src/app/shared/services/presence.service';
+import { PresenceService } from 'src/app/core/services/presence.service';
 import { RelativeTimePipe } from '../../../../shared/pipes/relative-time.pipe';
 import { RelativeUrlPipe } from '../../../../shared/pipes/relative-url.pipe';
 import { RouterLink } from '@angular/router';
@@ -80,10 +80,6 @@ export class ProfileUserCardComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response: FriendshipStatusResponse) => {
           this.friendshipStatus = FriendshipStatus[response.status];
-          console.log(this.friendshipStatus);
-        },
-        error: (err) => {
-          console.log(err);
         },
       });
   }
@@ -99,10 +95,6 @@ export class ProfileUserCardComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.friendshipStatus = 'Pending';
-          console.log('Friend request sent');
-        },
-        error: (err) => {
-          console.log(err);
         },
       });
   }
@@ -123,9 +115,6 @@ export class ProfileUserCardComponent implements OnInit, OnDestroy {
         this.friendsService.removeFriendship(this.user!.username).subscribe({
           next: () => {
             this.friendshipStatus = 'None';
-          },
-          error: (err) => {
-            console.log(err);
           },
         });
       }
@@ -149,9 +138,6 @@ export class ProfileUserCardComponent implements OnInit, OnDestroy {
           next: () => {
             this.userProfileService.invalidateUserCache(this.user!.username);
             this.user!.profilePictureUrl = null;
-          },
-          error: (err) => {
-            console.log(err);
           },
         });
       }
@@ -177,9 +163,6 @@ export class ProfileUserCardComponent implements OnInit, OnDestroy {
             next: () => {
               this.userProfileService.invalidateUserCache(this.user!.username);
               this.user!.description = null;
-            },
-            error: (err) => {
-              console.log(err);
             },
           });
       }

@@ -7,20 +7,21 @@ import { HeaderNotificationsComponent } from './components/header-notifications/
 import { NgIf } from '@angular/common';
 import { HeaderNavLinksComponent } from './components/header-nav-links/header-nav-links.component';
 import { HeaderLogoComponent } from './components/header-logo/header-logo.component';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
-    selector: 'app-header',
-    templateUrl: './header.component.html',
-    styleUrls: ['./header.component.scss'],
-    standalone: true,
-    imports: [
-        HeaderLogoComponent,
-        HeaderNavLinksComponent,
-        NgIf,
-        HeaderNotificationsComponent,
-        HeaderDropdownComponent,
-        RouterLink,
-    ],
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
+  standalone: true,
+  imports: [
+    HeaderLogoComponent,
+    HeaderNavLinksComponent,
+    NgIf,
+    HeaderNotificationsComponent,
+    HeaderDropdownComponent,
+    RouterLink,
+  ],
 })
 export class HeaderComponent implements OnInit {
   @Input() theme!: 'theme-light' | 'theme-dark';
@@ -35,10 +36,13 @@ export class HeaderComponent implements OnInit {
   isModerator: boolean = false;
   friendRequests: FriendRequest[] = [];
 
-  constructor(private friendsService: FriendsService) {}
+  constructor(
+    private friendsService: FriendsService,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit(): void {
-    this.username = localStorage.getItem('user');
+    this.username = this.localStorageService.getItem<string>('username');
     if (!this.username) {
       return;
     }
@@ -53,7 +57,6 @@ export class HeaderComponent implements OnInit {
     this.friendsService.getFriendRequests().subscribe({
       next: (response) => {
         this.friendRequests = response.friendRequests;
-        console.log(this.friendRequests);
       },
     });
   }
@@ -118,10 +121,8 @@ export class HeaderComponent implements OnInit {
   }
 
   onRequestDelete(requestId: number): void {
-    console.log('Friend request deleted 2');
     this.friendRequests = this.friendRequests.filter(
       (fr) => fr.friendRequestId !== requestId
     );
-    console.log(this.friendRequests);
   }
 }

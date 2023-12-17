@@ -124,7 +124,6 @@ export class EditComponent implements OnInit {
 
       this.editUserService.editUser(editUserData).subscribe({
         next: (response) => {
-          console.log(response);
           this.toastr.success('Profile updated successfully');
           this.editUserForm.reset();
           this.selectedFiles = [];

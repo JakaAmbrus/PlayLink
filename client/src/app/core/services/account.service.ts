@@ -1,9 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AvatarService } from '../../shared/services/avatar.service';
-import { PresenceService } from '../../shared/services/presence.service';
+import { PresenceService } from './presence.service';
+import { CacheManagerService } from './cache-manager.service';
+import { TokenService } from './token.service';
+import { LocalStorageService } from './local-storage.service';
+import {
+  AuthResponse,
+  LoginRequest,
+  RegisterRequest,
+} from 'src/app/shared/models/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -11,39 +19,47 @@ import { PresenceService } from '../../shared/services/presence.service';
 export class AccountService {
   baseUrl = environment.apiUrl;
   userRoles: string[] = [];
-  private loggedInStatus = new BehaviorSubject<boolean>(
-    this.checkLoggedInStatus()
-  );
 
   constructor(
     private http: HttpClient,
     private presenceService: PresenceService,
-    private avatarService: AvatarService
+    private avatarService: AvatarService,
+    private cacheManagerService: CacheManagerService,
+    private tokenService: TokenService,
+    private localStorageService: LocalStorageService
   ) {}
 
-  login(model: any) {
+  login(request: LoginRequest): Observable<AuthResponse> {
     return this.http
-      .post(this.baseUrl + 'account/login', model)
-      .pipe(tap((response) => this.handleUserResponse(response)));
+      .post<AuthResponse>(this.baseUrl + 'account/login', request)
+      .pipe(tap((response: AuthResponse) => this.handleUserResponse(response)));
   }
 
-  register(model: any) {
+  register(request: RegisterRequest): Observable<AuthResponse> {
     return this.http
-      .post(this.baseUrl + 'account/register', model)
-      .pipe(tap((response) => this.handleUserResponse(response)));
+      .post<AuthResponse>(this.baseUrl + 'account/register', request)
+      .pipe(tap((response: AuthResponse) => this.handleUserResponse(response)));
   }
 
-  private handleUserResponse(response: any) {
+  logout(): void {
+    this.localStorageService.clearStorage();
+    this.cacheManagerService.clearAllCache();
+    this.avatarService.destroyAvatarDetails();
+    this.setLoggedIn(false);
+    this.presenceService.stopHubConnection();
+  }
+
+  private handleUserResponse(response: AuthResponse): void {
     const { username, token, fullName, gender, profilePictureUrl } =
       response.user;
 
     this.presenceService.createHubConnection(token);
 
-    const roles = this.getDecodedToken(token).role;
+    const roles = this.tokenService.getDecodedToken(token).role;
+    this.tokenService.saveToken(token);
     this.userRoles = Array.isArray(roles) ? roles : [roles];
-    localStorage.setItem('roles', JSON.stringify(this.userRoles));
-    this.saveToken(token);
-    this.saveUser(username);
+    this.localStorageService.setItem('roles', JSON.stringify(this.userRoles));
+    this.localStorageService.setItem('username', username);
     this.setLoggedIn(true);
     this.avatarService.updateAvatarDetails({
       username,
@@ -53,39 +69,7 @@ export class AccountService {
     });
   }
 
-  logout() {
-    localStorage.clear();
-    this.setLoggedIn(false);
-    this.presenceService.stopHubConnection();
-  }
-
-  saveUser(user: string) {
-    localStorage.setItem('user', user);
-  }
-
-  saveToken(token: string) {
-    localStorage.setItem('token', token);
-  }
-
-  getToken() {
-    return localStorage.getItem('token');
-  }
-
-  getDecodedToken(token: string) {
-    return JSON.parse(atob(token.split('.')[1]));
-  }
-
-  get isLoggedIn() {
-    return this.loggedInStatus.asObservable();
-  }
-
-  setLoggedIn(value: boolean) {
-    this.loggedInStatus.next(value);
-    localStorage.setItem('loggedIn', value ? 'true' : 'false');
-  }
-
-  private checkLoggedInStatus(): boolean {
-    const loggedIn = localStorage.getItem('loggedIn');
-    return loggedIn === 'true';
+  setLoggedIn(value: boolean): void {
+    this.localStorageService.setItem('loggedIn', value ? 'true' : 'false');
   }
 }

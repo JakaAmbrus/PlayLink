@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { PresenceService } from 'src/app/shared/services/presence.service';
+import { PresenceService } from 'src/app/core/services/presence.service';
 import { FirstWordPipe } from '../../../../shared/pipes/first-word.pipe';
 import { RelativeUrlPipe } from '../../../../shared/pipes/relative-url.pipe';
 import { RouterLink } from '@angular/router';

@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
 import { NgIf, DatePipe, AsyncPipe } from '@angular/common';
 import { UserProfileService } from 'src/app/shared/services/user-profile.service';
 import { Observable } from 'rxjs';
+import { LocalStorageService } from 'src/app/core/services/local-storage.service';
 
 @Component({
   selector: 'app-home-user-card',
@@ -25,10 +26,13 @@ export class HomeUserCardComponent implements OnInit {
   user$?: Observable<ProfileUser>;
   username: string | null = null;
 
-  constructor(public userProfileService: UserProfileService) {}
+  constructor(
+    public userProfileService: UserProfileService,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit(): void {
-    this.username = localStorage.getItem('user');
+    this.username = this.localStorageService.getItem('username');
 
     if (this.username === null) {
       return;

@@ -13,6 +13,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { NearestBdUsersListComponent } from './components/nearest-bd-users-list/nearest-bd-users-list.component';
 import { Subject, first, takeUntil } from 'rxjs';
 import { MessageDisplayService } from './services/message-display.service';
+import { LocalStorageService } from 'src/app/core/services/local-storage.service';
 
 @Component({
   selector: 'app-messages',
@@ -41,23 +42,26 @@ export class MessagesComponent implements OnInit {
   messageCountController: number = 0;
   private destroy$ = new Subject<void>();
 
-  constructor(private messageDisplyService: MessageDisplayService) {}
+  constructor(
+    private messageDisplayService: MessageDisplayService,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit(): void {
-    this.container = localStorage.getItem('Container') || 'Unread';
+    this.container = this.localStorageService.getItem('Container') || 'Unread';
 
     this.loadMessages();
   }
 
   loadMessages(): void {
-    localStorage.setItem('Container', this.container);
+    this.localStorageService.setItem('Container', this.container);
     this.messageParams = {
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
       container: this.container,
     };
     this.isLoading = true;
-    this.messageDisplyService
+    this.messageDisplayService
       .getUserMessages(this.messageParams)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -81,7 +85,7 @@ export class MessagesComponent implements OnInit {
   }
 
   onMessageDelete(id: number): void {
-    this.messageDisplyService
+    this.messageDisplayService
       .deleteMessage(id)
       .pipe(first())
       .subscribe({

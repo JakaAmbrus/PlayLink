@@ -12,6 +12,7 @@ import { MessagesService } from 'src/app/features/profile/services/message.servi
 import { MessageContentComponent } from '../../components/message-content/message-content.component';
 import { NgIf, NgFor } from '@angular/common';
 import { MessageThread } from 'src/app/features/discover/models/messageThread';
+import { TokenService } from 'src/app/core/services/token.service';
 
 @Component({
   selector: 'app-message',
@@ -32,12 +33,13 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   constructor(
     public messagesService: MessagesService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private tokenService: TokenService
   ) {}
 
   ngOnInit(): void {
     this.username = this.route.parent?.snapshot.paramMap.get('username');
-    const token = localStorage.getItem('token');
+    const token = this.tokenService.getToken();
     if (!token || !this.username) {
       return;
     }

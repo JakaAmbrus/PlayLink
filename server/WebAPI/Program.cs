@@ -9,6 +9,7 @@ using WebAPI.Filters;
 using WebAPI.SignalR;
 using WebAPI.Middleware;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +34,14 @@ builder.Services.AddSignalRExtensions();
 builder.Host.UseSerilog((context, configuration) =>
 configuration.ReadFrom.Configuration(context.Configuration));
 
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.Providers.Add<GzipCompressionProvider>();
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+        new[] { "text/plain", "text/css", "application/javascript", "text/html", "application/json" });
+});
+
 var app = builder.Build();
 
 
@@ -48,6 +57,7 @@ app.UseSerilogRequestLogging();
 
 ApplicationStartupExtensions.ConfigureApplication(app, app.Services);
 
+app.UseResponseCompression();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 

@@ -1,0 +1,14 @@
+<div
+  *ngIf="likedUsers"
+  class="liked-users-list-container secondary-background theme-border rounded-border box-shadow"
+>
+  <a
+    *ngFor="let user of likedUsers"
+    routerLink="/user/{{ user.username }}"
+    class="liked-users theme-border-bottom"
+  >
+    <div class="liked-user">
+      {{ user.fullName }}
+    </div>
+  </a>
+</div>

@@ -14,6 +14,8 @@ import { UserAvatarComponent } from '../user-avatar/user-avatar.component';
 import { RouterLink } from '@angular/router';
 import { NgIf, NgClass, NgOptimizedImage, NgFor } from '@angular/common';
 import { Subject, first, takeUntil } from 'rxjs';
+import { LikedUser } from '../../models/likedUser';
+import { LikedUsersListComponent } from '../liked-users-list/liked-users-list.component';
 
 @Component({
   selector: 'app-post',
@@ -31,6 +33,7 @@ import { Subject, first, takeUntil } from 'rxjs';
     UploadCommentComponent,
     RelativeUrlPipe,
     RelativeTimePipe,
+    LikedUsersListComponent,
   ],
 })
 export class PostComponent {
@@ -40,6 +43,8 @@ export class PostComponent {
 
   comments: Comment[] = [];
   commentsShown: boolean = false;
+  likedUsers: LikedUser[] = [];
+  showLikedUsers: boolean = false;
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -48,6 +53,25 @@ export class PostComponent {
     private commentsService: CommentsService,
     public dialog: MatDialog
   ) {}
+
+  displayLikedUsers(): void {
+    if (this.post?.likesCount === 0) {
+      return;
+    }
+    this.showLikedUsers = true;
+    this.loadLikedUsers();
+  }
+
+  loadLikedUsers(): void {
+    if (this.post?.postId) {
+      this.likesService
+        .getPostLikes(this.post.postId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((likedUsers) => {
+          this.likedUsers = likedUsers;
+        });
+    }
+  }
 
   toggleLike(post: Post): void {
     if (post.isLikedByCurrentUser) {

@@ -105,13 +105,14 @@ export class HeaderComponent implements OnInit {
     if (this.preventClose) {
       return;
     }
-    if (this.isDropdownOpen) this.isDropdownOpen = false;
-    if (this.isNotificationsOpen) this.isNotificationsOpen = false;
+    if (this.isDropdownOpen) {
+      this.isDropdownOpen = false;
+    }
     this.unbindClickListener();
   }
 
   checkRoles(): void {
-    const storedRoles = localStorage.getItem('roles');
+    const storedRoles = this.localStorageService.getItem<string>('roles');
     if (!storedRoles) {
       return;
     }

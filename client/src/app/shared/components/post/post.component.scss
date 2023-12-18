@@ -48,10 +48,25 @@
   width: 100%;
 }
 .post-likes-and-comments-count {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 1.6em;
+
+  .post-likes-count {
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .liked-users-list {
+    position: absolute;
+    left: 0;
+    bottom: 2em;
+  }
 }
 .post-bottom {
   display: flex;

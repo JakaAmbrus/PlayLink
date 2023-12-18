@@ -72,7 +72,8 @@ $dark-theme: (
   .profile-link-text-container:hover,
   .navigation-links-icons-container:hover,
   .dropdown-section:hover,
-  .post-actions:hover {
+  .post-actions:hover,
+  .liked-users:hover {
     background-color: #f2f2f2;
   }
 
@@ -193,7 +194,8 @@ $dark-theme: (
   .profile-link-text-container:hover,
   .navigation-links-icons-container:hover,
   .dropdown-section:hover,
-  .post-actions:hover {
+  .post-actions:hover,
+  .liked-users:hover {
     background-color: #3a3b3c;
   }
   .active-link .profile-link-text-container:hover,

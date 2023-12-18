@@ -43,8 +43,15 @@
     priority
   />
   <div class="post-likes-and-comments-count">
-    <div class="post-likes-count">{{ post.likesCount }} Likes</div>
+    <div (click)="displayLikedUsers()" class="post-likes-count">
+      {{ post.likesCount }} Likes
+    </div>
     <div class="post-comments-count">{{ post.commentsCount }} Comments</div>
+    <app-liked-users-list
+      class="liked-users-list"
+      *ngIf="showLikedUsers"
+      [likedUsers]="likedUsers"
+    ></app-liked-users-list>
   </div>
   <div class="post-bottom post-counts-borders">
     <div class="post-actions" (click)="toggleLike(post)">

@@ -1,4 +1,5 @@
-﻿using Application.Features.Likes.LikePost;
+﻿using Application.Features.Likes.GetPostLikes;
+using Application.Features.Likes.LikePost;
 using Application.Features.Likes.UnlikePost;
 using Application.Features.Posts.Common;
 using Application.Features.Posts.DeletePost;
@@ -155,6 +156,21 @@ namespace WebAPI.Controllers
             };
 
             var result = await Mediator.Send(command, cancellationToken);
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Returns a list of users who liked a post.
+        /// </summary>
+        /// <param name="postId">Post ID.</param>
+        /// <returns>List of user DTOs.</returns>
+        [HttpGet("{postId}/likes")]
+        public async Task<IActionResult> GetPostLikes(int postId, CancellationToken cancellationToken)
+        {
+            var query = new GetPostLikesQuery { PostId = postId };
+
+            var result = await Mediator.Send(query, cancellationToken);
 
             return Ok(result);
         }

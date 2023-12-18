@@ -2,6 +2,7 @@
 using Application.Features.Comments.DeleteComment;
 using Application.Features.Comments.GetComments;
 using Application.Features.Comments.UploadComment;
+using Application.Features.Likes.GetCommentLikes;
 using Application.Features.Likes.LikeComment;
 using Application.Interfaces;
 using MediatR;
@@ -82,6 +83,21 @@ namespace WebAPI.Controllers
             };
 
             var result = await Mediator.Send(command, cancellationToken);
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Returns a list of users who liked a comment.
+        /// </summary>
+        /// <param name="commentId">Comment ID.</param>
+        /// <returns>List of user DTOs.</returns>
+        [HttpGet("{commentId}/likes")]
+        public async Task<IActionResult> GetCommentLikes(int commentId, CancellationToken cancellationToken)
+        {
+            var query = new GetCommentLikesQuery { CommentId = commentId };
+
+            var result = await Mediator.Send(query, cancellationToken);
 
             return Ok(result);
         }

@@ -100,11 +100,18 @@ video {
   max-width: 100%;
   height: auto;
 }
-button {
-  margin: 0;
-  padding: 0;
-  border: none;
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
   background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
 }
 
 //scrollbar styles

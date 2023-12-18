@@ -8,7 +8,7 @@
     class="notifications theme-border-bottom"
   >
     <div *ngIf="request.status === 0" class="pending-request">
-      <div
+      <a
         routerLink="/user/{{ request.senderUsername }}"
         class="avatar-time-name"
       >
@@ -22,15 +22,17 @@
           <h2>{{ request.senderFullName }}</h2>
           <p>{{ request.timeSent | relativeTime }}</p>
         </div>
-      </div>
+      </a>
       <div class="accept-decline">
         <button
+          type="button"
           (click)="respondToFriendRequest(request.friendRequestId, true)"
           class="accept-decline-button reverse-parameters"
         >
           Accept
         </button>
         <button
+          type="button"
           (click)="respondToFriendRequest(request.friendRequestId, false)"
           class="accept-decline-button reverse-parameters decline"
         >
@@ -42,7 +44,8 @@
       *ngIf="request.status === 1 || request.status === 2"
       class="accepted-or-declined"
     >
-      <div
+      <button
+        type="button"
         (click)="removeFriendRequest(request.friendRequestId)"
         class="avatar-accepted-or-declined"
       >
@@ -59,7 +62,7 @@
             friend request.
           </p>
         </div>
-      </div>
+      </button>
     </div>
   </div>
 </div>

@@ -35,7 +35,6 @@
   height: 5em;
   width: 5em;
   border-radius: 50%;
-  cursor: pointer;
 }
 #header-notifications-container {
   position: relative;
@@ -78,8 +77,6 @@
   left: 8em;
   border-radius: 1em;
   z-index: 100;
-  -webkit-user-select: none;
-  user-select: none;
 
   & span {
     font-size: 7em;

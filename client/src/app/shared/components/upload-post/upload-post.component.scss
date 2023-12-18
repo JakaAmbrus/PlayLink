@@ -40,7 +40,6 @@
   height: 2.5em;
   width: 50%;
   gap: 0.6em;
-  cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 }
 .pen-and-photo-icons {
@@ -122,7 +121,6 @@
   border-radius: 0.2em;
   margin-top: 0.5em;
   letter-spacing: 0.02em;
-  cursor: pointer;
 }
 .upload-submit:disabled {
   cursor: not-allowed;

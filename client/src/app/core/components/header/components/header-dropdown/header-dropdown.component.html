@@ -2,9 +2,8 @@
   id="dropdown-container"
   class="secondary-background box-shadow rounded-border theme-border"
 >
-  <div
-    (click)="navigateToEditProfile()"
-    id="dropdown-profile"
+  <a
+    routerLink="/user/{{ username }}/edit"
     class="dropdown-section rounded-border"
   >
     <div class="dropdown-left">
@@ -18,8 +17,8 @@
     <span class="material-symbols-rounded filled dropdown-arrow">
       navigate_next
     </span>
-  </div>
-  <div id="dropdown-profile" class="dropdown-section rounded-border">
+  </a>
+  <a routerLink="/about" class="dropdown-section rounded-border">
     <div class="dropdown-left">
       <div
         class="header-icons-right header-icons-dropdown-container theme-border"
@@ -31,10 +30,10 @@
     <span class="material-symbols-rounded filled dropdown-arrow">
       navigate_next
     </span>
-  </div>
-  <div
+  </a>
+  <button
+    type="button"
     (click)="logout()"
-    id="dropdown-profile"
     class="dropdown-section rounded-border"
   >
     <div class="dropdown-left">
@@ -48,5 +47,5 @@
     <span class="material-symbols-rounded filled dropdown-arrow">
       navigate_next
     </span>
-  </div>
+  </button>
 </div>

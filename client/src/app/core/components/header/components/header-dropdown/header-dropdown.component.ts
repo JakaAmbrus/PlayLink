@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AccountService } from '../../../../services/account.service';
 
 @Component({
@@ -7,18 +7,12 @@ import { AccountService } from '../../../../services/account.service';
   templateUrl: './header-dropdown.component.html',
   styleUrls: ['./header-dropdown.component.scss'],
   standalone: true,
+  imports: [RouterLink],
 })
 export class HeaderDropdownComponent {
-  constructor(private accountService: AccountService, private router: Router) {}
   @Input() username: string | null = null;
 
-  navigateToEditProfile() {
-    this.router
-      .navigateByUrl('/RefreshComponent', { skipLocationChange: true })
-      .then(() => {
-        this.router.navigate(['/user', this.username, 'edit']);
-      });
-  }
+  constructor(private accountService: AccountService, private router: Router) {}
 
   logout() {
     this.accountService.logout();

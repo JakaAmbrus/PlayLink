@@ -1,7 +1,12 @@
 <div id="quiz-container">
   <div id="quiz-start-container" *ngIf="!quizStarted && !quizEnded">
     <h1 class="header-text">Quiz Up!</h1>
-    <button class="reverse-parameters" id="start-quiz" (click)="startQuiz()">
+    <button
+      type="button"
+      class="reverse-parameters"
+      id="start-quiz"
+      (click)="startQuiz()"
+    >
       Start Quiz
     </button>
   </div>

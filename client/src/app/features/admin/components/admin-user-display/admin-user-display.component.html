@@ -9,6 +9,7 @@
     <h2 class="admin-user-fullname">{{ user.fullName }}</h2>
   </a>
   <button
+    type="button"
     *ngIf="user.isModerator"
     (click)="editRole(user.appUserId)"
     class="role-edit primary parameters theme-border header-text box-shadow"
@@ -16,6 +17,7 @@
     Moderator
   </button>
   <button
+    type="button"
     *ngIf="!user.isModerator"
     (click)="editRole(user.appUserId)"
     class="role-edit reverse-parameters"
@@ -23,5 +25,7 @@
     Member
   </button>
 
-  <button class="delete-user-button rounded-border">Delete</button>
+  <button type="button" class="delete-user-button rounded-border">
+    Delete
+  </button>
 </div>

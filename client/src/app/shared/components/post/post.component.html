@@ -43,9 +43,13 @@
     priority
   />
   <div class="post-likes-and-comments-count">
-    <div (click)="displayLikedUsers()" class="post-likes-count">
+    <button
+      type="button"
+      (click)="displayLikedUsers()"
+      class="post-likes-count"
+    >
       {{ post.likesCount }} Likes
-    </div>
+    </button>
     <div class="post-comments-count">{{ post.commentsCount }} Comments</div>
     <app-liked-users-list
       class="liked-users-list"
@@ -54,7 +58,7 @@
     ></app-liked-users-list>
   </div>
   <div class="post-bottom post-counts-borders">
-    <div class="post-actions" (click)="toggleLike(post)">
+    <button type="button" class="post-actions" (click)="toggleLike(post)">
       <span
         class="material-symbols-rounded post-count-icons"
         [ngClass]="{ filled: post.isLikedByCurrentUser }"
@@ -62,13 +66,13 @@
         favorite
       </span>
       <p class="post-count">Like</p>
-    </div>
-    <div class="post-actions" (click)="showComments()">
+    </button>
+    <button type="button" class="post-actions" (click)="showComments()">
       <span class="material-symbols-rounded post-count-icons"
         >mode_comment</span
       >
       <p class="post-count">Comment</p>
-    </div>
+    </button>
   </div>
 
   <div *ngIf="commentsShown" class="comments-container">

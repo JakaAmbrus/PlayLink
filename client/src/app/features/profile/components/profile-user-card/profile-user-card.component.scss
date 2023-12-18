@@ -60,7 +60,6 @@
     background-color: #f0f2f5;
     color: #3a3b3c;
     border-top-left-radius: 0.5em;
-    cursor: pointer;
 
     .moderator-icon {
       font-size: 5em;
@@ -140,7 +139,6 @@
     background-color: #f0f2f5;
     color: #3a3b3c;
     border-radius: 0.5em;
-    cursor: pointer;
 
     .moderator-icon {
       font-size: 3em;
@@ -173,7 +171,6 @@
   margin-top: 1em;
 }
 .profile-buttons {
-  cursor: pointer;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -182,7 +179,6 @@
   border-radius: 0.2em;
   font-weight: 900;
   letter-spacing: 0.05em;
-  font-family: "Roboto Regular";
 }
 
 @media (max-width: 1100px) {
@@ -229,12 +225,8 @@
     .profile-name {
       padding: 0;
     }
-    #country-and-birthday {
-      display: none;
-    }
-    #description-container {
-      display: none;
-    }
+    #country-and-birthday,
+    #description-container,
     #joined-container {
       display: none;
     }
@@ -242,17 +234,8 @@
       justify-content: start;
     }
     .profile-buttons {
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      width: 100%;
       max-width: 15em;
       font-size: 2.4em;
-      padding: 0.4em 0;
-      border-radius: 0.2em;
-      font-weight: 900;
-      letter-spacing: 0.05em;
-      font-family: "Roboto Regular";
     }
   }
 }

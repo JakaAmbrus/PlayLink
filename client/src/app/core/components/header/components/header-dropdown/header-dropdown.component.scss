@@ -17,8 +17,6 @@
   transition: background-color 0.2s ease;
   width: 20em;
   cursor: pointer;
-  -webkit-user-select: none;
-  user-select: none;
 }
 .header-icons-dropdown-container {
   display: flex;
@@ -31,9 +29,7 @@
 .header-icons-dropdown-container .filled {
   font-size: 3em;
 }
-.material-symbols-rounded.filled {
-  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48;
-}
+
 .dropdown-title {
   font-size: 1.7em;
   letter-spacing: 0.05em;

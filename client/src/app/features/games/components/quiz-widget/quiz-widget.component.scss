@@ -18,8 +18,6 @@
     padding: 0.5em 2em;
     border-radius: 0.25em;
     margin-top: 3em;
-    border: none;
-    cursor: pointer;
   }
 
   h1 {
@@ -60,10 +58,6 @@
   padding: 0.5em 0em;
 }
 
-button {
-  font-family: "Nexa Bold";
-  cursor: pointer;
-}
 button.correct {
   background-color: green;
 }

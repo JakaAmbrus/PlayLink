@@ -54,12 +54,8 @@
   align-items: center;
   font-size: 1.6em;
 
-  .post-likes-count {
-    cursor: pointer;
-
-    &:hover {
-      text-decoration: underline;
-    }
+  .post-likes-count:hover {
+    text-decoration: underline;
   }
 
   .liked-users-list {
@@ -82,7 +78,6 @@
   height: 2.5em;
   width: 50%;
   gap: 0.3em;
-  cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;

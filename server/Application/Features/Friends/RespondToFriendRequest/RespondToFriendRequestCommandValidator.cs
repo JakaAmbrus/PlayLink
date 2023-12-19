@@ -10,7 +10,7 @@ namespace Application.Features.Friends.RespondToFriendRequest
                 .NotEmpty().WithMessage("Friend request Id required.");
 
             RuleFor(x => x.FriendRequestResponse.Accept)
-                .NotEmpty().WithMessage("Friend request response required.");
+                .NotNull().WithMessage("Friend request response required.");
 
             RuleFor(x => x.AuthUserId)
                 .NotEmpty().WithMessage("Auth user Id required.");

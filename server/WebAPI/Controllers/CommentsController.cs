@@ -4,6 +4,7 @@ using Application.Features.Comments.GetComments;
 using Application.Features.Comments.UploadComment;
 using Application.Features.Likes.GetCommentLikes;
 using Application.Features.Likes.LikeComment;
+using Application.Features.Likes.UnlikeComment;
 using Application.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -132,7 +133,7 @@ namespace WebAPI.Controllers
         {
             int authUserId = GetCurrentUserId();
 
-            var command = new LikeCommentCommand
+            var command = new UnlikeCommentCommand
             {
                 CommentId = commentId,
                 AuthUserId = authUserId

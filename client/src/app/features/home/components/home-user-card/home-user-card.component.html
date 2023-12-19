@@ -15,12 +15,11 @@
         <p>Member Since: {{ user.created | relativeTime }}</p>
       </div>
     </a>
-    <span
-      routerLink="/user/{{ user.username }}/edit"
-      class="material-symbols-rounded edit-profile header-text filled"
+    <a routerLink="/user/{{ user.username }}/edit">
+      <span class="material-symbols-rounded edit-profile header-text filled">
+        manage_accounts
+      </span></a
     >
-      manage_accounts
-    </span>
   </div>
   <div id="country-and-birthday" class="theme-border-bottom theme-border-top">
     <div class="country">

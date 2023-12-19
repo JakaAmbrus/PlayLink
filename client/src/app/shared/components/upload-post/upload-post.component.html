@@ -41,14 +41,11 @@
     id="upload-form"
     class="rounded-border secondary-background box-shadow rounded-border"
   >
-    <span
-      *ngIf="!isLoading"
-      id="close-upload-post"
-      class="material-symbols-rounded filled"
-      (click)="closeUploadPostModal()"
-    >
-      close
-    </span>
+    <button *ngIf="!isLoading" (click)="closeUploadPostModal()" type="button">
+      <span id="close-upload-post" class="material-symbols-rounded filled">
+        close
+      </span>
+    </button>
     <h1 id="upload-header">Create Your Post</h1>
     <label class="form-label edit-labels"> Express Yourself </label>
     <div class="relative">

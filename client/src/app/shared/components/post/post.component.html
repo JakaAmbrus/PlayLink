@@ -12,13 +12,15 @@
         <p class="post-date">{{ post.datePosted | relativeTime }}</p>
       </div>
     </a>
-    <span
+    <button
+      type="button"
       *ngIf="post.isAuthorized"
       (click)="deletePost(post.postId)"
-      class="material-symbols-rounded filled post-icon-close"
     >
-      close
-    </span>
+      <span class="material-symbols-rounded filled post-icon-close">
+        close
+      </span>
+    </button>
   </div>
 
   <div

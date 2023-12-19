@@ -11,25 +11,28 @@
     >
       <h1 class="comment-user-name">{{ comment.fullName }}</h1>
       <p class="comment-content">{{ comment.content }}</p>
-      <span
+      <button
+        type="button"
         *ngIf="comment.isAuthorized"
         (click)="deleteComment(comment.commentId)"
-        class="material-symbols-rounded filled comment-icon-close"
       >
-        close
-      </span>
+        <span class="material-symbols-rounded filled comment-icon-close">
+          close</span
+        >
+      </button>
     </div>
     <div class="comment-bottom">
       <p class="comment-date">
         {{ comment.timeCommented | timeAgo }}
       </p>
       <div class="comment-likes-container">
-        <span
-          class="material-symbols-rounded comment-count-icons"
-          [ngClass]="{ filled: comment.isLikedByCurrentUser }"
-          (click)="toggleLike(comment)"
-          >favorite</span
-        >
+        <button type="button" (click)="toggleLike(comment)">
+          <span
+            class="material-symbols-rounded comment-count-icons"
+            [ngClass]="{ filled: comment.isLikedByCurrentUser }"
+            >favorite</span
+          >
+        </button>
         <p class="comment-likes-count">{{ comment.likesCount }}</p>
       </div>
     </div>

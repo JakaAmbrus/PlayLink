@@ -6,8 +6,10 @@ using Application.Features.Likes.GetCommentLikes;
 using Application.Features.Likes.LikeComment;
 using Application.Features.Likes.UnlikeComment;
 using Application.Interfaces;
+using Application.Utils;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Extensions;
 
 namespace WebAPI.Controllers
 {
@@ -26,18 +28,21 @@ namespace WebAPI.Controllers
         /// <param name="postId">Post ID.</param>
         /// <returns>A list of all comments from a post.</returns>
         [HttpGet("{postId}")]
-        public async Task<IActionResult> GetPostComments(int postId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetPostComments(int postId, [FromQuery] PaginationParams paginationParams, CancellationToken cancellationToken)
         {
             int authUserId = GetCurrentUserId();
             IEnumerable<string> authUserRoles = GetCurrentUserRoles();
 
             var query = new GetPostCommentsQuery { 
+                Params = paginationParams,
                 PostId = postId,
                 AuthUserId = authUserId,
                 AuthUserRoles = authUserRoles 
             };
 
             var result = await Mediator.Send(query, cancellationToken);
+
+            Response.AddPaginationHeader(new PaginationHeader(result.Comments.CurrentPage, result.Comments.PageSize, result.Comments.TotalCount, result.Comments.TotalPages));
 
             return Ok(result);
         }

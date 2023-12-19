@@ -1,6 +1,7 @@
 ﻿using Application.Exceptions;
 using Application.Features.Comments.Common;
 using Application.Interfaces;
+using Application.Utils;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,9 +20,7 @@ namespace Application.Features.Comments.GetComments
         {
             bool isModerator = request.AuthUserRoles.Contains("Moderator");
 
-            if (request.AuthUserId == 0) throw new UnauthorizedException("You must be logged in to view comments");
-
-            var comments = await _context.Comments
+            var comments = _context.Comments
             .Where(comment => comment.PostId == request.PostId)
             .OrderByDescending(comment => comment.TimeCommented)
             .Select(comment => new CommentDto
@@ -38,12 +37,12 @@ namespace Application.Features.Comments.GetComments
                 TimeCommented = comment.TimeCommented,
                 IsLikedByCurrentUser = comment.Likes.Any(like => like.AppUserId == request.AuthUserId),
                 IsAuthorized = comment.AppUserId == request.AuthUserId || isModerator
-            })
-            .ToListAsync(cancellationToken);
+            });
 
-            if (comments.Count == 0) throw new NotFoundException("There are no comments");
+            var pagedComments = await PagedList<CommentDto>
+                .CreateAsync(comments, request.Params.PageNumber, request.Params.PageSize);
 
-            return new GetPostCommentsResponse { Comments = comments };
+            return new GetPostCommentsResponse { Comments = pagedComments };
         }
     }
 }

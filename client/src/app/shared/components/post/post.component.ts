@@ -50,6 +50,10 @@ export class PostComponent implements OnDestroy {
 
   comments: Comment[] = [];
   commentsShown: boolean = false;
+  pageNumber: number = 1;
+  pageSize: number = 3;
+  totalComments: number | undefined;
+  allCommentsLoaded: boolean = false;
   likedUsers: LikedUser[] = [];
   showLikedUsers: boolean = false;
   private destroy$ = new Subject<void>();
@@ -140,16 +144,37 @@ export class PostComponent implements OnDestroy {
   loadComments(): void {
     if (this.post?.postId) {
       this.commentsService
-        .getPostComments(this.post.postId)
+        .getPostComments(this.post.postId, this.pageNumber, this.pageSize)
         .pipe(takeUntil(this.destroy$))
-        .subscribe((comments) => {
-          this.comments = comments;
+        .subscribe({
+          next: (response) => {
+            const loadedComments = response.result;
+            if (loadedComments) {
+              const reversedComments = loadedComments.reverse();
+
+              this.comments = [...reversedComments, ...this.comments];
+              this.totalComments = response.pagination?.totalItems;
+              if (
+                !response.pagination ||
+                loadedComments.length < this.pageSize
+              ) {
+                this.allCommentsLoaded = true;
+              }
+            }
+          },
         });
     }
   }
 
+  showMoreComments(): void {
+    if (!this.allCommentsLoaded) {
+      this.pageNumber++;
+      this.loadComments();
+    }
+  }
+
   onCommentUpload(comment: any): void {
-    this.comments = [comment.commentDto, ...this.comments];
+    this.comments = [...this.comments, comment.commentDto];
     this.post!.commentsCount += 1;
   }
 

@@ -78,7 +78,15 @@
   </div>
 
   <div *ngIf="commentsShown" class="comments-container">
-    <div *ngFor="let comment of comments">
+    <button
+      type="button"
+      *ngIf="!allCommentsLoaded"
+      (click)="showMoreComments()"
+      class="load-more-comments-button"
+    >
+      Load More Comments
+    </button>
+    <div *ngFor="let comment of comments" class="comments">
       <app-comment
         (commentDeleted)="onCommentDelete($event)"
         [comment]="comment"

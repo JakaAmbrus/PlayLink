@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
     this.loadPosts();
   }
 
-  loadPosts() {
+  loadPosts(): void {
     this.postsService
       .getPosts(this.pageNumber, this.pageSize)
       .pipe(takeUntil(this.destroy$))
@@ -57,22 +57,21 @@ export class HomeComponent implements OnInit {
             }
           }
         },
-        error: (err) => console.error(err),
       });
   }
 
-  onScroll() {
+  onScroll(): void {
     if (!this.allPostsLoaded) {
       this.pageNumber++;
       this.loadPosts();
     }
   }
 
-  onPostUpload(post: Post) {
+  onPostUpload(post: Post): void {
     this.posts = [post, ...this.posts];
   }
 
-  onPostDelete(postId: number) {
+  onPostDelete(postId: number): void {
     this.posts = this.posts.filter((post) => post.postId !== postId);
   }
 }

@@ -99,3 +99,11 @@
   gap: 2em;
   width: 100%;
 }
+.load-more-comments-button {
+  font-size: 1.6em;
+  padding: 0.4em 0 1em 0;
+
+  &:hover {
+    text-decoration-line: underline;
+  }
+}

@@ -7,6 +7,9 @@ namespace Application.Features.Comments.GetComments
     {
         public GetPostCommentsQueryValidator()
         {
+            RuleFor(x => x.Params)
+                .NotNull().WithMessage("Params required.");
+
             RuleFor(x => x.PostId)
                 .NotEmpty().WithMessage("PostId required.");
 

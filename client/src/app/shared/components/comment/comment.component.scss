@@ -40,7 +40,7 @@
 .comment-bottom {
   display: flex;
   gap: 1.2em;
-  align-items: center;
+  align-items: start;
   width: 100%;
   margin-bottom: 1em;
   margin-left: 0.4em;
@@ -52,7 +52,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: 0.2em;
+  gap: 0.5em;
 }
 .comment-count-icons {
   font-size: 1.8em;

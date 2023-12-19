@@ -49,6 +49,7 @@
   font-size: 1.4em;
 }
 .comment-likes-container {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.2em;
@@ -58,6 +59,14 @@
 }
 .comment-likes-count {
   font-size: 1.4em;
+  margin-bottom: 0.3em;
+}
+.liked-users-list {
+  position: absolute;
+  font-size: 1.8em;
+  z-index: 20;
+  bottom: 0.2em;
+  right: -5.2em;
 }
 
 .comment-icon-close {

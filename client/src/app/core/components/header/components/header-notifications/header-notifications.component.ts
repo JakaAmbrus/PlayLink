@@ -24,7 +24,7 @@ export class HeaderNotificationsComponent {
     this.friendsService
       .respondToFriendRequest({
         friendRequestId: friendRequestId,
-        accept,
+        accept: accept,
       })
       .subscribe({
         next: (response) => {

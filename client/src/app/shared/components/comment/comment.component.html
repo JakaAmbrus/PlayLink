@@ -33,7 +33,18 @@
             >favorite</span
           >
         </button>
-        <p class="comment-likes-count">{{ comment.likesCount }}</p>
+        <button
+          type="button"
+          (click)="displayLikedUsers()"
+          class="comment-likes-count"
+        >
+          {{ comment.likesCount }}
+        </button>
+        <app-liked-users-list
+          class="liked-users-list"
+          *ngIf="showLikedUsers"
+          [likedUsers]="likedUsers"
+        ></app-liked-users-list>
       </div>
     </div>
   </div>

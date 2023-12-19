@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+} from '@angular/core';
 import { Post } from 'src/app/shared/models/posts';
 import { CommentsService } from 'src/app/shared/services/comments.service';
 import { LikesService } from 'src/app/shared/services/likes.service';
@@ -16,6 +22,7 @@ import { NgIf, NgClass, NgOptimizedImage, NgFor } from '@angular/common';
 import { Subject, first, takeUntil } from 'rxjs';
 import { LikedUser } from '../../models/likedUser';
 import { LikedUsersListComponent } from '../liked-users-list/liked-users-list.component';
+import { ClickOutsideService } from '../../services/click-outside.service';
 
 @Component({
   selector: 'app-post',
@@ -36,7 +43,7 @@ import { LikedUsersListComponent } from '../liked-users-list/liked-users-list.co
     LikedUsersListComponent,
   ],
 })
-export class PostComponent {
+export class PostComponent implements OnDestroy {
   @Input() post: Post | undefined;
 
   @Output() postDeleted: EventEmitter<number> = new EventEmitter();
@@ -51,15 +58,23 @@ export class PostComponent {
     private likesService: LikesService,
     private postsService: PostsService,
     private commentsService: CommentsService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private clickOutsideService: ClickOutsideService
   ) {}
 
   displayLikedUsers(): void {
     if (this.post?.likesCount === 0) {
       return;
     }
-    this.showLikedUsers = true;
-    this.loadLikedUsers();
+    this.showLikedUsers = !this.showLikedUsers;
+    if (this.showLikedUsers) {
+      this.loadLikedUsers();
+      this.clickOutsideService.bind(this, () => {
+        this.showLikedUsers = false;
+      });
+    } else {
+      this.clickOutsideService.unbind(this);
+    }
   }
 
   loadLikedUsers(): void {
@@ -143,5 +158,9 @@ export class PostComponent {
       (comment) => comment.commentId !== commentId
     );
     this.post!.commentsCount -= 1;
+  }
+
+  ngOnDestroy(): void {
+    this.clickOutsideService.unbind(this);
   }
 }

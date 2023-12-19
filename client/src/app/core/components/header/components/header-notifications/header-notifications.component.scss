@@ -71,9 +71,15 @@
   display: flex;
   gap: 1em;
   align-items: center;
+  font-family: "Nexa Bold";
+
+  & h2 {
+    text-align: start;
+    font-size: 1.4em;
+    letter-spacing: 0.05em;
+  }
 
   & p {
-    font-family: "Nexa Bold";
     font-size: 1.2em;
     letter-spacing: 0.05em;
   }

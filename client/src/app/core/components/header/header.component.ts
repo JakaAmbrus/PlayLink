@@ -8,6 +8,8 @@ import { NgIf } from '@angular/common';
 import { HeaderNavLinksComponent } from './components/header-nav-links/header-nav-links.component';
 import { HeaderLogoComponent } from './components/header-logo/header-logo.component';
 import { LocalStorageService } from '../../services/local-storage.service';
+import { first } from 'rxjs';
+import { ClickOutsideService } from 'src/app/shared/services/click-outside.service';
 
 @Component({
   selector: 'app-header',
@@ -38,7 +40,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private friendsService: FriendsService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private clickOutsideService: ClickOutsideService
   ) {}
 
   ngOnInit(): void {
@@ -54,11 +57,20 @@ export class HeaderComponent implements OnInit {
     if (!this.username) {
       return;
     }
-    this.friendsService.getFriendRequests().subscribe({
-      next: (response) => {
-        this.friendRequests = response.friendRequests;
-      },
-    });
+    this.friendsService
+      .getFriendRequests()
+      .pipe(first())
+      .subscribe({
+        next: (response) => {
+          this.friendRequests = response.friendRequests;
+        },
+      });
+  }
+
+  onRequestDelete(requestId: number): void {
+    this.friendRequests = this.friendRequests.filter(
+      (fr) => fr.friendRequestId !== requestId
+    );
   }
 
   handleClick(): void {
@@ -66,19 +78,15 @@ export class HeaderComponent implements OnInit {
   }
 
   toggleDropdown(): void {
-    if (!this.username) {
-      return;
-    }
+    if (!this.username) return;
+
+    this.isDropdownOpen = !this.isDropdownOpen;
     if (this.isDropdownOpen) {
-      this.isDropdownOpen = false;
-      this.unbindClickListener();
-    } else {
-      this.preventClose = true;
-      this.isDropdownOpen = true;
-      setTimeout(() => {
-        this.bindClickListener();
-        this.preventClose = false;
+      this.clickOutsideService.bind(this, () => {
+        this.isDropdownOpen = false;
       });
+    } else {
+      this.clickOutsideService.unbind(this);
     }
   }
 
@@ -86,29 +94,14 @@ export class HeaderComponent implements OnInit {
     if (!this.username || this.friendRequests.length === 0) {
       return;
     }
+    this.isNotificationsOpen = !this.isNotificationsOpen;
     if (this.isNotificationsOpen) {
-      this.isNotificationsOpen = false;
+      this.clickOutsideService.bind(this, () => {
+        this.isNotificationsOpen = false;
+      });
     } else {
-      this.isNotificationsOpen = true;
+      this.clickOutsideService.unbind(this);
     }
-  }
-
-  bindClickListener(): void {
-    document.addEventListener('click', this.onDocumentClick.bind(this));
-  }
-
-  unbindClickListener(): void {
-    document.removeEventListener('click', this.onDocumentClick.bind(this));
-  }
-
-  onDocumentClick(event: MouseEvent): void {
-    if (this.preventClose) {
-      return;
-    }
-    if (this.isDropdownOpen) {
-      this.isDropdownOpen = false;
-    }
-    this.unbindClickListener();
   }
 
   checkRoles(): void {
@@ -119,11 +112,5 @@ export class HeaderComponent implements OnInit {
     const roles = storedRoles ? JSON.parse(storedRoles) : [];
     this.isAdmin = roles.includes('Admin');
     this.isModerator = roles.includes('Moderator');
-  }
-
-  onRequestDelete(requestId: number): void {
-    this.friendRequests = this.friendRequests.filter(
-      (fr) => fr.friendRequestId !== requestId
-    );
   }
 }

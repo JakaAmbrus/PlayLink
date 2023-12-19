@@ -5,22 +5,17 @@
     <div id="header-right">
       <button
         type="button"
+        (click)="toggleNotifications()"
         id="header-notifications-container"
         class="header-icons-right header-icons-right-container"
       >
-        <span
-          (click)="toggleNotifications()"
-          class="material-symbols-rounded filled"
-        >
-          notifications
-        </span>
+        <span class="material-symbols-rounded filled"> notifications </span>
         <app-header-notifications
           *ngIf="friendRequests.length > 0 && isNotificationsOpen"
           [friendRequests]="friendRequests"
           (requestDeleted)="onRequestDelete($event)"
         ></app-header-notifications>
         <div
-          (click)="toggleNotifications()"
           *ngIf="friendRequests.length > 0"
           id="notification-count"
           class="reverse-parameters"

@@ -1,9 +1,7 @@
-﻿using Application.Exceptions;
-using Application.Features.Comments.Common;
+﻿using Application.Features.Comments.Common;
 using Application.Interfaces;
 using Application.Utils;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Comments.GetComments
 {

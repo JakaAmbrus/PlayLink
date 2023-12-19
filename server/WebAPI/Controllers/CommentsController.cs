@@ -26,6 +26,7 @@ namespace WebAPI.Controllers
         /// Gets all comments for a post.
         /// </summary>
         /// <param name="postId">Post ID.</param>
+        /// <param name="paginationParams">Parameters for pagination.</param>
         /// <returns>A list of all comments from a post.</returns>
         [HttpGet("{postId}")]
         public async Task<IActionResult> GetPostComments(int postId, [FromQuery] PaginationParams paginationParams, CancellationToken cancellationToken)

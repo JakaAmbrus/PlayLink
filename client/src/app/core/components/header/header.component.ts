@@ -95,13 +95,6 @@ export class HeaderComponent implements OnInit {
       return;
     }
     this.isNotificationsOpen = !this.isNotificationsOpen;
-    if (this.isNotificationsOpen) {
-      this.clickOutsideService.bind(this, () => {
-        this.isNotificationsOpen = false;
-      });
-    } else {
-      this.clickOutsideService.unbind(this);
-    }
   }
 
   checkRoles(): void {

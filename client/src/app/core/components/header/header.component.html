@@ -3,26 +3,30 @@
     <app-header-logo [theme]="theme"></app-header-logo>
     <app-header-nav-links class="top-links"></app-header-nav-links>
     <div id="header-right">
-      <button
-        type="button"
-        (click)="toggleNotifications()"
+      <div
         id="header-notifications-container"
         class="header-icons-right header-icons-right-container"
       >
-        <span class="material-symbols-rounded filled"> notifications </span>
+        <button
+          id="notifications-button"
+          type="button"
+          (click)="toggleNotifications()"
+        >
+          <span class="material-symbols-rounded filled"> notifications </span>
+          <div
+            *ngIf="friendRequests.length > 0"
+            id="notification-count"
+            class="reverse-parameters"
+          >
+            {{ friendRequests.length }}
+          </div>
+        </button>
         <app-header-notifications
           *ngIf="friendRequests.length > 0 && isNotificationsOpen"
           [friendRequests]="friendRequests"
           (requestDeleted)="onRequestDelete($event)"
         ></app-header-notifications>
-        <div
-          *ngIf="friendRequests.length > 0"
-          id="notification-count"
-          class="reverse-parameters"
-        >
-          {{ friendRequests.length }}
-        </div>
-      </button>
+      </div>
       <button
         type="button"
         (click)="handleClick()"

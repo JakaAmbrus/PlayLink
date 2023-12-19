@@ -109,6 +109,7 @@
     </div>
     <div [ngSwitch]="friendshipStatus" id="button-container">
       <button
+        type="button"
         *ngSwitchCase="'None'"
         class="profile-buttons theme-border box-shadow reverse-parameters"
         (click)="addFriend()"
@@ -117,6 +118,7 @@
       </button>
 
       <button
+        type="button"
         *ngSwitchCase="'Pending'"
         class="profile-buttons theme-border box-shadow reverse-parameters"
       >
@@ -124,6 +126,15 @@
       </button>
 
       <button
+        type="button"
+        *ngSwitchCase="'Declined'"
+        class="profile-buttons theme-border box-shadow reverse-parameters"
+      >
+        <span class="button-text">Declined</span>
+      </button>
+
+      <button
+        type="button"
         *ngSwitchCase="'Friends'"
         class="profile-buttons theme-border box-shadow reverse-parameters"
         (click)="removeFriend()"
@@ -131,6 +142,7 @@
         <span class="button-text">Friends</span>
       </button>
       <button
+        type="button"
         *ngSwitchCase="'Current'"
         class="profile-buttons theme-border box-shadow reverse-parameters"
         routerLink="/user/{{ user.username }}/edit"

@@ -9,6 +9,7 @@
     <label class="form-label" for="userName">Username*</label>
     <input
       [(ngModel)]="loginData.username"
+      #username="ngModel"
       type="text"
       id="userName"
       name="username"
@@ -20,6 +21,7 @@
     <label class="form-label" for="password">Password*</label>
     <input
       [(ngModel)]="loginData.password"
+      #password="ngModel"
       type="password"
       id="password"
       name="password"
@@ -27,7 +29,13 @@
       required
     />
   </div>
-  <button type="submit" class="login-btn">Login</button>
+  <button
+    type="submit"
+    [disabled]="!username.value || !password.value || loading"
+    class="login-btn"
+  >
+    Login
+  </button>
 </form>
 
 <button type="button" class="guest-login primary-text" (click)="guestLogin()">

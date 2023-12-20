@@ -1,0 +1,87 @@
+#guest-login-dialog {
+  font-family: "Nexa Bold";
+  background-color: white;
+  color: #3d3a3a;
+  border-radius: 0.5em;
+  padding: 3em;
+
+  & h1 {
+    font-size: 4.2em;
+    padding: 0em 0 1em 0;
+    text-align: center;
+  }
+
+  .role-buttons-container {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.role-button {
+  display: flex;
+  width: 49%;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.2em;
+  padding: 0.5em 0;
+  border-radius: 0.2em;
+  background-color: #3d3a3a;
+  color: white;
+  transition: background-color 0.25s ease-in-out;
+
+  &:hover {
+    background-color: #3d3a3ae8;
+  }
+}
+
+#admin-video-demo-container {
+  margin-top: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 0.2em solid #3d3a3a;
+  height: 3.8em;
+  border-radius: 0.5em;
+  overflow: hidden;
+
+  p {
+    font-size: 1.8em;
+    margin-left: 1em;
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+    background-color: #3d3a3a;
+    color: white;
+    padding: 0 1em;
+    height: 100%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  #guest-login-dialog {
+    padding: 3em 1em;
+  }
+}
+@media only screen and (max-width: 400px) {
+  #guest-login-dialog {
+    & h1 {
+      font-size: 3.6em;
+    }
+  }
+  .role-button {
+    font-size: 2em;
+  }
+  #admin-video-demo-container {
+    p {
+      font-size: 1.6em;
+      margin-left: 0.5em;
+    }
+  }
+}
+@media (min-width: 2500px) and (min-height: 1200px) and (orientation: landscape) {
+  #guest-login-dialog {
+    font-size: 13px;
+  }
+}

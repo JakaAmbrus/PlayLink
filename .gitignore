@@ -66,3 +66,5 @@ server/WebAPI/wwwroot/assets
 
 # Cloudinaty access keys
 server/Infrastructure/CloudinaryAccessKeys.json
+
+client/src/app/features/portal/data

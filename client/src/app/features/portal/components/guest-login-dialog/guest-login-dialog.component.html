@@ -1,0 +1,27 @@
+<div id="guest-login-dialog">
+  <h1 mat-dialog-title>Role Selection</h1>
+  <div mat-dialog-content>
+    <div class="role-buttons-container">
+      <button
+        type="button"
+        class="role-button"
+        mat-button
+        (click)="onSelect('member')"
+      >
+        Member
+      </button>
+      <button
+        type="button"
+        class="role-button"
+        mat-button
+        (click)="onSelect('moderator')"
+      >
+        Moderator
+      </button>
+    </div>
+    <a id="admin-video-demo-container" href="#" target="_blank">
+      <p>Admin Video Demo</p>
+      <span class="material-symbols-rounded filled"> play_arrow </span>
+    </a>
+  </div>
+</div>

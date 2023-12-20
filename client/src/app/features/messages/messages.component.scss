@@ -116,7 +116,11 @@
     border: none;
   }
 }
-
+@media (max-width: 380px) {
+  #paginator {
+    font-size: 25px;
+  }
+}
 @media (min-width: 2400px) {
   #messages-section-container {
     font-size: 13px;

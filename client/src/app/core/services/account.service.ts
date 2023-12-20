@@ -35,6 +35,14 @@ export class AccountService {
       .pipe(tap((response: AuthResponse) => this.handleUserResponse(response)));
   }
 
+  guestLogin(role: string): Observable<AuthResponse> {
+    console.log(role);
+
+    return this.http
+      .post<AuthResponse>(this.baseUrl + 'account/guest-login/' + role, {})
+      .pipe(tap((response: AuthResponse) => this.handleUserResponse(response)));
+  }
+
   register(request: RegisterRequest): Observable<AuthResponse> {
     return this.http
       .post<AuthResponse>(this.baseUrl + 'account/register', request)

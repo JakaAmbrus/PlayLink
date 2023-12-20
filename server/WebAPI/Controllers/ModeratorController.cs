@@ -23,10 +23,10 @@ namespace WebAPI.Controllers
         /// </summary>
         /// <param name="Username">Users username</param>
         /// <returns>A confirmation of deletion.</returns>
-        [HttpDelete("delete-user-description/{Username}")]
-        public async Task<ActionResult> DeleteUserDescription(string Username, CancellationToken cancellationToken)
+        [HttpDelete("delete-user-description/{username}")]
+        public async Task<ActionResult> DeleteUserDescription(string username, CancellationToken cancellationToken)
         {
-            var command = new DeleteUserDescriptionCommand { Username = Username, };
+            var command = new DeleteUserDescriptionCommand { Username = username, };
 
             var result = await Mediator.Send(command, cancellationToken);
 
@@ -38,10 +38,10 @@ namespace WebAPI.Controllers
         /// </summary>
         /// <param name="Username">Users username.</param>
         /// <returns>A confirmation of deletion.</returns>
-        [HttpDelete("delete-user-photo/{Username}")]
-        public async Task<ActionResult> DeleteUserPhoto(string Username, CancellationToken cancellationToken)
+        [HttpDelete("delete-user-photo/{username}")]
+        public async Task<ActionResult> DeleteUserPhoto(string username, CancellationToken cancellationToken)
         {
-            var command = new DeleteUserPhotoCommand { Username = Username, };
+            var command = new DeleteUserPhotoCommand { Username = username, };
 
             var result = await Mediator.Send(command, cancellationToken);
 

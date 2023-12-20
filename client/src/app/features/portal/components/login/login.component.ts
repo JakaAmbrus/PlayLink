@@ -30,13 +30,24 @@ export class LoginComponent {
   guestLogin() {
     const dialogRef = this.dialog.open(GuestLoginDialogComponent);
     dialogRef.afterClosed().subscribe((result) => {
-      if (result === 'member') {
-        this.loginData.username = 'jakaambrus';
-        this.loginData.password = 'ambrus123';
-        this.login();
+      const role = result;
+      if (role) {
+        this.loading = true;
+        this.accountService.guestLogin(role).subscribe({
+          next: () => {
+            this.loggedIn = true;
+            this.loading = false;
+            this.accountService.setLoggedIn(true);
+            this.router.navigate(['/home']);
+          },
+          error: () => {
+            this.loading = false;
+          },
+        });
       }
     });
   }
+
   login() {
     this.loading = true;
     this.accountService.login(this.loginData).subscribe({

@@ -34,13 +34,11 @@ namespace Application.Features.Authentication.UserLogin
                 throw new UnauthorizedException("Invalid Username or Password");
             }
 
-            string userName = user.UserName;
-
             return new UserLoginResponse
             {
                 User = new UserDto
                 {
-                    Username = userName,
+                    Username = user.UserName,
                     Token = await _tokenService.CreateToken(user),
                     FullName = user.FullName,
                     Gender = user.Gender,

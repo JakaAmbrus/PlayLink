@@ -2,6 +2,7 @@
 using MediatR;
 using Application.Features.Authentication.UserLogin;
 using Application.Features.Authentication.UserRegistration;
+using Application.Features.Authentication.GuestUserLogin;
 
 namespace WebAPI.Controllers
 {
@@ -25,9 +26,9 @@ namespace WebAPI.Controllers
         /// <param name="command">Required information for successful registration: Username, Password, Gender, Full Name, Country and Date of birth.</param>
         /// <returns>JWT and username.</returns>
         [HttpPost("register")] 
-        public async Task<IActionResult> Register(UserRegistrationCommand command)
+        public async Task<IActionResult> Register(UserRegistrationCommand command, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(command, cancellationToken);
 
             return Ok(result);
         }
@@ -36,11 +37,26 @@ namespace WebAPI.Controllers
         /// Logs in a user and returns a JWT.
         /// </summary>
         /// <param name="command">Username and Password.</param>
-        /// <returns>JWTand username.</returns>
+        /// <returns>JWT and username.</returns>
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserLoginCommand command)
+        public async Task<IActionResult> Login(UserLoginCommand command, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(command, cancellationToken);
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Logs in a guest user and returns a JWT.
+        /// </summary>
+        /// <param name="role">The role of the guest user account.</param>
+        /// <returns>JWT and username.</returns>
+        [HttpPost("guest-login/{role}")]
+        public async Task<IActionResult> GuestLogin(string role, CancellationToken cancellationToken)
+        {
+            var command = new GuestUserLoginCommand{ Role = role };
+
+            var result = await _mediator.Send(command, cancellationToken);
 
             return Ok(result);
         }

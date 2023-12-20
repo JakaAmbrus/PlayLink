@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { LoginRequest } from 'src/app/shared/models/auth';
 import { MatDialog } from '@angular/material/dialog';
 import { GuestLoginDialogComponent } from '../guest-login-dialog/guest-login-dialog.component';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -29,37 +30,43 @@ export class LoginComponent {
 
   guestLogin() {
     const dialogRef = this.dialog.open(GuestLoginDialogComponent);
-    dialogRef.afterClosed().subscribe((result) => {
-      const role = result;
-      if (role) {
-        this.loading = true;
-        this.accountService.guestLogin(role).subscribe({
-          next: () => {
-            this.loggedIn = true;
-            this.loading = false;
-            this.accountService.setLoggedIn(true);
-            this.router.navigate(['/home']);
-          },
-          error: () => {
-            this.loading = false;
-          },
-        });
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(first())
+      .subscribe((result) => {
+        const role = result;
+        if (role) {
+          this.loading = true;
+          this.accountService.guestLogin(role).subscribe({
+            next: () => {
+              this.loggedIn = true;
+              this.loading = false;
+              this.accountService.setLoggedIn(true);
+              this.router.navigate(['/home']);
+            },
+            error: () => {
+              this.loading = false;
+            },
+          });
+        }
+      });
   }
 
   login() {
     this.loading = true;
-    this.accountService.login(this.loginData).subscribe({
-      next: () => {
-        this.loggedIn = true;
-        this.loading = false;
-        this.accountService.setLoggedIn(true);
-        this.router.navigate(['/home']);
-      },
-      error: () => {
-        this.loading = false;
-      },
-    });
+    this.accountService
+      .login(this.loginData)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.loggedIn = true;
+          this.loading = false;
+          this.accountService.setLoggedIn(true);
+          this.router.navigate(['/home']);
+        },
+        error: () => {
+          this.loading = false;
+        },
+      });
   }
 }

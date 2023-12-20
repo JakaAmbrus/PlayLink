@@ -16,7 +16,7 @@ import {
   standardLettersAndSpacesValidator,
   validCountryValidator,
 } from 'src/app/shared/validators/formValidators';
-import { Observable, debounceTime, map, startWith } from 'rxjs';
+import { Observable, debounceTime, first, map, startWith } from 'rxjs';
 import countries from '../../../../../assets/data/countries.json';
 import { MatOptionModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -130,18 +130,21 @@ export class RegisterComponent implements OnInit {
     );
   }
 
-  register() {
+  register(): void {
     const dob = this.getOnlyDate(
       this.registerForm?.controls['dateOfBirth'].value
     );
     const values = { ...this.registerForm.value, dateOfBirth: dob };
 
-    this.accountService.register(values).subscribe({
-      next: () => {
-        this.accountService.setLoggedIn(true);
-        this.router.navigate(['/home']);
-      },
-    });
+    this.accountService
+      .register(values)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.accountService.setLoggedIn(true);
+          this.router.navigate(['/home']);
+        },
+      });
   }
 
   cancel(): void {

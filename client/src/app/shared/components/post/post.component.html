@@ -80,7 +80,7 @@
   <div *ngIf="commentsShown" class="comments-container">
     <button
       type="button"
-      *ngIf="!allCommentsLoaded"
+      *ngIf="!allCommentsLoaded && comments.length > 0"
       (click)="showMoreComments()"
       class="load-more-comments-button"
     >

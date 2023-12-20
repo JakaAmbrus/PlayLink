@@ -83,6 +83,7 @@
   border-radius: 1em;
 }
 #ad-bottom-header {
+  font-family: "Roboto Medium";
   display: flex;
   justify-content: space-between;
   margin: 0 0.4em;
@@ -106,7 +107,7 @@
     font-size: 13px;
   }
 }
-@media (max-width: 1400px) {
+@media (max-width: 1680px) {
   #games-tab-left,
   #games-tab-right {
     display: none;

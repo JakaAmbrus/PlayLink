@@ -44,7 +44,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               );
               break;
 
-            case 409:
+            case 404:
               this.toastr.error(
                 error.error.message || 'Not Found',
                 error.status.toString()
@@ -55,6 +55,13 @@ export class ErrorInterceptor implements HttpInterceptor {
               this.toastr.error(
                 error.error.message || 'Conflict',
                 error.status.toString()
+              );
+              break;
+
+            case 429:
+              this.toastr.error(
+                error.error.message ||
+                  'Maximum hourly limit for feature reached.'
               );
               break;
 

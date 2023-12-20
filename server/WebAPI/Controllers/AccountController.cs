@@ -21,7 +21,7 @@ namespace WebAPI.Controllers
 
         /// <summary>
         /// Registers a new user and adds them to the Database.
-        /// </summary>
+        /// </summary>https://desktop.postman.com/?desktopVersion=10.20.0&userId=30655445&teamId=0
         /// <param name="command">Required information for successful registration: Username, Password, Gender, Full Name, Country and Date of birth.</param>
         /// <returns>JWT and username.</returns>
         [HttpPost("register")] 

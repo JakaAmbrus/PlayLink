@@ -1,4 +1,5 @@
-﻿using Infrastructure.Data;
+﻿using AspNetCoreRateLimit;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,8 +23,11 @@ namespace Infrastructure.Extensions
                 .AllowCredentials()
                 .WithOrigins("https://localhost:4200"));
 
+            app.UseIpRateLimiting();
+
             app.UseAuthentication();
             app.UseAuthorization();
+
         }
         
     }

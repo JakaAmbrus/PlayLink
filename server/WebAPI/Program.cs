@@ -3,13 +3,12 @@ using Application.Interfaces;
 using Infrastructure;
 using Infrastructure.Extensions;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.ResponseCompression;
 using Serilog;
 using WebAPI.Extensions;
 using WebAPI.Filters;
-using WebAPI.SignalR;
 using WebAPI.Middleware;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.ResponseCompression;
+using WebAPI.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,7 +61,6 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 
 app.MapFallbackToController("Index", "Fallback");
-
 
 app.MapControllers();
 

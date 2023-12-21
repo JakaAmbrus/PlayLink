@@ -134,10 +134,10 @@ export class PostComponent implements OnDestroy {
   }
 
   showComments(): void {
-    this.commentsShown = true;
-    if (this.post?.commentsCount === 0) {
+    if (this.post?.commentsCount === 0 || this.commentsShown) {
       return;
     }
+    this.commentsShown = true;
     this.loadComments();
   }
 

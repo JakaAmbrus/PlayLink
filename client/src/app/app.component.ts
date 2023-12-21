@@ -37,22 +37,19 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    const token = this.tokenService.getToken();
+    if (token) {
+      this.presenceService.createHubConnection(token);
+    } else {
+      this.localStorageService.clearStorage();
+      return;
+    }
+
     const savedTheme = this.localStorageService.getItem('userThemePreference');
     if (savedTheme) {
       this.theme = savedTheme as 'theme-light' | 'theme-dark';
     } else {
       this.theme = 'theme-light';
-    }
-
-    const token = this.tokenService.getToken();
-    if (token) {
-      this.presenceService.createHubConnection(token);
-    }
-  }
-
-  ngOnDestroy(): void {
-    if (this.routerSubscription) {
-      this.routerSubscription.unsubscribe();
     }
   }
 
@@ -65,5 +62,11 @@ export class AppComponent implements OnInit, OnDestroy {
     return (
       outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation
     );
+  }
+
+  ngOnDestroy(): void {
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
+    }
   }
 }

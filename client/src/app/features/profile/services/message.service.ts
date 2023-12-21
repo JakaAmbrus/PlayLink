@@ -5,6 +5,7 @@ import { Message } from '../../../shared/models/message';
 import { BehaviorSubject, Observable, map, take } from 'rxjs';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { Group } from '../models/group';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class MessagesService {
   private messageThreadSource = new BehaviorSubject<Message[]>([]);
   messageThread$ = this.messageThreadSource.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private toastr: ToastrService) {}
 
   createHubConnection(token: any, otherUsername: string): void {
     this.hubConnection = new HubConnectionBuilder()
@@ -26,7 +27,10 @@ export class MessagesService {
       .withAutomaticReconnect()
       .build();
 
-    this.hubConnection.start().catch((error) => console.log(error));
+    this.hubConnection.start().catch((error) => {
+      this.toastr.error('Live message connection failed');
+      console.log(error);
+    });
 
     this.hubConnection.on('ReceiveMessageThread', (response) => {
       this.messageThreadSource.next(response.messages);
@@ -84,6 +88,6 @@ export class MessagesService {
         recipientUsername: username,
         content,
       })
-      .catch((error) => console.log(error));
+      .catch(() => this.toastr.error('Error sending message'));
   }
 }

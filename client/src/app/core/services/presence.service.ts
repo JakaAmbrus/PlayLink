@@ -24,7 +24,10 @@ export class PresenceService {
       .withAutomaticReconnect()
       .build();
 
-    this.hubConnection.start().catch((error) => console.log(error));
+    this.hubConnection.start().catch((error) => {
+      this.toastr.error('Live connection failed, try again later');
+      console.log(error);
+    });
 
     this.hubConnection.on('UserIsOnline', (id) => {
       this.onlineUsers$.pipe(take(1)).subscribe({

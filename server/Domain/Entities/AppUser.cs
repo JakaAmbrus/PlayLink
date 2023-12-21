@@ -22,9 +22,6 @@ namespace Domain.Entities
         public ICollection<Post> Posts { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public ICollection<Like> Likes { get; set; }
-        public ICollection<Notification> Notifications { get; set; }
-        public ICollection<GroupChatUser> GroupChatUsers { get; set; }
-        public ICollection<GroupMessage> GroupMessages { get; set; }
         public ICollection<PrivateMessage> MessagesSent { get; set; }
         public ICollection<PrivateMessage> MessagesReceived { get; set; }
     }

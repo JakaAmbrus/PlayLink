@@ -18,7 +18,6 @@ namespace Infrastructure.Data
         public DbSet<Like> Likes { get; set;}
         public DbSet<Friendship> Friendships { get; set; }
         public DbSet<FriendRequest> FriendRequests { get; set; }
-        public DbSet<Notification> Notifications { get; set; }
         public DbSet<PrivateMessage> PrivateMessages { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Connection> Connections { get; set; }
@@ -41,21 +40,12 @@ namespace Infrastructure.Data
 
             //Likes
             builder.ApplyConfiguration(new LikeConfiguration());
-        
-            //Notifications
-            builder.ApplyConfiguration(new NotificationConfiguration());
 
             //FriendRequest
             builder.ApplyConfiguration(new FriendRequestConfiguration());
 
             //Friendship
             builder.ApplyConfiguration(new FriendshipConfiguration());
-           
-            //GroupChat
-            builder.ApplyConfiguration(new GroupChatUserConfiguration());
-
-            //GroupMessages
-            builder.ApplyConfiguration(new GroupMessageConfiguration());
 
             //PrivatMessages
             builder.ApplyConfiguration(new PrivateMessageConfiguration());

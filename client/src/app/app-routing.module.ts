@@ -136,7 +136,21 @@ const routes: Routes = [
     loadComponent: () =>
       import('./features/admin/admin.component').then((m) => m.AdminComponent),
   },
-  { path: 'not-found', component: NotFoundComponent },
+  {
+    path: 'about-site',
+    canActivate: [canActivateGuard],
+    loadComponent: () =>
+      import('./core/components/about-site/about-site.component').then(
+        (m) => m.AboutSiteComponent
+      ),
+  },
+  {
+    path: 'not-found',
+    loadComponent: () =>
+      import('./core/components/not-found/not-found.component').then(
+        (m) => m.NotFoundComponent
+      ),
+  },
   { path: '**', redirectTo: '/not-found' },
 ];
 

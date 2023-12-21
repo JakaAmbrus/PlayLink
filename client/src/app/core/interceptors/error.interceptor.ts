@@ -38,24 +38,15 @@ export class ErrorInterceptor implements HttpInterceptor {
               break;
 
             case 401:
-              this.toastr.error(
-                error.error.message || 'Unauthorized',
-                error.status.toString()
-              );
+              this.toastr.error(error.error.message || 'Unauthorized');
               break;
 
             case 404:
-              this.toastr.error(
-                error.error.message || 'Not Found',
-                error.status.toString()
-              );
+              this.toastr.error(error.error.message || 'Not Found');
               break;
 
             case 409:
-              this.toastr.error(
-                error.error.message || 'Conflict',
-                error.status.toString()
-              );
+              this.toastr.error(error.error.message || 'Conflict');
               break;
 
             case 429:

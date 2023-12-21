@@ -1,0 +1,85 @@
+#about-site-tab {
+  font-family: "Nexa Bold";
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+}
+#about-site-content-container {
+  width: 90em;
+  margin-top: 2em;
+  padding: 3em 3em 5em 3em;
+
+  h1 {
+    font-size: 4.2em;
+    text-align: center;
+    margin-bottom: 0.5em;
+  }
+
+  h2 {
+    font-size: 2.4em;
+    margin: 0.8em 0 0.5em 0;
+  }
+
+  h3 {
+    font-size: 2em;
+    margin: 0.5em 0;
+    opacity: 0.95;
+  }
+}
+.about-paragraph-text {
+  font-family: "Roboto Regular";
+  font-size: 1.8em;
+}
+
+.text-and-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2em;
+
+  .about-link {
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 2em;
+    width: 10em;
+    padding: 0.5em 0;
+    border-radius: 0.2em;
+  }
+}
+@media (min-width: 2500px) and (min-height: 1200px) and (orientation: landscape) {
+  #about-site-tab {
+    font-size: 13px;
+  }
+}
+@media (max-width: 900px) {
+  #about-site-content-container {
+    width: 100%;
+    padding: 3em 1.5em 5em 1.5em;
+    margin-top: 0;
+
+    h1 {
+      font-size: 3.5em;
+    }
+
+    h2 {
+      font-size: 2.2em;
+    }
+
+    h3 {
+      font-size: 1.8em;
+    }
+  }
+  .about-paragraph-text {
+    font-size: 1.6em;
+  }
+  .text-and-link {
+    flex-direction: column;
+    gap: 1em;
+
+    .about-link {
+      width: 100%;
+      margin: 0.5em 0;
+    }
+  }
+}

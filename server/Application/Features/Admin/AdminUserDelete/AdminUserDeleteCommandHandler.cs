@@ -1,5 +1,6 @@
 ﻿using Application.Exceptions;
 using Application.Interfaces;
+using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,8 +37,43 @@ namespace Application.Features.Admin.AdminUserDelete
                 throw new UnauthorizedAccessException("Unauthorized, only an Admin can delete a user.");
             }
 
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync(cancellationToken);
+            using (var transaction = await _context.BeginTransactionAsync(cancellationToken))
+            {
+                try
+                {
+
+                    var userConnections = _context.Connections.Where(c => c.Username == user.UserName).ToList();
+                    _context.Connections.RemoveRange(userConnections);
+
+                    var posts = _context.Posts.Where(p => p.AppUserId == request.AppUserId).ToList();
+                    _context.Posts.RemoveRange(posts);
+
+                    var sentRequests = _context.FriendRequests.Where(fr => fr.SenderId == request.AppUserId).ToList();
+                    var receivedRequests = _context.FriendRequests.Where(fr => fr.ReceiverId == request.AppUserId).ToList();
+                    _context.FriendRequests.RemoveRange(sentRequests.Concat(receivedRequests));
+
+                    var friendshipsAsUser1 = _context.Friendships.Where(f => f.User1Id == request.AppUserId).ToList();
+                    var friendshipsAsUser2 = _context.Friendships.Where(f => f.User2Id == request.AppUserId).ToList();
+                    _context.Friendships.RemoveRange(friendshipsAsUser1.Concat(friendshipsAsUser2));
+
+                    var sentMessages = _context.PrivateMessages.Where(msg => msg.SenderId == request.AppUserId).ToList();
+                    _context.PrivateMessages.RemoveRange(sentMessages);
+
+                    var receivedMessages = _context.PrivateMessages.Where(msg => msg.RecipientId == request.AppUserId).ToList();
+                    _context.PrivateMessages.RemoveRange(receivedMessages);
+
+                    _context.Users.Remove(user);
+
+                    await _context.SaveChangesAsync(cancellationToken);
+                    await transaction.CommitAsync(cancellationToken);
+
+                }
+                catch (Exception)
+                {
+                    await transaction.RollbackAsync(cancellationToken);
+                    throw;
+                }
+            }
 
             return new AdminUserDeleteResponse { UserDeleted = true };
         }

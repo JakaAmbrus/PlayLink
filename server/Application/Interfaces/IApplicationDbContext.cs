@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Application.Interfaces
 {
@@ -15,7 +16,8 @@ namespace Application.Interfaces
         DbSet<Group> Groups { get; set; }
         DbSet<Connection> Connections { get; set; }
 
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
         void Add<TEntity>(TEntity entity) where TEntity : class;
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+        Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken);
     }
 }

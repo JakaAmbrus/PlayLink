@@ -4,6 +4,7 @@ using Infrastructure.Data.Configurations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastructure.Data
 {
@@ -54,6 +55,11 @@ namespace Infrastructure.Data
         public void Add<TEntity>(TEntity entity) where TEntity : class
         {
             Set<TEntity>().Add(entity);
+        }
+
+        public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken)
+        {
+            return await this.Database.BeginTransactionAsync(cancellationToken);
         }
     }
 }

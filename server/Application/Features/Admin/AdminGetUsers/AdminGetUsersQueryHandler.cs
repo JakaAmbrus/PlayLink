@@ -43,7 +43,8 @@ namespace Application.Features.Admin.AdminGetUsers
                     Gender = u.Gender,
                     FullName = u.FullName,
                     IsModerator = u.UserRoles.Any(ur => ur.Role.Name == "Moderator"),
-                    ProfilePictureUrl = u.ProfilePictureUrl
+                    ProfilePictureUrl = u.ProfilePictureUrl,
+                    Created = u.Created
                 });
 
             var pagedUsers = await PagedList<UserWithRolesDto>

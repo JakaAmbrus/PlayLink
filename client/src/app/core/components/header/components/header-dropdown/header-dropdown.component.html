@@ -2,10 +2,7 @@
   id="dropdown-container"
   class="secondary-background box-shadow rounded-border theme-border"
 >
-  <a
-    routerLink="/user/{{ username }}/edit"
-    class="dropdown-section rounded-border"
-  >
+  <a (click)="navigateToEditProfile()" class="dropdown-section rounded-border">
     <div class="dropdown-left">
       <div
         class="header-icons-right header-icons-dropdown-container theme-border"

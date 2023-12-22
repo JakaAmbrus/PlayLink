@@ -17,7 +17,7 @@ namespace Application.Features.Users.DeleteUser
         public async Task<DeleteUserResponse> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.AuthUserId, cancellationToken)
-                ?? throw new NotFoundException("Auth user not found.");
+                ?? throw new NotFoundException("Authorized user not found.");
 
             bool isGuestUser = await _context.Users.
                 AnyAsync(u => u.Id == request.AuthUserId && u.UserRoles.Any(r => r.Role.Name == "Guest"), cancellationToken)
@@ -34,7 +34,7 @@ namespace Application.Features.Users.DeleteUser
 
             if (isAdmin) 
             {
-                throw new UnauthorizedException("An Admin account cannot be deleted.");
+                throw new UnauthorizedException("An Administrator account cannot be deleted.");
             }
 
             using (var transaction = await _context.BeginTransactionAsync(cancellationToken))
@@ -71,7 +71,7 @@ namespace Application.Features.Users.DeleteUser
                 catch (Exception)
                 {
                     await transaction.RollbackAsync(cancellationToken);
-                    throw;
+                    throw new ServerErrorException("Trouble deleting User.");
                 }
             }
 

@@ -50,24 +50,17 @@
 @media (max-width: 1100px) {
   #message-tab {
     margin: 0;
+    height: auto;
 
     & h1 {
       font-size: 2.5em;
     }
   }
   .message-container {
-    height: 63em;
-    max-height: 70vh;
+    height: calc(100vh - 250px);
   }
   #send-message-form {
     height: 100%;
-  }
-}
-@media (max-width: 900px) {
-  #message-tab {
-    height: auto;
-  }
-  #send-message-form {
     padding: 1em;
   }
   #send-message-input {
@@ -75,5 +68,15 @@
   }
   #send-message-button {
     padding: 0.65em 1.8em;
+  }
+}
+@media (max-width: 800px) {
+  .message-container {
+    height: calc(100vh - 260px);
+  }
+}
+@media (max-width: 460px) {
+  .message-container {
+    height: calc(100vh - 228px);
   }
 }

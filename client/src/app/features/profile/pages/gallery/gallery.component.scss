@@ -15,12 +15,12 @@
   }
 }
 #profile-gallery {
-  width: 80%;
+  width: 60em;
   height: 80%;
   background: transparent;
 }
 
-@media only screen and (max-device-width: 900px) {
+@media (max-width: 900px) {
   #gallery-tab {
     align-items: start;
     width: 100%;
@@ -29,5 +29,16 @@
     & h1 {
       font-size: 2.5em;
     }
+  }
+  #profile-gallery {
+    margin-top: 2em;
+    width: 98%;
+    height: 50em;
+    margin-bottom: 2em;
+  }
+}
+@media (max-width: 460px) {
+  #gallery-tab {
+    height: calc(100vh - 228px);
   }
 }

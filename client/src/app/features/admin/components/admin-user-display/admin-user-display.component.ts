@@ -62,7 +62,7 @@ export class AdminUserDisplayComponent {
   deleteUser(userId: number): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
-        title: 'Delete Post',
+        title: 'Delete Member',
         message: 'Are you sure you want to delete this user?',
       },
     });

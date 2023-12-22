@@ -1,4 +1,5 @@
 ﻿using Application.Features.Users.Common;
+using Application.Features.Users.DeleteUser;
 using Application.Features.Users.EditUserDetails;
 using Application.Features.Users.GetNearestBirthdayUsers;
 using Application.Features.Users.GetUserById;
@@ -146,6 +147,27 @@ namespace WebAPI.Controllers
             var command = new EditUserDetailsCommand
             {
                 EditUserDto = editUserDto,
+                AuthUserId = authUserId,
+                AuthUserRoles = authUserRoles
+            };
+
+            var response = await Mediator.Send(command, cancellationToken);
+
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Deletes a user from the Database, but a guest user is restricted.
+        /// </summary>
+        /// <returns>Confirmation of deletion.</returns>
+        [HttpDelete("delete")]
+        public async Task<IActionResult> DeleteUser(CancellationToken cancellationToken)
+        {
+            int authUserId = GetCurrentUserId();
+            IEnumerable<string> authUserRoles = GetCurrentUserRoles();
+
+            var command = new DeleteUserCommand
+            {
                 AuthUserId = authUserId,
                 AuthUserRoles = authUserRoles
             };

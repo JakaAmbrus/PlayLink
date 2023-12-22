@@ -57,6 +57,10 @@ export class AccountService {
     this.presenceService.stopHubConnection();
   }
 
+  deleteAccount(): Observable<void> {
+    return this.http.delete<void>(this.baseUrl + 'users/delete');
+  }
+
   private handleUserResponse(response: AuthResponse): void {
     const { username, token, fullName, gender, profilePictureUrl } =
       response.user;

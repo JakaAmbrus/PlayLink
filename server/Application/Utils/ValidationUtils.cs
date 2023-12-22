@@ -9,7 +9,7 @@ namespace Application.Utils
         //Used to validate if the user role is valid
         public static bool BeValidRole(IEnumerable<string> roles)
         {
-            var validRoles = new HashSet<string> { "Member", "Moderator", "Admin" };
+            var validRoles = new HashSet<string> { "Member", "Moderator", "Admin", "Guest" };
             return roles.All(role => validRoles.Contains(role));
         }
 

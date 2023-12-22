@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import {
@@ -11,7 +11,7 @@ import { ModeratorService } from 'src/app/shared/services/moderator.service';
 import { PresenceService } from 'src/app/core/services/presence.service';
 import { RelativeTimePipe } from '../../../../shared/pipes/relative-time.pipe';
 import { RelativeUrlPipe } from '../../../../shared/pipes/relative-url.pipe';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import {
   NgIf,
   NgOptimizedImage,
@@ -21,7 +21,8 @@ import {
   DatePipe,
 } from '@angular/common';
 import { UserProfileService } from 'src/app/shared/services/user-profile.service';
-import { Subject, takeUntil } from 'rxjs';
+import { first } from 'rxjs';
+import { AccountService } from 'src/app/core/services/account.service';
 
 @Component({
   selector: 'app-profile-user-card',
@@ -40,12 +41,11 @@ import { Subject, takeUntil } from 'rxjs';
     DatePipe,
   ],
 })
-export class ProfileUserCardComponent implements OnInit, OnDestroy {
+export class ProfileUserCardComponent implements OnInit {
   @Input() user: ProfileUser | undefined;
 
   @Input() isCurrentUserProfile: boolean = false;
 
-  private destroy$ = new Subject<void>();
   friendshipStatus: string = '';
 
   constructor(
@@ -53,7 +53,9 @@ export class ProfileUserCardComponent implements OnInit, OnDestroy {
     public presenceService: PresenceService,
     private moderatorService: ModeratorService,
     private userProfileService: UserProfileService,
-    private friendsService: FriendsService
+    private friendsService: FriendsService,
+    private accountService: AccountService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -64,11 +66,6 @@ export class ProfileUserCardComponent implements OnInit, OnDestroy {
     this.loadFriendStatus();
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   loadFriendStatus(): void {
     if (this.user === undefined) {
       return;
@@ -76,7 +73,7 @@ export class ProfileUserCardComponent implements OnInit, OnDestroy {
 
     this.friendsService
       .getFriendRequestStatus(this.user.username)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(first())
       .subscribe({
         next: (response: FriendshipStatusResponse) => {
           this.friendshipStatus = FriendshipStatus[response.status];
@@ -91,7 +88,7 @@ export class ProfileUserCardComponent implements OnInit, OnDestroy {
 
     this.friendsService
       .sendFriendRequest(this.user.username)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(first())
       .subscribe({
         next: () => {
           this.friendshipStatus = 'Pending';
@@ -112,11 +109,14 @@ export class ProfileUserCardComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.friendsService.removeFriendship(this.user!.username).subscribe({
-          next: () => {
-            this.friendshipStatus = 'None';
-          },
-        });
+        this.friendsService
+          .removeFriendship(this.user!.username)
+          .pipe(first())
+          .subscribe({
+            next: () => {
+              this.friendshipStatus = 'None';
+            },
+          });
       }
     });
   }
@@ -134,12 +134,15 @@ export class ProfileUserCardComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.moderatorService.deleteUserPhoto(this.user!.username).subscribe({
-          next: () => {
-            this.userProfileService.invalidateUserCache(this.user!.username);
-            this.user!.profilePictureUrl = null;
-          },
-        });
+        this.moderatorService
+          .deleteUserPhoto(this.user!.username)
+          .pipe(first())
+          .subscribe({
+            next: () => {
+              this.userProfileService.invalidateUserCache(this.user!.username);
+              this.user!.profilePictureUrl = null;
+            },
+          });
       }
     });
   }
@@ -159,12 +162,52 @@ export class ProfileUserCardComponent implements OnInit, OnDestroy {
       if (result) {
         this.moderatorService
           .deleteUserDescription(this.user!.username)
+          .pipe(first())
           .subscribe({
             next: () => {
               this.userProfileService.invalidateUserCache(this.user!.username);
               this.user!.description = null;
             },
           });
+      }
+    });
+  }
+
+  deleteAccount(): void {
+    if (this.user === undefined || this.isCurrentUserProfile === false) {
+      return;
+    }
+
+    const deleteDialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        title: 'Delete Account',
+        message: 'Are you sure you want to delete your account?',
+      },
+    });
+
+    deleteDialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const confirmDialogRef = this.dialog.open(DialogComponent, {
+          data: {
+            title: 'Confirm Deletion',
+            message:
+              'This action cannot be undone. Are you really certain you wish to delete your account?',
+          },
+        });
+
+        confirmDialogRef.afterClosed().subscribe((result) => {
+          if (result) {
+            this.accountService
+              .deleteAccount()
+              .pipe(first())
+              .subscribe({
+                next: () => {
+                  this.accountService.logout();
+                  this.router.navigate(['/portal']);
+                },
+              });
+          }
+        });
       }
     });
   }

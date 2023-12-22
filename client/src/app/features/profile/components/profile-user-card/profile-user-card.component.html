@@ -38,6 +38,7 @@
       <div class="theme-border current-status">Offline</div>
     </ng-template>
     <button
+      type="button"
       *ngIf="user.authorized && user.profilePictureUrl"
       (click)="moderatePicture()"
       id="picture-moderation"
@@ -145,9 +146,9 @@
         type="button"
         *ngSwitchCase="'Current'"
         class="profile-buttons theme-border box-shadow reverse-parameters"
-        routerLink="/user/{{ user.username }}/edit"
+        (click)="deleteAccount()"
       >
-        <span class="button-text">Edit Profile</span>
+        <span class="button-text">Delete Account</span>
       </button>
     </div>
   </div>

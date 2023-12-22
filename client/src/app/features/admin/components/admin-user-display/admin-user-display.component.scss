@@ -8,7 +8,8 @@
   display: flex;
   align-items: center;
   width: 30%;
-  gap: 2em;
+  gap: 1em;
+  flex-shrink: 0;
 }
 .admin-user-avatar {
   height: 5.2em;
@@ -16,6 +17,9 @@
 }
 .admin-user-fullname {
   font-size: 1.8em;
+}
+.created {
+  font-size: 1.6em;
 }
 .role-edit {
   display: flex;
@@ -41,5 +45,43 @@
 
   &:hover {
     opacity: 0.8;
+  }
+}
+@media screen and (max-width: 750px) {
+  .username-and-avatar {
+    width: 25em;
+  }
+  .admin-user-fullname {
+    font-size: 1.6em;
+  }
+  .created {
+    font-size: 1.4em;
+  }
+  .role-edit {
+    font-size: 1.8em;
+    width: 6em;
+  }
+  .delete-user-button {
+    font-size: 1.8em;
+    width: 4em;
+  }
+}
+@media screen and (max-width: 480px) {
+  .username-and-avatar {
+    width: 20em;
+  }
+  .admin-user-fullname {
+    font-size: 1.4em;
+  }
+  .created {
+    font-size: 1.2em;
+  }
+  .role-edit {
+    font-size: 1.6em;
+    width: 5em;
+  }
+  .delete-user-button {
+    font-size: 1.6em;
+    width: 3.5em;
   }
 }

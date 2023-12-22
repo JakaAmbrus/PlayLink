@@ -5,4 +5,5 @@ export interface UserWithRoles {
   fullName: string;
   isModerator: boolean;
   profilePictureUrl: string | null;
+  created: Date;
 }

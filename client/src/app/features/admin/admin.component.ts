@@ -35,8 +35,8 @@ export class AdminComponent implements OnInit {
       .subscribe({
         next: (response) => {
           const loadedUsers = response.result;
-          if (loadedUsers) {
-            this.users.push(...loadedUsers);
+          if (loadedUsers && response.pagination) {
+            this.users = loadedUsers;
             this.totalUsers = response.pagination?.totalItems;
             this.pagination = response.pagination;
           }

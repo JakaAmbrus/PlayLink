@@ -6,7 +6,10 @@
       [fullName]="user.fullName"
       [gender]="user.gender"
     ></app-user-avatar>
-    <h2 class="admin-user-fullname">{{ user.fullName }}</h2>
+    <div class="admin-name-created">
+      <h2 class="admin-user-fullname">{{ user.fullName }}</h2>
+      <p class="created">{{ user.created | relativeTime }}</p>
+    </div>
   </a>
   <button
     type="button"
@@ -25,7 +28,11 @@
     Member
   </button>
 
-  <button type="button" class="delete-user-button rounded-border">
+  <button
+    type="button"
+    (click)="deleteUser(user.appUserId)"
+    class="delete-user-button rounded-border"
+  >
     Delete
   </button>
 </div>

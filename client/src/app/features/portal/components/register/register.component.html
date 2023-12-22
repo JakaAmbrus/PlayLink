@@ -281,7 +281,7 @@
   </div>
 
   <button
-    [disabled]="!registerForm.valid"
+    [disabled]="!registerForm.valid || isLoading"
     [ngClass]="{ 'register-btn-disabled': !registerForm.valid }"
     type="submit"
     (submit)="register()"

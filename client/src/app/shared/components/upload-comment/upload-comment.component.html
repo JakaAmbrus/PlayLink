@@ -31,7 +31,7 @@
     <button
       id="upload-comment"
       type="submit"
-      [disabled]="uploadCommentForm.invalid"
+      [disabled]="uploadCommentForm.invalid || isLoading"
     >
       <span class="material-symbols-rounded filter-inputs upload-comment-icon">
         send

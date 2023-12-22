@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UserWithRoles } from './models/user-with-roles';
 import { AdminService } from './services/admin.service';
 import { Pagination } from '../../shared/models/pagination';
@@ -14,7 +14,7 @@ import { Subject, takeUntil } from 'rxjs';
   standalone: true,
   imports: [NgFor, AdminUserDisplayComponent, NgxPaginationModule],
 })
-export class AdminComponent implements OnInit {
+export class AdminComponent implements OnInit, OnDestroy {
   users: UserWithRoles[] = [];
   pageNumber: number = 1;
   pageSize: number = 6;
@@ -48,5 +48,10 @@ export class AdminComponent implements OnInit {
   pageChanged(event: any): void {
     this.pageNumber = event;
     this.loadUsers();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

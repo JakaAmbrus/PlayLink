@@ -43,6 +43,7 @@
       (click)="moderatePicture()"
       id="picture-moderation"
       class="theme-border"
+      [disabled]="isLoading"
     >
       <span class="material-symbols-rounded filled moderator-icon">
         shield_person
@@ -88,10 +89,12 @@
         }}
       </p>
       <button
+        type="button"
         *ngIf="user.authorized && user.description"
         (click)="moderateDescription()"
         id="description-moderation"
         class="theme-border"
+        [disabled]="isLoading"
       >
         <span class="material-symbols-rounded filled moderator-icon">
           shield_person
@@ -114,6 +117,7 @@
         *ngSwitchCase="'None'"
         class="profile-buttons theme-border box-shadow reverse-parameters"
         (click)="addFriend()"
+        [disabled]="isLoading"
       >
         <span class="button-text">Add Friend</span>
       </button>
@@ -139,6 +143,7 @@
         *ngSwitchCase="'Friends'"
         class="profile-buttons theme-border box-shadow reverse-parameters"
         (click)="removeFriend()"
+        [disabled]="isLoading"
       >
         <span class="button-text">Friends</span>
       </button>
@@ -147,6 +152,7 @@
         *ngSwitchCase="'Current'"
         class="profile-buttons theme-border box-shadow reverse-parameters"
         (click)="deleteAccount()"
+        [disabled]="isLoading"
       >
         <span class="button-text">Delete Account</span>
       </button>

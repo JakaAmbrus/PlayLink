@@ -16,6 +16,7 @@
       type="button"
       *ngIf="post.isAuthorized"
       (click)="deletePost(post.postId)"
+      [disabled]="isLoading"
     >
       <span class="material-symbols-rounded filled post-icon-close">
         close
@@ -60,7 +61,12 @@
     ></app-liked-users-list>
   </div>
   <div class="post-bottom post-counts-borders">
-    <button type="button" class="post-actions" (click)="toggleLike(post)">
+    <button
+      type="button"
+      class="post-actions"
+      (click)="toggleLike(post)"
+      [disabled]="isLoading"
+    >
       <span
         class="material-symbols-rounded post-count-icons"
         [ngClass]="{ filled: post.isLikedByCurrentUser }"

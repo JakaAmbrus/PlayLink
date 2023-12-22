@@ -75,3 +75,6 @@
   right: 0.2em;
   font-size: 2.4em;
 }
+button:disabled {
+  cursor: pointer;
+}

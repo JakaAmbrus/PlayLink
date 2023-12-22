@@ -20,7 +20,7 @@ export class LoginComponent {
     password: '',
   };
   loggedIn: boolean = false;
-  loading: boolean = false;
+  isLoading: boolean = false;
 
   constructor(
     private accountService: AccountService,
@@ -28,7 +28,7 @@ export class LoginComponent {
     public dialog: MatDialog
   ) {}
 
-  guestLogin() {
+  guestLogin(): void {
     const dialogRef = this.dialog.open(GuestLoginDialogComponent);
     dialogRef
       .afterClosed()
@@ -36,36 +36,36 @@ export class LoginComponent {
       .subscribe((result) => {
         const role = result;
         if (role) {
-          this.loading = true;
+          this.isLoading = true;
           this.accountService.guestLogin(role).subscribe({
             next: () => {
               this.loggedIn = true;
-              this.loading = false;
+              this.isLoading = false;
               this.accountService.setLoggedIn(true);
               this.router.navigate(['/home']);
             },
             error: () => {
-              this.loading = false;
+              this.isLoading = false;
             },
           });
         }
       });
   }
 
-  login() {
-    this.loading = true;
+  login(): void {
+    this.isLoading = true;
     this.accountService
       .login(this.loginData)
       .pipe(first())
       .subscribe({
         next: () => {
           this.loggedIn = true;
-          this.loading = false;
+          this.isLoading = false;
           this.accountService.setLoggedIn(true);
           this.router.navigate(['/home']);
         },
         error: () => {
-          this.loading = false;
+          this.isLoading = false;
         },
       });
   }

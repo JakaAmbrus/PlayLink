@@ -5,6 +5,7 @@ import { RelativeTimePipe } from '../../../../../shared/pipes/relative-time.pipe
 import { UserAvatarComponent } from '../../../../../shared/components/user-avatar/user-avatar.component';
 import { RouterLink } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-header-notifications',
@@ -18,29 +19,45 @@ export class HeaderNotificationsComponent {
 
   @Output() requestDeleted: EventEmitter<number> = new EventEmitter();
 
+  isLoading: boolean = false;
+
   constructor(private friendsService: FriendsService) {}
 
   respondToFriendRequest(friendRequestId: number, accept: boolean): void {
+    this.isLoading = true;
+
     this.friendsService
       .respondToFriendRequest({
         friendRequestId: friendRequestId,
         accept: accept,
       })
+      .pipe(first())
       .subscribe({
         next: (response) => {
+          this.isLoading = false;
           this.requestDeleted.emit(friendRequestId);
           if (response.requestAccepted) {
             this.friendsService.addFriend(response.friendDto);
           }
         },
+        error: () => {
+          this.isLoading = false;
+        },
       });
   }
 
   removeFriendRequest(friendRequestId: number): void {
-    this.friendsService.removeFriendRequest(friendRequestId).subscribe({
-      next: () => {
-        this.requestDeleted.emit(friendRequestId);
-      },
-    });
+    this.friendsService
+      .removeFriendRequest(friendRequestId)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.isLoading = false;
+          this.requestDeleted.emit(friendRequestId);
+        },
+        error: () => {
+          this.isLoading = false;
+        },
+      });
   }
 }

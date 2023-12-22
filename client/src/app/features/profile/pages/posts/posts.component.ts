@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Post } from 'src/app/shared/models/posts';
 import { PostsService } from 'src/app/shared/services/posts.service';
@@ -21,7 +21,7 @@ import { Subject, takeUntil } from 'rxjs';
     PostComponent,
   ],
 })
-export class PostsComponent implements OnInit {
+export class PostsComponent implements OnInit, OnDestroy {
   isLoading: boolean = true;
   posts: Post[] = [];
   pageNumber: number = 1;
@@ -80,5 +80,10 @@ export class PostsComponent implements OnInit {
 
   onPostDelete(postId: number) {
     this.posts = this.posts.filter((post) => post.postId !== postId);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

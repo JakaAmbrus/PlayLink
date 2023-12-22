@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PostsService } from '../../shared/services/posts.service';
 import { Post } from '../../shared/models/posts';
 import { FriendListComponent } from './components/friend-list/friend-list.component';
@@ -26,7 +26,7 @@ import { Subject, takeUntil } from 'rxjs';
     FriendListComponent,
   ],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   isLoading: boolean = true;
   posts: Post[] = [];
   pageNumber: number = 1;
@@ -73,5 +73,10 @@ export class HomeComponent implements OnInit {
 
   onPostDelete(postId: number): void {
     this.posts = this.posts.filter((post) => post.postId !== postId);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

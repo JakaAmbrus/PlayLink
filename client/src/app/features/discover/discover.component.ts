@@ -71,10 +71,6 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     this.loadCountries();
   }
 
-  ngOnDestroy() {
-    this.localStorageService.setItem('discoverFilters', this.userParams);
-  }
-
   loadUsers() {
     this.userParams = {
       pageNumber: this.pageNumber,
@@ -158,5 +154,11 @@ export class DiscoverComponent implements OnInit, OnDestroy {
 
   showMobileFilterToggle(): void {
     this.isMobileFilterVisible = !this.isMobileFilterVisible;
+  }
+
+  ngOnDestroy() {
+    this.localStorageService.setItem('discoverFilters', this.userParams);
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

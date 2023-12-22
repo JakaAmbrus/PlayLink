@@ -47,6 +47,7 @@ export class ProfileUserCardComponent implements OnInit {
   @Input() isCurrentUserProfile: boolean = false;
 
   friendshipStatus: string = '';
+  isLoading: boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -85,13 +86,17 @@ export class ProfileUserCardComponent implements OnInit {
     if (this.user === undefined) {
       return;
     }
-
+    this.isLoading = true;
     this.friendsService
       .sendFriendRequest(this.user.username)
       .pipe(first())
       .subscribe({
         next: () => {
+          this.isLoading = false;
           this.friendshipStatus = 'Pending';
+        },
+        error: () => {
+          this.isLoading = false;
         },
       });
   }
@@ -109,12 +114,17 @@ export class ProfileUserCardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        this.isLoading = true;
         this.friendsService
           .removeFriendship(this.user!.username)
           .pipe(first())
           .subscribe({
             next: () => {
+              this.isLoading = false;
               this.friendshipStatus = 'None';
+            },
+            error: () => {
+              this.isLoading = false;
             },
           });
       }
@@ -134,13 +144,18 @@ export class ProfileUserCardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        this.isLoading = true;
         this.moderatorService
           .deleteUserPhoto(this.user!.username)
           .pipe(first())
           .subscribe({
             next: () => {
+              this.isLoading = false;
               this.userProfileService.invalidateUserCache(this.user!.username);
               this.user!.profilePictureUrl = null;
+            },
+            error: () => {
+              this.isLoading = false;
             },
           });
       }
@@ -160,13 +175,18 @@ export class ProfileUserCardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        this.isLoading = true;
         this.moderatorService
           .deleteUserDescription(this.user!.username)
           .pipe(first())
           .subscribe({
             next: () => {
+              this.isLoading = false;
               this.userProfileService.invalidateUserCache(this.user!.username);
               this.user!.description = null;
+            },
+            error: () => {
+              this.isLoading = false;
             },
           });
       }
@@ -197,6 +217,7 @@ export class ProfileUserCardComponent implements OnInit {
 
         confirmDialogRef.afterClosed().subscribe((result) => {
           if (result) {
+            this.isLoading = true;
             this.accountService
               .deleteAccount()
               .pipe(first())
@@ -204,6 +225,9 @@ export class ProfileUserCardComponent implements OnInit {
                 next: () => {
                   this.accountService.logout();
                   this.router.navigate(['/portal']);
+                },
+                error: () => {
+                  this.isLoading = false;
                 },
               });
           }

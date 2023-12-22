@@ -13,7 +13,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import countries from '../../../../../assets/data/countries.json';
-import { Observable, debounceTime, map, startWith } from 'rxjs';
+import { Observable, debounceTime, first, map, startWith } from 'rxjs';
 import { validCountryValidator } from 'src/app/shared/validators/formValidators';
 import { ToastrService } from 'ngx-toastr';
 import { AvatarService } from 'src/app/shared/services/avatar.service';
@@ -122,27 +122,30 @@ export class EditComponent implements OnInit {
         country: this.editUserForm.get('country')?.value,
       };
 
-      this.editUserService.editUser(editUserData).subscribe({
-        next: (response) => {
-          this.toastr.success('Profile updated successfully');
-          this.editUserForm.reset();
-          this.selectedFiles = [];
-          this.cdRef.detectChanges();
-          this.isLoading = false;
-          if (response.photoUrl) {
-            this.avatarService.updateAvatarPhoto(response.photoUrl);
-          }
-          this.userProfileService.invalidateUserCache(this.username);
-          this.router
-            .navigateByUrl('/RefreshComponent', { skipLocationChange: true })
-            .then(() => {
-              this.router.navigate(['/user', this.username, 'edit']);
-            });
-        },
-        error: () => {
-          this.isLoading = false;
-        },
-      });
+      this.editUserService
+        .editUser(editUserData)
+        .pipe(first())
+        .subscribe({
+          next: (response) => {
+            this.toastr.success('Profile updated successfully');
+            this.editUserForm.reset();
+            this.selectedFiles = [];
+            this.cdRef.detectChanges();
+            this.isLoading = false;
+            if (response.photoUrl) {
+              this.avatarService.updateAvatarPhoto(response.photoUrl);
+            }
+            this.userProfileService.invalidateUserCache(this.username);
+            this.router
+              .navigateByUrl('/RefreshComponent', { skipLocationChange: true })
+              .then(() => {
+                this.router.navigate(['/user', this.username, 'edit']);
+              });
+          },
+          error: () => {
+            this.isLoading = false;
+          },
+        });
     }
   }
 }

@@ -56,6 +56,7 @@ export class PostComponent implements OnDestroy {
   allCommentsLoaded: boolean = false;
   likedUsers: LikedUser[] = [];
   showLikedUsers: boolean = false;
+  isLoading: boolean = false;
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -94,20 +95,34 @@ export class PostComponent implements OnDestroy {
 
   toggleLike(post: Post): void {
     if (post.isLikedByCurrentUser) {
+      this.isLoading = true;
       this.likesService
         .unlikePost(post.postId)
         .pipe(first())
-        .subscribe(() => {
-          post.isLikedByCurrentUser = false;
-          post.likesCount -= 1;
+        .subscribe({
+          next: () => {
+            this.isLoading = false;
+            post.isLikedByCurrentUser = false;
+            post.likesCount -= 1;
+          },
+          error: () => {
+            this.isLoading = false;
+          },
         });
     } else {
+      this.isLoading = true;
       this.likesService
         .likePost(post.postId)
         .pipe(first())
-        .subscribe(() => {
-          post.isLikedByCurrentUser = true;
-          post.likesCount += 1;
+        .subscribe({
+          next: () => {
+            this.isLoading = false;
+            post.isLikedByCurrentUser = true;
+            post.likesCount += 1;
+          },
+          error: () => {
+            this.isLoading = false;
+          },
         });
     }
   }
@@ -125,20 +140,30 @@ export class PostComponent implements OnDestroy {
       .pipe(first())
       .subscribe((result) => {
         if (result) {
-          this.postsService.deletePost(postId).subscribe(() => {
-            this.post = undefined;
-            this.postDeleted.emit(postId);
+          this.isLoading = true;
+          this.postsService.deletePost(postId).subscribe({
+            next: () => {
+              this.isLoading = false;
+              this.post = undefined;
+              this.postDeleted.emit(postId);
+            },
+            error: () => {
+              this.isLoading = false;
+            },
           });
         }
       });
   }
 
   showComments(): void {
-    if (this.post?.commentsCount === 0 || this.commentsShown) {
+    if (this.commentsShown) {
       return;
     }
     this.commentsShown = true;
-    this.loadComments();
+
+    if (this.post?.commentsCount !== 0) {
+      this.loadComments();
+    }
   }
 
   loadComments(): void {
@@ -187,5 +212,7 @@ export class PostComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.clickOutsideService.unbind(this);
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

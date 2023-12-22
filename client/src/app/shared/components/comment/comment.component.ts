@@ -38,6 +38,7 @@ export class CommentComponent implements OnDestroy {
 
   likedUsers: LikedUser[] = [];
   showLikedUsers: boolean = false;
+  isLoading: boolean = false;
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -49,20 +50,34 @@ export class CommentComponent implements OnDestroy {
 
   toggleLike(comment: Comment) {
     if (comment.isLikedByCurrentUser) {
+      this.isLoading = true;
       this.likesService
         .unlikeComment(comment.commentId)
         .pipe(first())
-        .subscribe(() => {
-          comment.isLikedByCurrentUser = false;
-          comment.likesCount -= 1;
+        .subscribe({
+          next: () => {
+            this.isLoading = false;
+            comment.isLikedByCurrentUser = false;
+            comment.likesCount -= 1;
+          },
+          error: () => {
+            this.isLoading = false;
+          },
         });
     } else {
+      this.isLoading = true;
       this.likesService
         .likeComment(comment.commentId)
         .pipe(first())
-        .subscribe(() => {
-          comment.isLikedByCurrentUser = true;
-          comment.likesCount += 1;
+        .subscribe({
+          next: () => {
+            this.isLoading = false;
+            comment.isLikedByCurrentUser = true;
+            comment.likesCount += 1;
+          },
+          error: () => {
+            this.isLoading = false;
+          },
         });
     }
   }
@@ -116,5 +131,7 @@ export class CommentComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.clickOutsideService.unbind(this);
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

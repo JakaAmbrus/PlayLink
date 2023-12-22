@@ -27,6 +27,7 @@ export class UploadCommentComponent implements OnInit {
 
   uploadCommentForm: FormGroup = new FormGroup({});
   avatar!: Avatar;
+  isLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -52,15 +53,17 @@ export class UploadCommentComponent implements OnInit {
         postId: this.postId,
         content: commentContent,
       };
+      this.isLoading = true;
       this.commentsService
         .uploadComment(commentUploadDto)
         .pipe(first())
         .subscribe({
           next: (response) => {
+            this.isLoading = false;
             this.commentUploaded.emit(response);
             this.uploadCommentForm.reset();
           },
-          error: (err) => console.error(err),
+          error: () => (this.isLoading = false),
         });
     }
   }

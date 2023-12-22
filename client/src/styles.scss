@@ -114,6 +114,10 @@ input[type="reset"] {
   outline: inherit;
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+
 //scrollbar styles
 ::-webkit-scrollbar {
   width: 10px;

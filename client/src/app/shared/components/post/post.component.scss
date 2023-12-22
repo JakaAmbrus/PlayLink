@@ -107,3 +107,6 @@
     text-decoration-line: underline;
   }
 }
+button:disabled {
+  cursor: pointer;
+}

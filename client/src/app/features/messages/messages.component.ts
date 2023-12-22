@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Pagination } from '../../shared/models/pagination';
 import { Message } from '../../shared/models/message';
 import { MessagesService } from '../profile/services/message.service';
@@ -30,7 +30,7 @@ import { LocalStorageService } from 'src/app/core/services/local-storage.service
     OnlineUsersListComponent,
   ],
 })
-export class MessagesComponent implements OnInit {
+export class MessagesComponent implements OnInit, OnDestroy {
   messages: Message[] = [];
   pagination: Pagination | undefined;
   container: string = 'Unread';
@@ -97,5 +97,10 @@ export class MessagesComponent implements OnInit {
           this.messageCountController++;
         },
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

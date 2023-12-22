@@ -15,6 +15,7 @@
         type="button"
         *ngIf="comment.isAuthorized"
         (click)="deleteComment(comment.commentId)"
+        [disabled]="isLoading"
       >
         <span class="material-symbols-rounded filled comment-icon-close">
           close</span
@@ -26,7 +27,11 @@
         {{ comment.timeCommented | timeAgo }}
       </p>
       <div class="comment-likes-container">
-        <button type="button" (click)="toggleLike(comment)">
+        <button
+          type="button"
+          (click)="toggleLike(comment)"
+          [disabled]="isLoading"
+        >
           <span
             class="material-symbols-rounded comment-count-icons"
             [ngClass]="{ filled: comment.isLikedByCurrentUser }"

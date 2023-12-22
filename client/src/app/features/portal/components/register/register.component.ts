@@ -45,6 +45,7 @@ export class RegisterComponent implements OnInit {
   minDate: Date;
   maxDate: Date;
   filteredCountries?: Observable<string[]>;
+  isLoading: boolean = false;
 
   @Output() exitRegistration = new EventEmitter<void>();
 
@@ -66,7 +67,7 @@ export class RegisterComponent implements OnInit {
       debounceTime(100),
       startWith(''),
       map((value) => (typeof value === 'string' ? value : value.name)),
-      map((name) => (name ? this._filterCountries(name) : countries.slice()))
+      map((name) => (name ? this.filterCountries(name) : countries.slice()))
     );
   }
 
@@ -123,7 +124,7 @@ export class RegisterComponent implements OnInit {
     return country ? country : '';
   }
 
-  private _filterCountries(value: string): string[] {
+  private filterCountries(value: string): string[] {
     const filterValue = value.toLowerCase();
     return countries.filter((country) =>
       country.toLowerCase().includes(filterValue)
@@ -131,6 +132,8 @@ export class RegisterComponent implements OnInit {
   }
 
   register(): void {
+    this.isLoading = true;
+
     const dob = this.getOnlyDate(
       this.registerForm?.controls['dateOfBirth'].value
     );
@@ -141,8 +144,12 @@ export class RegisterComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
+          this.isLoading = false;
           this.accountService.setLoggedIn(true);
           this.router.navigate(['/home']);
+        },
+        error: () => {
+          this.isLoading = false;
         },
       });
   }

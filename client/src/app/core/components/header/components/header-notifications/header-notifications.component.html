@@ -28,6 +28,7 @@
           type="button"
           (click)="respondToFriendRequest(request.friendRequestId, true)"
           class="accept-decline-button reverse-parameters"
+          [disabled]="isLoading"
         >
           Accept
         </button>
@@ -35,6 +36,7 @@
           type="button"
           (click)="respondToFriendRequest(request.friendRequestId, false)"
           class="accept-decline-button reverse-parameters decline"
+          [disabled]="isLoading"
         >
           Decline
         </button>
@@ -48,6 +50,7 @@
         type="button"
         (click)="removeFriendRequest(request.friendRequestId)"
         class="avatar-accepted-or-declined"
+        [disabled]="isLoading"
       >
         <app-user-avatar
           class="notifications-user-avatar"

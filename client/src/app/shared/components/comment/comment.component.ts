@@ -88,7 +88,9 @@ export class CommentComponent implements OnDestroy {
     }
     this.showLikedUsers = !this.showLikedUsers;
     if (this.showLikedUsers) {
-      this.loadLikedUsers();
+      if (this.likedUsers.length === 0) {
+        this.loadLikedUsers();
+      }
       this.clickOutsideService.bind(this, () => {
         this.showLikedUsers = false;
       });

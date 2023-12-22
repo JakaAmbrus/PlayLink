@@ -46,7 +46,7 @@ export class ProfileUserCardComponent implements OnInit {
 
   @Input() isCurrentUserProfile: boolean = false;
 
-  friendshipStatus: string = '';
+  friendshipStatus: string = 'Loading';
   isLoading: boolean = false;
 
   constructor(

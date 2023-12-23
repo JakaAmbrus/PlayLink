@@ -1,4 +1,11 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { FriendsService } from '../../../shared/services/friends.service';
 import { FriendRequest } from '../../../shared/models/friends';
 import { RouterLink } from '@angular/router';
@@ -8,7 +15,14 @@ import { NgIf } from '@angular/common';
 import { HeaderNavLinksComponent } from './components/header-nav-links/header-nav-links.component';
 import { HeaderLogoComponent } from './components/header-logo/header-logo.component';
 import { LocalStorageService } from '../../services/local-storage.service';
-import { first } from 'rxjs';
+import {
+  Subscription,
+  concatMap,
+  first,
+  interval,
+  startWith,
+  take,
+} from 'rxjs';
 import { ClickOutsideService } from 'src/app/shared/services/click-outside.service';
 
 @Component({
@@ -25,7 +39,7 @@ import { ClickOutsideService } from 'src/app/shared/services/click-outside.servi
     RouterLink,
   ],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   @Input() theme!: 'theme-light' | 'theme-dark';
 
   @Output() themeButtonClicked = new EventEmitter<void>();
@@ -37,6 +51,7 @@ export class HeaderComponent implements OnInit {
   isAdmin: boolean = false;
   isModerator: boolean = false;
   friendRequests: FriendRequest[] = [];
+  private subscription = new Subscription();
 
   constructor(
     private friendsService: FriendsService,
@@ -57,14 +72,19 @@ export class HeaderComponent implements OnInit {
     if (!this.username) {
       return;
     }
-    this.friendsService
-      .getFriendRequests()
-      .pipe(first())
-      .subscribe({
-        next: (response) => {
-          this.friendRequests = response.friendRequests;
-        },
-      });
+    this.subscription.add(
+      interval(30000)
+        .pipe(
+          startWith(0),
+          take(15),
+          concatMap(() => this.friendsService.getFriendRequests().pipe(first()))
+        )
+        .subscribe({
+          next: (response) => {
+            this.friendRequests = response.friendRequests;
+          },
+        })
+    );
   }
 
   onRequestDelete(requestId: number): void {
@@ -105,5 +125,9 @@ export class HeaderComponent implements OnInit {
     const roles = storedRoles ? JSON.parse(storedRoles) : [];
     this.isAdmin = roles.includes('Admin');
     this.isModerator = roles.includes('Moderator');
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

@@ -26,6 +26,8 @@ namespace Application
 
             services.AddAuthenticatedUserServices();
 
+            services.AddMemoryCacheExtensions();
+
             return services;
         }
     }

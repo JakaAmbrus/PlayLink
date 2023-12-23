@@ -10,10 +10,12 @@ namespace Application.Features.Friends.SendFriendRequest
     public class SendFriendRequestCommandHandler : IRequestHandler<SendFriendRequestCommand, SendFriendRequestResponse>
     {
         private readonly IApplicationDbContext _context;
+        private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public SendFriendRequestCommandHandler(IApplicationDbContext context)
+        public SendFriendRequestCommandHandler(IApplicationDbContext context, ICacheInvalidationService cacheInvalidationService)
         {
             _context = context;
+            _cacheInvalidationService = cacheInvalidationService;
         }
 
         public async Task<SendFriendRequestResponse> Handle(SendFriendRequestCommand request, CancellationToken cancellationToken)
@@ -61,9 +63,11 @@ namespace Application.Features.Friends.SendFriendRequest
 
             await _context.FriendRequests.AddAsync(friendRequest, cancellationToken);
 
-            var success = await _context.SaveChangesAsync(cancellationToken) > 0;
+            await _context.SaveChangesAsync(cancellationToken);
 
-            return new SendFriendRequestResponse { RequestSent = success };
+            _cacheInvalidationService.InvalidateFriendRequestsCache(friendRequest.ReceiverId);
+
+            return new SendFriendRequestResponse { RequestSent = true };
         }
     }
 }

@@ -8,15 +8,17 @@ namespace Application.Features.Friends.RemoveFriendship
     public class RemoveFriendshipCommandHandler : IRequestHandler<RemoveFriendshipCommand, RemoveFriendshipResponse>
     {
         private readonly IApplicationDbContext _context;
+        private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public RemoveFriendshipCommandHandler(IApplicationDbContext context)
+        public RemoveFriendshipCommandHandler(IApplicationDbContext context, ICacheInvalidationService cacheInvalidationService)
         {
             _context = context;
+            _cacheInvalidationService = cacheInvalidationService;
         }
 
         public async Task<RemoveFriendshipResponse> Handle(RemoveFriendshipCommand request, CancellationToken cancellationToken)
         {
-            var AuthUser = await _context.Users
+            var authUser = await _context.Users
                 .FirstOrDefaultAsync(u => u.Id == request.AuthUserId, cancellationToken)
                 ?? throw new NotFoundException("Auth user not found");
 
@@ -42,6 +44,7 @@ namespace Application.Features.Friends.RemoveFriendship
             if (friendRequest != null)
             {
                 _context.FriendRequests.Remove(friendRequest);
+                _cacheInvalidationService.InvalidateFriendRequestsCache(friendRequest.SenderId);
             }
 
             await _context.SaveChangesAsync(cancellationToken);

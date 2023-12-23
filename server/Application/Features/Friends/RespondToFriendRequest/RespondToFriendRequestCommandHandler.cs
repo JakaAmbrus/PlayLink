@@ -11,10 +11,12 @@ namespace Application.Features.Friends.RespondToFriendRequest
     public class RespondToFriendRequestCommandHandler : IRequestHandler<RespondToFriendRequestCommand, RespondToFriendRequestResponse>
     {
         private readonly IApplicationDbContext _context;
+        private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public RespondToFriendRequestCommandHandler(IApplicationDbContext context)
+        public RespondToFriendRequestCommandHandler(IApplicationDbContext context, ICacheInvalidationService cacheInvalidationService)
         {
             _context = context;
+            _cacheInvalidationService = cacheInvalidationService;
         }
 
         public async Task<RespondToFriendRequestResponse> Handle(RespondToFriendRequestCommand request, CancellationToken cancellationToken)
@@ -30,7 +32,7 @@ namespace Application.Features.Friends.RespondToFriendRequest
 
             if (friendRequest.Status != FriendRequestStatus.Pending)
             {
-                throw new InvalidOperationException("The friend request is not in a pending state.");
+                throw new BadRequestException("This friend request already has a response.");
             }
 
             if (request.FriendRequestResponse.Accept)
@@ -50,6 +52,9 @@ namespace Application.Features.Friends.RespondToFriendRequest
                     .FirstOrDefaultAsync(u => u.Id == friendRequest.SenderId, cancellationToken)
                     ?? throw new NotFoundException("User not found");
 
+                _cacheInvalidationService.InvalidateFriendRequestsCache(friendRequest.SenderId);
+                _cacheInvalidationService.InvalidateFriendRequestsCache(friendRequest.ReceiverId);
+
                 return new RespondToFriendRequestResponse
                 {
                     RequestAccepted = true,
@@ -67,6 +72,9 @@ namespace Application.Features.Friends.RespondToFriendRequest
 
             friendRequest.Status = FriendRequestStatus.Declined;
             await _context.SaveChangesAsync(cancellationToken);
+
+            _cacheInvalidationService.InvalidateFriendRequestsCache(friendRequest.SenderId);
+            _cacheInvalidationService.InvalidateFriendRequestsCache(friendRequest.ReceiverId);
 
             return new RespondToFriendRequestResponse
             {

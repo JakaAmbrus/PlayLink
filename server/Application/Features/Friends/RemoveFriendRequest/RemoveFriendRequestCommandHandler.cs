@@ -8,10 +8,12 @@ namespace Application.Features.Friends.RemoveFriendRequest
     public class RemoveFriendRequestCommandHandler : IRequestHandler<RemoveFriendRequestCommand, RemoveFriendRequestResponse>
     {
         private readonly IApplicationDbContext _context;
+        private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public RemoveFriendRequestCommandHandler(IApplicationDbContext context)
+        public RemoveFriendRequestCommandHandler(IApplicationDbContext context, ICacheInvalidationService cacheInvalidationService)
         {
             _context = context;
+            _cacheInvalidationService = cacheInvalidationService;
         }
 
         public async Task<RemoveFriendRequestResponse> Handle(RemoveFriendRequestCommand request, CancellationToken cancellationToken)
@@ -27,6 +29,8 @@ namespace Application.Features.Friends.RemoveFriendRequest
             _context.FriendRequests.Remove(friendRequest);
 
             await _context.SaveChangesAsync(cancellationToken);
+
+            _cacheInvalidationService.InvalidateFriendRequestsCache(request.AuthUserId);
 
             return new RemoveFriendRequestResponse
             {

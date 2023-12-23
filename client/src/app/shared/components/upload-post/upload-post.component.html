@@ -59,6 +59,7 @@
           uploadPostForm.get('description')?.touched &&
           uploadPostForm.get('description')?.invalid
         "
+        autocomplete="off"
       ></textarea>
       <div
         *ngIf="uploadPostForm.get('description')?.hasError('maxlength')"

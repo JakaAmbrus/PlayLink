@@ -38,6 +38,7 @@
           editUserForm.get('description')?.touched &&
           editUserForm.get('description')?.invalid
         "
+        autocomplete="off"
       ></textarea>
       <div
         *ngIf="editUserForm.get('description')?.hasError('maxlength')"
@@ -59,6 +60,7 @@
           editUserForm.get('country')?.touched &&
           editUserForm.get('country')?.invalid
         "
+        autocomplete="off"
       />
       <div
         *ngIf="editUserForm.get('country')?.errors?.['invalidCountry']"

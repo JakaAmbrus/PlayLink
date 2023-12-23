@@ -21,6 +21,7 @@
         uploadCommentForm.get('content')?.touched &&
         uploadCommentForm.get('content')?.invalid
       "
+      autocomplete="off"
     />
     <p
       *ngIf="uploadCommentForm.get('content')?.hasError('maxlength')"

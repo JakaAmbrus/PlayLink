@@ -157,13 +157,14 @@ export class PostComponent implements OnDestroy {
       });
   }
 
-  showComments(): void {
-    if (this.commentsShown) {
-      return;
-    }
-    this.commentsShown = true;
+  toggleComments(): void {
+    this.commentsShown = !this.commentsShown;
 
-    if (this.post?.commentsCount !== 0) {
+    if (
+      this.post?.commentsCount !== 0 &&
+      this.commentsShown &&
+      this.comments.length === 0
+    ) {
       this.loadComments();
     }
   }
@@ -183,7 +184,8 @@ export class PostComponent implements OnDestroy {
               this.totalComments = response.pagination?.totalItems;
               if (
                 !response.pagination ||
-                loadedComments.length < this.pageSize
+                loadedComments.length < this.pageSize ||
+                this.totalComments === this.comments.length
               ) {
                 this.allCommentsLoaded = true;
               }

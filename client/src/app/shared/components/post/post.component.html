@@ -75,7 +75,7 @@
       </span>
       <p class="post-count">Like</p>
     </button>
-    <button type="button" class="post-actions" (click)="showComments()">
+    <button type="button" class="post-actions" (click)="toggleComments()">
       <span class="material-symbols-rounded post-count-icons"
         >mode_comment</span
       >
@@ -86,7 +86,7 @@
   <div *ngIf="commentsShown" class="comments-container">
     <button
       type="button"
-      *ngIf="!allCommentsLoaded && comments.length > 0"
+      *ngIf="!allCommentsLoaded && post.commentsCount > 0"
       (click)="showMoreComments()"
       class="load-more-comments-button"
     >

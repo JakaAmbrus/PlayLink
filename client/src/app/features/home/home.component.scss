@@ -54,7 +54,8 @@
     width: 80%;
   }
 }
-@media (max-width: 900px) {
+
+@media (max-width: 800px) {
   #home-middle {
     margin: 0;
     width: 100%;
@@ -68,11 +69,7 @@
     border-radius: 0;
   }
 }
-@media only screen and (max-width: 800px) {
-  #home-middle {
-    font-size: 11px;
-  }
-}
+
 @media only screen and (max-width: 450px) {
   #home-middle {
     font-size: 9px;

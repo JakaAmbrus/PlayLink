@@ -12,8 +12,11 @@
     ></app-user-avatar>
     <div class="name-bd">
       <h1 class="name header-text">{{ user.fullName }}</h1>
-      <p class="days-until-bd">
+      <p class="days-until-bd" *ngIf="user.daysUntilBirthday > 0">
         Days until Birthday: {{ user.daysUntilBirthday }}
+      </p>
+      <p class="days-until-bd" *ngIf="user.daysUntilBirthday === 0">
+        Happy Birthday! 🎂
       </p>
     </div>
   </div>

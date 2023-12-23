@@ -33,7 +33,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                   this.toastr.error(err);
                 });
               } else {
-                this.toastr.error(error.error, error.status.toString());
+                this.toastr.error(error.error.message || 'Bad Request');
               }
               break;
 

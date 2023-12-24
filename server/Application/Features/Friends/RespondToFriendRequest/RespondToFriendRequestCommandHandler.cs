@@ -48,12 +48,17 @@ namespace Application.Features.Friends.RespondToFriendRequest
                 await _context.Friendships.AddAsync(friend, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                var newFriend = await _context.Users
-                    .FirstOrDefaultAsync(u => u.Id == friendRequest.SenderId, cancellationToken)
-                    ?? throw new NotFoundException("User not found");
-
                 _cacheInvalidationService.InvalidateFriendRequestsCache(friendRequest.SenderId);
                 _cacheInvalidationService.InvalidateFriendRequestsCache(friendRequest.ReceiverId);
+
+                _cacheInvalidationService.InvalidateUserFriendsCache(friendRequest.SenderId);
+                _cacheInvalidationService.InvalidateUserFriendsCache(friendRequest.ReceiverId);
+
+                _cacheInvalidationService.InvalidateFriendshipStatusCache(friendRequest.SenderId, friendRequest.ReceiverId);
+
+                var newFriend = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Id == friendRequest.SenderId, cancellationToken)
+                    ?? throw new NotFoundException("New friend user not found");     
 
                 return new RespondToFriendRequestResponse
                 {
@@ -66,7 +71,6 @@ namespace Application.Features.Friends.RespondToFriendRequest
                         Gender = newFriend.Gender,
                         DateEstablished = DateTime.UtcNow
                     }
-
                 };
             }
 
@@ -75,6 +79,8 @@ namespace Application.Features.Friends.RespondToFriendRequest
 
             _cacheInvalidationService.InvalidateFriendRequestsCache(friendRequest.SenderId);
             _cacheInvalidationService.InvalidateFriendRequestsCache(friendRequest.ReceiverId);
+
+            _cacheInvalidationService.InvalidateFriendshipStatusCache(friendRequest.SenderId, friendRequest.ReceiverId);
 
             return new RespondToFriendRequestResponse
             {

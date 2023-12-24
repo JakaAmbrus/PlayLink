@@ -32,6 +32,11 @@ namespace Application.Features.Friends.RemoveFriendRequest
 
             _cacheInvalidationService.InvalidateFriendRequestsCache(request.AuthUserId);
 
+            if(friendRequest.Status == Domain.Enums.FriendRequestStatus.Declined)
+            {
+                _cacheInvalidationService.InvalidateFriendshipStatusCache(friendRequest.SenderId, friendRequest.ReceiverId);
+            }
+
             return new RemoveFriendRequestResponse
             {
                 RequestRemoved = true

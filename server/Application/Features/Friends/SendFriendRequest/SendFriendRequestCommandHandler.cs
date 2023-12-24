@@ -66,6 +66,7 @@ namespace Application.Features.Friends.SendFriendRequest
             await _context.SaveChangesAsync(cancellationToken);
 
             _cacheInvalidationService.InvalidateFriendRequestsCache(friendRequest.ReceiverId);
+            _cacheInvalidationService.InvalidateFriendshipStatusCache(request.AuthUserId, receiver.Id);
 
             return new SendFriendRequestResponse { RequestSent = true };
         }

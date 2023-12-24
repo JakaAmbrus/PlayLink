@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Exceptions;
+using Application.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Application.Services
@@ -16,8 +17,41 @@ namespace Application.Services
 
         public void InvalidateFriendRequestsCache(int userId)
         {
-            string cacheKey = _cacheKeyService.GenerateHashedKey($"Friends:GetFriendRequests-{userId}");
-            _memoryCache.Remove(cacheKey);
+            try
+            {
+                string cacheKey = _cacheKeyService.GenerateHashedKey($"Friends:GetFriendRequests-{userId}");
+                _memoryCache.Remove(cacheKey);
+            }
+            catch
+            {
+                throw new ServerErrorException("Could not invalidate friend requests cache.");
+            }
+        }
+
+        public void InvalidateUserFriendsCache(int userId)
+        {
+            try
+            {
+                string cacheKey = _cacheKeyService.GenerateHashedKey($"Friends:GetUserFriends-{userId}");
+                _memoryCache.Remove(cacheKey);
+            }
+            catch
+            {
+                throw new ServerErrorException("Could not invalidate user friends cache.");
+            }
+        }
+
+        public void InvalidateFriendshipStatusCache(int userId1, int userId2)
+        {
+            try
+            {
+                string cacheKey = _cacheKeyService.GenerateFriendStatusCacheKey(userId1, userId2);
+                _memoryCache.Remove(cacheKey);
+            }
+            catch
+            {
+                throw new ServerErrorException("Could not invalidate friendship status cache.");
+            }
         }
     }
 }

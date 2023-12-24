@@ -55,6 +55,10 @@ export class MessagesService {
         this.messageThreadSource.next([...messages, message]);
       });
     });
+
+    this.hubConnection.on('TooManyMessages', (errorMessage) => {
+      this.toastr.error(errorMessage);
+    });
   }
 
   stopHubConnection(): void {
@@ -81,13 +85,9 @@ export class MessagesService {
   }
 
   async sendMessageThroughHub(username: string, content: string) {
-    console.log(username, content);
-
-    return this.hubConnection
-      ?.invoke('SendMessage', {
-        recipientUsername: username,
-        content,
-      })
-      .catch(() => this.toastr.error('Error sending message'));
+    return this.hubConnection?.invoke('SendMessage', {
+      recipientUsername: username,
+      content,
+    });
   }
 }

@@ -14,6 +14,7 @@ using Application.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using System.Collections.Concurrent;
 
 namespace WebAPI.SignalR
 {
@@ -24,6 +25,9 @@ namespace WebAPI.SignalR
         private readonly IAuthenticatedUserUsernameService _authenticatedUserUsernameService;
         private readonly IAuthenticatedUserService _authenticatedUserService;
         private readonly IHubContext<PresenceHub> _presenceHub;
+
+        private static readonly ConcurrentDictionary<int, Queue<DateTime>> _messageTime
+            = new();
 
         public MessageHub(ISender mediator, IAuthenticatedUserService authenticatedUserService 
             ,IAuthenticatedUserUsernameService authenticatedUserUsernameService,
@@ -70,14 +74,25 @@ namespace WebAPI.SignalR
 
         public async Task SendMessage(CreateMessageDto createMessageDto)
         {
+
             int authUserId = _authenticatedUserService.UserId;
+
+            if (!IsWithinMessageRateLimit(authUserId, out var retryAfter))
+            {
+                var waitTime = retryAfter.HasValue ? (int)retryAfter.Value.TotalSeconds : 0;
+
+                await Clients.Caller.SendAsync("TooManyMessages", $"Too many messages sent, please wait {waitTime}s");
+
+                return;
+            }
+
             string authUsername = await _authenticatedUserUsernameService.GetUsernameByIdAsync();
 
             var command = new SendMessageCommand
             {
                 CreateMessageDto = createMessageDto,
                 AuthUserId = authUserId
-            };       
+            };
 
             var result = await _mediator.Send(command);
 
@@ -105,6 +120,31 @@ namespace WebAPI.SignalR
                 }
             }
             await Clients.Group(groupName).SendAsync("NewMessage", result.Message);
+        }
+
+        private static bool IsWithinMessageRateLimit(int userId, out TimeSpan? retryAfter)
+        {
+            var currentTime = DateTime.UtcNow;
+            var timestamps = _messageTime.GetOrAdd(userId, new Queue<DateTime>());
+
+            lock (timestamps)
+            {
+                while (timestamps.Any() && (currentTime - timestamps.Peek()).TotalMinutes > 1)
+                {
+                    timestamps.Dequeue();
+                }
+
+                if (timestamps.Count >= 5)
+                {
+                    var oldestTimestamp = timestamps.Peek();
+                    retryAfter = TimeSpan.FromMinutes(1) - (currentTime - oldestTimestamp);
+                    return false;
+                }
+
+                timestamps.Enqueue(currentTime);
+                retryAfter = null;
+                return true;
+            }
         }
 
         private static string GetGroupName(string caller, string other)

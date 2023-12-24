@@ -17,6 +17,10 @@ export class PresenceService {
   constructor(private toastr: ToastrService, private router: Router) {}
 
   createHubConnection(token: any) {
+    if (this.hubConnection?.state === 'Connected') {
+      return;
+    }
+
     this.hubConnection = new HubConnectionBuilder()
       .withUrl(this.hubUrl + 'presence', {
         accessTokenFactory: () => token,

@@ -10,17 +10,19 @@ namespace Application.Features.Posts.UploadPost
     {
         private readonly IApplicationDbContext _context;
         private readonly IPhotoService _photoService;
+        private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public UploadPostCommandHandler(IApplicationDbContext context, IPhotoService photoService)
+        public UploadPostCommandHandler(IApplicationDbContext context, IPhotoService photoService, ICacheInvalidationService cacheInvalidationService)
         {
             _context = context;
             _photoService = photoService;
+            _cacheInvalidationService = cacheInvalidationService;
         }
 
         public async Task<UploadPostResponse> Handle(UploadPostCommand request, CancellationToken cancellationToken)
         {
 
-            var currentUser = await _context.Users.FindAsync(new object[] { request.AuthUserId }, cancellationToken)
+            var authUser = await _context.Users.FindAsync(new object[] { request.AuthUserId }, cancellationToken)
                 ?? throw new NotFoundException("User not found");
 
             var newPost = new Post
@@ -38,6 +40,8 @@ namespace Application.Features.Posts.UploadPost
                 {
                     newPost.PhotoUrl = uploadResult.Url.ToString();
                     newPost.PhotoPublicId = uploadResult.PublicId.ToString();
+
+                    _cacheInvalidationService.InvalidateUserPhotosCache(authUser.UserName);
                 }
                 else
                 {
@@ -54,10 +58,10 @@ namespace Application.Features.Posts.UploadPost
                 {
                     PostId = newPost.PostId,
                     AppUserId = newPost.AppUserId,
-                    Username = currentUser.UserName,
-                    FullName = currentUser.FullName,
-                    ProfilePictureUrl = currentUser.ProfilePictureUrl,
-                    Gender = currentUser.Gender,
+                    Username = authUser.UserName,
+                    FullName = authUser.FullName,
+                    ProfilePictureUrl = authUser.ProfilePictureUrl,
+                    Gender = authUser.Gender,
                     Description = newPost.Description,
                     PhotoUrl = newPost.PhotoUrl,
                     DatePosted = newPost.DatePosted,

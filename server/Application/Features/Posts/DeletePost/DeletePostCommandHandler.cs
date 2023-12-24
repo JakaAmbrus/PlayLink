@@ -8,16 +8,21 @@ namespace Application.Features.Posts.DeletePost
     {
         private readonly IApplicationDbContext _context;
         private readonly IPhotoService _photoService;
+        private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public DeletePostCommandHandler(IApplicationDbContext context, IPhotoService photoService)
+        public DeletePostCommandHandler(IApplicationDbContext context, IPhotoService photoService, ICacheInvalidationService cacheInvalidationService)
         {
             _context = context;
             _photoService = photoService;
+            _cacheInvalidationService = cacheInvalidationService;
         }
 
         public async Task<DeletePostResponse> Handle(DeletePostCommand request, CancellationToken cancellationToken)
         {
-            var selectedPost = await _context.Posts.FindAsync(request.PostId, cancellationToken) 
+            var authUser = await _context.Users.FindAsync(new object[] { request.AuthUserId }, cancellationToken)
+                        ?? throw new NotFoundException("Authorized user not found");
+
+            var selectedPost = await _context.Posts.FindAsync(new object[] { request.PostId }, cancellationToken)
                 ?? throw new NotFoundException("Post was not found");
 
             bool isPostOwner = selectedPost.AppUserId == request.AuthUserId;
@@ -33,6 +38,11 @@ namespace Application.Features.Posts.DeletePost
             if (!string.IsNullOrEmpty(selectedPost.PhotoPublicId))
             {
                 var deletionResult = await _photoService.DeletePhotoAsync(selectedPost.PhotoPublicId);
+
+                if (deletionResult.Error == null) 
+                {
+                    _cacheInvalidationService.InvalidateUserPhotosCache(authUser.UserName);
+                }
 
                 if (deletionResult.Error != null)
                 {

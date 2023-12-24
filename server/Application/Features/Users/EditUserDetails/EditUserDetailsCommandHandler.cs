@@ -8,22 +8,22 @@ namespace Application.Features.Users.EditUserDetails
     {
         private readonly IApplicationDbContext _context;
         private readonly IPhotoService _photoService;
+        private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public EditUserDetailsCommandHandler(IApplicationDbContext context,IPhotoService photoService)
+        public EditUserDetailsCommandHandler(IApplicationDbContext context,IPhotoService photoService, ICacheInvalidationService cacheInvalidationService)
         {
             _context = context;
             _photoService = photoService;
+            _cacheInvalidationService = cacheInvalidationService;
         }
 
         public async Task<EditUserDetailsResult> Handle(EditUserDetailsCommand request, CancellationToken cancellationToken)
         {
-            var selectedUser = await _context.Users.FindAsync(request.AuthUserId, cancellationToken)
+            var authUser = await _context.Users.FindAsync(new object[] { request.AuthUserId }, cancellationToken)
                 ?? throw new NotFoundException("User was not found");
 
-            var username = selectedUser.UserName;
-
             bool isModerator = request.AuthUserRoles.Contains("Moderator");
-            bool isUserOwner = username == request.EditUserDto.Username;
+            bool isUserOwner = authUser.UserName == request.EditUserDto.Username;
 
             //Only the owner or a moderator/admin can edit post
             if (!isUserOwner && !isModerator)
@@ -34,9 +34,9 @@ namespace Application.Features.Users.EditUserDetails
             //Add Photo to user and store it in cloudinary
             if (request.EditUserDto.PhotoFile != null && request.EditUserDto.PhotoFile.Length > 0)
             {
-                if (!string.IsNullOrEmpty(selectedUser.ProfilePicturePublicId))
+                if (!string.IsNullOrEmpty(authUser.ProfilePicturePublicId))
                 {
-                    var deletionResult = await _photoService.DeletePhotoAsync(selectedUser.ProfilePicturePublicId);
+                    var deletionResult = await _photoService.DeletePhotoAsync(authUser.ProfilePicturePublicId);
 
                     if (deletionResult.Error != null)
                     {
@@ -47,8 +47,10 @@ namespace Application.Features.Users.EditUserDetails
 
                 if (uploadResult.Error == null)
                 {
-                    selectedUser.ProfilePictureUrl = uploadResult.Url.ToString();
-                    selectedUser.ProfilePicturePublicId = uploadResult.PublicId.ToString();
+                    authUser.ProfilePictureUrl = uploadResult.Url.ToString();
+                    authUser.ProfilePicturePublicId = uploadResult.PublicId.ToString();
+
+                    _cacheInvalidationService.InvalidateUserPhotosCache(authUser.UserName);
                 }
                 else
                 {
@@ -58,21 +60,21 @@ namespace Application.Features.Users.EditUserDetails
 
             if (!string.IsNullOrWhiteSpace(request.EditUserDto.Description))
             {
-                selectedUser.Description = request.EditUserDto.Description;
+                authUser.Description = request.EditUserDto.Description;
             }
 
             if (!string.IsNullOrWhiteSpace(request.EditUserDto.Country))
             {
-                selectedUser.Country = request.EditUserDto.Country;
+                authUser.Country = request.EditUserDto.Country;
             }
 
             await _context.SaveChangesAsync(cancellationToken);
 
             return new EditUserDetailsResult
             {
-                PhotoUrl = selectedUser.ProfilePictureUrl,
-                Description = selectedUser.Description,
-                Country = selectedUser.Country,
+                PhotoUrl = authUser.ProfilePictureUrl,
+                Description = authUser.Description,
+                Country = authUser.Country,
             };
         }       
     }

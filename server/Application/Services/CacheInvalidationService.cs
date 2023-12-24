@@ -53,5 +53,18 @@ namespace Application.Services
                 throw new ServerErrorException("Could not invalidate friendship status cache.");
             }
         }
+
+        public void InvalidateUserPhotosCache(string username)
+        {
+            try
+            {
+                string cacheKey = _cacheKeyService.GenerateHashedKey($"Photos:GetUserPhotos-{username}");
+                _memoryCache.Remove(cacheKey);
+            }
+            catch
+            {
+                throw new ServerErrorException("Could not invalidate user photos cache.");
+            }
+        }
     }
 }

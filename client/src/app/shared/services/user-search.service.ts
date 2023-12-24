@@ -11,7 +11,6 @@ import { LocalStorageService } from 'src/app/core/services/local-storage.service
 })
 export class UserSearchService {
   baseUrl = environment.apiUrl;
-  searchUsersCache: SearchUser[] = [];
 
   constructor(
     private http: HttpClient,

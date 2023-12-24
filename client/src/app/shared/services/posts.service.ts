@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Post, PostContent, PostsResponse } from '../models/posts';
+import { Post, PostContent } from '../models/posts';
 import { Observable, map } from 'rxjs';
 import { PaginatedResult, Pagination } from '../models/pagination';
 
@@ -68,14 +68,6 @@ export class PostsService {
           return this.paginatedResult;
         })
       );
-  }
-
-  getUserPostPhotos(username: string): Observable<string[]> {
-    return this.http
-      .get<{ photos: string[] }>(
-        this.baseUrl + 'posts/user/' + username + '/photos'
-      )
-      .pipe(map((response) => response.photos));
   }
 
   uploadPost(postContent: PostContent): Observable<any> {

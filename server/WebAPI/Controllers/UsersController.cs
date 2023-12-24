@@ -54,9 +54,7 @@ namespace WebAPI.Controllers
         [HttpGet("searchbar")]
         public async Task<IActionResult> GetUsersForSearchBar(CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-
-            var query = new GetUsersForSearchBarQuery { AuthUserId = authUserId};
+            var query = new GetUsersForSearchBarQuery { };
 
             var users = await Mediator.Send(query, cancellationToken);
 

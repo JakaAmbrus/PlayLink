@@ -28,6 +28,32 @@ namespace Application.Services
             }
         }
 
+        public void InvalidateSearchUserCache()
+        {
+            try
+            {
+                string cacheKey = _cacheKeyService.GenerateHashedKey("Users:GetSearchUsers");
+                _memoryCache.Remove(cacheKey);
+            }
+            catch
+            {
+                throw new ServerErrorException("Could not invalidate search user cache.");
+            }
+        }
+
+        public void InvalidateNearestBirthdayUsersCache()
+        {
+            try
+            {
+                string cacheKey = _cacheKeyService.GenerateHashedKey("Users:GetNearestBirthdayUsers");
+                _memoryCache.Remove(cacheKey);
+            }
+            catch
+            {
+                throw new ServerErrorException("Could not invalidate nearest birthdays cache.");
+            }
+        }
+
         public void InvalidateFriendRequestsCache(int userId)
         {
             try
@@ -77,19 +103,6 @@ namespace Application.Services
             catch
             {
                 throw new ServerErrorException("Could not invalidate user photos cache.");
-            }
-        }
-
-        public void InvalidateNearestBirthdayUsersCache()
-        {
-            try
-            {
-                string cacheKey = _cacheKeyService.GenerateHashedKey("Users:GetNearestBirthdayUsers");
-                _memoryCache.Remove(cacheKey);
-            }
-            catch
-            {
-                throw new ServerErrorException("Could not invalidate nearest birthdays cache.");
             }
         }
     }

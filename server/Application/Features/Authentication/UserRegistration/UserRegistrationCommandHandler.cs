@@ -57,6 +57,7 @@ namespace Application.Features.Authentication.UserRegistration
 
                 await _userManager.AddToRoleAsync(user, "Member");
 
+                _cacheInvalidationService.InvalidateSearchUserCache();
                 _cacheInvalidationService.InvalidateNearestBirthdayUsersCache();
 
                 return new UserRegistrationResponse

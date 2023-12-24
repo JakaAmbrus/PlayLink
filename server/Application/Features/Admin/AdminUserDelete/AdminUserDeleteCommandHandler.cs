@@ -67,6 +67,7 @@ namespace Application.Features.Admin.AdminUserDelete
 
                     await _context.SaveChangesAsync(cancellationToken);
 
+                    _cacheInvalidationService.InvalidateSearchUserCache();
                     _cacheInvalidationService.InvalidateNearestBirthdayUsersCache();
 
                     await transaction.CommitAsync(cancellationToken);

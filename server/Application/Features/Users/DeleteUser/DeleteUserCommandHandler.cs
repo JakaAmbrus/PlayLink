@@ -68,6 +68,7 @@ namespace Application.Features.Users.DeleteUser
 
                     await _context.SaveChangesAsync(cancellationToken);
 
+                    _cacheInvalidationService.InvalidateSearchUserCache();
                     _cacheInvalidationService.InvalidateNearestBirthdayUsersCache();
 
                     await transaction.CommitAsync(cancellationToken);

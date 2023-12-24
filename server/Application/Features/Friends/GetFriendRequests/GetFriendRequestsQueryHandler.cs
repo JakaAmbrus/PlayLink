@@ -11,16 +11,18 @@ namespace Application.Features.Friends.GetFriendRequests
     {
         private readonly IApplicationDbContext _context;
         private readonly IMemoryCache _memoryCache;
+        private readonly ICacheKeyService _cacheKeyService;
 
-        public GetFriendRequestsQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache)
+        public GetFriendRequestsQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache, ICacheKeyService cacheKeyService)
         {
             _context = context;
             _memoryCache = memoryCache;
+            _cacheKeyService = cacheKeyService;
         }
 
         public async Task<GetFriendRequestsResponse> Handle(GetFriendRequestsQuery request, CancellationToken cancellationToken)
         {
-            string cacheKey = CreateCacheKey(request);
+            string cacheKey = _cacheKeyService.GenerateHashedKey($"Friends:GetFriendRequests-{request.AuthUserId}");
 
             if (!_memoryCache.TryGetValue(cacheKey, out List<FriendRequestDto> allRequests))
             {
@@ -58,6 +60,7 @@ namespace Application.Features.Friends.GetFriendRequests
                 {
                     AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30)
                 };
+
                 _memoryCache.Set(cacheKey, allRequests, cacheEntryOptions);
             }
 
@@ -65,13 +68,6 @@ namespace Application.Features.Friends.GetFriendRequests
             {
                 FriendRequests = allRequests
             };
-        }
-
-        private static string CreateCacheKey(GetFriendRequestsQuery request)
-        {
-            string cacheKey = $"GetFriendRequests-{request.AuthUserId}";
-
-            return cacheKey;           
-        }
+        }   
     }
 }

@@ -10,6 +10,7 @@ namespace Application.Extensions
         {
             services.AddMemoryCache();
 
+            services.AddScoped<ICacheKeyService, CacheKeyService>();
             services.AddScoped<ICacheInvalidationService, CacheInvalidationService>();
 
             return services;

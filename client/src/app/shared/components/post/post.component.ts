@@ -57,6 +57,7 @@ export class PostComponent implements OnDestroy {
   likedUsers: LikedUser[] = [];
   showLikedUsers: boolean = false;
   isLoading: boolean = false;
+  optimisticLike: boolean = false;
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -68,7 +69,7 @@ export class PostComponent implements OnDestroy {
   ) {}
 
   displayLikedUsers(): void {
-    if (this.post?.likesCount === 0) {
+    if (this.post?.likesCount === 0 || this.isLoading) {
       return;
     }
     this.showLikedUsers = !this.showLikedUsers;
@@ -85,45 +86,70 @@ export class PostComponent implements OnDestroy {
   }
 
   loadLikedUsers(): void {
+    if (this.isLoading) {
+      return;
+    }
+
+    this.isLoading = true;
+
     if (this.post?.postId) {
       this.likesService
         .getPostLikes(this.post.postId)
         .pipe(takeUntil(this.destroy$))
-        .subscribe((likedUsers) => {
-          this.likedUsers = likedUsers;
+        .subscribe({
+          next: (likedUsers) => {
+            this.isLoading = false;
+            this.likedUsers = likedUsers;
+          },
+          error: () => {
+            this.isLoading = false;
+          },
         });
     }
   }
 
   toggleLike(post: Post): void {
+    if (this.isLoading) {
+      return;
+    }
+
+    this.isLoading = true;
+
     if (post.isLikedByCurrentUser) {
-      this.isLoading = true;
+      post.likesCount -= 1;
+      this.optimisticLike = false;
+      post.isLikedByCurrentUser = false;
+
       this.likesService
         .unlikePost(post.postId)
         .pipe(first())
         .subscribe({
           next: () => {
             this.isLoading = false;
-            post.isLikedByCurrentUser = false;
-            post.likesCount -= 1;
           },
           error: () => {
             this.isLoading = false;
+            post.isLikedByCurrentUser = true;
+            post.likesCount += 1;
           },
         });
     } else {
-      this.isLoading = true;
+      this.optimisticLike = true;
+      post.likesCount += 1;
+
       this.likesService
         .likePost(post.postId)
         .pipe(first())
         .subscribe({
           next: () => {
             this.isLoading = false;
+            this.optimisticLike = false;
             post.isLikedByCurrentUser = true;
-            post.likesCount += 1;
           },
           error: () => {
             this.isLoading = false;
+            this.optimisticLike = false;
+            post.likesCount -= 1;
           },
         });
     }
@@ -142,6 +168,9 @@ export class PostComponent implements OnDestroy {
       .pipe(first())
       .subscribe((result) => {
         if (result) {
+          if (this.isLoading) {
+            return;
+          }
           this.isLoading = true;
           this.postsService.deletePost(postId).subscribe({
             next: () => {
@@ -170,12 +199,18 @@ export class PostComponent implements OnDestroy {
   }
 
   loadComments(): void {
+    if (this.isLoading) {
+      return;
+    }
+    this.isLoading = true;
+
     if (this.post?.postId) {
       this.commentsService
         .getPostComments(this.post.postId, this.pageNumber, this.pageSize)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
+            this.isLoading = false;
             const loadedComments = response.result;
             if (loadedComments) {
               const reversedComments = loadedComments.reverse();
@@ -190,6 +225,9 @@ export class PostComponent implements OnDestroy {
                 this.allCommentsLoaded = true;
               }
             }
+          },
+          error: () => {
+            this.isLoading = false;
           },
         });
     }

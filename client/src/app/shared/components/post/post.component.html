@@ -50,6 +50,7 @@
       type="button"
       (click)="displayLikedUsers()"
       class="post-likes-count"
+      [disabled]="isLoading"
     >
       {{ post.likesCount }} Likes
     </button>
@@ -69,13 +70,18 @@
     >
       <span
         class="material-symbols-rounded post-count-icons"
-        [ngClass]="{ filled: post.isLikedByCurrentUser }"
+        [ngClass]="{ filled: post.isLikedByCurrentUser || optimisticLike }"
       >
         favorite
       </span>
       <p class="post-count">Like</p>
     </button>
-    <button type="button" class="post-actions" (click)="toggleComments()">
+    <button
+      type="button"
+      class="post-actions"
+      (click)="toggleComments()"
+      [disabled]="isLoading"
+    >
       <span class="material-symbols-rounded post-count-icons"
         >mode_comment</span
       >
@@ -89,6 +95,7 @@
       *ngIf="!allCommentsLoaded && post.commentsCount > 0"
       (click)="showMoreComments()"
       class="load-more-comments-button"
+      [disabled]="isLoading"
     >
       Load More Comments
     </button>

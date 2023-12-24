@@ -34,7 +34,9 @@
         >
           <span
             class="material-symbols-rounded comment-count-icons"
-            [ngClass]="{ filled: comment.isLikedByCurrentUser }"
+            [ngClass]="{
+              filled: comment.isLikedByCurrentUser || optimisticLike
+            }"
             >favorite</span
           >
         </button>
@@ -42,6 +44,7 @@
           type="button"
           (click)="displayLikedUsers()"
           class="comment-likes-count"
+          [disabled]="isLoading"
         >
           {{ comment.likesCount }} Likes
         </button>

@@ -39,6 +39,7 @@ export class CommentComponent implements OnDestroy {
   likedUsers: LikedUser[] = [];
   showLikedUsers: boolean = false;
   isLoading: boolean = false;
+  optimisticLike: boolean = false;
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -49,41 +50,53 @@ export class CommentComponent implements OnDestroy {
   ) {}
 
   toggleLike(comment: Comment) {
+    if (this.isLoading) {
+      return;
+    }
+
+    this.isLoading = true;
+
     if (comment.isLikedByCurrentUser) {
-      this.isLoading = true;
+      comment.likesCount -= 1;
+      this.optimisticLike = false;
+      comment.isLikedByCurrentUser = false;
       this.likesService
         .unlikeComment(comment.commentId)
         .pipe(first())
         .subscribe({
           next: () => {
             this.isLoading = false;
-            comment.isLikedByCurrentUser = false;
-            comment.likesCount -= 1;
           },
           error: () => {
             this.isLoading = false;
+            comment.isLikedByCurrentUser = true;
+            comment.likesCount += 1;
           },
         });
     } else {
-      this.isLoading = true;
+      this.optimisticLike = true;
+      comment.likesCount += 1;
+
       this.likesService
         .likeComment(comment.commentId)
         .pipe(first())
         .subscribe({
           next: () => {
             this.isLoading = false;
+            this.optimisticLike = false;
             comment.isLikedByCurrentUser = true;
-            comment.likesCount += 1;
           },
           error: () => {
             this.isLoading = false;
+            this.optimisticLike = false;
+            comment.likesCount -= 1;
           },
         });
     }
   }
 
   displayLikedUsers(): void {
-    if (this.comment?.likesCount === 0) {
+    if (this.comment?.likesCount === 0 || this.isLoading) {
       return;
     }
     this.showLikedUsers = !this.showLikedUsers;
@@ -100,12 +113,24 @@ export class CommentComponent implements OnDestroy {
   }
 
   loadLikedUsers(): void {
+    if (this.isLoading) {
+      return;
+    }
+
+    this.isLoading = true;
+
     if (this.comment?.commentId) {
       this.likesService
         .getCommentLikes(this.comment.commentId)
         .pipe(takeUntil(this.destroy$))
-        .subscribe((likedUsers) => {
-          this.likedUsers = likedUsers;
+        .subscribe({
+          next: (likedUsers) => {
+            this.isLoading = false;
+            this.likedUsers = likedUsers;
+          },
+          error: () => {
+            this.isLoading = false;
+          },
         });
     }
   }
@@ -123,9 +148,20 @@ export class CommentComponent implements OnDestroy {
       .pipe(first())
       .subscribe((result) => {
         if (result) {
-          this.commentsService.deleteComment(commentId).subscribe(() => {
-            this.comment = undefined;
-            this.commentDeleted.emit(commentId);
+          if (this.isLoading) {
+            return;
+          }
+
+          this.isLoading = true;
+          this.commentsService.deleteComment(commentId).subscribe({
+            next: () => {
+              this.isLoading = false;
+              this.comment = undefined;
+              this.commentDeleted.emit(commentId);
+            },
+            error: () => {
+              this.isLoading = false;
+            },
           });
         }
       });

@@ -70,6 +70,8 @@ namespace Application.Features.Users.EditUserDetails
 
             await _context.SaveChangesAsync(cancellationToken);
 
+            _cacheInvalidationService.InvalidateUserCache(authUser.UserName);
+
             return new EditUserDetailsResult
             {
                 PhotoUrl = authUser.ProfilePictureUrl,

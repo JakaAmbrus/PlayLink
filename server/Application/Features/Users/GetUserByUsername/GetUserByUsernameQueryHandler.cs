@@ -3,41 +3,59 @@ using Application.Features.Users.Common;
 using Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Application.Features.Users.GetUserByUsername
 {
     public class GetUserByUsernameQueryHandler : IRequestHandler<GetUserByUsernameQuery, GetUserByUsernameResponse>
     {
         private readonly IApplicationDbContext _context;
-        public GetUserByUsernameQueryHandler(IApplicationDbContext context)
+        private readonly IMemoryCache _memoryCache;
+        private readonly ICacheKeyService _cacheKeyService;
+
+        public GetUserByUsernameQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache, ICacheKeyService cacheKeyService)
         {
             _context = context;
+            _memoryCache = memoryCache;
+            _cacheKeyService = cacheKeyService;
         }
 
         public async Task<GetUserByUsernameResponse> Handle(GetUserByUsernameQuery request, CancellationToken cancellationToken)
         {
-            var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.UserName == request.Username, cancellationToken) 
+            string cacheKey = _cacheKeyService.GenerateHashedKey($"Users:GetUserByUsername-{request.Username}");
+
+            if (!_memoryCache.TryGetValue(cacheKey, out ProfileUserDto profileUserDto))
+            {
+                var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.UserName == request.Username, cancellationToken)
                 ?? throw new NotFoundException($"The user by the username: {request.Username} not found ");
 
-            bool isModerator = request.AuthUserRoles.Contains("Moderator");
-            bool isCurrentUser = request.AuthUserId == user.Id;
+                bool isModerator = request.AuthUserRoles.Contains("Moderator");
+                bool isCurrentUser = request.AuthUserId == user.Id;
 
-            var profileUserDto = new ProfileUserDto
-            {
-                AppUserId = user.Id,
-                Username = user.UserName,
-                Gender = user.Gender,
-                FullName = user.FullName,
-                DateOfBirth = user.DateOfBirth,
-                Country = user.Country,
-                ProfilePictureUrl = user.ProfilePictureUrl,
-                Description = user.Description,
-                Created = user.Created,
-                LastActive = user.LastActive,
-                Authorized = isModerator && !isCurrentUser
-            };
+                profileUserDto = new ProfileUserDto
+                {
+                    AppUserId = user.Id,
+                    Username = user.UserName,
+                    Gender = user.Gender,
+                    FullName = user.FullName,
+                    DateOfBirth = user.DateOfBirth,
+                    Country = user.Country,
+                    ProfilePictureUrl = user.ProfilePictureUrl,
+                    Description = user.Description,
+                    Created = user.Created,
+                    LastActive = user.LastActive,
+                    Authorized = isModerator && !isCurrentUser
+                };
 
+                var cacheEntryOptions = new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(2)
+                };
+
+                _memoryCache.Set(cacheKey, profileUserDto, cacheEntryOptions);
+            }
+                
             return new GetUserByUsernameResponse { User = profileUserDto };
         }
     }

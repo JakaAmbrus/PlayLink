@@ -15,6 +15,19 @@ namespace Application.Services
             _cacheKeyService = cacheKeyService;
         }
 
+        public void InvalidateUserCache(string username)
+        {
+            try
+            {
+                string cacheKey = _cacheKeyService.GenerateHashedKey($"Users:GetUserByUsername-{username}");
+                _memoryCache.Remove(cacheKey);
+            }
+            catch
+            {
+                throw new ServerErrorException("Could not invalidate user cache.");
+            }
+        }
+
         public void InvalidateFriendRequestsCache(int userId)
         {
             try

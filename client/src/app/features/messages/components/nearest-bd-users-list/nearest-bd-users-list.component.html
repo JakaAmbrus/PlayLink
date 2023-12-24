@@ -9,13 +9,20 @@
   <ng-container
     *ngIf="nearestBirthdayUsers$ | async as nearestBirthdayUsers; else loading"
   >
-    <div *ngFor="let user of nearestBirthdayUsers" class="friends">
-      <app-nearest-bd-user-display [user]="user"></app-nearest-bd-user-display>
-    </div>
+    <ng-container *ngIf="!loadingError; else error">
+      <div *ngFor="let user of nearestBirthdayUsers" class="friends">
+        <app-nearest-bd-user-display
+          [user]="user"
+        ></app-nearest-bd-user-display>
+      </div>
+    </ng-container>
   </ng-container>
 
-  <!-- Loading indicator -->
   <ng-template #loading>
-    <p id="loading-text">Loading...</p>
+    <p class="loading-error-text">Loading...</p>
+  </ng-template>
+
+  <ng-template #error>
+    <p class="loading-error-text">Error Loading Users</p>
   </ng-template>
 </div>

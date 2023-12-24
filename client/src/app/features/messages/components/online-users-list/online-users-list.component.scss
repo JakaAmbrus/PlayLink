@@ -1,26 +1,22 @@
 #online-users-list {
   display: flex;
   flex-direction: column;
-
-  #online-list-count {
-    font-family: "Nexa Bold";
-    font-size: 2.8em;
-    padding: 0.5em 0;
-    text-align: center;
-  }
-
-  #no-users-online {
-    font-size: 1.8em;
-    padding: 1em 0;
-    text-align: center;
-    font-family: "Roboto Regular";
-  }
+}
+.online-list-count {
+  font-family: "Nexa Bold";
+  font-size: 2.8em;
+  padding: 0.5em 0;
+  text-align: center;
 }
 
-.online-users-loading {
-  font-family: "Nexa Bold";
-  font-size: 3.2em;
-  padding-top: 0.5em;
-  padding-bottom: 3em;
+.no-users-online-or-loading {
+  font-size: 1.8em;
+  padding: 1em 0 1.2em 0;
   text-align: center;
+  font-family: "Roboto Regular";
+
+  &.loading {
+    text-align: start;
+    margin-left: 2em;
+  }
 }

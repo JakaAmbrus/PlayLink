@@ -5,7 +5,7 @@
       class="posts secondary-background rounded-border box-shadow"
       *ngIf="isLoading"
     >
-      <app-post-skeleton></app-post-skeleton>
+      <app-post-skeleton [loadingError]="loadingError"></app-post-skeleton>
     </div>
     <div
       id="posts-container"

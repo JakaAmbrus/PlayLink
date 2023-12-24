@@ -8,13 +8,16 @@
   <!-- home middle -->
 
   <div id="home-middle">
-    <app-upload-post (postUploaded)="onPostUpload($event)"></app-upload-post>
+    <app-upload-post
+      [postsLoaded]="isLoading"
+      (postUploaded)="onPostUpload($event)"
+    ></app-upload-post>
     <div class="home-posts-container">
       <div
         class="posts secondary-background rounded-border box-shadow"
         *ngIf="isLoading"
       >
-        <app-post-skeleton></app-post-skeleton>
+        <app-post-skeleton [loadingError]="loadingError"></app-post-skeleton>
       </div>
       <div
         *ngIf="!isLoading"

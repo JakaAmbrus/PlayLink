@@ -40,6 +40,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
   country: string = '';
   orderBy: string = 'lastActive';
   isLoading: boolean = true;
+  loadUsersError: boolean = false;
   dummyArray = new Array(6).fill(null);
   uniqueCountries: string[] = [];
   userParams: UserParams | undefined;
@@ -71,7 +72,10 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     this.loadCountries();
   }
 
-  loadUsers() {
+  loadUsers(): void {
+    this.isLoading = true;
+    this.loadUsersError = false;
+
     this.userParams = {
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
@@ -93,10 +97,14 @@ export class DiscoverComponent implements OnInit, OnDestroy {
             this.isLoading = false;
           }
         },
+        error: () => {
+          this.isLoading = false;
+          this.loadUsersError = true;
+        },
       });
   }
 
-  loadCountries() {
+  loadCountries(): void {
     this.countriesService
       .getUsersUniqueCountries()
       .pipe(first())

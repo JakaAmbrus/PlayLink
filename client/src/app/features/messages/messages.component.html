@@ -37,8 +37,19 @@
 
     <div id="messages-content-container">
       <h1 id="messages-content-header" class="header-text">
-        {{ container }} Messages:
-        {{ (pagination?.totalItems ?? 0) - messageCountController }}
+        <ng-container *ngIf="isLoading; else contentBlock">
+          {{ container }} Messages: Loading...
+        </ng-container>
+        <ng-template #contentBlock>
+          <ng-container *ngIf="loadMessagesError; else totalMessagesCount">
+            Error Loading {{ container }} messages
+          </ng-container>
+        </ng-template>
+
+        <ng-template #totalMessagesCount>
+          {{ container }} Messages:
+          {{ (pagination?.totalItems ?? 0) - messageCountController }}
+        </ng-template>
       </h1>
       <div
         class="messages"

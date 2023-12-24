@@ -24,6 +24,7 @@ import { CacheManagerService } from 'src/app/core/services/cache-manager.service
 })
 export class PostsComponent implements OnInit, OnDestroy {
   isLoading: boolean = true;
+  loadingError: boolean = false;
   posts: Post[] = [];
   pageNumber: number = 1;
   pageSize: number = 4;
@@ -59,6 +60,8 @@ export class PostsComponent implements OnInit, OnDestroy {
     if (!this.username) {
       return;
     }
+    this.loadingError = false;
+
     this.postsService
       .getPostsByUsername(this.username, this.pageNumber, this.pageSize)
       .pipe(takeUntil(this.destroy$))
@@ -80,6 +83,9 @@ export class PostsComponent implements OnInit, OnDestroy {
             }
           }
         },
+        error: () => {
+          this.loadingError = true;
+        },
       });
   }
 
@@ -90,7 +96,7 @@ export class PostsComponent implements OnInit, OnDestroy {
     }
   }
 
-  onPostDelete(postId: number) {
+  onPostDelete(postId: number): void {
     this.posts = this.posts.filter((post) => post.postId !== postId);
     this.cacheManager.setCache('posts' + this.username, this.posts);
   }

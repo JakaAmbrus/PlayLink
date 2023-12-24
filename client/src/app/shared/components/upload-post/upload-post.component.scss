@@ -24,6 +24,10 @@
   padding: 0.8em;
   width: 100%;
   cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 #upload-post-popup-bottom {
   font-family: "Roboto Medium";

@@ -5,7 +5,7 @@ import { UserAvatarComponent } from '../../../../shared/components/user-avatar/u
 import { RouterLink } from '@angular/router';
 import { NgIf, DatePipe, AsyncPipe } from '@angular/common';
 import { UserProfileService } from 'src/app/shared/services/user-profile.service';
-import { Observable } from 'rxjs';
+import { Observable, catchError, of } from 'rxjs';
 import { LocalStorageService } from 'src/app/core/services/local-storage.service';
 
 @Component({
@@ -25,6 +25,7 @@ import { LocalStorageService } from 'src/app/core/services/local-storage.service
 export class HomeUserCardComponent implements OnInit {
   user$?: Observable<ProfileUser>;
   username: string | null = null;
+  loadingError: boolean = false;
 
   constructor(
     public userProfileService: UserProfileService,
@@ -37,7 +38,13 @@ export class HomeUserCardComponent implements OnInit {
     if (this.username === null) {
       return;
     }
+    this.loadingError = false;
 
-    this.user$ = this.userProfileService.getUser(this.username);
+    this.user$ = this.userProfileService.getUser(this.username).pipe(
+      catchError(() => {
+        this.loadingError = true;
+        return of();
+      })
+    );
   }
 }

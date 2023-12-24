@@ -15,16 +15,28 @@
     class="secondary-background rounded-border box-shadow"
   >
     <h1 id="matched-users" class="header-text">
-      Matched Users - {{ pagination?.totalItems }} found
+      <ng-container *ngIf="isLoading; else contentBlock">
+        Matched Users - Loading...
+      </ng-container>
+
+      <ng-template #contentBlock>
+        <ng-container *ngIf="loadUsersError; else matchedUsersCount">
+          Error Loading users
+        </ng-container>
+      </ng-template>
+
+      <ng-template #matchedUsersCount>
+        Matched Users - {{ pagination?.totalItems }} found
+      </ng-template>
     </h1>
-    <div class="discover-cards-container" *ngIf="isLoading">
+    <div class="discover-cards-container" *ngIf="isLoading || loadUsersError">
       <div *ngFor="let item of dummyArray">
         <div
           class="dummy-card theme-border rounded-border box-shadow primary-parameters"
         ></div>
       </div>
     </div>
-    <div class="discover-cards-container" *ngIf="!isLoading">
+    <div class="discover-cards-container" *ngIf="!isLoading && !loadUsersError">
       <div
         *ngFor="
           let user of users

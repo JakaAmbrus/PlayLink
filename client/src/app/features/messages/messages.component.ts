@@ -7,7 +7,7 @@ import { MessageParams } from './models/messageParams';
 import { OnlineUsersListComponent } from './components/online-users-list/online-users-list.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageDisplayComponent } from './components/message-display/message-display.component';
-import { NgFor } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { NearestBdUsersListComponent } from './components/nearest-bd-users-list/nearest-bd-users-list.component';
@@ -21,6 +21,7 @@ import { LocalStorageService } from 'src/app/core/services/local-storage.service
   styleUrls: ['./messages.component.scss'],
   standalone: true,
   imports: [
+    CommonModule,
     NearestBdUsersListComponent,
     MatButtonToggleModule,
     FormsModule,
@@ -37,7 +38,8 @@ export class MessagesComponent implements OnInit, OnDestroy {
   pageNumber: number = 1;
   pageSize: number = 5;
   buttons = messageButtons;
-  isLoading: boolean = false;
+  isLoading: boolean = true;
+  loadMessagesError: boolean = false;
   messageParams: MessageParams | undefined;
   messageCountController: number = 0;
   private destroy$ = new Subject<void>();
@@ -60,7 +62,10 @@ export class MessagesComponent implements OnInit, OnDestroy {
       pageSize: this.pageSize,
       container: this.container,
     };
+
     this.isLoading = true;
+    this.loadMessagesError = false;
+
     this.messageDisplayService
       .getUserMessages(this.messageParams)
       .pipe(takeUntil(this.destroy$))
@@ -75,6 +80,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this.isLoading = false;
+          this.loadMessagesError = true;
         },
       });
   }

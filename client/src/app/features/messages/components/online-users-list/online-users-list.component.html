@@ -1,19 +1,25 @@
-<div
-  id="online-users-list"
-  *ngIf="onlineUsers$ | async as onlineUsers; else loading"
->
-  <h1 id="online-list-count" class="header-text">
-    Online Users: {{ onlineUsers.length }}
-  </h1>
+<ng-container *ngIf="onlineUsers$ | async as onlineUsers; else loading">
+  <ng-container *ngIf="!loadingError; else error">
+    <h1 class="header-text online-list-count">
+      Online Users: {{ onlineUsers.length }}
+    </h1>
 
-  <p *ngIf="onlineUsers.length === 0" id="no-users-online">
-    Currently you are the only active user
-  </p>
+    <p *ngIf="onlineUsers.length === 0" class="no-users-online-or-loading">
+      Currently, you are the only active user
+    </p>
 
-  <div *ngFor="let onlineUser of onlineUsers">
-    <app-online-user-display [user]="onlineUser"></app-online-user-display>
-  </div>
-</div>
+    <div *ngFor="let onlineUser of onlineUsers">
+      <app-online-user-display [user]="onlineUser"></app-online-user-display>
+    </div>
+  </ng-container>
+</ng-container>
+
 <ng-template #loading>
-  <h1 class="header-text online-users-loading">Online Users Loading...</h1>
+  <h1 class="header-text online-list-count">Online Users:</h1>
+  <p class="no-users-online-or-loading loading">Loading...</p>
+</ng-template>
+
+<ng-template #error>
+  <h1 class="header-text online-list-count">Online Users:</h1>
+  <p class="no-users-online-or-loading loading">Error Loading Online Users</p>
 </ng-template>

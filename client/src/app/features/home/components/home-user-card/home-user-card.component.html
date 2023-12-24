@@ -39,20 +39,19 @@
   </div>
 </div>
 
-<!-- Loading placeholder -->
+<!-- Loading and error indicator -->
 
 <ng-template #loading>
   <div
-    class="home-user-card secondary-background rounded-border box-shadow"
-    id="home-user-card-loading"
+    class="home-user-card-loading-or-error home-user-card secondary-background rounded-border box-shadow"
   >
     <div class="avatar-placeholder header-icons-right rounded-border">
       <span
         class="material-symbols-rounded filled placeholder-icon header-text"
       >
-        person
+        {{ loadingError ? "warning" : "person" }}
       </span>
     </div>
-    <h1>Loading user...</h1>
+    <h1>{{ loadingError ? "Error Loading User Info" : "Loading user..." }}</h1>
   </div>
 </ng-template>

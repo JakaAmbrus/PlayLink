@@ -17,14 +17,25 @@
       type="text"
       placeholder="What's on your mind?"
       readonly
+      [disabled]="postsLoaded"
     />
   </div>
   <div id="upload-post-popup-bottom" class="post-counts-borders">
-    <button type="button" class="post-actions" (click)="openUploadPostModal()">
+    <button
+      type="button"
+      class="post-actions"
+      (click)="openUploadPostModal()"
+      [disabled]="postsLoaded"
+    >
       <span class="material-symbols-rounded pen-and-photo-icons"> edit </span>
       <p class="pen-and-photo-text">Express Yourself</p>
     </button>
-    <button type="button" class="post-actions" (click)="openUploadPostModal()">
+    <button
+      type="button"
+      class="post-actions"
+      (click)="openUploadPostModal()"
+      [disabled]="postsLoaded"
+    >
       <span class="material-symbols-rounded pen-and-photo-icons"> photo </span>
       <p class="pen-and-photo-text">Upload a Photo</p>
     </button>

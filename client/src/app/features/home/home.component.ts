@@ -29,6 +29,7 @@ import { CacheManagerService } from 'src/app/core/services/cache-manager.service
 })
 export class HomeComponent implements OnInit, OnDestroy {
   isLoading: boolean = true;
+  loadingError: boolean = false;
   posts: Post[] = [];
   pageNumber: number = 1;
   pageSize: number = 6;
@@ -52,6 +53,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   loadPosts(): void {
+    this.loadingError = false;
+
     this.postsService
       .getPosts(this.pageNumber, this.pageSize)
       .pipe(takeUntil(this.destroy$))
@@ -67,6 +70,9 @@ export class HomeComponent implements OnInit, OnDestroy {
               this.allPostsLoaded = true;
             }
           }
+        },
+        error: () => {
+          this.loadingError = true;
         },
       });
   }

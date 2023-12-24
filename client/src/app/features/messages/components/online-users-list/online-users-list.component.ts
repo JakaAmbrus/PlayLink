@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, combineLatest, map } from 'rxjs';
+import { Observable, catchError, combineLatest, map, of } from 'rxjs';
 import { SearchUser } from 'src/app/shared/models/users';
 import { PresenceService } from 'src/app/core/services/presence.service';
 import { OnlineUserDisplayComponent } from '../online-user-display/online-user-display.component';
@@ -15,6 +15,7 @@ import { UserSearchService } from 'src/app/shared/services/user-search.service';
 })
 export class OnlineUsersListComponent implements OnInit {
   onlineUsers$?: Observable<SearchUser[]>;
+  loadingError: boolean = false;
 
   constructor(
     public userSearchService: UserSearchService,
@@ -28,7 +29,11 @@ export class OnlineUsersListComponent implements OnInit {
     ]).pipe(
       map(([users, onlineUserIds]) =>
         users.filter((user) => onlineUserIds.includes(user.appUserId))
-      )
+      ),
+      catchError(() => {
+        this.loadingError = true;
+        return of([]);
+      })
     );
   }
 }

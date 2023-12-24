@@ -4,6 +4,7 @@ import { FriendsService } from 'src/app/shared/services/friends.service';
 import { FriendDisplayComponent } from '../friend-display/friend-display.component';
 import { RouterLink } from '@angular/router';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { Observable, catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-friend-list',
@@ -13,11 +14,19 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
   imports: [AsyncPipe, NgIf, RouterLink, NgFor, FriendDisplayComponent],
 })
 export class FriendListComponent implements OnInit {
-  friends$ = this.friendsService.friends$;
+  friends$?: Observable<Friend[]>;
+  loadingError: boolean = false;
 
   constructor(private friendsService: FriendsService) {}
 
   ngOnInit(): void {
-    this.friendsService.getFriends().subscribe();
+    this.loadingError = false;
+
+    this.friends$ = this.friendsService.getFriends().pipe(
+      catchError(() => {
+        this.loadingError = true;
+        return of([]);
+      })
+    );
   }
 }

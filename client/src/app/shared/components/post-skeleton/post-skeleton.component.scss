@@ -20,10 +20,15 @@
   aspect-ratio: 1;
 }
 .post-icon-person {
-  font-size: 5em;
+  font-size: 4.5em;
 }
-.material-symbols-rounded.filled {
-  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48;
+.post-user-img-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.2em;
+  height: 5.2em;
+  flex-shrink: 0;
 }
 .post-user-name {
   font-size: 1.8em;

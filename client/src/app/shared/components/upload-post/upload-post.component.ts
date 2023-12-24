@@ -5,7 +5,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -68,6 +68,8 @@ import { first } from 'rxjs';
 })
 export class UploadPostComponent implements OnInit {
   @Output() postUploaded: EventEmitter<any> = new EventEmitter();
+
+  @Input() postsLoaded: boolean = false;
 
   avatar!: Avatar;
   animationState = 'small';

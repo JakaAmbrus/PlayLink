@@ -5,16 +5,20 @@
         class="post-user-img-container header-icons-right theme-border rounded-border"
       >
         <span class="material-symbols-rounded filled post-icon-person">
-          person
+          {{ loadingError ? "warning" : "person" }}
         </span>
       </div>
       <div class="post-user-name-and-date">
-        <h1 class="post-user-name">Loading...</h1>
+        <h1 class="post-user-name">
+          {{ loadingError ? "Error Loading User Info" : "Loading user..." }}
+        </h1>
         <p class="post-date">00/00/0000</p>
       </div>
     </div>
   </div>
-  <div class="post-description">Loading...</div>
+  <div class="post-description">
+    {{ loadingError ? "Try refreshing the website" : "Loading user..." }}
+  </div>
   <div class="photo-placeholder primary-parameters rounded-border"></div>
   <div class="post-likes-and-comments-count">
     <div class="post-likes-count">0 Likes</div>

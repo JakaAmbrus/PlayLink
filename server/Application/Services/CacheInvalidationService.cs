@@ -19,7 +19,7 @@ namespace Application.Services
         {
             try
             {
-                string cacheKey = _cacheKeyService.GenerateHashedKey($"Users:GetUserByUsername-{username}");
+                string cacheKey = $"Users:GetUserByUsername-{username}";
                 _memoryCache.Remove(cacheKey);
             }
             catch
@@ -32,7 +32,7 @@ namespace Application.Services
         {
             try
             {
-                string cacheKey = _cacheKeyService.GenerateHashedKey("Users:GetSearchUsers");
+                string cacheKey = "Users:GetSearchUsers";
                 _memoryCache.Remove(cacheKey);
             }
             catch
@@ -45,7 +45,7 @@ namespace Application.Services
         {
             try
             {
-                string cacheKey = _cacheKeyService.GenerateHashedKey("Users:GetNearestBirthdayUsers");
+                string cacheKey = "Users:GetNearestBirthdayUsers";
                 _memoryCache.Remove(cacheKey);
             }
             catch
@@ -58,7 +58,7 @@ namespace Application.Services
         {
             try
             {
-                string cacheKey = _cacheKeyService.GenerateHashedKey($"Friends:GetFriendRequests-{userId}");
+                string cacheKey = $"Friends:GetFriendRequests-{userId}";
                 _memoryCache.Remove(cacheKey);
             }
             catch
@@ -71,7 +71,7 @@ namespace Application.Services
         {
             try
             {
-                string cacheKey = _cacheKeyService.GenerateHashedKey($"Friends:GetUserFriends-{userId}");
+                string cacheKey = $"Friends:GetUserFriends-{userId}";
                 _memoryCache.Remove(cacheKey);
             }
             catch
@@ -97,7 +97,7 @@ namespace Application.Services
         {
             try
             {
-                string cacheKey = _cacheKeyService.GenerateHashedKey($"Photos:GetUserPhotos-{username}");
+                string cacheKey = $"Photos:GetUserPhotos-{username}";
                 _memoryCache.Remove(cacheKey);
             }
             catch

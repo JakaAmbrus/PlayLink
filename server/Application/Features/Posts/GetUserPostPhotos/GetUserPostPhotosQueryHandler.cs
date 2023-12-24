@@ -1,5 +1,4 @@
 ﻿using Application.Exceptions;
-using Application.Features.Friends.Common;
 using Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,18 +10,16 @@ namespace Application.Features.Posts.GetUserPostPhotos
     {
         private readonly IApplicationDbContext _context;
         private readonly IMemoryCache _memoryCache;
-        private readonly ICacheKeyService _cacheKeyService;
 
-        public GetUserPostPhotosQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache, ICacheKeyService cacheKeyService) 
+        public GetUserPostPhotosQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache) 
         { 
             _context = context;
             _memoryCache = memoryCache;
-            _cacheKeyService = cacheKeyService;
         }
 
         public async Task<GetUserPostPhotosResponse> Handle(GetUserPostPhotosQuery request, CancellationToken cancellationToken)
         {
-            string cacheKey = _cacheKeyService.GenerateHashedKey($"Photos:GetUserPhotos-{request.Username}");
+            string cacheKey = $"Photos:GetUserPhotos-{request.Username}";
 
             if (!_memoryCache.TryGetValue(cacheKey, out List<string> photos))
             {

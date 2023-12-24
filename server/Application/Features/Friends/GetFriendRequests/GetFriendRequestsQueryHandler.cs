@@ -11,18 +11,16 @@ namespace Application.Features.Friends.GetFriendRequests
     {
         private readonly IApplicationDbContext _context;
         private readonly IMemoryCache _memoryCache;
-        private readonly ICacheKeyService _cacheKeyService;
 
-        public GetFriendRequestsQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache, ICacheKeyService cacheKeyService)
+        public GetFriendRequestsQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache)
         {
             _context = context;
             _memoryCache = memoryCache;
-            _cacheKeyService = cacheKeyService;
         }
 
         public async Task<GetFriendRequestsResponse> Handle(GetFriendRequestsQuery request, CancellationToken cancellationToken)
         {
-            string cacheKey = _cacheKeyService.GenerateHashedKey($"Friends:GetFriendRequests-{request.AuthUserId}");
+            string cacheKey = $"Friends:GetFriendRequests-{request.AuthUserId}";
 
             if (!_memoryCache.TryGetValue(cacheKey, out List<FriendRequestDto> allRequests))
             {

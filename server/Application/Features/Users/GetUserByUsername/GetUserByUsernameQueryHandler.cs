@@ -11,18 +11,16 @@ namespace Application.Features.Users.GetUserByUsername
     {
         private readonly IApplicationDbContext _context;
         private readonly IMemoryCache _memoryCache;
-        private readonly ICacheKeyService _cacheKeyService;
 
-        public GetUserByUsernameQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache, ICacheKeyService cacheKeyService)
+        public GetUserByUsernameQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache)
         {
             _context = context;
             _memoryCache = memoryCache;
-            _cacheKeyService = cacheKeyService;
         }
 
         public async Task<GetUserByUsernameResponse> Handle(GetUserByUsernameQuery request, CancellationToken cancellationToken)
         {
-            string cacheKey = _cacheKeyService.GenerateHashedKey($"Users:GetUserByUsername-{request.Username}");
+            string cacheKey = $"Users:GetUserByUsername-{request.Username}";
 
             if (!_memoryCache.TryGetValue(cacheKey, out ProfileUserDto profileUserDto))
             {

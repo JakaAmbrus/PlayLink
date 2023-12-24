@@ -11,18 +11,16 @@ namespace Application.Features.Users.GetNearestBirthdayUsers
     {
         private readonly IApplicationDbContext _context;
         private readonly IMemoryCache _memoryCache;
-        private readonly ICacheKeyService _cacheKeyService;
 
-        public GetNearestBirthdayUsersQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache, ICacheKeyService cacheKeyService)
+        public GetNearestBirthdayUsersQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache)
         {
             _context = context;
             _memoryCache = memoryCache;
-            _cacheKeyService = cacheKeyService;
         }
 
         public async Task<GetNearestBirthdayUsersResult> Handle(GetNearestBirthdayUsersQuery request, CancellationToken cancellationToken)
         {
-            string cacheKey = _cacheKeyService.GenerateHashedKey($"Users:GetNearestBirthdayUsers");
+            string cacheKey = "Users:GetNearestBirthdayUsers";
 
             if (!_memoryCache.TryGetValue(cacheKey, out List<UserBirthdayDto> usersWithNearestBirthday))
             {

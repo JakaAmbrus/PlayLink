@@ -10,18 +10,16 @@ namespace Application.Features.Friends.GetUserFriends
     {
         private readonly IApplicationDbContext _context;
         private readonly IMemoryCache _memoryCache;
-        private readonly ICacheKeyService _cacheKeyService;
 
-        public GetUserFriendsQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache, ICacheKeyService cacheKeyService)
+        public GetUserFriendsQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache)
         {
             _context = context;
             _memoryCache = memoryCache;
-            _cacheKeyService = cacheKeyService;
         }
 
         public async Task<GetUserFriendsResponse> Handle(GetUserFriendsQuery request, CancellationToken cancellationToken)
         {
-            string cacheKey = _cacheKeyService.GenerateHashedKey($"Friends:GetUserFriends-{request.AuthUserId}");
+            string cacheKey = $"Friends:GetUserFriends-{request.AuthUserId}";
 
             if (!_memoryCache.TryGetValue(cacheKey, out List<FriendDto> friends))
             {

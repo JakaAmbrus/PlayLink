@@ -66,5 +66,18 @@ namespace Application.Services
                 throw new ServerErrorException("Could not invalidate user photos cache.");
             }
         }
+
+        public void InvalidateNearestBirthdayUsersCache()
+        {
+            try
+            {
+                string cacheKey = _cacheKeyService.GenerateHashedKey("Users:GetNearestBirthdayUsers");
+                _memoryCache.Remove(cacheKey);
+            }
+            catch
+            {
+                throw new ServerErrorException("Could not invalidate nearest birthdays cache.");
+            }
+        }
     }
 }

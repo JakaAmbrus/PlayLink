@@ -8,10 +8,12 @@ namespace Application.Features.Users.DeleteUser
     public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, DeleteUserResponse>
     {
         private readonly IApplicationDbContext _context;
+        private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public DeleteUserCommandHandler(IApplicationDbContext context)
+        public DeleteUserCommandHandler(IApplicationDbContext context, ICacheInvalidationService cacheInvalidationService)
         {
             _context = context;
+            _cacheInvalidationService = cacheInvalidationService;
         }
 
         public async Task<DeleteUserResponse> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
@@ -65,6 +67,9 @@ namespace Application.Features.Users.DeleteUser
                     _context.Users.Remove(user);
 
                     await _context.SaveChangesAsync(cancellationToken);
+
+                    _cacheInvalidationService.InvalidateNearestBirthdayUsersCache();
+
                     await transaction.CommitAsync(cancellationToken);
 
                 }

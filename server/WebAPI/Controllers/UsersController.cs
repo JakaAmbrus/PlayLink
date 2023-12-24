@@ -70,9 +70,7 @@ namespace WebAPI.Controllers
         [HttpGet("nearest-birthday")]
         public async Task<IActionResult> GetNearestBirthdayUsers(CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-
-            var query = new GetNearestBirthdayUsersQuery { AuthUserId = authUserId };
+            var query = new GetNearestBirthdayUsersQuery { };
 
             var users = await Mediator.Send(query, cancellationToken);
 

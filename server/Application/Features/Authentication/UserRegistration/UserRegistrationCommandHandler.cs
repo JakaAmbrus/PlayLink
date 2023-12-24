@@ -13,12 +13,13 @@ namespace Application.Features.Authentication.UserRegistration
 
         private readonly UserManager<AppUser> _userManager;
         private readonly ITokenService _tokenService;
+        private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public UserRegistrationCommandHandler(UserManager<AppUser> userManager,
-            ITokenService tokenService)
+        public UserRegistrationCommandHandler(UserManager<AppUser> userManager, ITokenService tokenService, ICacheInvalidationService cacheInvalidationService)
         {
             _userManager = userManager;
             _tokenService = tokenService;
+            _cacheInvalidationService = cacheInvalidationService;
         }
 
         public async Task<UserRegistrationResponse> Handle(UserRegistrationCommand request, CancellationToken cancellationToken)
@@ -55,6 +56,8 @@ namespace Application.Features.Authentication.UserRegistration
                 }
 
                 await _userManager.AddToRoleAsync(user, "Member");
+
+                _cacheInvalidationService.InvalidateNearestBirthdayUsersCache();
 
                 return new UserRegistrationResponse
                 {

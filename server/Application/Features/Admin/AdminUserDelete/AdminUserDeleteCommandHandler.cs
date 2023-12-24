@@ -1,6 +1,5 @@
 ﻿using Application.Exceptions;
 using Application.Interfaces;
-using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,11 +9,13 @@ namespace Application.Features.Admin.AdminUserDelete
     {
         private readonly IApplicationDbContext _context;
         private readonly IUserManager _userManager;
+        private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public AdminUserDeleteCommandHandler(IApplicationDbContext context, IUserManager userManager)
+        public AdminUserDeleteCommandHandler(IApplicationDbContext context, IUserManager userManager, ICacheInvalidationService cacheInvalidationService)
         {
             _context = context;
             _userManager = userManager;
+            _cacheInvalidationService = cacheInvalidationService;
         }
 
         public async Task<AdminUserDeleteResponse> Handle(AdminUserDeleteCommand request, CancellationToken cancellationToken)
@@ -65,6 +66,9 @@ namespace Application.Features.Admin.AdminUserDelete
                     _context.Users.Remove(user);
 
                     await _context.SaveChangesAsync(cancellationToken);
+
+                    _cacheInvalidationService.InvalidateNearestBirthdayUsersCache();
+
                     await transaction.CommitAsync(cancellationToken);
 
                 }

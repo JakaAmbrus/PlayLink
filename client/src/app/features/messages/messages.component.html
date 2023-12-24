@@ -22,7 +22,7 @@
     >
       <mat-button-toggle
         *ngFor="let button of buttons"
-        (click)="loadMessages()"
+        (click)="loadMessages(button.value)"
         class="messages-buttons button-toggle"
         [value]="button.value"
       >

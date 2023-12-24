@@ -52,10 +52,16 @@ export class MessagesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.container = this.localStorageService.getItem('Container') || 'Unread';
 
-    this.loadMessages();
+    this.loadMessages(this.container, true);
   }
 
-  loadMessages(): void {
+  loadMessages(selectedOption: string, initialLoad = false): void {
+    if (this.container === selectedOption && !initialLoad) {
+      // If the selected option is the same as the current one, do nothing
+      return;
+    }
+    this.container = selectedOption;
+
     this.localStorageService.setItem('Container', this.container);
     this.messageParams = {
       pageNumber: this.pageNumber,
@@ -87,7 +93,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
   pageChanged(event: any): void {
     this.pageNumber = event;
-    this.loadMessages();
+    this.loadMessages(this.container);
   }
 
   onMessageDelete(id: number): void {

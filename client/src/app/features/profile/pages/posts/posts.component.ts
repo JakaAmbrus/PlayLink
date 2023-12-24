@@ -7,6 +7,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PostSkeletonComponent } from '../../../../shared/components/post-skeleton/post-skeleton.component';
 import { NgIf, NgFor } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
+import { CacheManagerService } from 'src/app/core/services/cache-manager.service';
 
 @Component({
   selector: 'app-posts',
@@ -28,25 +29,36 @@ export class PostsComponent implements OnInit, OnDestroy {
   pageSize: number = 4;
   totalPosts: number | undefined;
   allPostsLoaded: boolean = false;
-  username: any;
+  username: string | null | undefined;
   noPosts: boolean = false;
   private destroy$ = new Subject<void>();
 
   constructor(
     private postsService: PostsService,
+    private cacheManager: CacheManagerService,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.loadUserPosts();
-  }
-
-  loadUserPosts() {
     this.username = this.route.parent?.snapshot.paramMap.get('username');
     if (!this.username) {
       return;
     }
+    const cachedPosts = this.cacheManager.getCache<Post[]>(
+      'posts' + this.username
+    );
+    if (cachedPosts && cachedPosts.length > 0) {
+      this.isLoading = false;
+      this.posts = cachedPosts;
+    } else {
+      this.loadUserPosts();
+    }
+  }
 
+  loadUserPosts(): void {
+    if (!this.username) {
+      return;
+    }
     this.postsService
       .getPostsByUsername(this.username, this.pageNumber, this.pageSize)
       .pipe(takeUntil(this.destroy$))
@@ -58,6 +70,7 @@ export class PostsComponent implements OnInit, OnDestroy {
           if (loadedPosts) {
             this.posts.push(...loadedPosts);
             this.totalPosts = response.pagination?.totalItems;
+            this.cacheManager.setCache('posts' + this.username, this.posts);
             this.isLoading = false;
             if (!response.pagination || loadedPosts.length < this.pageSize) {
               this.allPostsLoaded = true;
@@ -67,11 +80,10 @@ export class PostsComponent implements OnInit, OnDestroy {
             }
           }
         },
-        error: (err) => console.error(err),
       });
   }
 
-  onScroll() {
+  onScroll(): void {
     if (!this.allPostsLoaded) {
       this.pageNumber++;
       this.loadUserPosts();
@@ -80,6 +92,7 @@ export class PostsComponent implements OnInit, OnDestroy {
 
   onPostDelete(postId: number) {
     this.posts = this.posts.filter((post) => post.postId !== postId);
+    this.cacheManager.setCache('posts' + this.username, this.posts);
   }
 
   ngOnDestroy(): void {

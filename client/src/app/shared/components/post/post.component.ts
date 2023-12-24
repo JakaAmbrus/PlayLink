@@ -23,6 +23,7 @@ import { Subject, first, takeUntil } from 'rxjs';
 import { LikedUser } from '../../models/likedUser';
 import { LikedUsersListComponent } from '../liked-users-list/liked-users-list.component';
 import { ClickOutsideService } from '../../services/click-outside.service';
+import { CacheManagerService } from 'src/app/core/services/cache-manager.service';
 
 @Component({
   selector: 'app-post',
@@ -64,6 +65,7 @@ export class PostComponent implements OnDestroy {
     private likesService: LikesService,
     private postsService: PostsService,
     private commentsService: CommentsService,
+    private cacheManager: CacheManagerService,
     public dialog: MatDialog,
     private clickOutsideService: ClickOutsideService
   ) {}
@@ -194,7 +196,16 @@ export class PostComponent implements OnDestroy {
       this.commentsShown &&
       this.comments.length === 0
     ) {
-      this.loadComments();
+      const cachedComments = this.cacheManager.getCache<Comment[]>(
+        'comments' + this.post?.postId
+      );
+      if (cachedComments && cachedComments.length > 0) {
+        this.comments = cachedComments;
+        this.allCommentsLoaded =
+          this.comments.length === this.post?.commentsCount;
+      } else {
+        this.loadComments();
+      }
     }
   }
 
@@ -216,6 +227,10 @@ export class PostComponent implements OnDestroy {
               const reversedComments = loadedComments.reverse();
 
               this.comments = [...reversedComments, ...this.comments];
+              this.cacheManager.setCache(
+                'comments' + this.post?.postId,
+                this.comments
+              );
               this.totalComments = response.pagination?.totalItems;
               if (
                 !response.pagination ||
@@ -243,6 +258,11 @@ export class PostComponent implements OnDestroy {
   onCommentUpload(comment: any): void {
     this.comments = [...this.comments, comment.commentDto];
     this.post!.commentsCount += 1;
+    this.cacheManager.setCache('comments' + this.post?.postId, this.comments);
+    this.totalComments = this.totalComments ? this.totalComments + 1 : 1;
+    if (this.totalComments === this.comments.length) {
+      this.allCommentsLoaded = true;
+    }
   }
 
   onCommentDelete(commentId: number): void {
@@ -250,6 +270,7 @@ export class PostComponent implements OnDestroy {
       (comment) => comment.commentId !== commentId
     );
     this.post!.commentsCount -= 1;
+    this.cacheManager.setCache('comments' + this.post?.postId, this.comments);
   }
 
   ngOnDestroy(): void {

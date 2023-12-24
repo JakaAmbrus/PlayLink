@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
-import { PostsService } from 'src/app/shared/services/posts.service';
 import { first } from 'rxjs';
+import { UserPhotosService } from '../../services/user-photos.service';
 
 @Component({
   selector: 'app-gallery',
@@ -18,7 +18,7 @@ export class GalleryComponent implements OnInit {
   noPhotos: boolean = false;
 
   constructor(
-    private postsService: PostsService,
+    private userPhotosService: UserPhotosService,
     private route: ActivatedRoute
   ) {}
 
@@ -32,8 +32,8 @@ export class GalleryComponent implements OnInit {
       return;
     }
 
-    this.postsService
-      .getUserPostPhotos(this.username)
+    this.userPhotosService
+      .getUserPhotos(this.username)
       .pipe(first())
       .subscribe((photos) => {
         this.postPhotos = this.transformPhotosToGalleryItems(photos);

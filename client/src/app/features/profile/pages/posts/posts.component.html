@@ -20,7 +20,14 @@
         class="posts secondary-background rounded-border box-shadow theme-border"
         *ngFor="let post of posts"
       >
-        <app-post [post]="post" (postDeleted)="onPostDelete($event)"></app-post>
+        <app-post
+          [post]="post"
+          (postUpdated)="onPostUpdate($event)"
+          (postDeleted)="onPostDelete($event)"
+        ></app-post>
+      </div>
+      <div *ngIf="newPostsLoading" class="spinner-container">
+        <app-spinner></app-spinner>
       </div>
     </div>
   </div>

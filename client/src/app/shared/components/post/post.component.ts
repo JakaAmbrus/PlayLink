@@ -24,6 +24,7 @@ import { LikedUser } from '../../models/likedUser';
 import { LikedUsersListComponent } from '../liked-users-list/liked-users-list.component';
 import { ClickOutsideService } from '../../services/click-outside.service';
 import { CacheManagerService } from 'src/app/core/services/cache-manager.service';
+import { SpinnerComponent } from '../spinner/spinner.component';
 
 @Component({
   selector: 'app-post',
@@ -42,15 +43,21 @@ import { CacheManagerService } from 'src/app/core/services/cache-manager.service
     RelativeUrlPipe,
     RelativeTimePipe,
     LikedUsersListComponent,
+    SpinnerComponent,
   ],
 })
 export class PostComponent implements OnDestroy {
   @Input() post: Post | undefined;
 
-  @Output() postDeleted: EventEmitter<number> = new EventEmitter();
+  @Output() postDeleted: EventEmitter<Post> = new EventEmitter();
+
+  @Output() postUpdated: EventEmitter<Post> = new EventEmitter();
 
   comments: Comment[] = [];
   commentsShown: boolean = false;
+  commentsLoading: boolean = false;
+  uploadCommentLoading: boolean = false;
+  errorLoadingComments: boolean = false;
   pageNumber: number = 1;
   pageSize: number = 3;
   totalComments: number | undefined;
@@ -128,6 +135,7 @@ export class PostComponent implements OnDestroy {
         .subscribe({
           next: () => {
             this.isLoading = false;
+            this.postUpdated.emit(post);
           },
           error: () => {
             this.isLoading = false;
@@ -147,6 +155,7 @@ export class PostComponent implements OnDestroy {
             this.isLoading = false;
             this.optimisticLike = false;
             post.isLikedByCurrentUser = true;
+            this.postUpdated.emit(post);
           },
           error: () => {
             this.isLoading = false;
@@ -157,7 +166,7 @@ export class PostComponent implements OnDestroy {
     }
   }
 
-  deletePost(postId: number): void {
+  deletePost(post: Post): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
         title: 'Delete Post',
@@ -174,11 +183,11 @@ export class PostComponent implements OnDestroy {
             return;
           }
           this.isLoading = true;
-          this.postsService.deletePost(postId).subscribe({
+          this.postsService.deletePost(post.postId).subscribe({
             next: () => {
               this.isLoading = false;
               this.post = undefined;
-              this.postDeleted.emit(postId);
+              this.postDeleted.emit(post);
             },
             error: () => {
               this.isLoading = false;
@@ -199,7 +208,7 @@ export class PostComponent implements OnDestroy {
       const cachedComments = this.cacheManager.getCache<Comment[]>(
         'comments' + this.post?.postId
       );
-      if (cachedComments && cachedComments.length > 0) {
+      if (cachedComments) {
         this.comments = cachedComments;
         this.allCommentsLoaded =
           this.comments.length === this.post?.commentsCount;
@@ -213,7 +222,8 @@ export class PostComponent implements OnDestroy {
     if (this.isLoading) {
       return;
     }
-    this.isLoading = true;
+    this.commentsLoading = true;
+    this.errorLoadingComments = false;
 
     if (this.post?.postId) {
       this.commentsService
@@ -221,7 +231,7 @@ export class PostComponent implements OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
-            this.isLoading = false;
+            this.commentsLoading = false;
             const loadedComments = response.result;
             if (loadedComments) {
               const reversedComments = loadedComments.reverse();
@@ -242,7 +252,8 @@ export class PostComponent implements OnDestroy {
             }
           },
           error: () => {
-            this.isLoading = false;
+            this.commentsLoading = false;
+            this.errorLoadingComments = true;
           },
         });
     }
@@ -259,6 +270,7 @@ export class PostComponent implements OnDestroy {
     this.comments = [...this.comments, comment.commentDto];
     this.post!.commentsCount += 1;
     this.cacheManager.setCache('comments' + this.post?.postId, this.comments);
+    this.postUpdated.emit(this.post);
     this.totalComments = this.totalComments ? this.totalComments + 1 : 1;
     if (this.totalComments === this.comments.length) {
       this.allCommentsLoaded = true;
@@ -271,6 +283,11 @@ export class PostComponent implements OnDestroy {
     );
     this.post!.commentsCount -= 1;
     this.cacheManager.setCache('comments' + this.post?.postId, this.comments);
+    this.postUpdated.emit(this.post);
+  }
+
+  handleDeleteCommentLoadingChange(isLoading: boolean): void {
+    this.commentsLoading = isLoading;
   }
 
   ngOnDestroy(): void {

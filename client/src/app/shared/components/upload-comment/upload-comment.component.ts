@@ -49,6 +49,7 @@ export class UploadCommentComponent implements OnInit {
   onSubmit() {
     if (this.uploadCommentForm.valid && this.postId) {
       const commentContent = this.uploadCommentForm.get('content')?.value;
+      this.uploadCommentForm.reset();
       const commentUploadDto = {
         postId: this.postId,
         content: commentContent,
@@ -61,7 +62,6 @@ export class UploadCommentComponent implements OnInit {
           next: (response) => {
             this.isLoading = false;
             this.commentUploaded.emit(response);
-            this.uploadCommentForm.reset();
           },
           error: () => (this.isLoading = false),
         });

@@ -15,7 +15,7 @@
     <button
       type="button"
       *ngIf="post.isAuthorized"
-      (click)="deletePost(post.postId)"
+      (click)="deletePost(post)"
       [disabled]="isLoading"
     >
       <span class="material-symbols-rounded filled post-icon-close">
@@ -90,16 +90,27 @@
   <div *ngIf="commentsShown" class="comments-container">
     <button
       type="button"
-      *ngIf="!allCommentsLoaded && post.commentsCount > 0"
+      *ngIf="
+        !allCommentsLoaded &&
+        post.commentsCount > 0 &&
+        !commentsLoading &&
+        !errorLoadingComments
+      "
       (click)="showMoreComments()"
       class="load-more-comments-button"
-      [disabled]="isLoading"
     >
       Load More Comments
     </button>
+    <div *ngIf="commentsLoading" class="spinner-container">
+      <app-spinner></app-spinner>
+    </div>
+    <p *ngIf="errorLoadingComments" class="error-loading-comments">
+      Error Loading Comments
+    </p>
     <div *ngFor="let comment of comments" class="comments">
       <app-comment
         (commentDeleted)="onCommentDelete($event)"
+        (deleteCommentLoadingChange)="handleDeleteCommentLoadingChange($event)"
         [comment]="comment"
       ></app-comment>
     </div>

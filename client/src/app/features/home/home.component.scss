@@ -38,6 +38,12 @@
   font-family: "Nexa Bold";
   position: relative;
 }
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 3em;
+}
 @media (min-width: 2400px) {
   #home-section-container {
     font-size: 13px;

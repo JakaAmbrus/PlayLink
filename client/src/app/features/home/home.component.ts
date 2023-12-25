@@ -10,6 +10,8 @@ import { UploadPostComponent } from '../../shared/components/upload-post/upload-
 import { HomeUserCardComponent } from './components/home-user-card/home-user-card.component';
 import { Subject, takeUntil } from 'rxjs';
 import { CacheManagerService } from 'src/app/core/services/cache-manager.service';
+import { LocalStorageService } from 'src/app/core/services/local-storage.service';
+import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';
 
 @Component({
   selector: 'app-home',
@@ -25,11 +27,13 @@ import { CacheManagerService } from 'src/app/core/services/cache-manager.service
     NgFor,
     PostComponent,
     FriendListComponent,
+    SpinnerComponent,
   ],
 })
 export class HomeComponent implements OnInit, OnDestroy {
   isLoading: boolean = true;
   loadingError: boolean = false;
+  newPostsLoading: boolean = false;
   posts: Post[] = [];
   pageNumber: number = 1;
   pageSize: number = 6;
@@ -39,14 +43,21 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private postsService: PostsService,
-    private cacheManager: CacheManagerService
+    private cacheManager: CacheManagerService,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit(): void {
     const cachedPosts = this.cacheManager.getCache<Post[]>('posts');
-    if (cachedPosts && cachedPosts.length > 0) {
+    if (cachedPosts) {
       this.isLoading = false;
       this.posts = cachedPosts;
+      if (
+        this.totalPosts !== undefined &&
+        this.posts.length >= this.totalPosts
+      ) {
+        this.allPostsLoaded = true;
+      }
     } else {
       this.loadPosts();
     }
@@ -64,8 +75,11 @@ export class HomeComponent implements OnInit, OnDestroy {
           if (loadedPosts) {
             this.posts.push(...loadedPosts);
             this.totalPosts = response.pagination?.totalItems;
+            this.localStorageService.setItem('totalPosts', this.totalPosts);
             this.cacheManager.setCache('posts', this.posts);
+
             this.isLoading = false;
+            this.newPostsLoading = false;
             if (!response.pagination || loadedPosts.length < this.pageSize) {
               this.allPostsLoaded = true;
             }
@@ -73,12 +87,19 @@ export class HomeComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this.loadingError = true;
+          this.newPostsLoading = false;
         },
       });
   }
 
   onScroll(): void {
-    if (!this.allPostsLoaded) {
+    const totalPosts: number | null =
+      this.localStorageService.getItem('totalPosts');
+    if (!totalPosts) {
+      return;
+    }
+    if (this.posts.length < totalPosts) {
+      this.newPostsLoading = true;
       this.pageNumber++;
       this.loadPosts();
     }
@@ -87,11 +108,21 @@ export class HomeComponent implements OnInit, OnDestroy {
   onPostUpload(post: Post): void {
     this.posts = [post, ...this.posts];
     this.cacheManager.setCache('posts', this.posts);
+    this.cacheManager.clearCache('posts' + post.username);
   }
 
-  onPostDelete(postId: number): void {
-    this.posts = this.posts.filter((post) => post.postId !== postId);
+  onPostUpdate(emittedPost: Post): void {
+    this.cacheManager.clearCache('posts' + emittedPost.username);
+  }
+
+  onPostDelete(emittedPost: Post): void {
+    console.log('works');
+
+    this.posts = this.posts.filter(
+      (post) => post.postId !== emittedPost.postId
+    );
     this.cacheManager.setCache('posts', this.posts);
+    this.cacheManager.clearCache('posts' + emittedPost.username);
   }
 
   ngOnDestroy(): void {

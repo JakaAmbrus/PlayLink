@@ -15,7 +15,8 @@
       class="comments-content-background rounded-border filter-inputs"
       type="text"
       title="content"
-      placeholder="Write a comment..."
+      [placeholder]="isLoading ? 'Uploading comment...' : 'Write a comment...'"
+      [readonly]="isLoading"
       formControlName="content"
       [class.input-invalid]="
         uploadCommentForm.get('content')?.touched &&

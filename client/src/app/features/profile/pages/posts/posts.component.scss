@@ -31,6 +31,12 @@
     margin-top: 2em;
   }
 }
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 3em;
+}
 
 @media (max-width: 900px) {
   #posts-tab {

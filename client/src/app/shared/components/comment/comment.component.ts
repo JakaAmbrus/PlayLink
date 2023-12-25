@@ -36,6 +36,9 @@ export class CommentComponent implements OnDestroy {
 
   @Output() commentDeleted: EventEmitter<number> = new EventEmitter();
 
+  @Output() deleteCommentLoadingChange = new EventEmitter<boolean>();
+
+  deleteCommentLoading: boolean = false;
   likedUsers: LikedUser[] = [];
   showLikedUsers: boolean = false;
   isLoading: boolean = false;
@@ -151,16 +154,21 @@ export class CommentComponent implements OnDestroy {
           if (this.isLoading) {
             return;
           }
-
+          this.deleteCommentLoading = true;
+          this.deleteCommentLoadingChange.emit(true);
           this.isLoading = true;
           this.commentsService.deleteComment(commentId).subscribe({
             next: () => {
               this.isLoading = false;
               this.comment = undefined;
               this.commentDeleted.emit(commentId);
+              this.deleteCommentLoading = false;
+              this.deleteCommentLoadingChange.emit(false);
             },
             error: () => {
               this.isLoading = false;
+              this.deleteCommentLoading = false;
+              this.deleteCommentLoadingChange.emit(false);
             },
           });
         }

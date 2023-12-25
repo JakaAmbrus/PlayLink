@@ -99,13 +99,23 @@
   gap: 2em;
   width: 100%;
 }
-.load-more-comments-button {
+.load-more-comments-button,
+.error-loading-comments {
   font-size: 1.6em;
   padding: 0.4em 0 1em 0;
 
   &:hover {
     text-decoration-line: underline;
   }
+}
+.error-loading-comments {
+  text-align: center;
+}
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 2em;
 }
 button:disabled {
   cursor: pointer;

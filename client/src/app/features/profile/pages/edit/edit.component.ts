@@ -24,6 +24,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { EditUserService } from '../../services/edit-user.service';
 import { EditUser } from '../../models/edit-user';
 import { UserProfileService } from 'src/app/shared/services/user-profile.service';
+import { CacheManagerService } from 'src/app/core/services/cache-manager.service';
 
 @Component({
   selector: 'app-edit',
@@ -65,7 +66,8 @@ export class EditComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private cdRef: ChangeDetectorRef,
-    private avatarService: AvatarService
+    private avatarService: AvatarService,
+    private cacheManager: CacheManagerService
   ) {}
 
   ngOnInit(): void {
@@ -127,13 +129,17 @@ export class EditComponent implements OnInit {
         .pipe(first())
         .subscribe({
           next: (response) => {
+            this.isLoading = false;
             this.toastr.success('Profile updated successfully');
             this.editUserForm.reset();
             this.selectedFiles = [];
             this.cdRef.detectChanges();
-            this.isLoading = false;
+
+            //update avatar photo if changed and clear posts cache relevant to the user
             if (response.photoUrl) {
               this.avatarService.updateAvatarPhoto(response.photoUrl);
+              this.cacheManager.clearCache('posts');
+              this.cacheManager.clearCache('posts' + this.username);
             }
             this.userProfileService.invalidateUserCache(this.username);
             this.router

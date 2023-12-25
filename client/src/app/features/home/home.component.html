@@ -34,7 +34,11 @@
           <app-post
             [post]="post"
             (postDeleted)="onPostDelete($event)"
+            (postUpdated)="onPostUpdate($event)"
           ></app-post>
+        </div>
+        <div *ngIf="newPostsLoading" class="spinner-container">
+          <app-spinner></app-spinner>
         </div>
       </div>
     </div>

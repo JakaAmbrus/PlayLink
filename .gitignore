@@ -22,13 +22,14 @@ client/.project
 *.sublime-workspace
 
 # Visual Studio Code
-.vscode/*
+client/.vscode
 client/!.vscode/settings.json
 client/!.vscode/tasks.json
 client/!.vscode/launch.json
 client/!.vscode/extensions.json
 client/.history/*
 client/ssl
+client/src/environments
 
 # Miscellaneous
 client/.angular/cache
@@ -63,7 +64,7 @@ server/WebAPI/wwwroot/assets
 
 # Visual Studio specific
 .vs/
-
+server/server.sln
 # Cloudinaty access keys
 server/Infrastructure/CloudinaryAccessKeys.json
 

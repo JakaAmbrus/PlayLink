@@ -36,9 +36,7 @@
   <img
     *ngIf="post.photoUrl"
     class="post-image rounded-border theme-border"
-    ngSrc="{{
-      post.photoUrl | relativeUrl : 'https://res.cloudinary.com/dsdleukb7'
-    }}"
+    [ngSrc]="post.photoUrl | relativeUrl"
     alt="{{ post.fullName }}'s post image'"
     height="600"
     width="600"

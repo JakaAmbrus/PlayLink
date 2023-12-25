@@ -9,10 +9,7 @@
   >
     <img
       *ngIf="user.profilePictureUrl"
-      [ngSrc]="
-        user.profilePictureUrl
-          | relativeUrl : 'https://res.cloudinary.com/dsdleukb7'
-      "
+      [ngSrc]="user.profilePictureUrl | relativeUrl"
       height="400"
       width="400"
       preconnect="true"

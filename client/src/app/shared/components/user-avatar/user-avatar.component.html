@@ -3,9 +3,7 @@
     title="{{ fullName }}"
     *ngIf="profilePictureUrl"
     class="user-img"
-    [ngSrc]="
-      profilePictureUrl | relativeUrl : 'https://res.cloudinary.com/dsdleukb7'
-    "
+    [ngSrc]="profilePictureUrl | relativeUrl"
     [alt]="fullName"
     height="70"
     width="70"

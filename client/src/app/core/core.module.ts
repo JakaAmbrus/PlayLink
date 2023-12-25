@@ -4,6 +4,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [],
@@ -11,7 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    [provideCloudinaryLoader('https://res.cloudinary.com/dsdleukb7')],
+    [provideCloudinaryLoader(environment.cloudinaryUrl)],
   ],
 })
 export class CoreModule {}

@@ -7,8 +7,11 @@
     routerLink="/user/{{ user.username }}"
     class="liked-users theme-border-bottom"
   >
-    <div class="liked-user">
+    <p class="liked-user">
       {{ user.fullName }}
-    </div>
+    </p>
   </a>
+  <div *ngIf="isLikedByCurrentUser" class="liked-users theme-border-bottom">
+    <p class="liked-user">You</p>
+  </div>
 </div>

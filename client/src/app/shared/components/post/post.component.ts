@@ -79,7 +79,11 @@ export class PostComponent implements OnDestroy {
   ) {}
 
   displayLikedUsers(): void {
-    if (this.post?.likesCount === 0 || this.isLoading) {
+    if (
+      this.post?.likesCount === 0 ||
+      this.isLoading ||
+      (this.post?.likesCount === 1 && this.post?.isLikedByCurrentUser)
+    ) {
       return;
     }
     this.showLikedUsers = !this.showLikedUsers;
@@ -96,10 +100,6 @@ export class PostComponent implements OnDestroy {
   }
 
   loadLikedUsers(): void {
-    if (this.isLoading) {
-      return;
-    }
-
     this.isLoading = true;
 
     if (this.post?.postId) {

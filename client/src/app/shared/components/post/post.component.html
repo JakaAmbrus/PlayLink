@@ -58,11 +58,19 @@
     >
       {{ post.likesCount }} Likes
     </button>
-    <div class="post-comments-count">{{ post.commentsCount }} Comments</div>
+    <button
+      type="button"
+      (click)="toggleComments()"
+      [disabled]="isLoading"
+      class="post-comments-count"
+    >
+      {{ post.commentsCount }} Comments
+    </button>
     <app-liked-users-list
       class="liked-users-list"
       *ngIf="showLikedUsers"
       [likedUsers]="likedUsers"
+      [isLikedByCurrentUser]="post.isLikedByCurrentUser"
     ></app-liked-users-list>
   </div>
   <div class="post-bottom post-counts-borders">

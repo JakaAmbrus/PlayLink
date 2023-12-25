@@ -12,4 +12,5 @@ import { RouterLink } from '@angular/router';
 })
 export class LikedUsersListComponent {
   @Input() likedUsers: LikedUser[] | undefined;
+  @Input() isLikedByCurrentUser: boolean = false;
 }

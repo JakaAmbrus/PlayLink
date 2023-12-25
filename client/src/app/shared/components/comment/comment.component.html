@@ -58,6 +58,7 @@
           class="liked-users-list"
           *ngIf="showLikedUsers"
           [likedUsers]="likedUsers"
+          [isLikedByCurrentUser]="comment.isLikedByCurrentUser"
         ></app-liked-users-list>
       </div>
     </div>

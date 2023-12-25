@@ -286,10 +286,6 @@ export class PostComponent implements OnDestroy {
     this.postUpdated.emit(this.post);
   }
 
-  handleDeleteCommentLoadingChange(isLoading: boolean): void {
-    this.commentsLoading = isLoading;
-  }
-
   ngOnDestroy(): void {
     this.clickOutsideService.unbind(this);
     this.destroy$.next();

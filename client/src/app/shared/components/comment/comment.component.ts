@@ -17,6 +17,7 @@ import { Subject, first, takeUntil } from 'rxjs';
 import { ClickOutsideService } from '../../services/click-outside.service';
 import { LikedUser } from '../../models/likedUser';
 import { LikedUsersListComponent } from '../liked-users-list/liked-users-list.component';
+import { SpinnerComponent } from '../spinner/spinner.component';
 
 @Component({
   selector: 'app-comment',
@@ -29,14 +30,13 @@ import { LikedUsersListComponent } from '../liked-users-list/liked-users-list.co
     NgClass,
     TimeAgoPipe,
     LikedUsersListComponent,
+    SpinnerComponent,
   ],
 })
 export class CommentComponent implements OnDestroy {
   @Input() comment: Comment | undefined;
 
   @Output() commentDeleted: EventEmitter<number> = new EventEmitter();
-
-  @Output() deleteCommentLoadingChange = new EventEmitter<boolean>();
 
   deleteCommentLoading: boolean = false;
   likedUsers: LikedUser[] = [];
@@ -155,7 +155,6 @@ export class CommentComponent implements OnDestroy {
             return;
           }
           this.deleteCommentLoading = true;
-          this.deleteCommentLoadingChange.emit(true);
           this.isLoading = true;
           this.commentsService.deleteComment(commentId).subscribe({
             next: () => {
@@ -163,12 +162,10 @@ export class CommentComponent implements OnDestroy {
               this.comment = undefined;
               this.commentDeleted.emit(commentId);
               this.deleteCommentLoading = false;
-              this.deleteCommentLoadingChange.emit(false);
             },
             error: () => {
               this.isLoading = false;
               this.deleteCommentLoading = false;
-              this.deleteCommentLoadingChange.emit(false);
             },
           });
         }

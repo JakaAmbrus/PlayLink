@@ -110,7 +110,6 @@
     <div *ngFor="let comment of comments" class="comments">
       <app-comment
         (commentDeleted)="onCommentDelete($event)"
-        (deleteCommentLoadingChange)="handleDeleteCommentLoadingChange($event)"
         [comment]="comment"
       ></app-comment>
     </div>

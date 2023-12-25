@@ -52,10 +52,21 @@
     id="upload-form"
     class="rounded-border secondary-background box-shadow rounded-border"
   >
-    <button *ngIf="!isLoading" (click)="closeUploadPostModal()" type="button">
-      <span id="close-upload-post" class="material-symbols-rounded filled">
+    <button
+      [disabled]="isLoading"
+      (click)="closeUploadPostModal()"
+      type="button"
+    >
+      <span
+        *ngIf="!isLoading"
+        id="close-upload-post"
+        class="material-symbols-rounded filled"
+      >
         close
       </span>
+      <div *ngIf="isLoading" class="spinner-container">
+        <app-spinner></app-spinner>
+      </div>
     </button>
     <h1 id="upload-header">Create Your Post</h1>
     <label class="form-label edit-labels"> Express Yourself </label>
@@ -71,6 +82,7 @@
           uploadPostForm.get('description')?.invalid
         "
         autocomplete="off"
+        [readonly]="isLoading"
       ></textarea>
       <div
         *ngIf="uploadPostForm.get('description')?.hasError('maxlength')"
@@ -108,7 +120,7 @@
           selectedFiles.length === 0)
       "
     >
-      Upload Post
+      {{ isLoading ? "Uploading post..." : "Upload Post" }}
     </button>
   </form>
 </div>

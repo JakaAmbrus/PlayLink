@@ -21,6 +21,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgIf, NgFor } from '@angular/common';
 import { UserAvatarComponent } from '../user-avatar/user-avatar.component';
 import { first } from 'rxjs';
+import { SpinnerComponent } from '../spinner/spinner.component';
 
 @Component({
   selector: 'app-upload-post',
@@ -64,6 +65,7 @@ import { first } from 'rxjs';
     ReactiveFormsModule,
     NgxDropzoneModule,
     NgFor,
+    SpinnerComponent,
   ],
 })
 export class UploadPostComponent implements OnInit {

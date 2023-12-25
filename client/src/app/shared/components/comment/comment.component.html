@@ -17,9 +17,15 @@
         (click)="deleteComment(comment.commentId)"
         [disabled]="isLoading"
       >
-        <span class="material-symbols-rounded filled comment-icon-close">
+        <span
+          *ngIf="!deleteCommentLoading"
+          class="material-symbols-rounded filled comment-icon-close"
+        >
           close</span
         >
+        <div *ngIf="deleteCommentLoading" class="spinner-container">
+          <app-spinner></app-spinner>
+        </div>
       </button>
     </div>
     <div class="comment-bottom">

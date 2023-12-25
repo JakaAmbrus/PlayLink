@@ -18,9 +18,15 @@
       (click)="deletePost(post)"
       [disabled]="isLoading"
     >
-      <span class="material-symbols-rounded filled post-icon-close">
+      <span
+        *ngIf="!deletePostLoading"
+        class="material-symbols-rounded filled post-icon-close"
+      >
         close
       </span>
+      <div *ngIf="deletePostLoading" class="delete-post-spinner-container">
+        <app-spinner></app-spinner>
+      </div>
     </button>
   </div>
 

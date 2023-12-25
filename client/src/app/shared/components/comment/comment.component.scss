@@ -76,6 +76,9 @@
   right: 0.2em;
   font-size: 2.4em;
 }
+.spinner-container {
+  cursor: default;
+}
 button:disabled {
   cursor: pointer;
 }

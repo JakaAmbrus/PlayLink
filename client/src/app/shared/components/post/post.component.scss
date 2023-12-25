@@ -28,11 +28,16 @@
   margin-top: 0.1em;
   font-size: 1.4em;
 }
+
 .post-icon-close {
   align-self: flex-start;
   font-size: 3.5em;
 }
-
+.delete-post-spinner-container {
+  align-self: flex-start;
+  font-size: 2.8em;
+  cursor: default;
+}
 .post-description {
   font-size: 1.6em;
   line-height: 1.4;

@@ -65,6 +65,7 @@ export class PostComponent implements OnDestroy {
   likedUsers: LikedUser[] = [];
   showLikedUsers: boolean = false;
   isLoading: boolean = false;
+  deletePostLoading: boolean = false;
   optimisticLike: boolean = false;
   private destroy$ = new Subject<void>();
 
@@ -182,15 +183,20 @@ export class PostComponent implements OnDestroy {
           if (this.isLoading) {
             return;
           }
+
           this.isLoading = true;
+          this.deletePostLoading = true;
+
           this.postsService.deletePost(post.postId).subscribe({
             next: () => {
               this.isLoading = false;
+              this.deletePostLoading = false;
               this.post = undefined;
               this.postDeleted.emit(post);
             },
             error: () => {
               this.isLoading = false;
+              this.deletePostLoading = false;
             },
           });
         }

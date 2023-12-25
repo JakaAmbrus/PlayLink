@@ -43,6 +43,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
   buttons = messageButtons;
   isLoading: boolean = false;
   loadMessagesError: boolean = false;
+  changingPage: boolean = false;
   messageParams: MessageParams | undefined;
   messageCountController: number = 0;
   private destroy$ = new Subject<void>();
@@ -59,7 +60,10 @@ export class MessagesComponent implements OnInit, OnDestroy {
   }
 
   loadMessages(): void {
-    if (this.isLoading || this.lastLoadedContainer === this.container) {
+    if (
+      this.isLoading ||
+      (this.lastLoadedContainer === this.container && !this.changingPage)
+    ) {
       return;
     }
     this.lastLoadedContainer = this.container;
@@ -72,6 +76,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;
     this.loadMessagesError = false;
+    this.messages = [];
 
     this.messageDisplayService
       .getUserMessages(this.messageParams)
@@ -83,6 +88,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
             this.messages = response.result;
             this.pagination = response.pagination;
             this.isLoading = false;
+            this.changingPage = false;
           }
         },
         error: () => {
@@ -90,12 +96,14 @@ export class MessagesComponent implements OnInit, OnDestroy {
           this.loadMessagesError = true;
           this.messages = [];
           this.pagination = undefined;
+          this.changingPage = false;
         },
       });
   }
 
   pageChanged(event: any): void {
     this.pageNumber = event;
+    this.changingPage = true;
     this.loadMessages();
   }
 

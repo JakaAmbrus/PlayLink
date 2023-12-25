@@ -156,6 +156,7 @@
           type="button"
           class="reverse-parameters filter-button"
           (click)="resetFilters()"
+          [disabled]="isLoading"
         >
           Reset
         </button>

@@ -102,7 +102,13 @@ namespace WebAPI.Controllers
         [HttpGet("{commentId}/likes")]
         public async Task<IActionResult> GetCommentLikes(int commentId, CancellationToken cancellationToken)
         {
-            var query = new GetCommentLikesQuery { CommentId = commentId };
+            int authUserId = GetCurrentUserId();
+
+            var query = new GetCommentLikesQuery 
+            { 
+                CommentId = commentId,
+                AuthUserId = authUserId 
+            };
 
             var result = await Mediator.Send(query, cancellationToken);
 

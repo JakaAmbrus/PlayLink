@@ -168,7 +168,13 @@ namespace WebAPI.Controllers
         [HttpGet("{postId}/likes")]
         public async Task<IActionResult> GetPostLikes(int postId, CancellationToken cancellationToken)
         {
-            var query = new GetPostLikesQuery { PostId = postId };
+            int authUserId = GetCurrentUserId();
+
+            var query = new GetPostLikesQuery 
+            { 
+                PostId = postId,
+                AuthUserId = authUserId
+            };
 
             var result = await Mediator.Send(query, cancellationToken);
 

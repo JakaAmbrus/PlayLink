@@ -8,6 +8,9 @@ namespace Application.Features.Likes.GetCommentLikes
         {
             RuleFor(x => x.CommentId)
                 .NotEmpty().WithMessage("Comment Id required.");
+
+            RuleFor(x => x.AuthUserId)
+                .NotEmpty().WithMessage("Authorized User Id required.");
         }
     }
 }

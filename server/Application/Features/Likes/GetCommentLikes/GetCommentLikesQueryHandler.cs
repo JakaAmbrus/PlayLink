@@ -21,7 +21,7 @@ namespace Application.Features.Likes.GetCommentLikes
                 ?? throw new NotFoundException("Comment not found");
 
             var likes = await _context.Likes
-                .Where(l => l.CommentId == request.CommentId)
+                .Where(l => l.CommentId == request.CommentId && l.AppUserId != request.AuthUserId)
                 .Include(l => l.AppUser)
                 .ToListAsync(cancellationToken);
 

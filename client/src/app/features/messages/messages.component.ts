@@ -14,6 +14,7 @@ import { NearestBdUsersListComponent } from './components/nearest-bd-users-list/
 import { Subject, first, takeUntil } from 'rxjs';
 import { MessageDisplayService } from './services/message-display.service';
 import { LocalStorageService } from 'src/app/core/services/local-storage.service';
+import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';
 
 @Component({
   selector: 'app-messages',
@@ -29,6 +30,7 @@ import { LocalStorageService } from 'src/app/core/services/local-storage.service
     MessageDisplayComponent,
     NgxPaginationModule,
     OnlineUsersListComponent,
+    SpinnerComponent,
   ],
 })
 export class MessagesComponent implements OnInit, OnDestroy {
@@ -86,6 +88,8 @@ export class MessagesComponent implements OnInit, OnDestroy {
         error: () => {
           this.isLoading = false;
           this.loadMessagesError = true;
+          this.messages = [];
+          this.pagination = undefined;
         },
       });
   }

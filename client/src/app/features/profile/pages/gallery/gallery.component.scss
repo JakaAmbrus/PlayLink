@@ -13,6 +13,18 @@
     font-weight: 600;
     margin-top: 2em;
   }
+  & .loading {
+    position: relative;
+  }
+}
+.spinner-container {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  top: 250%;
+  left: 0;
+  width: 100%;
+  font-size: 1.2em;
 }
 #profile-gallery {
   width: 60em;

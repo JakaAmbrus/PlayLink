@@ -23,7 +23,11 @@
   <ng-template #loadingOrError>
     <h1 class="friend-list-count header-text">PlayLink Friends:</h1>
     <p class="no-friends">
-      {{ loadingError ? "Error Loading User Info" : "Loading user..." }}
+      {{
+        loadingError
+          ? "Error Loading Users Friends"
+          : "Loading Users Friends..."
+      }}
     </p>
   </ng-template>
 </div>

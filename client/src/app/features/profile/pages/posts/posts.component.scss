@@ -26,7 +26,12 @@
 }
 .posts {
   padding: 3em;
+
+  &.skeleton {
+    margin-top: 2em;
+  }
 }
+
 @media (max-width: 900px) {
   #posts-tab {
     width: 100%;
@@ -47,11 +52,14 @@
     width: 100vw;
     padding: 3em 2em;
     border-radius: 0;
+
+    &.skeleton {
+      margin-top: 0.5em;
+    }
   }
-}
-@media only screen and (max-width: 800px) {
-  #posts-container {
-    font-size: 11px;
+  .posts-skeleton {
+    padding: 3em 2em;
+    margin-top: 2em;
   }
 }
 @media only screen and (max-width: 450px) {

@@ -100,6 +100,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
         error: () => {
           this.isLoading = false;
           this.loadUsersError = true;
+          this.users = [];
         },
       });
   }

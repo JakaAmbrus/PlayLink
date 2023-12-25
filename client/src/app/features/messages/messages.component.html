@@ -38,8 +38,12 @@
     <div id="messages-content-container">
       <h1 id="messages-content-header" class="header-text">
         <ng-container *ngIf="isLoading; else contentBlock">
-          {{ container }} Messages: Loading...
+          {{ container }} Messages: ??
+          <div class="spinner-container">
+            <app-spinner></app-spinner>
+          </div>
         </ng-container>
+
         <ng-template #contentBlock>
           <ng-container *ngIf="loadMessagesError; else totalMessagesCount">
             Error Loading {{ container }} messages

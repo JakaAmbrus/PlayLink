@@ -48,9 +48,19 @@
   gap: 2em;
 }
 #messages-content-header {
+  position: relative;
   font-size: 3.2em;
   padding: 0.5em 0 1em 0;
   text-align: center;
+}
+.spinner-container {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  top: 150%;
+  left: 0;
+  width: 100%;
+  font-size: 1.2em;
 }
 #paginator {
   display: flex;

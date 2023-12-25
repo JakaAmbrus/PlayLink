@@ -1,9 +1,21 @@
-<div id="gallery-tab" class="secondary-background rounded-border">
-  <h1 *ngIf="noPhotos">User has no photos</h1>
+<div
+  id="gallery-tab"
+  class="secondary-background rounded-border"
+  [ngSwitch]="loadingState"
+>
+  <h1 *ngSwitchCase="'NoPhotos'">User has no photos</h1>
+  <h1 class="loading" *ngSwitchCase="'Loading'">
+    Loading User Photos...
+    <div class="spinner-container">
+      <app-spinner></app-spinner>
+    </div>
+  </h1>
+  <h1 *ngSwitchCase="'Error'">Error Loading User Photos</h1>
   <gallery
-    *ngIf="!noPhotos"
+    *ngSwitchCase="'Loaded'"
     [items]="postPhotos"
     id="profile-gallery"
     class="rounded-border"
-  ></gallery>
+  >
+  </gallery>
 </div>

@@ -10,14 +10,18 @@
       </div>
       <div class="post-user-name-and-date">
         <h1 class="post-user-name">
-          {{ loadingError ? "Error Loading User Info" : "Loading user..." }}
+          {{ loadingError ? "Error Loading Posts" : "Loading posts..." }}
         </h1>
         <p class="post-date">00/00/0000</p>
       </div>
     </div>
   </div>
   <div class="post-description">
-    {{ loadingError ? "Try refreshing the website" : "Loading user..." }}
+    {{
+      loadingError
+        ? "Try refreshing the website"
+        : "Loading posts, please wait..."
+    }}
   </div>
   <div class="photo-placeholder primary-parameters rounded-border"></div>
   <div class="post-likes-and-comments-count">

@@ -2,7 +2,7 @@
   <h1 *ngIf="noPosts">User has no posts</h1>
   <div class="home-posts-container">
     <div
-      class="posts secondary-background rounded-border box-shadow"
+      class="posts skeleton secondary-background rounded-border box-shadow theme-border"
       *ngIf="isLoading"
     >
       <app-post-skeleton [loadingError]="loadingError"></app-post-skeleton>

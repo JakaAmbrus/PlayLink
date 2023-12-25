@@ -27,10 +27,20 @@
     </p>
   </div>
 </a>
-<span
+<button
+  type="button"
   *ngIf="container !== 'Unread' && message"
   (click)="deleteMessage(message.privateMessageId)"
-  class="material-symbols-rounded filled message-icon-close"
+  [disabled]="isLoading"
+  class="delete-message-button"
 >
-  close
-</span>
+  <span
+    *ngIf="!isLoading"
+    class="material-symbols-rounded filled message-icon-close"
+  >
+    close
+  </span>
+  <div *ngIf="isLoading" class="spinner-container">
+    <app-spinner></app-spinner>
+  </div>
+</button>

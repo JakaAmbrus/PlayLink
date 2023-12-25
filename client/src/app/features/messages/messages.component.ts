@@ -108,18 +108,17 @@ export class MessagesComponent implements OnInit, OnDestroy {
   }
 
   onMessageDelete(id: number): void {
-    this.messageDisplayService
-      .deleteMessage(id)
-      .pipe(first())
-      .subscribe({
-        next: () => {
-          this.messages?.splice(
-            this.messages.findIndex((m) => m.privateMessageId === id),
-            1
-          );
-          this.messageCountController++;
-        },
-      });
+    this.messages?.splice(
+      this.messages.findIndex((m) => m.privateMessageId === id),
+      1
+    );
+
+    this.messageCountController++;
+    if (this.messages.length == 0) {
+      this.changingPage = true;
+      this.pageNumber++;
+      this.loadMessages();
+    }
   }
 
   ngOnDestroy(): void {

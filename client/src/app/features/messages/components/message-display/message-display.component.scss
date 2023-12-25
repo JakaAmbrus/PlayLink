@@ -39,17 +39,27 @@
 .message-date {
   font-size: 1.1em;
 }
-.message-icon-close {
-  cursor: pointer;
+.delete-message-button {
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1em;
+  width: 1em;
   right: 0.2em;
   top: 0em;
   font-size: 3.5em;
-  height: 1em;
-  width: 1em;
   opacity: 1;
   transition: opacity 0.2s ease-in-out;
-}
-.message-icon-close:hover {
-  opacity: 0.6;
+
+  .message-icon-close {
+    font-size: 1em;
+  }
+  .message-icon-close:hover {
+    opacity: 0.6;
+  }
+  .spinner-container {
+    font-size: 0.7em;
+    cursor: default;
+  }
 }

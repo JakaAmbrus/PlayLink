@@ -1,3 +1,5 @@
+//Made this game so long ago, ignore the bad code practices
+
 //for the game to start
 const fullContainer = document.querySelector("#full-container");
 const startBtn = document.querySelector(".start-btn");
@@ -103,53 +105,49 @@ let imageLeft = document.getElementById("left-png");
 let imageRight = document.getElementById("right-png");
 
 function animation(left, right) {
+  disablePointers();
+  whoosh.play();
+  imageLeft.src = left;
+  imageRight.src = right;
+  animationsContainer.style.display = "grid";
+  gameContainer.style.display = "none";
+
   setTimeout(() => {
-    whoosh.play();
-    imageLeft.src = left;
-    imageRight.src = right;
-    animationsContainer.style.display = "grid";
-    gameContainer.style.display = "none";
-    setTimeout(() => {
-      imageLeft.style.marginLeft = "11vw";
-      imageRight.style.marginRight = "11vw";
-    }, 50);
-    disablePointers();
-    setTimeout(() => {
-      enablePointers();
-      animationsContainer.style.display = "none";
-      gameContainer.style.display = "grid";
-      imageLeft.style.marginLeft = "4vw";
-      imageRight.style.marginRight = "4vw";
-    }, 1900);
-  }, 100);
+    imageLeft.style.marginLeft = "11vw";
+    imageRight.style.marginRight = "11vw";
+  }, 50);
+
+  setTimeout(() => {
+    animationsContainer.style.display = "none";
+    gameContainer.style.display = "grid";
+    imageLeft.style.marginLeft = "4vw";
+    imageRight.style.marginRight = "4vw";
+    enablePointers();
+  }, 1900);
 }
 
 function win() {
+  playerScore++;
+  playerScoreSpan.innerHTML = playerScore;
+  computerScoreSpan.innerHTML = computerScore;
+
   setTimeout(() => {
-    playerScore++;
-    playerScoreSpan.innerHTML = playerScore;
-    computerScoreSpan.innerHTML = computerScore;
-    setTimeout(() => {
-      if (playerScore == 3) {
-        disablePointers();
-        gameReset();
-        winnerF();
-      }
-    }, 10);
+    if (playerScore == 3) {
+      gameReset();
+      winnerF();
+    }
   }, 2000);
 }
 function lose() {
+  computerScore++;
+  playerScoreSpan.innerHTML = playerScore;
+  computerScoreSpan.innerHTML = computerScore;
+
   setTimeout(() => {
-    computerScore++;
-    playerScoreSpan.innerHTML = playerScore;
-    computerScoreSpan.innerHTML = computerScore;
-    setTimeout(() => {
-      if (computerScore == 3) {
-        disablePointers();
-        gameReset();
-        loserF();
-      }
-    }, 10);
+    if (computerScore == 3) {
+      gameReset();
+      loserF();
+    }
   }, 2000);
 }
 function gameReset() {
@@ -209,6 +207,8 @@ const doAgain = document.querySelector("#now-do-it-again");
 const tryAgain = document.querySelector("#better-luck-next-time");
 
 function winnerF() {
+  disablePointers();
+
   gameContainer.style.display = "none";
   setTimeout(() => {
     winner.style.display = "flex";
@@ -228,9 +228,11 @@ function winnerF() {
       gameContainer.style.display = "grid";
       enablePointers();
     }, 200);
-  }, 5000);
+  }, 4500);
 }
 function loserF() {
+  disablePointers();
+
   gameContainer.style.display = "none";
   setTimeout(() => {
     loser.style.display = "flex";
@@ -250,7 +252,7 @@ function loserF() {
       gameContainer.style.display = "grid";
       enablePointers();
     }, 200);
-  }, 5000);
+  }, 4500);
 }
 function disablePointers() {
   gameContainer.style.pointerEvents = "none";

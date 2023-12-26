@@ -241,6 +241,17 @@ h1 {
   margin-left: 25%;
 }
 
+#fullscreen-trigger {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  z-index: 9999;
+  background-color: transparent;
+}
+
 @media (max-width: 1100px) {
   #entire-game {
     transform: scale(1, 0.6);
@@ -250,5 +261,19 @@ h1 {
   }
   h1 {
     font-size: 6vw;
+  }
+}
+@media (max-width: 460px) {
+  #fullscreen-trigger {
+    display: block;
+  }
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button:active,
+  button:focus {
+    outline: none;
+    background-color: inherit;
   }
 }

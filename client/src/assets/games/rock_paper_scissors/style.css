@@ -7,6 +7,10 @@ body {
   overflow: hidden;
   color: #f1f4f8;
   min-height: 100vh;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 #full-container {

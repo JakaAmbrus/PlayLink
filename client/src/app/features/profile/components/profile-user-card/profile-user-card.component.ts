@@ -71,13 +71,19 @@ export class ProfileUserCardComponent implements OnInit {
     if (this.user === undefined) {
       return;
     }
-
+    this.friendshipStatus = 'Loading';
+    this.isLoading = true;
     this.friendsService
       .getFriendRequestStatus(this.user.username)
       .pipe(first())
       .subscribe({
         next: (response: FriendshipStatusResponse) => {
           this.friendshipStatus = FriendshipStatus[response.status];
+          this.isLoading = false;
+        },
+        error: () => {
+          this.friendshipStatus = 'Error';
+          this.isLoading = false;
         },
       });
   }
@@ -87,6 +93,7 @@ export class ProfileUserCardComponent implements OnInit {
       return;
     }
     this.isLoading = true;
+    this.friendshipStatus = 'Loading';
     this.friendsService
       .sendFriendRequest(this.user.username)
       .pipe(first())
@@ -97,6 +104,7 @@ export class ProfileUserCardComponent implements OnInit {
         },
         error: () => {
           this.isLoading = false;
+          this.friendshipStatus = 'None';
         },
       });
   }
@@ -115,6 +123,7 @@ export class ProfileUserCardComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.isLoading = true;
+        this.friendshipStatus = 'Loading';
         this.friendsService
           .removeFriendship(this.user!.username)
           .pipe(first())
@@ -125,6 +134,7 @@ export class ProfileUserCardComponent implements OnInit {
             },
             error: () => {
               this.isLoading = false;
+              this.friendshipStatus = 'Friends';
             },
           });
       }

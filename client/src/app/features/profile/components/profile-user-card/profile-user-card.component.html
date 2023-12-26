@@ -159,7 +159,15 @@
         *ngSwitchCase="'Loading'"
         class="profile-buttons theme-border box-shadow reverse-parameters"
       >
-        <span class="button-text">Loading</span>
+        <span class="button-text">Loading...</span>
+      </button>
+
+      <button
+        type="button"
+        *ngSwitchCase="'Error'"
+        class="profile-buttons theme-border box-shadow reverse-parameters"
+      >
+        <span class="button-text">Error</span>
       </button>
     </div>
   </div>

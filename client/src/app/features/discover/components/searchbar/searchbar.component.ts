@@ -4,7 +4,6 @@ import { SearchUser } from 'src/app/shared/models/users';
 import { UserAvatarComponent } from '../../../../shared/components/user-avatar/user-avatar.component';
 import { RouterLink } from '@angular/router';
 import { MatOptionModule } from '@angular/material/core';
-import { NgFor } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { UserSearchService } from 'src/app/shared/services/user-search.service';
@@ -20,7 +19,6 @@ import { first } from 'rxjs';
     FormsModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    NgFor,
     MatOptionModule,
     RouterLink,
     UserAvatarComponent,

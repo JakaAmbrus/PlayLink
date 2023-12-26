@@ -3,10 +3,8 @@
   class="secondary-background rounded-border box-shadow theme-border"
 >
   <h1>Friend Requests:</h1>
-  <div
-    *ngFor="let request of friendRequests"
-    class="notifications theme-border-bottom"
-  >
+  @for (request of friendRequests; track request.friendRequestId) {
+  <div class="notifications theme-border-bottom">
     <div *ngIf="request.status === 0" class="pending-request">
       <a
         routerLink="/user/{{ request.senderUsername }}"
@@ -68,4 +66,5 @@
       </button>
     </div>
   </div>
+  }
 </div>

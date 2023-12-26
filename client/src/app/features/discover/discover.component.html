@@ -30,26 +30,21 @@
       </ng-template>
     </h1>
     <div class="discover-cards-container" *ngIf="isLoading || loadUsersError">
-      <div *ngFor="let item of dummyArray">
+      @for (item of dummyArray; track $index){
+      <div>
         <div
           class="dummy-card theme-border rounded-border box-shadow primary-parameters"
         ></div>
       </div>
+      }
     </div>
     <div class="discover-cards-container" *ngIf="!isLoading && !loadUsersError">
-      <div
-        *ngFor="
-          let user of users
-            | paginate
-              : {
-                  itemsPerPage: pageSize,
-                  currentPage: pageNumber,
-                  totalItems: pagination?.totalItems
-                }
-        "
-      >
+      @for (user of users | paginate : { itemsPerPage: pageSize, currentPage:
+      pageNumber, totalItems: pagination?.totalItems }; track user.appUserId) {
+      <div>
         <app-user-card [user]="user"></app-user-card>
       </div>
+      }
     </div>
     <div id="paginator">
       <pagination-controls
@@ -143,9 +138,12 @@
         [(ngModel)]="country"
       >
         <option value="">Every Country</option>
-        <option *ngFor="let country of uniqueCountries" [value]="country">
+
+        @for (country of uniqueCountries; track country) {
+        <option [value]="country">
           {{ country }}
         </option>
+        }
       </select>
 
       <div id="filter-buttons-container">

@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Message } from 'src/app/shared/models/message';
 import { MessagesService } from 'src/app/features/profile/services/message.service';
 import { MessageContentComponent } from '../../components/message-content/message-content.component';
-import { NgIf, NgFor } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { MessageThread } from 'src/app/features/discover/models/messageThread';
 import { TokenService } from 'src/app/core/services/token.service';
 
@@ -19,7 +19,7 @@ import { TokenService } from 'src/app/core/services/token.service';
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.scss'],
   standalone: true,
-  imports: [NgIf, NgFor, MessageContentComponent, FormsModule],
+  imports: [NgIf, MessageContentComponent, FormsModule],
 })
 export class MessageComponent implements OnInit, OnDestroy {
   @ViewChild('messageContainer') private messageContainer:

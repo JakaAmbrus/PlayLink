@@ -1,12 +1,14 @@
 <div id="message-tab" class="secondary-background rounded-border">
   <div #messageContainer class="message-container theme-border-bottom">
     <h1 *ngIf="messages.length === 0">No messages yet, say hi!</h1>
-    <div *ngFor="let message of messages" class="message">
+    @for (message of messages; track message.privateMessageId){
+    <div class="message">
       <app-message-content
         [message]="message"
         [username]="username"
       ></app-message-content>
     </div>
+    }
   </div>
   <form
     #messageForm="ngForm"

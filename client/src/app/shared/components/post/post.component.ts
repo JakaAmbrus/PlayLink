@@ -18,7 +18,7 @@ import { UploadCommentComponent } from '../upload-comment/upload-comment.compone
 import { CommentComponent } from '../comment/comment.component';
 import { UserAvatarComponent } from '../user-avatar/user-avatar.component';
 import { RouterLink } from '@angular/router';
-import { NgIf, NgClass, NgOptimizedImage, NgFor } from '@angular/common';
+import { NgIf, NgClass, NgOptimizedImage } from '@angular/common';
 import { Subject, first, takeUntil } from 'rxjs';
 import { LikedUser } from '../../models/likedUser';
 import { LikedUsersListComponent } from '../liked-users-list/liked-users-list.component';
@@ -37,7 +37,6 @@ import { SpinnerComponent } from '../spinner/spinner.component';
     UserAvatarComponent,
     NgClass,
     NgOptimizedImage,
-    NgFor,
     CommentComponent,
     UploadCommentComponent,
     RelativeUrlPipe,

@@ -121,12 +121,14 @@
     <p *ngIf="errorLoadingComments" class="error-loading-comments">
       Error Loading Comments
     </p>
-    <div *ngFor="let comment of comments" class="comments">
+    @for (comment of comments; track comment.commentId){
+    <div class="comments">
       <app-comment
         (commentDeleted)="onCommentDelete($event)"
         [comment]="comment"
       ></app-comment>
     </div>
+    }
     <app-upload-comment
       (commentUploaded)="onCommentUpload($event)"
       [postId]="post.postId"

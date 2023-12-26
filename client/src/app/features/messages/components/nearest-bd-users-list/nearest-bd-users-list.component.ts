@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { NearestBdUserDisplayComponent } from '../nearest-bd-user-display/nearest-bd-user-display.component';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { NgIf, AsyncPipe } from '@angular/common';
 import { NearestBirthdayUser } from '../../models/nearestBirthdayUser';
 import { NearestBirthdayService } from '../../services/nearest-birthday.service';
 import { Observable, catchError, of } from 'rxjs';
@@ -11,7 +11,7 @@ import { Observable, catchError, of } from 'rxjs';
   templateUrl: './nearest-bd-users-list.component.html',
   styleUrl: './nearest-bd-users-list.component.scss',
   standalone: true,
-  imports: [AsyncPipe, NgIf, NgFor, NearestBdUserDisplayComponent],
+  imports: [AsyncPipe, NgIf, NearestBdUserDisplayComponent],
 })
 export class NearestBdUsersListComponent implements OnInit {
   nearestBirthdayUsers$?: Observable<NearestBirthdayUser[]>;

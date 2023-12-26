@@ -5,7 +5,7 @@ import { FriendListComponent } from './components/friend-list/friend-list.compon
 import { PostComponent } from '../../shared/components/post/post.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PostSkeletonComponent } from '../../shared/components/post-skeleton/post-skeleton.component';
-import { NgIf, NgFor } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { UploadPostComponent } from '../../shared/components/upload-post/upload-post.component';
 import { HomeUserCardComponent } from './components/home-user-card/home-user-card.component';
 import { Subject, takeUntil } from 'rxjs';
@@ -24,7 +24,6 @@ import { SpinnerComponent } from '../../shared/components/spinner/spinner.compon
     NgIf,
     PostSkeletonComponent,
     InfiniteScrollModule,
-    NgFor,
     PostComponent,
     FriendListComponent,
     SpinnerComponent,

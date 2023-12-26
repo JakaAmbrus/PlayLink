@@ -7,10 +7,11 @@
     <p *ngIf="onlineUsers.length === 0" class="no-users-online-or-loading">
       Currently, you are the only active user
     </p>
-
-    <div *ngFor="let onlineUser of onlineUsers">
+    @for (onlineUser of onlineUsers; track onlineUser.appUserId){
+    <div>
       <app-online-user-display [user]="onlineUser"></app-online-user-display>
     </div>
+    }
   </ng-container>
 </ng-container>
 

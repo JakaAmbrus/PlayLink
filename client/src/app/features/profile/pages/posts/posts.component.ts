@@ -5,7 +5,7 @@ import { PostsService } from 'src/app/shared/services/posts.service';
 import { PostComponent } from '../../../../shared/components/post/post.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PostSkeletonComponent } from '../../../../shared/components/post-skeleton/post-skeleton.component';
-import { NgIf, NgFor } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 import { CacheManagerService } from 'src/app/core/services/cache-manager.service';
 import { LocalStorageService } from 'src/app/core/services/local-storage.service';
@@ -20,7 +20,6 @@ import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.
     NgIf,
     PostSkeletonComponent,
     InfiniteScrollModule,
-    NgFor,
     PostComponent,
     SpinnerComponent,
   ],

@@ -65,7 +65,9 @@ button.correct {
 button.incorrect {
   background-color: red;
 }
-
+button:disabled {
+  cursor: default;
+}
 #show-answer-button-container {
   margin-top: 1em;
   width: 100%;

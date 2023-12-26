@@ -94,6 +94,7 @@
   -ms-user-select: none;
   user-select: none;
   transition: background-color 0.2s ease-in-out;
+  cursor: pointer;
 }
 .post-count-icons {
   font-size: 1.6em;
@@ -128,4 +129,7 @@
   justify-content: center;
   width: 100%;
   font-size: 2em;
+}
+button:disabled {
+  cursor: pointer;
 }

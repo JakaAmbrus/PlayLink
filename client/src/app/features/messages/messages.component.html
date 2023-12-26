@@ -20,8 +20,8 @@
       id="message-buttons"
       [(ngModel)]="container"
     >
+      @for (button of buttons; track $index){
       <mat-button-toggle
-        *ngFor="let button of buttons"
         (click)="loadMessages()"
         class="messages-buttons button-toggle"
         [value]="button.value"
@@ -33,6 +33,7 @@
           }}</span>
         </div>
       </mat-button-toggle>
+      }
     </mat-button-toggle-group>
 
     <div id="messages-content-container">
@@ -55,24 +56,17 @@
           {{ (pagination?.totalItems ?? 0) - messageCountController }}
         </ng-template>
       </h1>
-      <div
-        class="messages"
-        *ngFor="
-          let message of messages
-            | paginate
-              : {
-                  itemsPerPage: pageSize,
-                  currentPage: pageNumber,
-                  totalItems: pagination?.totalItems
-                }
-        "
-      >
+      @for(message of messages | paginate : { itemsPerPage: pageSize,
+      currentPage: pageNumber, totalItems: pagination?.totalItems }; track
+      message.privateMessageId){
+      <div class="messages">
         <app-message-display
           (messageDeleted)="onMessageDelete($event)"
           [container]="container"
           [message]="message"
         ></app-message-display>
       </div>
+      }
     </div>
     <div id="paginator">
       <pagination-controls

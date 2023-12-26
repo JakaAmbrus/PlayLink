@@ -93,15 +93,16 @@
       id="upload-dropzone"
     >
       <ngx-dropzone-label>+</ngx-dropzone-label>
+      @for (f of selectedFiles; track $index) {
       <ngx-dropzone-image-preview
         ngProjectAs="ngx-dropzone-preview"
-        *ngFor="let f of selectedFiles"
         [file]="f"
         [removable]="true"
         (removed)="onRemove(f)"
         class="ngx-dropzone-preview"
       >
       </ngx-dropzone-image-preview>
+      }
     </ngx-dropzone>
     <button
       type="submit"

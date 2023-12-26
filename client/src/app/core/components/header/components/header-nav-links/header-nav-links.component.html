@@ -1,6 +1,6 @@
 <nav id="header-navigation">
+  @for (link of navLinks; track $index) {
   <a
-    *ngFor="let link of navLinks"
     [title]="link.title"
     [routerLink]="link.path"
     routerLinkActive="active"
@@ -14,4 +14,5 @@
       </span>
     </div>
   </a>
+  }
 </nav>

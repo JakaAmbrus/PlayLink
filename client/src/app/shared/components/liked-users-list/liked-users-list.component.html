@@ -2,8 +2,8 @@
   *ngIf="likedUsers"
   class="liked-users-list-container secondary-background theme-border rounded-border box-shadow"
 >
+  @for (user of likedUsers; track user.username){
   <a
-    *ngFor="let user of likedUsers"
     routerLink="/user/{{ user.username }}"
     class="liked-users theme-border-bottom"
   >
@@ -11,6 +11,7 @@
       {{ user.fullName }}
     </p>
   </a>
+  }
   <div *ngIf="isLikedByCurrentUser" class="liked-users theme-border-bottom">
     <p class="liked-user">You</p>
   </div>

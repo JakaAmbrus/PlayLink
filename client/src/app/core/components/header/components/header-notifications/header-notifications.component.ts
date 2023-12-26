@@ -4,7 +4,7 @@ import { FriendsService } from 'src/app/shared/services/friends.service';
 import { RelativeTimePipe } from '../../../../../shared/pipes/relative-time.pipe';
 import { UserAvatarComponent } from '../../../../../shared/components/user-avatar/user-avatar.component';
 import { RouterLink } from '@angular/router';
-import { NgFor, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { first } from 'rxjs';
 
 @Component({
@@ -12,7 +12,7 @@ import { first } from 'rxjs';
   templateUrl: './header-notifications.component.html',
   styleUrl: './header-notifications.component.scss',
   standalone: true,
-  imports: [NgFor, NgIf, RouterLink, UserAvatarComponent, RelativeTimePipe],
+  imports: [NgIf, RouterLink, UserAvatarComponent, RelativeTimePipe],
 })
 export class HeaderNotificationsComponent {
   @Input() friendRequests: FriendRequest[] = [];

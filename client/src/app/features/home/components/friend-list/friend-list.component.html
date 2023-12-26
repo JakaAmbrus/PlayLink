@@ -14,9 +14,11 @@
         >
       </div>
 
-      <div *ngFor="let friend of friends" class="friends">
+      @for (friend of friends; track friend.username){
+      <div class="friends">
         <app-friend-display [friend]="friend"></app-friend-display>
       </div>
+      }
     </ng-container>
   </ng-container>
 

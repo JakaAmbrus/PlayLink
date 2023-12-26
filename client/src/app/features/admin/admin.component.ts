@@ -4,7 +4,6 @@ import { AdminService } from './services/admin.service';
 import { Pagination } from '../../shared/models/pagination';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AdminUserDisplayComponent } from './components/admin-user-display/admin-user-display.component';
-import { NgFor } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -12,7 +11,7 @@ import { Subject, takeUntil } from 'rxjs';
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss',
   standalone: true,
-  imports: [NgFor, AdminUserDisplayComponent, NgxPaginationModule],
+  imports: [AdminUserDisplayComponent, NgxPaginationModule],
 })
 export class AdminComponent implements OnInit, OnDestroy {
   users: UserWithRoles[] = [];

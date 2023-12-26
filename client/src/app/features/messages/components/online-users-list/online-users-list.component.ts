@@ -3,7 +3,7 @@ import { Observable, catchError, combineLatest, map, of } from 'rxjs';
 import { SearchUser } from 'src/app/shared/models/users';
 import { PresenceService } from 'src/app/core/services/presence.service';
 import { OnlineUserDisplayComponent } from '../online-user-display/online-user-display.component';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { NgIf, AsyncPipe } from '@angular/common';
 import { UserSearchService } from 'src/app/shared/services/user-search.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { UserSearchService } from 'src/app/shared/services/user-search.service';
   templateUrl: './online-users-list.component.html',
   styleUrl: './online-users-list.component.scss',
   standalone: true,
-  imports: [AsyncPipe, NgIf, NgFor, OnlineUserDisplayComponent],
+  imports: [AsyncPipe, NgIf, OnlineUserDisplayComponent],
 })
 export class OnlineUsersListComponent implements OnInit {
   onlineUsers$?: Observable<SearchUser[]>;

@@ -16,16 +16,17 @@
       [infiniteScrollThrottle]="300"
       (scrolled)="onScroll()"
     >
+      @for (post of posts; track post.postId) {
       <div
         class="posts secondary-background rounded-border box-shadow theme-border"
-        *ngFor="let post of posts"
       >
         <app-post
           [post]="post"
-          (postUpdated)="onPostUpdate($event)"
           (postDeleted)="onPostDelete($event)"
+          (postUpdated)="onPostUpdate($event)"
         ></app-post>
       </div>
+      }
       <div *ngIf="newPostsLoading" class="spinner-container">
         <app-spinner></app-spinner>
       </div>

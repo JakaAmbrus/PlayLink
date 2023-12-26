@@ -26,7 +26,7 @@ import { PostContent } from 'src/app/shared/models/posts';
 import { AvatarService } from 'src/app/shared/services/avatar.service';
 import { PostsService } from 'src/app/shared/services/posts.service';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { NgIf, NgFor } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { UserAvatarComponent } from '../user-avatar/user-avatar.component';
 import { first } from 'rxjs';
 
@@ -71,7 +71,6 @@ import { first } from 'rxjs';
     FormsModule,
     ReactiveFormsModule,
     NgxDropzoneModule,
-    NgFor,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

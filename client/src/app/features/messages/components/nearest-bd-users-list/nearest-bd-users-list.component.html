@@ -10,11 +10,13 @@
     *ngIf="nearestBirthdayUsers$ | async as nearestBirthdayUsers; else loading"
   >
     <ng-container *ngIf="!loadingError; else error">
-      <div *ngFor="let user of nearestBirthdayUsers" class="friends">
+      @for (user of nearestBirthdayUsers; track user.username) {
+      <div class="friends">
         <app-nearest-bd-user-display
           [user]="user"
         ></app-nearest-bd-user-display>
       </div>
+      }
     </ng-container>
   </ng-container>
 

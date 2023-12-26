@@ -40,8 +40,10 @@
 
 @media (max-width: 900px) {
   #posts-tab {
+    font-size: 11px;
     width: 100%;
     margin: 0;
+    border-radius: 0;
 
     & h1 {
       font-size: 2.5em;
@@ -49,7 +51,6 @@
   }
   #posts-container {
     width: 100%;
-    font-size: 11px;
     gap: 0.5em;
     margin: 0;
     margin-top: 0.5em;
@@ -68,8 +69,10 @@
     margin-top: 2em;
   }
 }
-@media only screen and (max-width: 450px) {
-  #posts-container {
+
+@media only screen and (max-width: 460px) {
+  #posts-tab {
     font-size: 9px;
+    height: calc(100vh - 168px);
   }
 }

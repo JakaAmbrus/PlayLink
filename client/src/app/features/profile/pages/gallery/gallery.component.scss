@@ -36,7 +36,9 @@
   #gallery-tab {
     align-items: start;
     width: 100%;
+    height: 60em;
     margin: 0;
+    border-radius: 0;
 
     & h1 {
       font-size: 2.5em;
@@ -44,13 +46,8 @@
   }
   #profile-gallery {
     margin-top: 2em;
+    margin-bottom: 2em;
     width: 98%;
     height: 50em;
-    margin-bottom: 2em;
-  }
-}
-@media (max-width: 460px) {
-  #gallery-tab {
-    height: calc(100vh - 228px);
   }
 }

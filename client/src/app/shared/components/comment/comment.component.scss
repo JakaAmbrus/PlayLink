@@ -83,3 +83,6 @@
 .spinner-container {
   cursor: default;
 }
+button:disabled {
+  cursor: pointer;
+}

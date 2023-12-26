@@ -1,7 +1,7 @@
 <section
   id="profile-route-container"
   [@ProfileAnimation]
-  *ngIf="user$ | async as user"
+  *ngIf="user$ | async as user; else loading"
 >
   <app-profile-user-card
     [user]="user"
@@ -18,3 +18,9 @@
     </div>
   </div>
 </section>
+<ng-template #loading>
+  <div class="spinner-error-container">
+    <app-spinner *ngIf="!loadingError"></app-spinner>
+    <h1 *ngIf="loadingError">Error Loading User</h1>
+  </div>
+</ng-template>

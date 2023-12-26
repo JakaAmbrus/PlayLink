@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   newPostsLoading: boolean = false;
   posts: Post[] = [];
   pageNumber: number = 1;
-  pageSize: number = 6;
+  pageSize: number = 4;
   totalPosts: number | undefined;
   allPostsLoaded: boolean = false;
   private destroy$ = new Subject<void>();

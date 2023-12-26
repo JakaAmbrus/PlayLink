@@ -79,13 +79,13 @@ export class PostComponent implements OnDestroy {
   ) {}
 
   displayLikedUsers(): void {
-    if (
-      this.post?.likesCount === 0 ||
-      this.isLoading ||
-      (this.post?.likesCount === 1 && this.post?.isLikedByCurrentUser)
-    ) {
+    if (this.post?.likesCount === 0 || this.isLoading) {
+      return;
+    } else if (this.post?.likesCount === 1 && this.post?.isLikedByCurrentUser) {
+      this.showLikedUsers = !this.showLikedUsers;
       return;
     }
+
     this.showLikedUsers = !this.showLikedUsers;
     if (this.showLikedUsers) {
       if (this.likedUsers.length === 0) {

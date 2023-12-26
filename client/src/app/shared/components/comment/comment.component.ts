@@ -99,11 +99,13 @@ export class CommentComponent implements OnDestroy {
   }
 
   displayLikedUsers(): void {
-    if (
-      this.comment?.likesCount === 0 ||
-      this.isLoading ||
-      (this.comment?.likesCount === 1 && this.comment?.isLikedByCurrentUser)
+    if (this.comment?.likesCount === 0 || this.isLoading) {
+      return;
+    } else if (
+      this.comment?.likesCount === 1 &&
+      this.comment?.isLikedByCurrentUser
     ) {
+      this.showLikedUsers = !this.showLikedUsers;
       return;
     }
     this.showLikedUsers = !this.showLikedUsers;

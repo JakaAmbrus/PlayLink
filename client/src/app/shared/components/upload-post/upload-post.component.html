@@ -57,16 +57,9 @@
       (click)="closeUploadPostModal()"
       type="button"
     >
-      <span
-        *ngIf="!isLoading"
-        id="close-upload-post"
-        class="material-symbols-rounded filled"
-      >
+      <span id="close-upload-post" class="material-symbols-rounded filled">
         close
       </span>
-      <div *ngIf="isLoading" class="spinner-container">
-        <app-spinner></app-spinner>
-      </div>
     </button>
     <h1 id="upload-header">Create Your Post</h1>
     <label class="form-label edit-labels"> Express Yourself </label>

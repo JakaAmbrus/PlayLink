@@ -31,7 +31,7 @@ export class PostsComponent implements OnInit, OnDestroy {
   newPostsLoading: boolean = false;
   posts: Post[] = [];
   pageNumber: number = 1;
-  pageSize: number = 4;
+  pageSize: number = 3;
   totalPosts: number | undefined;
   allPostsLoaded: boolean = false;
   username: string | null | undefined;

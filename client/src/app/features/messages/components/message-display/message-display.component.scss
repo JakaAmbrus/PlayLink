@@ -50,10 +50,10 @@
   top: 0em;
   font-size: 3.5em;
   opacity: 1;
-  transition: opacity 0.2s ease-in-out;
 
   .message-icon-close {
     font-size: 1em;
+    transition: opacity 0.2s ease-in-out;
   }
   .message-icon-close:hover {
     opacity: 0.6;

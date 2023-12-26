@@ -32,6 +32,7 @@
 .post-icon-close {
   align-self: flex-start;
   font-size: 3.5em;
+  transition: opacity 0.2s ease-in-out;
 
   &:hover {
     opacity: 0.6;

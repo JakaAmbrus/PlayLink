@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
 import { first } from 'rxjs';
@@ -11,7 +10,7 @@ import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.
   standalone: true,
   templateUrl: './gallery.component.html',
   styleUrls: ['./gallery.component.scss'],
-  imports: [GalleryModule, CommonModule, SpinnerComponent],
+  imports: [GalleryModule, SpinnerComponent],
 })
 export class GalleryComponent implements OnInit {
   loadingState: string = 'Loading';

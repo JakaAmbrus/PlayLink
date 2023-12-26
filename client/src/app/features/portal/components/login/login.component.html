@@ -34,10 +34,15 @@
     [disabled]="!username.value || !password.value || isLoading"
     class="login-btn"
   >
-    Login
+    {{ isLoading ? "Logging in..." : "Login" }}
   </button>
 </form>
 
-<button type="button" class="guest-login primary-text" (click)="guestLogin()">
+<button
+  type="button"
+  class="guest-login primary-text"
+  [disabled]="isLoading"
+  (click)="guestLogin()"
+>
   <u>Guest Login</u>
 </button>

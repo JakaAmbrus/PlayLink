@@ -287,9 +287,14 @@
     (submit)="register()"
     class="register-btn"
   >
-    Register
+    {{ isLoading ? "Registering..." : "Register" }}
   </button>
-  <button type="button" class="register-cancel" (click)="cancel()">
+  <button
+    type="button"
+    class="register-cancel"
+    [disabled]="isLoading"
+    (click)="cancel()"
+  >
     <u>Cancel</u>
   </button>
 </form>

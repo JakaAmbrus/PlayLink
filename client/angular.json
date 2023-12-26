@@ -53,7 +53,12 @@
                   "inlineCritical": true
                 },
                 "fonts": true
-              }
+              },
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true
             },
             "development": {
               "buildOptimizer": false,

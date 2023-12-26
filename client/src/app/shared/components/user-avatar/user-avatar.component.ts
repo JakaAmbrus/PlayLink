@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RelativeUrlPipe } from '../../pipes/relative-url.pipe';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 
@@ -8,6 +8,7 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
   templateUrl: './user-avatar.component.html',
   styleUrl: './user-avatar.component.scss',
   imports: [CommonModule, RelativeUrlPipe, NgOptimizedImage],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserAvatarComponent {
   @Input() profilePictureUrl: string | null = '';

@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Pagination } from '../../shared/models/pagination';
 import { Message } from '../../shared/models/message';
-import { MessagesService } from '../profile/services/message.service';
 import { messageButtons } from './constants/message-buttons';
 import { MessageParams } from './models/messageParams';
 import { OnlineUsersListComponent } from './components/online-users-list/online-users-list.component';
@@ -11,7 +10,7 @@ import { CommonModule, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { NearestBdUsersListComponent } from './components/nearest-bd-users-list/nearest-bd-users-list.component';
-import { Subject, first, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { MessageDisplayService } from './services/message-display.service';
 import { LocalStorageService } from 'src/app/core/services/local-storage.service';
 import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { LikedUser } from '../../models/likedUser';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -9,6 +9,7 @@ import { RouterLink } from '@angular/router';
   imports: [CommonModule, RouterLink],
   templateUrl: './liked-users-list.component.html',
   styleUrl: './liked-users-list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LikedUsersListComponent {
   @Input() likedUsers: LikedUser[] | undefined;

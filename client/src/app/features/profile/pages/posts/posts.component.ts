@@ -132,6 +132,7 @@ export class PostsComponent implements OnInit, OnDestroy {
   }
   onPostUpdate(emittedPost: Post): void {
     this.cacheManager.clearCache('posts');
+    this.cacheManager.setCache('posts' + this.username, this.posts);
   }
 
   ngOnDestroy(): void {

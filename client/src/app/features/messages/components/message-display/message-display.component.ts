@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { Message } from 'src/app/shared/models/message';
 import { LimitTextPipe } from '../../../../shared/pipes/limit-text.pipe';
 import { RelativeTimePipe } from '../../../../shared/pipes/relative-time.pipe';
@@ -22,6 +28,7 @@ import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.
     LimitTextPipe,
     SpinnerComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageDisplayComponent {
   @Input() message: Message | undefined;

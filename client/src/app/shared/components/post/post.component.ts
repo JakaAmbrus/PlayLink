@@ -89,7 +89,16 @@ export class PostComponent implements OnDestroy {
     this.showLikedUsers = !this.showLikedUsers;
     if (this.showLikedUsers) {
       if (this.likedUsers.length === 0) {
-        this.loadLikedUsers();
+        if (this.post?.postId) {
+          const cachedLikedUsers = this.cacheManager.getCache<LikedUser[]>(
+            'likedUsers' + this.post.postId
+          );
+          if (cachedLikedUsers) {
+            this.likedUsers = cachedLikedUsers;
+          } else {
+            this.loadLikedUsers();
+          }
+        }
       }
       this.clickOutsideService.bind(this, () => {
         this.showLikedUsers = false;
@@ -110,6 +119,10 @@ export class PostComponent implements OnDestroy {
           next: (likedUsers) => {
             this.isLoading = false;
             this.likedUsers = likedUsers;
+            this.cacheManager.setCache(
+              'likedUsers' + this.post?.postId,
+              this.likedUsers
+            );
           },
           error: () => {
             this.isLoading = false;

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { PresenceService } from 'src/app/core/services/presence.service';
 import { FirstWordPipe } from '../../../../shared/pipes/first-word.pipe';
 import { RelativeUrlPipe } from '../../../../shared/pipes/relative-url.pipe';
@@ -20,6 +20,7 @@ import { User } from '../../models/discoverUser';
     AsyncPipe,
     FirstWordPipe,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserCardComponent {
   @Input() user: User | undefined;

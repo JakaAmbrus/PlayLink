@@ -1,7 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AccountService } from '../../../../services/account.service';
-import { timeout } from 'rxjs';
 
 @Component({
   selector: 'app-header-dropdown',
@@ -9,6 +8,7 @@ import { timeout } from 'rxjs';
   styleUrls: ['./header-dropdown.component.scss'],
   standalone: true,
   imports: [RouterLink],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderDropdownComponent {
   @Input() username: string | null = null;

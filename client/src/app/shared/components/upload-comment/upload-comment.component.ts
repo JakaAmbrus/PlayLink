@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -19,6 +26,7 @@ import { first } from 'rxjs';
   styleUrls: ['./upload-comment.component.scss'],
   standalone: true,
   imports: [FormsModule, ReactiveFormsModule, UserAvatarComponent, NgIf],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UploadCommentComponent implements OnInit {
   @Output() commentUploaded: EventEmitter<any> = new EventEmitter();

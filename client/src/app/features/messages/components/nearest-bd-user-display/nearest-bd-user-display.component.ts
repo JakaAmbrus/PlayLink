@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { UserAvatarComponent } from '../../../../shared/components/user-avatar/user-avatar.component';
 import { RouterLink } from '@angular/router';
 import { NgIf, DatePipe } from '@angular/common';
@@ -10,6 +10,7 @@ import { NearestBirthdayUser } from '../../models/nearestBirthdayUser';
   styleUrl: './nearest-bd-user-display.component.scss',
   standalone: true,
   imports: [NgIf, RouterLink, UserAvatarComponent, DatePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NearestBdUserDisplayComponent {
   @Input() user: NearestBirthdayUser | undefined;

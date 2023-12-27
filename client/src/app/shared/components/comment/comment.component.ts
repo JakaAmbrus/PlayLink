@@ -106,6 +106,7 @@ export class CommentComponent implements OnDestroy {
       this.comment?.isLikedByCurrentUser
     ) {
       this.showLikedUsers = !this.showLikedUsers;
+      this.handleOutsideClick();
       return;
     }
     this.showLikedUsers = !this.showLikedUsers;
@@ -113,6 +114,16 @@ export class CommentComponent implements OnDestroy {
       if (this.likedUsers.length === 0) {
         this.loadLikedUsers();
       }
+      this.clickOutsideService.bind(this, () => {
+        this.showLikedUsers = false;
+      });
+    } else {
+      this.clickOutsideService.unbind(this);
+    }
+  }
+
+  handleOutsideClick(): void {
+    if (this.showLikedUsers) {
       this.clickOutsideService.bind(this, () => {
         this.showLikedUsers = false;
       });

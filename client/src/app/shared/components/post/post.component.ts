@@ -82,23 +82,32 @@ export class PostComponent implements OnDestroy {
       return;
     } else if (this.post?.likesCount === 1 && this.post?.isLikedByCurrentUser) {
       this.showLikedUsers = !this.showLikedUsers;
+      this.handleOutsideClick();
       return;
     }
 
     this.showLikedUsers = !this.showLikedUsers;
     if (this.showLikedUsers) {
-      if (this.likedUsers.length === 0) {
-        if (this.post?.postId) {
-          const cachedLikedUsers = this.cacheManager.getCache<LikedUser[]>(
-            'likedUsers' + this.post.postId
-          );
-          if (cachedLikedUsers) {
-            this.likedUsers = cachedLikedUsers;
-          } else {
-            this.loadLikedUsers();
-          }
+      if (this.likedUsers.length === 0 && this.post?.postId) {
+        const cachedLikedUsers = this.cacheManager.getCache<LikedUser[]>(
+          'likedUsers' + this.post.postId
+        );
+        if (cachedLikedUsers) {
+          this.likedUsers = cachedLikedUsers;
+        } else {
+          this.loadLikedUsers();
         }
       }
+      this.clickOutsideService.bind(this, () => {
+        this.showLikedUsers = false;
+      });
+    } else {
+      this.clickOutsideService.unbind(this);
+    }
+  }
+
+  handleOutsideClick(): void {
+    if (this.showLikedUsers) {
       this.clickOutsideService.bind(this, () => {
         this.showLikedUsers = false;
       });

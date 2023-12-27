@@ -62,9 +62,12 @@
       </span>
     </button>
     <h1 id="upload-header">Create Your Post</h1>
-    <label class="form-label edit-labels"> Express Yourself </label>
+    <label for="description" class="form-label edit-labels">
+      Express Yourself
+    </label>
     <div class="relative">
       <textarea
+        id="description"
         title="Description"
         type="text"
         rows="4"
@@ -84,7 +87,9 @@
         Post content cannot exceed 400 characters
       </div>
     </div>
-    <label class="form-label edit-labels"> Upload Photo</label>
+    <label for="upload-dropzone" class="form-label edit-labels">
+      Upload Photo</label
+    >
     <ngx-dropzone
       (change)="onSelect($event)"
       (removedFile)="onRemove($event)"

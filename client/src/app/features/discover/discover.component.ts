@@ -5,7 +5,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UserCardComponent } from './components/user-card/user-card.component';
-import { NgIf, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { SearchbarComponent } from './components/searchbar/searchbar.component';
 import { DiscoverUsersService } from './services/discover-users.service';
 import { User } from './models/discoverUser';
@@ -21,7 +21,6 @@ import { LocalStorageService } from 'src/app/core/services/local-storage.service
   imports: [
     CommonModule,
     SearchbarComponent,
-    NgIf,
     UserCardComponent,
     NgxPaginationModule,
     FormsModule,

@@ -1,7 +1,8 @@
-<iframe
-  *ngIf="showIframe"
-  src="../../../assets/games/hollow_x_hollow/index.html"
-  frameborder="0"
-  id="hxh-iframe"
-  title="Hollow X Hollow"
-></iframe>
+@if (showIframe) {
+  <iframe
+    src="../../../assets/games/hollow_x_hollow/index.html"
+    frameborder="0"
+    id="hxh-iframe"
+    title="Hollow X Hollow"
+  ></iframe>
+}

@@ -1,7 +1,8 @@
-<iframe
-  *ngIf="showIframe"
+@if (showIframe) {
+  <iframe
   src="../../../assets/games/playsketch_portable/index.html"
   frameborder="0"
   id="psp-iframe"
   title="PlaySketch Portable"
-></iframe>
+  ></iframe>
+}

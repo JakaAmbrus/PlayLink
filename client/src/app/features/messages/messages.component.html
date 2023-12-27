@@ -38,34 +38,27 @@
 
     <div id="messages-content-container">
       <h1 id="messages-content-header" class="header-text">
-        <ng-container *ngIf="isLoading; else contentBlock">
+        @if (isLoading) {
           {{ container }} Messages: ??
           <div class="spinner-container">
             <app-spinner></app-spinner>
           </div>
-        </ng-container>
-
-        <ng-template #contentBlock>
-          <ng-container *ngIf="loadMessagesError; else totalMessagesCount">
-            Error Loading {{ container }} messages
-          </ng-container>
-        </ng-template>
-
-        <ng-template #totalMessagesCount>
-          {{ container }} Messages:
-          {{ (pagination?.totalItems ?? 0) - messageCountController }}
-        </ng-template>
+        } @else if (loadMessagesError) {
+          Error Loading {{ container }} messages
+        } @else {
+          {{ container }} Messages: {{ (pagination?.totalItems ?? 0) - messageCountController }}
+        }
       </h1>
       @for(message of messages | paginate : { itemsPerPage: pageSize,
       currentPage: pageNumber, totalItems: pagination?.totalItems }; track
       message.privateMessageId){
-      <div class="messages">
-        <app-message-display
-          (messageDeleted)="onMessageDelete($event)"
-          [container]="container"
-          [message]="message"
-        ></app-message-display>
-      </div>
+        <div class="messages">
+          <app-message-display
+            (messageDeleted)="onMessageDelete($event)"
+            [container]="container"
+            [message]="message"
+          ></app-message-display>
+        </div>
       }
     </div>
     <div id="paginator">

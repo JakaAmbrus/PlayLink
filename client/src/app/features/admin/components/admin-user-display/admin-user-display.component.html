@@ -1,4 +1,5 @@
-<div *ngIf="user" class="admin-user-display-container theme-border-bottom">
+@if(user){
+<div class="admin-user-display-container theme-border-bottom">
   <a routerLink="/user/{{ user.username }}" class="username-and-avatar">
     <app-user-avatar
       class="admin-user-avatar"
@@ -11,23 +12,25 @@
       <p class="created">Member since: {{ user.created | relativeTime }}</p>
     </div>
   </a>
+  <!-- edit role -->
+  @if (user.isModerator) {
   <button
     type="button"
-    *ngIf="user.isModerator"
     (click)="editRole(user.appUserId)"
     class="role-edit primary parameters theme-border header-text box-shadow"
   >
     Moderator
   </button>
+  } @else {
   <button
     type="button"
-    *ngIf="!user.isModerator"
     (click)="editRole(user.appUserId)"
     class="role-edit reverse-parameters"
   >
     Member
   </button>
-
+  }
+  <!-- delete user -->
   <button
     type="button"
     (click)="deleteUser(user.appUserId)"
@@ -36,3 +39,4 @@
     Delete
   </button>
 </div>
+}

@@ -1,66 +1,66 @@
-<div
-  class="user-card theme-border rounded-border box-shadow user-cards-theme"
-  *ngIf="user"
->
-  <div
-    class="user-card-img-container header-icons-right theme-border rounded-border"
-    (mouseover)="onHover(true)"
-    (mouseout)="onHover(false)"
-  >
+@if(user){
+  <div class="user-card theme-border rounded-border box-shadow user-cards-theme">
     <div
-      class="profile-and-messages-container"
-      [ngClass]="{ hover: isHovered }"
+      class="user-card-img-container header-icons-right theme-border rounded-border"
+      (mouseover)="onHover(true)"
+      (mouseout)="onHover(false)"
     >
-      <a
-        routerLink="/user/{{ user.username }}"
-        class="discover-icons-container reverse-parameters rounded-border"
+      <div
+        class="profile-and-messages-container"
+        [ngClass]="{ hover: isHovered }"
       >
-        <span class="material-symbols-rounded filled discover-icon-person">
+        <a
+          routerLink="/user/{{ user.username }}"
+          class="discover-icons-container reverse-parameters rounded-border"
+        >
+          <span class="material-symbols-rounded filled discover-icon-person">
+            {{ user.gender === "male" ? "person" : "person_2" }}
+          </span>
+        </a>
+        <a
+          routerLink="/user/{{ user.username }}/message"
+          class="discover-icons-container reverse-parameters rounded-border"
+        >
+          <span class="material-symbols-rounded filled discover-icon-message">
+            Mail
+          </span>
+        </a>
+      </div>
+      @if (user.profilePictureUrl) {
+        <img
+          [ngSrc]="user.profilePictureUrl | relativeUrl"
+          alt="{{ user.fullName }}'s profile picture'"
+          class="profile-picture"
+          [ngClass]="{ hover: isHovered }"
+          height="200"
+          width="200"
+          preconnect="true"
+          priority
+        />
+      } @else {
+        <span
+          class="material-symbols-rounded filled card-img"
+          [ngClass]="{ hover: isHovered }"
+        >
           {{ user.gender === "male" ? "person" : "person_2" }}
         </span>
-      </a>
-      <a
-        routerLink="/user/{{ user.username }}/message"
-        class="discover-icons-container reverse-parameters rounded-border"
-      >
-        <span class="material-symbols-rounded filled discover-icon-message">
-          Mail
+      }
+    </div>
+    <div class="user-info">
+      <div class="name-age-activity theme-border-bottom">
+        <span
+          class="material-symbols-rounded filled activity-icon"
+          [class.is-online]="
+            (presenceService.onlineUsers$ | async)?.includes(user.appUserId)
+          "
+        >
+          {{ user.gender === "male" ? "person" : "person_2" }}
         </span>
-      </a>
+        <p class="name-and-age">
+          {{ user.fullName | firstWord }}, {{ user.age }}
+        </p>
+      </div>
+      <p class="location">{{ user.country }}</p>
     </div>
-    <img
-      *ngIf="user.profilePictureUrl"
-      [ngSrc]="user.profilePictureUrl | relativeUrl"
-      alt="{{ user.fullName }}'s profile picture'"
-      class="profile-picture"
-      [ngClass]="{ hover: isHovered }"
-      height="200"
-      width="200"
-      preconnect="true"
-      priority
-    />
-    <span
-      *ngIf="!user.profilePictureUrl"
-      class="material-symbols-rounded filled card-img"
-      [ngClass]="{ hover: isHovered }"
-    >
-      {{ user.gender === "male" ? "person" : "person_2" }}
-    </span>
   </div>
-  <div class="user-info">
-    <div class="name-age-activity theme-border-bottom">
-      <span
-        class="material-symbols-rounded filled activity-icon"
-        [class.is-online]="
-          (presenceService.onlineUsers$ | async)?.includes(user.appUserId)
-        "
-      >
-        {{ user.gender === "male" ? "person" : "person_2" }}
-      </span>
-      <p class="name-and-age">
-        {{ user.fullName | firstWord }}, {{ user.age }}
-      </p>
-    </div>
-    <p class="location">{{ user.country }}</p>
-  </div>
-</div>
+}

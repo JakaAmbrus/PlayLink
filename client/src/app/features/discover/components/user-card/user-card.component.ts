@@ -3,7 +3,7 @@ import { PresenceService } from 'src/app/core/services/presence.service';
 import { FirstWordPipe } from '../../../../shared/pipes/first-word.pipe';
 import { RelativeUrlPipe } from '../../../../shared/pipes/relative-url.pipe';
 import { RouterLink } from '@angular/router';
-import { NgIf, NgClass, NgOptimizedImage, AsyncPipe } from '@angular/common';
+import { NgClass, NgOptimizedImage, AsyncPipe } from '@angular/common';
 import { User } from '../../models/discoverUser';
 
 @Component({
@@ -12,7 +12,6 @@ import { User } from '../../models/discoverUser';
   styleUrls: ['./user-card.component.scss'],
   standalone: true,
   imports: [
-    NgIf,
     NgClass,
     RouterLink,
     NgOptimizedImage,

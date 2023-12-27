@@ -16,20 +16,21 @@
   >
     <p class="profile-link-text-container">Gallery</p>
   </a>
-  <a
-    *ngIf="!isCurrentUserProfile"
-    routerLink="/user/{{ username }}/message"
-    routerLinkActive="active-link"
-    class="profile-navigation-links bottom-border-active"
-  >
-    <p class="profile-link-text-container">Message</p>
-  </a>
-  <a
-    *ngIf="isCurrentUserProfile"
-    routerLink="/user/{{ username }}/edit"
-    routerLinkActive="active-link"
-    class="profile-navigation-links bottom-border-active"
-  >
-    <p class="profile-link-text-container">Edit Info</p>
-  </a>
+  @if (!isCurrentUserProfile) {
+    <a
+      routerLink="/user/{{ username }}/message"
+      routerLinkActive="active-link"
+      class="profile-navigation-links bottom-border-active"
+    >
+      <p class="profile-link-text-container">Message</p>
+    </a>
+  } @else {
+    <a
+      routerLink="/user/{{ username }}/edit"
+      routerLinkActive="active-link"
+      class="profile-navigation-links bottom-border-active"
+    >
+      <p class="profile-link-text-container">Edit Info</p>
+    </a>
+  }
 </div>

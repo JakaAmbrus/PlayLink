@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RegisterComponent } from '../register/register.component';
 import { LoginComponent } from '../login/login.component';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { LocalStorageService } from 'src/app/core/services/local-storage.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { LocalStorageService } from 'src/app/core/services/local-storage.service
   templateUrl: './auth-form.component.html',
   styleUrls: ['./auth-form.component.scss'],
   standalone: true,
-  imports: [NgClass, NgIf, LoginComponent, RegisterComponent],
+  imports: [NgClass, LoginComponent, RegisterComponent],
 })
 export class AuthFormComponent implements OnInit {
   formStateLogin: boolean = true;

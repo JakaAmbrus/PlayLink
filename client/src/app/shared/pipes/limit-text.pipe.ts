@@ -9,6 +9,6 @@ export class LimitTextPipe implements PipeTransform {
     if (!value) return value;
     if (value.length <= maxLength) return value;
 
-    return value.substr(0, maxLength);
+    return value.substr(0, maxLength) + '...';
   }
 }

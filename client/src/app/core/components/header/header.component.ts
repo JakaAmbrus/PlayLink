@@ -11,7 +11,6 @@ import { FriendRequest } from '../../../shared/models/friends';
 import { RouterLink } from '@angular/router';
 import { HeaderDropdownComponent } from './components/header-dropdown/header-dropdown.component';
 import { HeaderNotificationsComponent } from './components/header-notifications/header-notifications.component';
-import { NgIf } from '@angular/common';
 import { HeaderNavLinksComponent } from './components/header-nav-links/header-nav-links.component';
 import { HeaderLogoComponent } from './components/header-logo/header-logo.component';
 import { LocalStorageService } from '../../services/local-storage.service';
@@ -33,7 +32,6 @@ import { ClickOutsideService } from 'src/app/shared/services/click-outside.servi
   imports: [
     HeaderLogoComponent,
     HeaderNavLinksComponent,
-    NgIf,
     HeaderNotificationsComponent,
     HeaderDropdownComponent,
     RouterLink,

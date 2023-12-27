@@ -1,9 +1,11 @@
+@if (showNavbar){
 <app-header
   (themeButtonClicked)="toggleTheme()"
   [class]="theme"
   [theme]="theme"
-  *ngIf="showNavbar"
 ></app-header>
+}
+
 <div
   class="main-content-container"
   [class]="theme"

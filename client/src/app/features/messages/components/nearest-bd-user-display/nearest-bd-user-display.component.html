@@ -1,26 +1,28 @@
-<a
-  *ngIf="user"
-  routerLink="/user/{{ user.username }}"
-  class="nearest-bd-user-display theme-border-bottom"
->
-  <div class="avatar-name-days-until-bd">
-    <app-user-avatar
-      class="avatar"
-      [profilePictureUrl]="user.profilePictureUrl"
-      [fullName]="user.fullName"
-      [gender]="user.gender"
-    ></app-user-avatar>
-    <div class="name-bd">
-      <h1 class="name header-text">{{ user.fullName }}</h1>
-      <p class="days-until-bd" *ngIf="user.daysUntilBirthday > 0">
-        Days until Birthday: {{ user.daysUntilBirthday }}
-      </p>
-      <p class="days-until-bd" *ngIf="user.daysUntilBirthday === 0">
-        Happy Birthday! 🎂
-      </p>
+@if (user) {
+  <a
+    routerLink="/user/{{ user.username }}"
+    class="nearest-bd-user-display theme-border-bottom"
+  >
+    <div class="avatar-name-days-until-bd">
+      <app-user-avatar
+        class="avatar"
+        [profilePictureUrl]="user.profilePictureUrl"
+        [fullName]="user.fullName"
+        [gender]="user.gender"
+      ></app-user-avatar>
+      <div class="name-bd">
+        <h1 class="name header-text">{{ user.fullName }}</h1>
+        <p class="days-until-bd">
+          @if (user.daysUntilBirthday > 0) {
+            Days until Birthday: {{ user.daysUntilBirthday }}
+          } @else if (user.daysUntilBirthday === 0) {
+            Happy Birthday! 🎂
+          }
+        </p>
+      </div>
     </div>
-  </div>
-  <h2 class="nearest-bd-date">
-    ({{ user.dateOfBirth | date : "mediumDate" }})
-  </h2>
-</a>
+    <h2 class="nearest-bd-date">
+      ({{ user.dateOfBirth | date : "mediumDate" }})
+    </h2>
+  </a>
+}

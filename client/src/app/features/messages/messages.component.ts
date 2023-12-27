@@ -6,7 +6,6 @@ import { MessageParams } from './models/messageParams';
 import { OnlineUsersListComponent } from './components/online-users-list/online-users-list.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageDisplayComponent } from './components/message-display/message-display.component';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { NearestBdUsersListComponent } from './components/nearest-bd-users-list/nearest-bd-users-list.component';
@@ -21,7 +20,6 @@ import { SpinnerComponent } from '../../shared/components/spinner/spinner.compon
   styleUrls: ['./messages.component.scss'],
   standalone: true,
   imports: [
-    CommonModule,
     NearestBdUsersListComponent,
     MatButtonToggleModule,
     FormsModule,

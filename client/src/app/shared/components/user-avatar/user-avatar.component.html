@@ -1,19 +1,18 @@
 <div class="user-img-container header-icons-right theme-border rounded-border">
-  <img
-    title="{{ fullName }}"
-    *ngIf="profilePictureUrl"
-    class="user-img"
-    [ngSrc]="profilePictureUrl | relativeUrl"
-    [alt]="fullName"
-    height="70"
-    width="70"
-    preconnect="true"
-    priority
-  />
-  <span
-    *ngIf="!profilePictureUrl"
-    class="material-symbols-rounded filled icon-person"
-  >
-    {{ gender === "male" ? "person" : "person_2" }}
-  </span>
+  @if (profilePictureUrl) {
+    <img
+      title="{{ fullName }}"
+      class="user-img"
+      [ngSrc]="profilePictureUrl | relativeUrl"
+      [alt]="fullName"
+      height="70"
+      width="70"
+      preconnect="true"
+      priority
+    />
+  } @else {
+    <span class="material-symbols-rounded filled icon-person">
+      {{ gender === "male" ? "person" : "person_2" }}
+    </span>
+  }
 </div>

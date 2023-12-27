@@ -3,7 +3,6 @@ import { slideInAnimation } from './core/animations/route-animations';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { PresenceService } from './core/services/presence.service';
 import { HeaderComponent } from './core/components/header/header.component';
-import { NgIf } from '@angular/common';
 import { TokenService } from './core/services/token.service';
 import { LocalStorageService } from './core/services/local-storage.service';
 import { Subscription } from 'rxjs';
@@ -14,7 +13,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./app.component.scss'],
   animations: [slideInAnimation],
   standalone: true,
-  imports: [NgIf, HeaderComponent, RouterOutlet],
+  imports: [HeaderComponent, RouterOutlet],
 })
 export class AppComponent implements OnInit, OnDestroy {
   private routerSubscription: Subscription;

@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { RouterLinkActive, RouterLink } from '@angular/router';
 
 @Component({
@@ -7,7 +6,7 @@ import { RouterLinkActive, RouterLink } from '@angular/router';
   templateUrl: './profile-navigation.component.html',
   styleUrl: './profile-navigation.component.scss',
   standalone: true,
-  imports: [RouterLinkActive, RouterLink, NgIf],
+  imports: [RouterLinkActive, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileNavigationComponent {

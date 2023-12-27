@@ -1,12 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NgIf } from '@angular/common';
 
 @Component({
-    selector: 'app-playsketch-portable',
-    templateUrl: './playsketch-portable.component.html',
-    styleUrls: ['./playsketch-portable.component.scss'],
-    standalone: true,
-    imports: [NgIf],
+  selector: 'app-playsketch-portable',
+  templateUrl: './playsketch-portable.component.html',
+  styleUrls: ['./playsketch-portable.component.scss'],
+  standalone: true,
 })
 export class PlaysketchPortableComponent implements OnInit, OnDestroy {
   showIframe = false;

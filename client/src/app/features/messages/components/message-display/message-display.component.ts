@@ -10,7 +10,6 @@ import { LimitTextPipe } from '../../../../shared/pipes/limit-text.pipe';
 import { RelativeTimePipe } from '../../../../shared/pipes/relative-time.pipe';
 import { UserAvatarComponent } from '../../../../shared/components/user-avatar/user-avatar.component';
 import { RouterLink } from '@angular/router';
-import { NgIf } from '@angular/common';
 import { MessageDisplayService } from '../../services/message-display.service';
 import { first } from 'rxjs';
 import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
@@ -21,7 +20,6 @@ import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.
   styleUrls: ['./message-display.component.scss'],
   standalone: true,
   imports: [
-    NgIf,
     RouterLink,
     UserAvatarComponent,
     RelativeTimePipe,

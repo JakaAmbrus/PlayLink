@@ -13,14 +13,12 @@
       (postUploaded)="onPostUpload($event)"
     ></app-upload-post>
     <div class="home-posts-container">
-      <div
-        class="posts secondary-background rounded-border box-shadow"
-        *ngIf="isLoading"
-      >
+      @if(isLoading){
+      <div class="posts secondary-background rounded-border box-shadow">
         <app-post-skeleton [loadingError]="loadingError"></app-post-skeleton>
       </div>
+      } @else {
       <div
-        *ngIf="!isLoading"
         id="posts-container"
         infiniteScroll
         [infiniteScrollDistance]="0.8"
@@ -35,11 +33,13 @@
             (postUpdated)="onPostUpdate($event)"
           ></app-post>
         </div>
-        }
-        <div *ngIf="newPostsLoading" class="spinner-container">
+        } @if(newPostsLoading){
+        <div class="spinner-container">
           <app-spinner></app-spinner>
         </div>
+        }
       </div>
+      }
     </div>
   </div>
 

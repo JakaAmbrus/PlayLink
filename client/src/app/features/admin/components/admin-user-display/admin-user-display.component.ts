@@ -3,7 +3,6 @@ import { UserWithRoles } from '../../models/user-with-roles';
 import { AdminService } from 'src/app/features/admin/services/admin.service';
 import { UserAvatarComponent } from '../../../../shared/components/user-avatar/user-avatar.component';
 import { Router, RouterLink } from '@angular/router';
-import { NgIf } from '@angular/common';
 import { first } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
@@ -15,7 +14,7 @@ import { RelativeTimePipe } from '../../../../shared/pipes/relative-time.pipe';
   templateUrl: './admin-user-display.component.html',
   styleUrl: './admin-user-display.component.scss',
   standalone: true,
-  imports: [NgIf, RouterLink, UserAvatarComponent, RelativeTimePipe],
+  imports: [RouterLink, UserAvatarComponent, RelativeTimePipe],
 })
 export class AdminUserDisplayComponent {
   @Input() user: UserWithRoles | undefined;

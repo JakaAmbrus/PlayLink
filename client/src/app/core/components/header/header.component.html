@@ -1,32 +1,40 @@
 <header id="header-main-container" class="secondary-background">
   <div id="header-container">
+    <!-- Header Logo -->
     <app-header-logo [theme]="theme"></app-header-logo>
+
+    <!-- Navigation Links -->
     <app-header-nav-links class="top-links"></app-header-nav-links>
+
+    <!-- Header Right -->
     <div id="header-right">
       <div
         id="header-notifications-container"
         class="header-icons-right header-icons-right-container"
       >
+        <!-- notifications -->
         <button
           id="notifications-button"
           type="button"
           (click)="toggleNotifications()"
         >
           <span class="material-symbols-rounded filled"> notifications </span>
-          <div
-            *ngIf="friendRequests.length > 0"
-            id="notification-count"
-            class="reverse-parameters"
-          >
+
+          @if(friendRequests.length > 0){
+          <div id="notification-count" class="reverse-parameters">
             {{ friendRequests.length }}
           </div>
+          }
         </button>
+        @if(friendRequests.length > 0 && isNotificationsOpen){
         <app-header-notifications
-          *ngIf="friendRequests.length > 0 && isNotificationsOpen"
           [friendRequests]="friendRequests"
           (requestDeleted)="onRequestDelete($event)"
         ></app-header-notifications>
+        }
       </div>
+
+      <!-- theme -->
       <button
         type="button"
         (click)="handleClick()"
@@ -36,6 +44,8 @@
           {{ theme === "theme-light" ? "light_mode" : "dark_mode" }}
         </span>
       </button>
+
+      <!-- dropdown -->
       <button
         type="button"
         class="header-icons-right header-icons-right-container dropdown"
@@ -44,26 +54,27 @@
         <span class="material-symbols-rounded thicker-icon header-avatar">
           {{ isModerator ? "shield_person" : "person" }}
         </span>
-        <app-header-dropdown
-          *ngIf="isDropdownOpen"
-          [username]="username"
-        ></app-header-dropdown>
+        @if(isDropdownOpen){
+        <app-header-dropdown [username]="username"></app-header-dropdown>
+        }
       </button>
     </div>
   </div>
+
+  <!-- Navigation Links for responsive design -->
   <app-header-nav-links
     class="mobile-links secondary-background"
   ></app-header-nav-links>
 </header>
 
 <!-- Admin panel route navigation -->
-
-<a
-  routerLink="/admin"
-  *ngIf="isAdmin"
-  class="higher-roles-container secondary-background theme-border"
->
-  <span class="material-symbols-rounded thicker-icon header-text">
-    shield_person
-  </span>
-</a>
+@if (isAdmin) {
+  <a
+    routerLink="/admin"
+    class="higher-roles-container secondary-background theme-border"
+  >
+    <span class="material-symbols-rounded thicker-icon header-text">
+      shield_person
+    </span>
+  </a>
+}

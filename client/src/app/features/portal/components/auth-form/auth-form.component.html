@@ -17,9 +17,9 @@
       Sign Up
     </button>
   </div>
-  <app-login *ngIf="formStateLogin"></app-login>
-  <app-register
-    (exitRegistration)="toggleFormStateLogin()"
-    *ngIf="!formStateLogin"
-  ></app-register>
+  @if (formStateLogin) {
+    <app-login></app-login>
+  } @else {
+    <app-register (exitRegistration)="toggleFormStateLogin()"></app-register>
+  }
 </div>

@@ -49,6 +49,16 @@ namespace Application.Features.Admin.AdminUserDelete
                     var posts = _context.Posts.Where(p => p.AppUserId == request.AppUserId).ToList();
                     _context.Posts.RemoveRange(posts);
 
+                    var userLikes = _context.Likes.Where(l => l.AppUserId == request.AppUserId).ToList();
+                    foreach (var like in userLikes)
+                    {
+                        var post = _context.Posts.FirstOrDefault(p => p.PostId == like.PostId);
+                        if (post != null)
+                        {
+                            post.LikesCount -= 1;
+                        }
+                    }
+
                     var sentRequests = _context.FriendRequests.Where(fr => fr.SenderId == request.AppUserId).ToList();
                     var receivedRequests = _context.FriendRequests.Where(fr => fr.ReceiverId == request.AppUserId).ToList();
                     _context.FriendRequests.RemoveRange(sentRequests.Concat(receivedRequests));

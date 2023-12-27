@@ -50,6 +50,16 @@ namespace Application.Features.Users.DeleteUser
                     var posts = _context.Posts.Where(p => p.AppUserId == request.AuthUserId).ToList();
                     _context.Posts.RemoveRange(posts);
 
+                    var userLikes = _context.Likes.Where(l => l.AppUserId == request.AuthUserId).ToList();
+                    foreach (var like in userLikes)
+                    {
+                        var post = _context.Posts.FirstOrDefault(p => p.PostId == like.PostId);
+                        if (post != null)
+                        {
+                            post.LikesCount -= 1;
+                        }
+                    }
+
                     var sentRequests = _context.FriendRequests.Where(fr => fr.SenderId == request.AuthUserId).ToList();
                     var receivedRequests = _context.FriendRequests.Where(fr => fr.ReceiverId == request.AuthUserId).ToList();
                     _context.FriendRequests.RemoveRange(sentRequests.Concat(receivedRequests));

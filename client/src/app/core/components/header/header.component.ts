@@ -5,6 +5,8 @@ import {
   EventEmitter,
   OnInit,
   OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { FriendsService } from '../../../shared/services/friends.service';
 import { FriendRequest } from '../../../shared/models/friends';
@@ -14,14 +16,7 @@ import { HeaderNotificationsComponent } from './components/header-notifications/
 import { HeaderNavLinksComponent } from './components/header-nav-links/header-nav-links.component';
 import { HeaderLogoComponent } from './components/header-logo/header-logo.component';
 import { LocalStorageService } from '../../services/local-storage.service';
-import {
-  Subscription,
-  concatMap,
-  first,
-  interval,
-  startWith,
-  take,
-} from 'rxjs';
+import { Subscription, interval, startWith, switchMap, take } from 'rxjs';
 import { ClickOutsideService } from 'src/app/shared/services/click-outside.service';
 
 @Component({
@@ -36,6 +31,7 @@ import { ClickOutsideService } from 'src/app/shared/services/click-outside.servi
     HeaderDropdownComponent,
     RouterLink,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   @Input() theme!: 'theme-light' | 'theme-dark';
@@ -54,7 +50,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private friendsService: FriendsService,
     private localStorageService: LocalStorageService,
-    private clickOutsideService: ClickOutsideService
+    private clickOutsideService: ClickOutsideService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -74,12 +71,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
       interval(30000)
         .pipe(
           startWith(0),
-          take(15),
-          concatMap(() => this.friendsService.getFriendRequests().pipe(first()))
+          switchMap(() => this.friendsService.getFriendRequests()),
+          take(15)
         )
         .subscribe({
           next: (response) => {
             this.friendRequests = response.friendRequests;
+            this.changeDetectorRef.markForCheck();
           },
         })
     );
@@ -89,6 +87,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.friendRequests = this.friendRequests.filter(
       (fr) => fr.friendRequestId !== requestId
     );
+    this.changeDetectorRef.markForCheck();
   }
 
   handleClick(): void {
@@ -100,8 +99,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.isDropdownOpen = !this.isDropdownOpen;
     if (this.isDropdownOpen) {
+      this.isNotificationsOpen = false;
       this.clickOutsideService.bind(this, () => {
         this.isDropdownOpen = false;
+        this.changeDetectorRef.markForCheck();
       });
     } else {
       this.clickOutsideService.unbind(this);
@@ -112,7 +113,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (!this.username || this.friendRequests.length === 0) {
       return;
     }
+
     this.isNotificationsOpen = !this.isNotificationsOpen;
+
+    if (this.isNotificationsOpen) {
+      this.isDropdownOpen = false;
+      this.clickOutsideService.bind(this, () => {
+        this.isNotificationsOpen = false;
+        this.changeDetectorRef.markForCheck();
+      });
+    } else {
+      this.clickOutsideService.unbind(this);
+    }
   }
 
   checkRoles(): void {
@@ -127,5 +139,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.clickOutsideService.unbind(this);
   }
 }

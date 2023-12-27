@@ -113,8 +113,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onPostDelete(emittedPost: Post): void {
-    console.log('works');
-
     this.posts = this.posts.filter(
       (post) => post.postId !== emittedPost.postId
     );

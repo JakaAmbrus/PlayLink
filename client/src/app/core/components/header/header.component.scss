@@ -28,6 +28,7 @@
   align-items: center;
   gap: 1.5em;
 }
+
 .header-icons-right-container {
   display: flex;
   justify-content: center;
@@ -55,6 +56,16 @@
   height: 100%;
   width: 100%;
 }
+
+.header-dropdown,
+.notifications {
+  display: none;
+}
+.header-dropdown.open,
+.notifications.open {
+  display: block;
+}
+
 .header-icons-right-container .filled {
   font-size: 3em;
 }

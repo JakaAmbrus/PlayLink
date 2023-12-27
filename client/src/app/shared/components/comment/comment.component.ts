@@ -1,4 +1,6 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -32,11 +34,16 @@ import { SpinnerComponent } from '../spinner/spinner.component';
     LikedUsersListComponent,
     SpinnerComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommentComponent implements OnDestroy {
   @Input() comment: Comment | undefined;
 
   @Output() commentDeleted: EventEmitter<number> = new EventEmitter();
+
+  detectChange() {
+    console.log('detectChange');
+  }
 
   deleteCommentLoading: boolean = false;
   likedUsers: LikedUser[] = [];
@@ -49,7 +56,8 @@ export class CommentComponent implements OnDestroy {
     private commentsService: CommentsService,
     private likesService: LikesService,
     public dialog: MatDialog,
-    private clickOutsideService: ClickOutsideService
+    private clickOutsideService: ClickOutsideService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   toggleLike(comment: Comment) {
@@ -69,6 +77,7 @@ export class CommentComponent implements OnDestroy {
         .subscribe({
           next: () => {
             this.isLoading = false;
+            this.changeDetectorRef.markForCheck();
           },
           error: () => {
             this.isLoading = false;
@@ -88,6 +97,7 @@ export class CommentComponent implements OnDestroy {
             this.isLoading = false;
             this.optimisticLike = false;
             comment.isLikedByCurrentUser = true;
+            this.changeDetectorRef.markForCheck();
           },
           error: () => {
             this.isLoading = false;

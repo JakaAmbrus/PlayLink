@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { FriendRequest } from 'src/app/shared/models/friends';
 import { FriendsService } from 'src/app/shared/services/friends.service';
 import { RelativeTimePipe } from '../../../../../shared/pipes/relative-time.pipe';
@@ -12,6 +18,7 @@ import { first } from 'rxjs';
   styleUrl: './header-notifications.component.scss',
   standalone: true,
   imports: [RouterLink, UserAvatarComponent, RelativeTimePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderNotificationsComponent {
   @Input() friendRequests: FriendRequest[] = [];

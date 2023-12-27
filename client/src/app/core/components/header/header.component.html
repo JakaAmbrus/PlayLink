@@ -26,12 +26,12 @@
           </div>
           }
         </button>
-        @if(friendRequests.length > 0 && isNotificationsOpen){
         <app-header-notifications
+          class="notifications"
           [friendRequests]="friendRequests"
           (requestDeleted)="onRequestDelete($event)"
+          [class.open]="isNotificationsOpen"
         ></app-header-notifications>
-        }
       </div>
 
       <!-- theme -->
@@ -54,9 +54,11 @@
         <span class="material-symbols-rounded thicker-icon header-avatar">
           {{ isModerator ? "shield_person" : "person" }}
         </span>
-        @if(isDropdownOpen){
-        <app-header-dropdown [username]="username"></app-header-dropdown>
-        }
+        <app-header-dropdown
+          class="header-dropdown"
+          [class.open]="isDropdownOpen"
+          [username]="username"
+        ></app-header-dropdown>
       </button>
     </div>
   </div>
@@ -69,12 +71,12 @@
 
 <!-- Admin panel route navigation -->
 @if (isAdmin) {
-  <a
-    routerLink="/admin"
-    class="higher-roles-container secondary-background theme-border"
-  >
-    <span class="material-symbols-rounded thicker-icon header-text">
-      shield_person
-    </span>
-  </a>
+<a
+  routerLink="/admin"
+  class="higher-roles-container secondary-background theme-border"
+>
+  <span class="material-symbols-rounded thicker-icon header-text">
+    shield_person
+  </span>
+</a>
 }

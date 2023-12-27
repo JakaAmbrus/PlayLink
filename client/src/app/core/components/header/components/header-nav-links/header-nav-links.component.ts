@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { navigationLinks } from '../../nav-links';
+import { navigationLinks } from './nav-links';
 import { RouterLinkActive, RouterLink } from '@angular/router';
 
 @Component({

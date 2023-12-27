@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
@@ -8,6 +8,7 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./header-logo.component.scss'],
   standalone: true,
   imports: [RouterLink, NgClass],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderLogoComponent {
   @Input() theme!: 'theme-light' | 'theme-dark';

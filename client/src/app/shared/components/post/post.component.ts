@@ -1,4 +1,6 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -44,6 +46,7 @@ import { SpinnerComponent } from '../spinner/spinner.component';
     LikedUsersListComponent,
     SpinnerComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostComponent implements OnDestroy {
   @Input() post: Post | undefined;
@@ -74,13 +77,15 @@ export class PostComponent implements OnDestroy {
     private commentsService: CommentsService,
     private cacheManager: CacheManagerService,
     public dialog: MatDialog,
-    private clickOutsideService: ClickOutsideService
+    private clickOutsideService: ClickOutsideService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   displayLikedUsers(): void {
     if (this.post?.likesCount === 0 || this.isLoading) {
       return;
     } else if (this.post?.likesCount === 1 && this.post?.isLikedByCurrentUser) {
+      this.changeDetectorRef.markForCheck();
       this.showLikedUsers = !this.showLikedUsers;
       this.handleOutsideClick();
       return;
@@ -94,6 +99,7 @@ export class PostComponent implements OnDestroy {
         );
         if (cachedLikedUsers) {
           this.likedUsers = cachedLikedUsers;
+          this.changeDetectorRef.markForCheck();
         } else {
           this.loadLikedUsers();
         }
@@ -127,6 +133,7 @@ export class PostComponent implements OnDestroy {
           next: (likedUsers) => {
             this.isLoading = false;
             this.likedUsers = likedUsers;
+            this.changeDetectorRef.markForCheck();
             this.cacheManager.setCache(
               'likedUsers' + this.post?.postId,
               this.likedUsers
@@ -213,6 +220,7 @@ export class PostComponent implements OnDestroy {
               this.isLoading = false;
               this.deletePostLoading = false;
               this.post = undefined;
+              this.changeDetectorRef.markForCheck();
               this.postDeleted.emit(post);
             },
             error: () => {
@@ -258,6 +266,7 @@ export class PostComponent implements OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
+            this.changeDetectorRef.markForCheck();
             this.commentsLoading = false;
             const loadedComments = response.result;
             if (loadedComments) {

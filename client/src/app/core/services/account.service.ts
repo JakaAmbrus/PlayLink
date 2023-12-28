@@ -36,8 +36,6 @@ export class AccountService {
   }
 
   guestLogin(role: string): Observable<AuthResponse> {
-    console.log(role);
-
     return this.http
       .post<AuthResponse>(this.baseUrl + 'account/guest-login/' + role, {})
       .pipe(tap((response: AuthResponse) => this.handleUserResponse(response)));

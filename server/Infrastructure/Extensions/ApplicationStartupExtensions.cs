@@ -29,6 +29,5 @@ namespace Infrastructure.Extensions
             app.UseAuthorization();
 
         }
-        
     }
 }

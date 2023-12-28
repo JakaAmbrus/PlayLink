@@ -41,10 +41,6 @@ export class CommentComponent implements OnDestroy {
 
   @Output() commentDeleted: EventEmitter<number> = new EventEmitter();
 
-  detectChange() {
-    console.log('detectChange');
-  }
-
   deleteCommentLoading: boolean = false;
   likedUsers: LikedUser[] = [];
   showLikedUsers: boolean = false;
@@ -83,6 +79,7 @@ export class CommentComponent implements OnDestroy {
             this.isLoading = false;
             comment.isLikedByCurrentUser = true;
             comment.likesCount += 1;
+            this.changeDetectorRef.markForCheck();
           },
         });
     } else {
@@ -103,6 +100,7 @@ export class CommentComponent implements OnDestroy {
             this.isLoading = false;
             this.optimisticLike = false;
             comment.likesCount -= 1;
+            this.changeDetectorRef.markForCheck();
           },
         });
     }
@@ -126,6 +124,7 @@ export class CommentComponent implements OnDestroy {
       }
       this.clickOutsideService.bind(this, () => {
         this.showLikedUsers = false;
+        this.changeDetectorRef.markForCheck();
       });
     } else {
       this.clickOutsideService.unbind(this);
@@ -136,6 +135,7 @@ export class CommentComponent implements OnDestroy {
     if (this.showLikedUsers) {
       this.clickOutsideService.bind(this, () => {
         this.showLikedUsers = false;
+        this.changeDetectorRef.markForCheck();
       });
     } else {
       this.clickOutsideService.unbind(this);
@@ -157,9 +157,11 @@ export class CommentComponent implements OnDestroy {
           next: (likedUsers) => {
             this.isLoading = false;
             this.likedUsers = likedUsers;
+            this.changeDetectorRef.markForCheck();
           },
           error: () => {
             this.isLoading = false;
+            this.changeDetectorRef.markForCheck();
           },
         });
     }
@@ -181,6 +183,7 @@ export class CommentComponent implements OnDestroy {
           if (this.isLoading) {
             return;
           }
+          this.changeDetectorRef.markForCheck();
           this.deleteCommentLoading = true;
           this.isLoading = true;
           this.commentsService.deleteComment(commentId).subscribe({
@@ -193,6 +196,7 @@ export class CommentComponent implements OnDestroy {
             error: () => {
               this.isLoading = false;
               this.deleteCommentLoading = false;
+              this.changeDetectorRef.markForCheck();
             },
           });
         }

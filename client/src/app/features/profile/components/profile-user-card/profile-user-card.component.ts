@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import {
@@ -40,6 +46,7 @@ import { AccountService } from 'src/app/core/services/account.service';
     AsyncPipe,
     DatePipe,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileUserCardComponent implements OnInit {
   @Input() user: ProfileUser | undefined;
@@ -56,7 +63,8 @@ export class ProfileUserCardComponent implements OnInit {
     private userProfileService: UserProfileService,
     private friendsService: FriendsService,
     private accountService: AccountService,
-    private router: Router
+    private router: Router,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -73,6 +81,7 @@ export class ProfileUserCardComponent implements OnInit {
     }
     this.friendshipStatus = 'Loading';
     this.isLoading = true;
+    this.changeDetectorRef.markForCheck();
     this.friendsService
       .getFriendRequestStatus(this.user.username)
       .pipe(first())
@@ -80,10 +89,12 @@ export class ProfileUserCardComponent implements OnInit {
         next: (response: FriendshipStatusResponse) => {
           this.friendshipStatus = FriendshipStatus[response.status];
           this.isLoading = false;
+          this.changeDetectorRef.markForCheck();
         },
         error: () => {
           this.friendshipStatus = 'Error';
           this.isLoading = false;
+          this.changeDetectorRef.markForCheck();
         },
       });
   }
@@ -101,10 +112,12 @@ export class ProfileUserCardComponent implements OnInit {
         next: () => {
           this.isLoading = false;
           this.friendshipStatus = 'Pending';
+          this.changeDetectorRef.markForCheck();
         },
         error: () => {
           this.isLoading = false;
           this.friendshipStatus = 'None';
+          this.changeDetectorRef.markForCheck();
         },
       });
   }
@@ -131,10 +144,12 @@ export class ProfileUserCardComponent implements OnInit {
             next: () => {
               this.isLoading = false;
               this.friendshipStatus = 'None';
+              this.changeDetectorRef.markForCheck();
             },
             error: () => {
               this.isLoading = false;
               this.friendshipStatus = 'Friends';
+              this.changeDetectorRef.markForCheck();
             },
           });
       }
@@ -163,9 +178,11 @@ export class ProfileUserCardComponent implements OnInit {
               this.isLoading = false;
               this.userProfileService.invalidateUserCache(this.user!.username);
               this.user!.profilePictureUrl = null;
+              this.changeDetectorRef.markForCheck();
             },
             error: () => {
               this.isLoading = false;
+              this.changeDetectorRef.markForCheck();
             },
           });
       }
@@ -194,9 +211,11 @@ export class ProfileUserCardComponent implements OnInit {
               this.isLoading = false;
               this.userProfileService.invalidateUserCache(this.user!.username);
               this.user!.description = null;
+              this.changeDetectorRef.markForCheck();
             },
             error: () => {
               this.isLoading = false;
+              this.changeDetectorRef.markForCheck();
             },
           });
       }

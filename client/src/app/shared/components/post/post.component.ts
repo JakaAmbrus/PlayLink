@@ -99,13 +99,13 @@ export class PostComponent implements OnDestroy {
         );
         if (cachedLikedUsers) {
           this.likedUsers = cachedLikedUsers;
-          this.changeDetectorRef.markForCheck();
         } else {
           this.loadLikedUsers();
         }
       }
       this.clickOutsideService.bind(this, () => {
         this.showLikedUsers = false;
+        this.changeDetectorRef.markForCheck();
       });
     } else {
       this.clickOutsideService.unbind(this);
@@ -116,6 +116,7 @@ export class PostComponent implements OnDestroy {
     if (this.showLikedUsers) {
       this.clickOutsideService.bind(this, () => {
         this.showLikedUsers = false;
+        this.changeDetectorRef.markForCheck();
       });
     } else {
       this.clickOutsideService.unbind(this);
@@ -212,6 +213,7 @@ export class PostComponent implements OnDestroy {
             return;
           }
 
+          this.changeDetectorRef.markForCheck();
           this.isLoading = true;
           this.deletePostLoading = true;
 
@@ -226,6 +228,7 @@ export class PostComponent implements OnDestroy {
             error: () => {
               this.isLoading = false;
               this.deletePostLoading = false;
+              this.changeDetectorRef.markForCheck();
             },
           });
         }

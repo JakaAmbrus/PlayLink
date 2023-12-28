@@ -137,7 +137,7 @@ export class DiscoverComponent implements OnInit, OnDestroy {
     }
   }
 
-  pageChanged(event: any): void {
+  pageChanged(event: number): void {
     this.pageNumber = event;
     this.loadUsers();
   }

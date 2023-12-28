@@ -1,9 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  HostListener,
-  OnInit,
-} from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -43,15 +38,14 @@ import { CacheManagerService } from 'src/app/core/services/cache-manager.service
   ],
 })
 export class EditComponent implements OnInit {
-  @HostListener('window:beforeunload', ['$event']) unloadNotification(
-    $event: any
-  ) {
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: Event) {
     if (this.editUserForm.dirty) {
-      $event.returnValue = true;
+      ($event as BeforeUnloadEvent).returnValue = true;
     }
   }
 
-  username: any;
+  username: string | undefined | null = '';
   editUserForm: FormGroup = new FormGroup({});
   selectedFiles: File[] = [];
   filteredCountries?: Observable<string[]>;
@@ -65,7 +59,6 @@ export class EditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
-    private cdRef: ChangeDetectorRef,
     private avatarService: AvatarService,
     private cacheManager: CacheManagerService
   ) {}
@@ -103,7 +96,7 @@ export class EditComponent implements OnInit {
     );
   }
 
-  onSelect(event: any): void {
+  onSelect(event: { addedFiles: File[] }): void {
     this.selectedFiles = event.addedFiles.slice(0, 1);
     this.isFileSelected = true;
   }
@@ -114,6 +107,9 @@ export class EditComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (!this.username) {
+      return;
+    }
     if (this.editUserForm.valid || this.isFileSelected) {
       this.isLoading = true;
 
@@ -133,7 +129,6 @@ export class EditComponent implements OnInit {
             this.toastr.success('Profile updated successfully');
             this.editUserForm.reset();
             this.selectedFiles = [];
-            this.cdRef.detectChanges();
 
             //update avatar photo if changed and clear posts cache relevant to the user
             if (response.photoUrl) {
@@ -141,7 +136,7 @@ export class EditComponent implements OnInit {
               this.cacheManager.clearCache('posts');
               this.cacheManager.clearCache('posts' + this.username);
             }
-            this.userProfileService.invalidateUserCache(this.username);
+            this.userProfileService.invalidateUserCache(this.username!);
             this.router
               .navigateByUrl('/RefreshComponent', { skipLocationChange: true })
               .then(() => {

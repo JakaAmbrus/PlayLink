@@ -305,7 +305,7 @@ export class PostComponent implements OnDestroy {
     }
   }
 
-  onCommentUpload(comment: any): void {
+  onCommentUpload(comment: { commentDto: Comment }): void {
     this.comments = [...this.comments, comment.commentDto];
     this.post!.commentsCount += 1;
     this.cacheManager.setCache('comments' + this.post?.postId, this.comments);

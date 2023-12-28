@@ -16,7 +16,7 @@ export class PresenceService {
 
   constructor(private toastr: ToastrService, private router: Router) {}
 
-  createHubConnection(token: any) {
+  createHubConnection(token: string) {
     if (this.hubConnection?.state === 'Connected') {
       return;
     }

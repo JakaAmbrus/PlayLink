@@ -5,15 +5,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -72,7 +64,6 @@ import { first } from 'rxjs';
     ReactiveFormsModule,
     NgxDropzoneModule,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UploadPostComponent implements OnInit {
   @Output() postUploaded: EventEmitter<any> = new EventEmitter();
@@ -90,8 +81,7 @@ export class UploadPostComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private postsService: PostsService,
-    private avatarService: AvatarService,
-    private changeDetectorRef: ChangeDetectorRef
+    private avatarService: AvatarService
   ) {}
 
   ngOnInit(): void {
@@ -109,18 +99,16 @@ export class UploadPostComponent implements OnInit {
   openUploadPostModal(): void {
     this.isModalOpen = true;
     this.animationState = 'large';
-    this.changeDetectorRef.markForCheck();
   }
 
   closeUploadPostModal(): void {
     this.animationState = 'small';
     setTimeout(() => {
       this.isModalOpen = false;
-      this.changeDetectorRef.markForCheck();
     }, 105);
   }
 
-  onSelect(event: any): void {
+  onSelect(event: { addedFiles: File[] }): void {
     this.selectedFiles = event.addedFiles.slice(0, 1);
     this.isFileSelected = true;
   }

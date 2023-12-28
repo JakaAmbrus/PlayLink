@@ -15,5 +15,5 @@ import { NgIf, NgClass } from '@angular/common';
 export class MessageContentComponent {
   @Input() message: Message | undefined;
 
-  @Input() username: string | undefined;
+  @Input() username: string | null | undefined;
 }

@@ -57,9 +57,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.localStorageService.setItem('userThemePreference', this.theme);
   }
 
-  prepareRoute(outlet: any) {
+  prepareRoute(outlet: RouterOutlet) {
     return (
-      outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation
+      outlet &&
+      outlet.activatedRouteData &&
+      outlet.activatedRouteData['animation']
     );
   }
 

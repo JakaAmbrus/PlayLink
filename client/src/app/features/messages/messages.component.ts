@@ -97,7 +97,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
       });
   }
 
-  pageChanged(event: any): void {
+  pageChanged(event: number): void {
     this.pageNumber = event;
     this.changingPage = true;
     this.loadMessages();

@@ -70,7 +70,7 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-  prepareRoute(outlet: any) {
+  prepareRoute(outlet: RouterOutlet) {
     if (outlet.isActivated) {
       const component = outlet.activatedRoute.component;
       if (component === ProfileNavigationComponent) {
@@ -79,9 +79,7 @@ export class ProfileComponent implements OnInit {
         return 'ProfileUserCardComponent';
       }
     }
-    return (
-      outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation
-    );
+    return outlet.activatedRouteData['animation'];
   }
 
   IsCurrentUser(username: string): boolean {

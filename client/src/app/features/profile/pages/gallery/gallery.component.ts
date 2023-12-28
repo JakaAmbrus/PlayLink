@@ -17,7 +17,7 @@ export class GalleryComponent implements OnInit {
   isLoading: boolean = false;
   loadingError: boolean = false;
   postPhotos: GalleryItem[] = [];
-  username: any;
+  username: string | null | undefined = null;
   noPhotos: boolean = false;
 
   constructor(

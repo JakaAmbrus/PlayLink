@@ -19,7 +19,7 @@ export class MessagesService {
 
   constructor(private http: HttpClient, private toastr: ToastrService) {}
 
-  createHubConnection(token: any, otherUsername: string): void {
+  createHubConnection(token: string, otherUsername: string): void {
     this.hubConnection = new HubConnectionBuilder()
       .withUrl(this.hubUrl + 'message?user=' + otherUsername, {
         accessTokenFactory: () => token,

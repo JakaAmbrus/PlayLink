@@ -26,7 +26,7 @@ export class MessageComponent implements OnInit, OnDestroy {
     | ElementRef
     | undefined;
   @ViewChild('messageForm') messageForm?: NgForm;
-  username: any;
+  username: string | null | undefined = null;
   messageThread: MessageThread | null = null;
   messages: Message[] = [];
   messageContent: string = '';

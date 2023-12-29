@@ -1,6 +1,6 @@
 ﻿namespace Application.Utils
 {
-    public static class DateTimeExtensions
+    public static class DateTimeUtils
     {
         //Gets the age from the users date of birth
         public static int CalculateAge(this DateOnly dob)

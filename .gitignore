@@ -69,3 +69,6 @@ server/server.sln
 server/Infrastructure/CloudinaryAccessKeys.json
 
 client/src/app/features/portal/data
+
+**/bin/
+**/obj/

@@ -11,6 +11,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { CacheManagerService } from 'src/app/core/services/cache-manager.service';
 import { LocalStorageService } from 'src/app/core/services/local-storage.service';
 import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -41,8 +42,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private postsService: PostsService,
     private cacheManager: CacheManagerService,
-    private localStorageService: LocalStorageService
-  ) {}
+    private localStorageService: LocalStorageService,
+    private router: Router
+  ) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        window.scrollTo(0, 0);
+      }
+    });
+  }
 
   ngOnInit(): void {
     const cachedPosts = this.cacheManager.getCache<Post[]>('posts');

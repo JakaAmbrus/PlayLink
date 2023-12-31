@@ -7,8 +7,13 @@ namespace Application.Utils
     public static class ValidationUtils
     {
         //Used to validate if the user role is valid
-        public static bool BeValidRole(IEnumerable<string> roles)
+        public static bool IsValidRole(IEnumerable<string> roles)
         {
+            if (roles == null)
+            {
+                return false;
+            }
+
             var validRoles = new HashSet<string> { "Member", "Moderator", "Admin", "Guest" };
             return roles.All(role => validRoles.Contains(role));
         }
@@ -21,19 +26,19 @@ namespace Application.Utils
                 return false;
             }
 
-            string normalizedCountry = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(inputCountry).Replace(" ", "");
+            string normalizedCountry = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(inputCountry.ToLowerInvariant()).Replace(" ", "");
 
-            return Enum.TryParse<Country>(normalizedCountry, out _);
+            return Enum.GetNames(typeof(Country)).Any(name => name.Equals(normalizedCountry, StringComparison.OrdinalIgnoreCase));
         }
 
         //Used to validate if the file is appropriate size
-        public static bool BeAppropriateSize(IFormFile file)
+        public static bool IsAppropriateSizeFile(IFormFile file, int mb)
         {
-            return file == null || file.Length <= 4 * 1024 * 1024;
+            return file == null || file.Length <= mb * 1024 * 1024;
         }
 
         //Used to validate if the file is appropriate type
-        public static bool BeAValidType(IFormFile file)
+        public static bool IsAValidTypeFile(IFormFile file)
         {
             var allowedTypes = new[] { "image/jpeg", "image/png" };
             return file == null || allowedTypes.Contains(file.ContentType);

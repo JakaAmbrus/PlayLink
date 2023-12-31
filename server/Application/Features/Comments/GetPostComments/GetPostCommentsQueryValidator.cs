@@ -17,7 +17,7 @@ namespace Application.Features.Comments.GetComments
                 .NotEmpty().WithMessage("AuthUserId required.");
 
             RuleFor(x => x.AuthUserRoles)
-                .Must(ValidationUtils.BeValidRole).WithMessage("Invalid role detected.");
+                .Must(ValidationUtils.IsValidRole).WithMessage("Invalid role detected.");
         }
     }
 }

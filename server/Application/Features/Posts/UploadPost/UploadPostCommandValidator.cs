@@ -15,8 +15,8 @@ namespace Application.Features.Posts.UploadPost
                 .MaximumLength(400).WithMessage("Description must not exceed 400 characters of space");
 
             RuleFor(x => x.PostContentDto.PhotoFile)
-                .Must(ValidationUtils.BeAppropriateSize).WithMessage("Photo must be smaller than 4MB")
-                .Must(ValidationUtils.BeAValidType).WithMessage("Photo must be a PNG or JPEG");
+                .Must(file => ValidationUtils.IsAppropriateSizeFile(file, 5)).WithMessage("Photo must be smaller than 5MB")
+                .Must(ValidationUtils.IsAValidTypeFile).WithMessage("Photo must be a PNG or JPEG");
 
             RuleFor(x => x.AuthUserId)
                 .NotEmpty().WithMessage("Authenticated user Id required.");

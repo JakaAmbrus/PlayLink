@@ -14,7 +14,7 @@ namespace Application.Features.Posts.GetPostById
                 .NotEmpty().WithMessage("Authenticated user Id required.");
 
             RuleFor(x => x.AuthUserRoles)
-                .Must(ValidationUtils.BeValidRole).WithMessage("Invalid user role.");
+                .Must(ValidationUtils.IsValidRole).WithMessage("Invalid user role.");
         }
     }
 }

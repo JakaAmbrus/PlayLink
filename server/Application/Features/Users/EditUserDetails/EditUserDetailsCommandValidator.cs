@@ -18,14 +18,14 @@ namespace Application.Features.Users.EditUserDetails
                 .When(x => !string.IsNullOrEmpty(x.EditUserDto.Country));
 
             RuleFor(x => x.EditUserDto.PhotoFile)
-                .Must(ValidationUtils.BeAppropriateSize).WithMessage("Photo must be smaller than 4MB.")
-                .Must(ValidationUtils.BeAValidType).WithMessage("Photo must be a PNG or JPEG.");
+                .Must(file => ValidationUtils.IsAppropriateSizeFile(file, 5)).WithMessage("Photo must be smaller than 5MB.")
+                .Must(ValidationUtils.IsAValidTypeFile).WithMessage("Photo must be a PNG or JPEG.");
 
             RuleFor(x => x.AuthUserId)
                 .NotEmpty().WithMessage("Authenticated user Id required.");
 
             RuleFor(x => x.AuthUserRoles)
-                .Must(ValidationUtils.BeValidRole).WithMessage("Invalid user role.");
+                .Must(ValidationUtils.IsValidRole).WithMessage("Invalid user role.");
         }
 
         protected override bool PreValidate(ValidationContext<EditUserDetailsCommand> context, FluentValidation.Results.ValidationResult result)

@@ -1,7 +1,7 @@
 ﻿using Application.Features.Posts.Common;
 using Application.Features.Posts.GetPosts;
 using Application.Interfaces;
-using Application.Tests.Unit.TestUtilities;
+using Application.Tests.Unit.Configurations;
 using Application.Utils;
 using Domain.Entities;
 

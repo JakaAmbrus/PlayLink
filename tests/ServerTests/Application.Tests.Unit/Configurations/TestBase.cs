@@ -1,7 +1,6 @@
-﻿using Application.Tests.Unit.Configurations;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace Application.Tests.Unit.TestUtilities
+namespace Application.Tests.Unit.Configurations
 {
     public static class TestBase
     {

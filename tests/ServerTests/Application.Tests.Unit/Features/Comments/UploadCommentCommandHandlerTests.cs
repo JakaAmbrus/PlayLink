@@ -2,7 +2,7 @@
 using Application.Features.Comments.Common;
 using Application.Features.Comments.UploadComment;
 using Application.Interfaces;
-using Application.Tests.Unit.TestUtilities;
+using Application.Tests.Unit.Configurations;
 using Domain.Entities;
 
 namespace Application.Tests.Unit.Features.Comments

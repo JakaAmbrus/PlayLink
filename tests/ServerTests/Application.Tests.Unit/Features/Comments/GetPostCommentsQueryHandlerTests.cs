@@ -1,7 +1,7 @@
 ﻿using Application.Features.Comments.Common;
 using Application.Features.Comments.GetComments;
 using Application.Interfaces;
-using Application.Tests.Unit.TestUtilities;
+using Application.Tests.Unit.Configurations;
 using Application.Utils;
 using Domain.Entities;
 

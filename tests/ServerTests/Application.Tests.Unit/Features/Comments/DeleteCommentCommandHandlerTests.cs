@@ -1,7 +1,7 @@
 ﻿using Application.Exceptions;
 using Application.Features.Comments.DeleteComment;
 using Application.Interfaces;
-using Application.Tests.Unit.TestUtilities;
+using Application.Tests.Unit.Configurations;
 using Domain.Entities;
 
 namespace Application.Tests.Unit.Features.Comments

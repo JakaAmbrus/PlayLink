@@ -32,14 +32,7 @@ namespace Application.Features.Comments.DeleteComment
             selectedPost.CommentsCount--;
             _context.Comments.Remove(selectedComment);
 
-            try
-            {
-                await _context.SaveChangesAsync(cancellationToken);
-            }
-            catch
-            {
-                throw new ServerErrorException("Problem deleting Comment");
-            }
+            await _context.SaveChangesAsync(cancellationToken);
 
             return new DeleteCommentResponse { IsDeleted = true };
         }

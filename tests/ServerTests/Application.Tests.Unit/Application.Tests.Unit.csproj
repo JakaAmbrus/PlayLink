@@ -31,8 +31,4 @@
     <ProjectReference Include="..\..\..\server\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\" />
-  </ItemGroup>
-
 </Project>

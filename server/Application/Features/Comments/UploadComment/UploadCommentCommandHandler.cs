@@ -9,29 +9,22 @@ namespace Application.Features.Comments.UploadComment
     public class UploadCommentCommandHandler : IRequestHandler<UploadCommentCommand, UploadCommentResponse>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IAuthenticatedUserService _authenticatedUserService;
 
-        public UploadCommentCommandHandler(IApplicationDbContext context,
-            IAuthenticatedUserService authenticatedUserService)
+        public UploadCommentCommandHandler(IApplicationDbContext context)
         {
             _context = context;
-            _authenticatedUserService = authenticatedUserService;
         }
         public async Task<UploadCommentResponse> Handle(UploadCommentCommand request, CancellationToken cancellationToken)
         {
             var post = await _context.Posts.FindAsync(new object[] { request.Comment.PostId }, cancellationToken)
                 ?? throw new NotFoundException("Post not found");
 
-            int currentUserId = _authenticatedUserService.UserId;
-            var currentUser = await _context.Users.FindAsync(new object[] { currentUserId }, cancellationToken);
-            if (currentUser == null)
-            {
-                throw new NotFoundException("User not found");
-            }
+            var authUser = await _context.Users.FindAsync(new object[] { request.AuthUserId }, cancellationToken) 
+                ?? throw new NotFoundException("User not found");
 
             var newComment = new Comment
             {
-                AppUserId = currentUserId,
+                AppUserId = request.AuthUserId,
                 PostId = request.Comment.PostId,
                 Content = request.Comment.Content
             };
@@ -39,14 +32,7 @@ namespace Application.Features.Comments.UploadComment
             post.CommentsCount++;
             _context.Comments.Add(newComment);
 
-            try
-            {
-                await _context.SaveChangesAsync(cancellationToken);
-            }
-            catch
-            {
-                throw new ServerErrorException("Problem saving comment");
-            }
+            await _context.SaveChangesAsync(cancellationToken);
 
             return new UploadCommentResponse
             {
@@ -55,18 +41,17 @@ namespace Application.Features.Comments.UploadComment
                     CommentId = newComment.CommentId,
                     PostId = newComment.PostId,
                     AppUserId = newComment.AppUserId,
-                    Username = currentUser.UserName,
-                    FullName = currentUser.FullName,
-                    Gender = currentUser.Gender,
-                    ProfilePictureUrl = currentUser.ProfilePictureUrl,
+                    Username = authUser.UserName,
+                    FullName = authUser.FullName,
+                    Gender = authUser.Gender,
+                    ProfilePictureUrl = authUser.ProfilePictureUrl,
                     LikesCount = newComment.LikesCount,
                     IsAuthorized = true,
                     IsLikedByCurrentUser = false,
                     TimeCommented = newComment.TimeCommented,
                     Content = newComment.Content
                 }
-            };
-            
+            };           
         }
     }
 }

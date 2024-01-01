@@ -29,7 +29,13 @@ namespace Application.Tests.Unit.Utils
         {
             // Arrange
             var dob = new DateOnly(year, month, day);
-            var expectedAge = DateOnly.FromDateTime(DateTime.UtcNow).Year - dob.Year;
+            var today = DateOnly.FromDateTime(DateTime.UtcNow);
+            var expectedAge = today.Year - dob.Year;
+
+            if (dob.Month > today.Month || (dob.Month == today.Month && dob.Day > today.Day))
+            {
+                expectedAge--;
+            }
 
             // Act
             var result = dob.CalculateAge();

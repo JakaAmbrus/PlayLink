@@ -18,9 +18,6 @@ namespace Application.Features.Posts.GetPostsByUser
 
         public async Task<GetPostsByUserResponse> Handle(GetPostsByUserQuery request, CancellationToken cancellationToken)
         {
-            if (request.AuthUserId == 0) 
-                throw new UnauthorizedException("You must be logged in to view posts");
-
             bool isModerator = request.AuthUserRoles.Contains("Moderator");
 
             var requestedUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == request.Username, cancellationToken)

@@ -19,7 +19,7 @@ namespace Application.Services
             int authUserId = _authenticatedUserService.UserId;
 
             var user = await _context.Users.FindAsync(authUserId)
-                ?? throw new NotFoundException("User not found");
+                ?? throw new NotFoundException("Authenticated user not found from JWT.");
 
             return user.UserName;
         }

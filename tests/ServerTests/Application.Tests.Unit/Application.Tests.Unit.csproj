@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -11,6 +11,8 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.14" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.1" />
     <PackageReference Include="NSubstitute" Version="5.1.0" />
     <PackageReference Include="xunit" Version="2.4.2" />
@@ -26,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\server\Application\Application.csproj" />
+    <ProjectReference Include="..\..\..\server\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

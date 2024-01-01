@@ -1,11 +1,12 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+﻿using Application.Exceptions;
 using Application.Interfaces;
-using Microsoft.Extensions.Configuration;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Application.Services
 {
@@ -22,12 +23,17 @@ namespace Application.Services
 
         public async Task<string> CreateToken(AppUser user)
         {
-            var claims = new List<Claim>
-           {
-               new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-               new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+            if (user == null)
+            {
+                throw new NotFoundException("User not found while trying to create token.");
+            }
 
-           };
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+
+            };
 
             var roles = await _userManager.GetRolesAsync(user);
 

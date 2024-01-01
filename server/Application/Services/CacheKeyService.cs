@@ -6,8 +6,12 @@ namespace Application.Services
     {
         public string GenerateFriendStatusCacheKey(int userId1, int userId2)
         {
-            var organizedIds = (userId1 < userId2) ? (userId1, userId2) : (userId2, userId1);
+            if (userId1 == userId2)
+            {
+                throw new ArgumentException("User IDs must be different when generating friend status cache key.");
+            }
 
+            var organizedIds = (userId1 < userId2) ? (userId1, userId2) : (userId2, userId1);
 
             var baseKey = $"Friends:GetFriendStatus-{organizedIds.Item1}-{organizedIds.Item2}";
 

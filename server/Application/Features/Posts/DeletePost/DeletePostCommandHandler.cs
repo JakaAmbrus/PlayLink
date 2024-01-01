@@ -20,7 +20,7 @@ namespace Application.Features.Posts.DeletePost
         public async Task<DeletePostResponse> Handle(DeletePostCommand request, CancellationToken cancellationToken)
         {
             var authUser = await _context.Users.FindAsync(new object[] { request.AuthUserId }, cancellationToken)
-                        ?? throw new NotFoundException("Authorized user not found");
+                ?? throw new NotFoundException("Authorized user not found");
 
             var selectedPost = await _context.Posts.FindAsync(new object[] { request.PostId }, cancellationToken)
                 ?? throw new NotFoundException("Post was not found");
@@ -31,7 +31,7 @@ namespace Application.Features.Posts.DeletePost
             //Only the posts owner or a moderator/admin can delete a post
             if (!isPostOwner && !isModerator)
             {
-                throw new UnauthorizedException("User not authorized to delete post");
+                throw new UnauthorizedException("User not authorized to delete this post");
             }
 
             //Remove the photo from Cloudinary if it is included in the post

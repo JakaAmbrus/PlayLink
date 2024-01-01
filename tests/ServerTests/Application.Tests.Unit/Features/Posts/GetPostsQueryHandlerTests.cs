@@ -98,7 +98,7 @@ namespace Application.Tests.Unit.Features.Posts
             response.Should().NotBeNull();
             response.Posts.Should().NotBeNull();
             response.Posts.Count().Should().Be(10);
-            response.Posts.First().Should().BeOfType<PostDto>();
+            response.Posts.Should().AllBeOfType<PostDto>();
         }
     }
 }

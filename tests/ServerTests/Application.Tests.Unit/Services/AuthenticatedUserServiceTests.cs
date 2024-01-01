@@ -31,7 +31,7 @@ namespace Application.Tests.Unit.Services
             _httpContextAccessor.HttpContext.User.Returns(user);
 
             // Act
-            var action = () => { var result = _authenticatedUserService.UserId; };
+            var action = () => { _ = _authenticatedUserService.UserId; };
 
             // Assert
             action.Should().Throw<InvalidOperationException>()
@@ -49,7 +49,7 @@ namespace Application.Tests.Unit.Services
             _httpContextAccessor.HttpContext.User.Returns(user);
 
             // Act
-            var action = () => { var result = _authenticatedUserService.UserId; };
+            var action = () => { _ = _authenticatedUserService.UserId; };
 
             // Assert
             action.Should().Throw<NotFoundException>()

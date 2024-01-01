@@ -15,8 +15,9 @@ namespace Application.Tests.Unit.Features.Comments
         public UploadCommentCommandHandlerTests()
         {
             _context = TestBase.CreateTestDbContext();
-            SeedTestData(_context);
             _handler = new UploadCommentCommandHandler(_context);
+
+            SeedTestData(_context);
         }
 
         private static void SeedTestData(IApplicationDbContext context)

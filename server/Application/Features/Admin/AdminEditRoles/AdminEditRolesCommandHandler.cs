@@ -36,18 +36,10 @@ namespace Application.Features.Admin.AdminEditRoles
             {
                 await _userManager.AddToRoleAsync(user, "Moderator");
             }
-          
-            else if (isModerator)
+            
+            else
             {
                 await _userManager.RemoveFromRoleAsync(user, "Moderator");
-            }
-
-            else 
-            {
-                return new AdminEditRolesResponse
-                {
-                    RoleEdited = false
-                };
             }
 
             await _context.SaveChangesAsync(cancellationToken);

@@ -21,6 +21,11 @@ namespace Application.Features.Moderator.DeleteUserDescription
             var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == request.Username, cancellationToken)
                 ?? throw new NotFoundException("User not found.");
 
+            if (user.Description == null)
+            {
+                return new DeleteUserDescriptionResponse { IsDeleted = false };
+            }
+
             user.Description = null;
 
             await _context.SaveChangesAsync(cancellationToken);

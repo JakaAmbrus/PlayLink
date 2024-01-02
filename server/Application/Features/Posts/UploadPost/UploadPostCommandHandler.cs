@@ -23,7 +23,7 @@ namespace Application.Features.Posts.UploadPost
         {
 
             var authUser = await _context.Users.FindAsync(new object[] { request.AuthUserId }, cancellationToken)
-                ?? throw new NotFoundException("User not found");
+                ?? throw new NotFoundException("Authenticated user not found");
 
             var newPost = new Post
             {

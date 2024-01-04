@@ -21,9 +21,6 @@ namespace Application.Features.Friends.GetFriendRequests
 
         public async Task<GetFriendRequestsResponse> Handle(GetFriendRequestsQuery request, CancellationToken cancellationToken)
         {
-            var authorizedUser = await _context.Users.FindAsync(new object[] { request.AuthUserId, cancellationToken }, cancellationToken)
-                ?? throw new NotFoundException("Authorized user not found");
-
             string cacheKey = $"Friends:GetFriendRequests-{request.AuthUserId}";
 
             if (_memoryCache.TryGetValue(cacheKey, out List<FriendRequestDto> cachedRequests))

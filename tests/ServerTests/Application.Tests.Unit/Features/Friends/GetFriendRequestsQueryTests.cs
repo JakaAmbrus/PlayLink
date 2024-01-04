@@ -191,20 +191,5 @@ namespace Application.Tests.Unit.Features.Friends
             response.Should().NotBeNull();
             response.FriendRequests.Should().BeEmpty();
         }
-
-        [Fact]
-        public async Task GetFriendRequests_ShouldThrowNotFoundException_WhenUserDoesNotExist()
-        {
-            // Arrange
-            var request = new GetFriendRequestsQuery { AuthUserId = 13 };
-
-            // Act
-            Func<Task> action = async () => await _mediator.Send(request);
-
-            // Assert
-            await action.Should().ThrowAsync<NotFoundException>()
-                .WithMessage("Authorized user not found");
-        }
-
     }
 }

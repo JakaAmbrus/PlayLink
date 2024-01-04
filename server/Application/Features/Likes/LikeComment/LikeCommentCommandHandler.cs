@@ -10,7 +10,7 @@ namespace Application.Features.Likes.LikeComment
     {
         private readonly IApplicationDbContext _context;
 
-        public LikeCommentCommandHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService)
+        public LikeCommentCommandHandler(IApplicationDbContext context)
         {
             _context = context;
         }

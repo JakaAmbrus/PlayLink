@@ -9,20 +9,19 @@ namespace Application.Features.Likes.UnlikeComment
     {
         private readonly IApplicationDbContext _context;
 
-        public UnlikeCommentCommandHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService)
+        public UnlikeCommentCommandHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
         public async Task<UnlikeCommentResponse> Handle(UnlikeCommentCommand request, CancellationToken cancellationToken)
         {
-            var CurrentuserId = request.AuthUserId;
+            var comment = await _context.Comments.FindAsync(request.CommentId, cancellationToken)
+                ?? throw new NotFoundException("Comment not found");
 
             var like = await _context.Likes.FirstOrDefaultAsync(l => l.CommentId == request.CommentId 
-            && l.AppUserId == CurrentuserId, cancellationToken) ?? throw new NotFoundException("Like not found");
-
-            var comment = await _context.Comments.FindAsync(request.CommentId, cancellationToken) 
-                ?? throw new NotFoundException("Comment not found");
+                && l.AppUserId == request.AuthUserId, cancellationToken) 
+                ?? throw new NotFoundException("Comments like not found");
 
             comment.LikesCount--;
             _context.Likes.Remove(like);

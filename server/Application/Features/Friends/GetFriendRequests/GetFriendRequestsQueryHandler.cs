@@ -1,4 +1,5 @@
-﻿using Application.Features.Friends.Common;
+﻿using Application.Exceptions;
+using Application.Features.Friends.Common;
 using Application.Interfaces;
 using Domain.Enums;
 using MediatR;
@@ -20,27 +21,30 @@ namespace Application.Features.Friends.GetFriendRequests
 
         public async Task<GetFriendRequestsResponse> Handle(GetFriendRequestsQuery request, CancellationToken cancellationToken)
         {
+            var authorizedUser = await _context.Users.FindAsync(request.AuthUserId, cancellationToken)
+                ?? throw new NotFoundException("Authorized user not found");
+
             string cacheKey = $"Friends:GetFriendRequests-{request.AuthUserId}";
 
             if (!_memoryCache.TryGetValue(cacheKey, out List<FriendRequestDto> allRequests))
             {
                 var incomingRequests = await _context.FriendRequests
-               .Include(fr => fr.Sender)
-               .Where(fr => fr.ReceiverId == request.AuthUserId && fr.Status == FriendRequestStatus.Pending)
-               .Select(fr => new FriendRequestDto
-               {
-                   FriendRequestId = fr.FriendRequestId,
-                   SenderUsername = fr.Sender.UserName,
-                   SenderFullName = fr.Sender.FullName,
-                   SenderProfilePictureUrl = fr.Sender.ProfilePictureUrl,
-                   SenderGender = fr.Sender.Gender,
-                   Status = fr.Status,
-                   TimeSent = fr.TimeSent
-               })
-               .ToListAsync(cancellationToken);
+                   .Include(fr => fr.Sender)
+                   .Where(fr => fr.ReceiverId == request.AuthUserId && fr.Status == FriendRequestStatus.Pending)
+                   .Select(fr => new FriendRequestDto
+                   {
+                       FriendRequestId = fr.FriendRequestId,
+                       SenderUsername = fr.Sender.UserName,
+                       SenderFullName = fr.Sender.FullName,
+                       SenderProfilePictureUrl = fr.Sender.ProfilePictureUrl,
+                       SenderGender = fr.Sender.Gender,
+                       Status = fr.Status,
+                       TimeSent = fr.TimeSent
+                   })
+                   .ToListAsync(cancellationToken);
 
                 var sentRequestResponses = await _context.FriendRequests
-                .Where(fr => fr.SenderId == request.AuthUserId && fr.Status != FriendRequestStatus.Pending)
+                    .Where(fr => fr.SenderId == request.AuthUserId && fr.Status != FriendRequestStatus.Pending)
                     .Select(fr => new FriendRequestDto
                     {
                         FriendRequestId = fr.FriendRequestId,

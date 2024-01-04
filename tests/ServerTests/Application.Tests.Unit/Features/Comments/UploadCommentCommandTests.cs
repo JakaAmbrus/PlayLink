@@ -4,18 +4,24 @@ using Application.Features.Comments.UploadComment;
 using Application.Interfaces;
 using Application.Tests.Unit.Configurations;
 using Domain.Entities;
+using MediatR;
 
 namespace Application.Tests.Unit.Features.Comments
 {
-    public class UploadCommentCommandHandlerTests
+    public class UploadCommentCommandTests
     {
-        private readonly UploadCommentCommandHandler _handler;
+        private readonly IMediator _mediator;
         private readonly IApplicationDbContext _context;
 
-        public UploadCommentCommandHandlerTests()
+        public UploadCommentCommandTests()
         {
             _context = TestBase.CreateTestDbContext();
-            _handler = new UploadCommentCommandHandler(_context);
+            var mediatorMock = Substitute.For<IMediator>();
+            _mediator = mediatorMock;
+
+            mediatorMock.Send(Arg.Any<UploadCommentCommand>(), Arg.Any<CancellationToken>())
+                .Returns(c => new UploadCommentCommandHandler(_context)
+                .Handle(c.Arg<UploadCommentCommand>(), c.Arg<CancellationToken>()));
 
             SeedTestData(_context);
         }
@@ -28,14 +34,14 @@ namespace Application.Tests.Unit.Features.Comments
         }
 
         [Fact]
-        public async Task Handle_ShouldReturnCorrectCommentResponse_WhenCommentIsUploaded()
+        public async Task UploadComment_ShouldReturnCorrectCommentResponse_WhenCommentIsUploaded()
         {
             // Arrange
             var comment = new CommentUploadDto { Content = "Test comment content", PostId = 1 };
             var request = new UploadCommentCommand { Comment = comment, AuthUserId = 1 };
 
             // Act
-            var response = await _handler.Handle(request, CancellationToken.None);
+            var response = await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             response.Should().NotBeNull();
@@ -50,14 +56,14 @@ namespace Application.Tests.Unit.Features.Comments
         }
 
         [Fact]
-        public async Task Handle_ShouldIncrementCommentsCount_WhenCommentIsUploaded()
+        public async Task UploadComment_ShouldIncrementCommentsCount_WhenCommentIsUploaded()
         {
             // Arrange
             var comment = new CommentUploadDto { Content = "Test comment content", PostId = 1 };
             var request = new UploadCommentCommand { Comment = comment, AuthUserId = 1 };
 
             // Act
-            await _handler.Handle(request, CancellationToken.None);
+            await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             var updatedPost = await _context.Posts.FindAsync(1);
@@ -65,28 +71,28 @@ namespace Application.Tests.Unit.Features.Comments
         }
 
         [Fact]
-        public async Task Handle_ShouldThrowNotFoundException_WhenPostIsNotFound()
+        public async Task UploadComment_ShouldThrowNotFoundException_WhenPostIsNotFound()
         {
             // Arrange
             var comment = new CommentUploadDto { Content = "Test comment content", PostId = 0 };
             var request = new UploadCommentCommand { Comment = comment, AuthUserId = 1 };
 
             // Act
-            var action = async () => await _handler.Handle(request, CancellationToken.None);
+            Func<Task> action = async () => await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             await action.Should().ThrowAsync<NotFoundException>().WithMessage("Post not found");
         }
 
         [Fact]
-        public async Task Handle_ShouldThrowNotFoundException_WhenAuthorizedUserIsNotFound()
+        public async Task UploadComment_ShouldThrowNotFoundException_WhenAuthorizedUserIsNotFound()
         {
             // Arrange
             var comment = new CommentUploadDto { Content = "Test comment content", PostId = 1 };
             var request = new UploadCommentCommand { Comment = comment, AuthUserId = 0 };
 
             // Act
-            var action = async () => await _handler.Handle(request, CancellationToken.None);
+            Func<Task> action = async () => await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             await action.Should().ThrowAsync<NotFoundException>().WithMessage("User not found");

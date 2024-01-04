@@ -4,18 +4,24 @@ using Application.Interfaces;
 using Application.Tests.Unit.Configurations;
 using Application.Utils;
 using Domain.Entities;
+using MediatR;
 
 namespace Application.Tests.Unit.Features.Comments
 {
     public class GetPostCommentsQueryHandlerTests
     {
-        private readonly GetPostCommentsQueryHandler _handler;
+        private readonly IMediator _mediator;
         private readonly IApplicationDbContext _context;
 
         public GetPostCommentsQueryHandlerTests()
         {
             _context = TestBase.CreateTestDbContext();
-            _handler = new GetPostCommentsQueryHandler(_context);
+            var mediatorMock = Substitute.For<IMediator>();
+            _mediator = mediatorMock;
+
+            mediatorMock.Send(Arg.Any<GetPostCommentsQuery>(), Arg.Any<CancellationToken>())
+                .Returns(c => new GetPostCommentsQueryHandler(_context)
+                .Handle(c.Arg<GetPostCommentsQuery>(), c.Arg<CancellationToken>()));
 
             SeedTestData(_context);
         }
@@ -39,7 +45,7 @@ namespace Application.Tests.Unit.Features.Comments
         }
 
         [Fact]
-        public async Task Handle_ShouldReturnPagedListOfCommentDTOs_WhenPostHasComments()
+        public async Task GetPostComments_ShouldReturnPagedListOfCommentDTOs_WhenPostHasComments()
         {
             // Arrange
             var request = new GetPostCommentsQuery 
@@ -51,17 +57,17 @@ namespace Application.Tests.Unit.Features.Comments
             };
 
             // Act
-            var response = await _handler.Handle(request, CancellationToken.None);
+            var response = await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             response.Should().NotBeNull();
             response.Comments.Should().NotBeNull();
             response.Comments.Count().Should().Be(5);
-            response.Comments.First().Should().BeOfType<CommentDto>();
+            response.Comments.Should().AllBeOfType<CommentDto>();
         }
 
         [Fact]
-        public async Task Handle_ShouldReturnTheCorrectResponse_WhenPostHasNoComments()
+        public async Task GetPostComments_ShouldReturnTheCorrectResponse_WhenPostHasNoComments()
         {
             // Arrange
             _context.Posts.Add(new Post { PostId = 2, CommentsCount = 0 });
@@ -76,7 +82,7 @@ namespace Application.Tests.Unit.Features.Comments
             };
 
             // Act
-            var response = await _handler.Handle(request, CancellationToken.None);
+            var response = await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             response.Should().NotBeNull();
@@ -85,7 +91,7 @@ namespace Application.Tests.Unit.Features.Comments
         }
 
         [Fact]
-        public async Task Handle_ShouldReturnPagedListOfCommentDTOs_WhenPostHasLessCommentsThanPageSize()
+        public async Task GetPostComments_ShouldReturnPagedListOfCommentDTOs_WhenPostHasLessCommentsThanPageSize()
         {
             // Arrange
             var request = new GetPostCommentsQuery
@@ -97,13 +103,13 @@ namespace Application.Tests.Unit.Features.Comments
             };
 
             // Act
-            var response = await _handler.Handle(request, CancellationToken.None);
+            var response = await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             response.Should().NotBeNull();
             response.Comments.Should().NotBeNull();
             response.Comments.Count().Should().Be(10);
-            response.Comments.First().Should().BeOfType<CommentDto>();
+            response.Comments.Should().AllBeOfType<CommentDto>();
         }
     }
 }

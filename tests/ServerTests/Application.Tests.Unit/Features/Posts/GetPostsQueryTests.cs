@@ -1,30 +1,35 @@
-﻿using Application.Exceptions;
-using Application.Features.Posts.Common;
-using Application.Features.Posts.GetPostsByUser;
+﻿using Application.Features.Posts.Common;
+using Application.Features.Posts.GetPosts;
 using Application.Interfaces;
 using Application.Tests.Unit.Configurations;
 using Application.Utils;
 using Domain.Entities;
+using MediatR;
 
 namespace Application.Tests.Unit.Features.Posts
 {
-    public class GetPostsByUserQueryHandlerTests
+    public class GetPostsQueryTests
     {
-        private readonly GetPostsByUserQueryHandler _handler;
+        private readonly IMediator _mediator;
         private readonly IApplicationDbContext _context;
 
-        public GetPostsByUserQueryHandlerTests()
+        public GetPostsQueryTests()
         {
             _context = TestBase.CreateTestDbContext();
-            _handler = new GetPostsByUserQueryHandler(_context);
+            var mediatorMock = Substitute.For<IMediator>();
+            _mediator = mediatorMock;
+
+            mediatorMock.Send(Arg.Any<GetPostsQuery>(), Arg.Any<CancellationToken>())
+                .Returns(c => new GetPostsQueryHandler(_context)
+                .Handle(c.Arg<GetPostsQuery>(), c.Arg<CancellationToken>()));
 
             SeedTestData(_context);
         }
 
         private static void SeedTestData(IApplicationDbContext context)
         {
-            context.Users.Add(new AppUser { Id = 1, UserName = "Tester1" });
-            context.Users.Add(new AppUser { Id = 2, UserName = "Tester2" });
+            context.Users.Add(new AppUser { Id = 1 });
+
             var posts = Enumerable.Range(1, 10)
                              .Select(i => new Post
                              {
@@ -33,25 +38,24 @@ namespace Application.Tests.Unit.Features.Posts
                                  DatePosted = DateTime.UtcNow.AddMinutes(-i),
                                  CommentsCount = i
                              }).ToList();
-
             context.Posts.AddRange(posts);
+
             context.SaveChangesAsync(CancellationToken.None).Wait();
         }
 
         [Fact]
-        public async Task Handle_ShouldReturnPagedListOfPostDTOs_WhenUserHasPosts()
+        public async Task GetPosts_ShouldReturnPagedListOfPostDTOs_WhenPostsExist()
         {
             // Arrange
-            var request = new GetPostsByUserQuery
+            var request = new GetPostsQuery
             {
-                Username = "Tester1",
                 Params = new PaginationParams { PageNumber = 1, PageSize = 5 },
                 AuthUserId = 1,
                 AuthUserRoles = new List<string>()
             };
 
             // Act
-            var response = await _handler.Handle(request, CancellationToken.None);
+            var response = await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             response.Should().NotBeNull();
@@ -61,19 +65,21 @@ namespace Application.Tests.Unit.Features.Posts
         }
 
         [Fact]
-        public async Task Handle_ShouldReturnAnEmptyPagedList_WhenUserHasNoPosts()
+        public async Task GetPosts_ShouldReturnAnEmptyList_WhenThereAreNoPosts()
         {
             // Arrange
-            var request = new GetPostsByUserQuery
+            var request = new GetPostsQuery
             {
-                Username = "Tester2",
                 Params = new PaginationParams { PageNumber = 1, PageSize = 5 },
                 AuthUserId = 1,
                 AuthUserRoles = new List<string>()
             };
 
+            _context.Posts.RemoveRange(_context.Posts);
+            await _context.SaveChangesAsync(CancellationToken.None);
+
             // Act
-            var response = await _handler.Handle(request, CancellationToken.None);
+            var response = await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             response.Should().NotBeNull();
@@ -82,44 +88,24 @@ namespace Application.Tests.Unit.Features.Posts
         }
 
         [Fact]
-        public async Task Handle_ShouldReturnPagedListOfPostDTOs_WhenUserHasLessThanPageSizePosts()
+        public async Task GetPosts_ShouldReturnPagedListOfPostDTOs_WhenThereAreLessPostsThanPageSize()
         {
             // Arrange
-            var request = new GetPostsByUserQuery
+            var request = new GetPostsQuery
             {
-                Username = "Tester1",
                 Params = new PaginationParams { PageNumber = 1, PageSize = 15 },
                 AuthUserId = 1,
                 AuthUserRoles = new List<string>()
             };
 
             // Act
-            var response = await _handler.Handle(request, CancellationToken.None);
+            var response = await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             response.Should().NotBeNull();
             response.Posts.Should().NotBeNull();
             response.Posts.Count().Should().Be(10);
-        }
-
-        [Fact]
-        public async Task Handle_ShouldThrowNotFoundException_WhenUserDoesNotExist()
-        {
-            // Arrange
-            var request = new GetPostsByUserQuery
-            {
-                Username = "NonExistentUser",
-                Params = new PaginationParams { PageNumber = 1, PageSize = 5 },
-                AuthUserId = 1,
-                AuthUserRoles = new List<string>()
-            };
-
-            // Act
-            var result = async () => await _handler.Handle(request, CancellationToken.None);
-
-            // Assert
-            await result.Should().ThrowAsync<NotFoundException>()
-                .WithMessage("User with Username NonExistentUser not found");
+            response.Posts.Should().AllBeOfType<PostDto>();
         }
     }
 }

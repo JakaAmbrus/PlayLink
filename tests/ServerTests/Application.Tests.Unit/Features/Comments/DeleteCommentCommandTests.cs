@@ -3,18 +3,24 @@ using Application.Features.Comments.DeleteComment;
 using Application.Interfaces;
 using Application.Tests.Unit.Configurations;
 using Domain.Entities;
+using MediatR;
 
 namespace Application.Tests.Unit.Features.Comments
 {
-    public class DeleteCommentCommandHandlerTests
+    public class DeleteCommentCommandTests
     {
-        private readonly DeleteCommentCommandHandler _handler;
+        private readonly IMediator _mediator;
         private readonly IApplicationDbContext _context;
 
-        public DeleteCommentCommandHandlerTests()
+        public DeleteCommentCommandTests()
         {
-            _context = TestBase.CreateTestDbContext();
-            _handler = new DeleteCommentCommandHandler(_context);
+            _context = TestBase.CreateTestDbContext();           
+            var mediatorMock = Substitute.For<IMediator>();
+            _mediator = mediatorMock;
+
+            mediatorMock.Send(Arg.Any<DeleteCommentCommand>(), Arg.Any<CancellationToken>())
+                .Returns(c => new DeleteCommentCommandHandler(_context)
+                .Handle(c.Arg<DeleteCommentCommand>(), c.Arg<CancellationToken>()));
 
             SeedTestData(_context);
         }
@@ -28,13 +34,13 @@ namespace Application.Tests.Unit.Features.Comments
         }
 
         [Fact]
-        public async Task Handle_ShouldDeleteCommentAndReturnTheCorrectResponse_WhenUserIsTheOwner()
+        public async Task DeleteComment_ShouldDeleteCommentAndReturnTheCorrectResponse_WhenUserIsTheOwner()
         {
             // Arrange
             var request = new DeleteCommentCommand { CommentId = 1, AuthUserId = 1, AuthUserRoles = new List<string>() };
 
             // Act
-            var response = await _handler.Handle(request, CancellationToken.None);
+            var response = await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             response.Should().NotBeNull();
@@ -43,13 +49,13 @@ namespace Application.Tests.Unit.Features.Comments
         }
 
         [Fact]
-        public async Task Handle_ShouldDeleteCommentAndReturnTheCorrectResponse_WhenUserIsModerator()
+        public async Task DeleteComment_ShouldDeleteCommentAndReturnTheCorrectResponse_WhenUserIsModerator()
         {
             // Arrange
             var request = new DeleteCommentCommand { CommentId = 1, AuthUserId = 1, AuthUserRoles = new List<string> { "Moderator" } };
 
             // Act
-            var response = await _handler.Handle(request, CancellationToken.None);
+            var response = await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             response.Should().NotBeNull();
@@ -58,13 +64,13 @@ namespace Application.Tests.Unit.Features.Comments
         }
 
         [Fact]
-        public async Task Handle_ShouldDecrementCommentsCount_WhenCommentIsDeleted()
+        public async Task DeleteComment_ShouldDecrementCommentsCount_WhenCommentIsDeleted()
         {
             // Arrange
             var request = new DeleteCommentCommand { CommentId = 1, AuthUserId = 1, AuthUserRoles = new List<string>() };
 
             // Act
-            await _handler.Handle(request, CancellationToken.None);
+            await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             var updatedPost = await _context.Posts.FindAsync(1);
@@ -72,7 +78,7 @@ namespace Application.Tests.Unit.Features.Comments
         }
 
         [Fact]
-        public async Task Handle_ShouldThrowUnauthorizedException_WhenUserIsNotTheOwnerAndNotModerator()
+        public async Task DeleteComment_ShouldThrowUnauthorizedException_WhenUserIsNotTheOwnerAndNotModerator()
         {
             // Arrange
             _context.Users.Add(new AppUser { Id = 2 });
@@ -81,29 +87,29 @@ namespace Application.Tests.Unit.Features.Comments
             var request = new DeleteCommentCommand { CommentId = 1, AuthUserId = 2, AuthUserRoles = new List<string>() };
 
             // Act
-            var result = async () => await _handler.Handle(request, CancellationToken.None);
+            Func<Task> action = async () => await _mediator.Send(request, CancellationToken.None);
 
             // Assert
-            await result.Should().ThrowAsync<UnauthorizedException>()
+            await action.Should().ThrowAsync<UnauthorizedException>()
                 .WithMessage("User not authorized to delete comment");
         }
 
         [Fact]
-        public async Task Handle_ShouldThrowNotFoundException_WhenCommentIsNotFound()
+        public async Task DeleteComment_ShouldThrowNotFoundException_WhenCommentIsNotFound()
         {
             // Arrange
             var request = new DeleteCommentCommand { CommentId = 0, AuthUserId = 1, AuthUserRoles = new List<string>() };
 
             // Act
-            var result = async () => await _handler.Handle(request, CancellationToken.None);
+            Func<Task> action = async () => await _mediator.Send(request, CancellationToken.None);
 
             // Assert
-            await result.Should().ThrowAsync<NotFoundException>()
+            await action.Should().ThrowAsync<NotFoundException>()
                 .WithMessage("Comment was not found");
         }
 
         [Fact]
-        public async Task Handle_ShouldThrowNotFoundException_WhenPostIsNotFound()
+        public async Task DeleteComment_ShouldThrowNotFoundException_WhenPostIsNotFound()
         {
             // Arrange
             _context.Comments.Add(new Comment { CommentId = 2, PostId = 0, AppUserId = 1 });
@@ -112,10 +118,10 @@ namespace Application.Tests.Unit.Features.Comments
             var request = new DeleteCommentCommand { CommentId = 2, AuthUserId = 1, AuthUserRoles = new List<string>() };
 
             // Act
-            var result = async () => await _handler.Handle(request, CancellationToken.None);
+            Func<Task> action = async () => await _mediator.Send(request, CancellationToken.None);
 
             // Assert
-            await result.Should().ThrowAsync<NotFoundException>()
+            await action.Should().ThrowAsync<NotFoundException>()
                 .WithMessage("Post was not found");
         }
     }

@@ -4,22 +4,30 @@ using Application.Interfaces;
 using Application.Models;
 using Application.Tests.Unit.Configurations;
 using Domain.Entities;
+using MediatR;
 
 namespace Application.Tests.Unit.Features.Posts
 {
-    public class DeletePostCommandHandlerTests
+    public class DeletePostCommandTests
     {
-        private readonly DeletePostCommandHandler _handler;
+        private readonly IMediator _mediator;
         private readonly IApplicationDbContext _context;
         private readonly IPhotoService _photoService;
         private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public DeletePostCommandHandlerTests()
+        public DeletePostCommandTests()
         {
             _context = TestBase.CreateTestDbContext();
-            _handler = new DeletePostCommandHandler(_context, _photoService, _cacheInvalidationService);
             _photoService = Substitute.For<IPhotoService>();
             _cacheInvalidationService = Substitute.For<ICacheInvalidationService>();
+            var mediatorMock = Substitute.For<IMediator>();
+            _mediator = mediatorMock;
+
+            _mediator.Send(Arg.Any<DeletePostCommand>(), Arg.Any<CancellationToken>())
+                .Returns(c => new DeletePostCommandHandler(
+                    _context, _photoService, _cacheInvalidationService)
+                    .Handle(c.Arg<DeletePostCommand>(), c.Arg<CancellationToken>()));
+
             // I do not want to actually interact with my Cloudinary account
             _photoService.DeletePhotoAsync(Arg.Any<string>())
                 .Returns(Task.FromResult(new PhotoDeletionResult { Error = null }));
@@ -36,7 +44,7 @@ namespace Application.Tests.Unit.Features.Posts
         }
 
         [Fact]
-        public async Task Handle_ShouldDeletePostAndReturnTheCorrectResponse_WhenUserIsTheOwner()
+        public async Task DeletePost_ShouldDeletePostAndReturnTheCorrectResponse_WhenUserIsTheOwner()
         {
             // Arrange
             var request = new DeletePostCommand 
@@ -47,7 +55,7 @@ namespace Application.Tests.Unit.Features.Posts
             };
 
             // Act
-            var response = await _handler.Handle(request, CancellationToken.None);
+            var response = await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             response.Should().NotBeNull();
@@ -55,7 +63,7 @@ namespace Application.Tests.Unit.Features.Posts
         }
 
         [Fact]
-        public async Task Handle_ShouldDeletePostAndReturnTheCorrectResponse_WhenUserIsModerator()
+        public async Task DeletePost_ShouldDeletePostAndReturnTheCorrectResponse_WhenUserIsModerator()
         {
             // Arrange
             var request = new DeletePostCommand 
@@ -66,7 +74,7 @@ namespace Application.Tests.Unit.Features.Posts
             };
 
             // Act
-            var response = await _handler.Handle(request, CancellationToken.None);
+            var response = await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             response.Should().NotBeNull();
@@ -74,7 +82,7 @@ namespace Application.Tests.Unit.Features.Posts
         }
 
         [Fact]
-        public async Task Handle_ShouldDecrementCommentsCount_WhenPostIsDeleted()
+        public async Task DeletePost_ShouldDecrementCommentsCount_WhenPostIsDeleted()
         {
             // Arrange
             var request = new DeletePostCommand 
@@ -85,14 +93,14 @@ namespace Application.Tests.Unit.Features.Posts
             };
 
             // Act
-            await _handler.Handle(request, CancellationToken.None);
+            await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             _context.Posts.Count().Should().Be(0);
         }
 
         [Fact]
-        public async Task Handle_ShouldThrowUnauthorizedException_WhenUserIsNotTheOwnerAndNotModerator()
+        public async Task DeletePost_ShouldThrowUnauthorizedException_WhenUserIsNotTheOwnerAndNotModerator()
         {
             // Arrange
             _context.Users.Add(new AppUser { Id = 2 });
@@ -106,15 +114,15 @@ namespace Application.Tests.Unit.Features.Posts
             };
 
             // Act
-            var result = async () => await _handler.Handle(request, CancellationToken.None);
+            Func<Task> action = async () => await _mediator.Send(request, CancellationToken.None);
 
             // Assert
-            await result.Should().ThrowAsync<UnauthorizedException>()
+            await action.Should().ThrowAsync<UnauthorizedException>()
                 .WithMessage("User not authorized to delete this post");
         }
 
         [Fact]
-        public async Task Handle_ShouldThrowNotFoundException_WhenAuthorizedUserDoesNotExist()
+        public async Task DeletePost_ShouldThrowNotFoundException_WhenAuthorizedUserDoesNotExist()
         {
             // Arrange
             var request = new DeletePostCommand
@@ -125,15 +133,15 @@ namespace Application.Tests.Unit.Features.Posts
             };
 
             // Act
-            var result = async () => await _handler.Handle(request, CancellationToken.None);
+            Func<Task> action = async () => await _mediator.Send(request, CancellationToken.None);
 
             // Assert
-            await result.Should().ThrowAsync<NotFoundException>()
+            await action.Should().ThrowAsync<NotFoundException>()
                 .WithMessage("Authorized user not found");
         }
 
         [Fact]
-        public async Task Handle_ShouldThrowNotFoundException_WhenPostDoesNotExist()
+        public async Task DeletePost_ShouldThrowNotFoundException_WhenPostDoesNotExist()
         {
             // Arrange
             var request = new DeletePostCommand
@@ -144,10 +152,10 @@ namespace Application.Tests.Unit.Features.Posts
             };
 
             // Act
-            var result = async () => await _handler.Handle(request, CancellationToken.None);
+            Func<Task> action = async () => await _mediator.Send(request, CancellationToken.None);
 
             // Assert
-            await result.Should().ThrowAsync<NotFoundException>()
+            await action.Should().ThrowAsync<NotFoundException>()
                 .WithMessage("Post was not found");
         }
     }

@@ -4,22 +4,29 @@ using Application.Interfaces;
 using Application.Models;
 using Application.Tests.Unit.Configurations;
 using Domain.Entities;
+using MediatR;
 
 namespace Application.Tests.Unit.Features.Moderator
 {
-    public class DeleteUserPhotoCommandHandlerTests
+    public class DeleteUserPhotoCommandTests
     {
-        private readonly DeleteUserPhotoCommandHandler _handler;
+        private readonly IMediator _mediator;
         private readonly IApplicationDbContext _context;
         private readonly IPhotoService _photoService;
         private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public DeleteUserPhotoCommandHandlerTests()
+        public DeleteUserPhotoCommandTests()
         {
             _context = TestBase.CreateTestDbContext();
             _photoService = Substitute.For<IPhotoService>();
             _cacheInvalidationService = Substitute.For<ICacheInvalidationService>();
-            _handler = new DeleteUserPhotoCommandHandler(_context, _photoService, _cacheInvalidationService);
+            var mediatorMock = Substitute.For<IMediator>();
+            _mediator = mediatorMock;
+
+            mediatorMock.Send(Arg.Any<DeleteUserPhotoCommand>(), Arg.Any<CancellationToken>())
+                .Returns(c => new DeleteUserPhotoCommandHandler(
+                    _context, _photoService, _cacheInvalidationService)
+                    .Handle(c.Arg<DeleteUserPhotoCommand>(), c.Arg<CancellationToken>()));
 
             _photoService.DeletePhotoAsync(Arg.Any<string>())
                 .Returns(Task.FromResult(new PhotoDeletionResult { Error = null }));
@@ -40,27 +47,27 @@ namespace Application.Tests.Unit.Features.Moderator
         }
 
         [Fact]
-        public async Task Handle_ShouldDeleteUserPhoto_WhenPhotoExists()
+        public async Task DeleteUserPhoto_ShouldDeleteUserPhoto_WhenPhotoExists()
         {
             // Arrange
             var request = new DeleteUserPhotoCommand { Username = "Tester" };
 
             // Act
-            var result = await _handler.Handle(request, CancellationToken.None);
+            var response = await _mediator.Send(request, CancellationToken.None);
 
             // Assert
-            result.IsDeleted.Should().BeTrue();
+            response.IsDeleted.Should().BeTrue();
             _context.Users.First().ProfilePictureUrl.Should().BeNull();
         }
 
         [Fact]
-        public async Task Handle_ShouldThrowNotFoundException_WhenUserNotFound()
+        public async Task DeleteUserPhoto_ShouldThrowNotFoundException_WhenUserNotFound()
         {
             // Arrange
             var request = new DeleteUserPhotoCommand { Username = "ImaginaryUser" };
 
             // Act
-            Func<Task> action = async () => await _handler.Handle(request, CancellationToken.None);
+            Func<Task> action = async () => await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             await action.Should().ThrowAsync<NotFoundException>()
@@ -68,13 +75,13 @@ namespace Application.Tests.Unit.Features.Moderator
         }
 
         [Fact]
-        public async Task Handle_ShouldThrowNotFoundException_WhenPhotoDoesNotExist()
+        public async Task DeleteUserPhoto_ShouldThrowNotFoundException_WhenPhotoDoesNotExist()
         {
             // Arrange
             var request = new DeleteUserPhotoCommand { Username = "NoProfilePicture" };
 
             // Act
-            Func<Task> action = async () => await _handler.Handle(request, CancellationToken.None);
+            Func<Task> action = async () => await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             await action.Should().ThrowAsync<NotFoundException>()
@@ -82,7 +89,7 @@ namespace Application.Tests.Unit.Features.Moderator
         }
 
         [Fact]
-        public async Task Handle_ShouldThrowServerErrorException_WhenPhotoDeletionFails()
+        public async Task DeleteUserPhoto_ShouldThrowServerErrorException_WhenPhotoDeletionFails()
         {
             // Arrange
             _photoService.DeletePhotoAsync(Arg.Any<string>())
@@ -91,7 +98,7 @@ namespace Application.Tests.Unit.Features.Moderator
             var request = new DeleteUserPhotoCommand { Username = "Tester" };
 
             // Act
-            Func<Task> action = async () => await _handler.Handle(request, CancellationToken.None);
+            Func<Task> action = async () => await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             await action.Should().ThrowAsync<ServerErrorException>();

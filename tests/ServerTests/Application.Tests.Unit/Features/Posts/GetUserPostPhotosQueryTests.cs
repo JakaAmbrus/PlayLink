@@ -3,21 +3,27 @@ using Application.Features.Posts.GetUserPostPhotos;
 using Application.Interfaces;
 using Application.Tests.Unit.Configurations;
 using Domain.Entities;
+using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Application.Tests.Unit.Features.Posts
 {
-    public class GetUserPostPhotosQueryHandlerTests
+    public class GetUserPostPhotosQueryTests
     {
-        private readonly GetUserPostPhotosQueryHandler _handler;
+        private readonly IMediator _mediator;
         private readonly IApplicationDbContext _context;
         private readonly IMemoryCache _memoryCache;
 
-        public GetUserPostPhotosQueryHandlerTests()
+        public GetUserPostPhotosQueryTests()
         {
             _context = TestBase.CreateTestDbContext();
-            _memoryCache = Substitute.For<IMemoryCache>();
-            _handler = new GetUserPostPhotosQueryHandler(_context, _memoryCache);
+            _memoryCache = Substitute.For<IMemoryCache>();       
+            var mediatorMock = Substitute.For<IMediator>(); 
+            _mediator = mediatorMock;
+
+            mediatorMock.Send(Arg.Any<GetUserPostPhotosQuery>(), Arg.Any<CancellationToken>())
+                .Returns(c => new GetUserPostPhotosQueryHandler(_context, _memoryCache)
+                .Handle(c.Arg<GetUserPostPhotosQuery>(), c.Arg<CancellationToken>()));
 
             SeedTestData(_context);
         }
@@ -41,13 +47,13 @@ namespace Application.Tests.Unit.Features.Posts
         }
 
         [Fact]
-        public async Task Handle_ShouldReturnPhotos_WhenUserExistsAndCacheDoesNotExist()
+        public async Task GetUserPostPhotos_ShouldReturnPhotos_WhenUserExistsAndCacheDoesNotExist()
         {
             // Arrange
             var request = new GetUserPostPhotosQuery { Username = "Tester1" };
 
             // Act
-            var response = await _handler.Handle(request, CancellationToken.None);
+            var response = await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             response.Photos.Should().NotBeEmpty();
@@ -55,7 +61,7 @@ namespace Application.Tests.Unit.Features.Posts
         }
 
         [Fact]
-        public async Task Handle_ShouldReturnPhotosFromCache_WhenCacheExists()
+        public async Task GetUserPostPhotos_ShouldReturnPhotosFromCache_WhenCacheExists()
         {
             // Arrange
             var request = new GetUserPostPhotosQuery { Username = "Tester1" };
@@ -67,33 +73,33 @@ namespace Application.Tests.Unit.Features.Posts
             });
 
             // Act
-            var response = await _handler.Handle(request, CancellationToken.None);
+            var response = await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             response.Photos.Should().BeEquivalentTo(cachedPhotos);
         }
 
         [Fact]
-        public async Task Handle_ShouldReturnNoPhotos_WhenCacheDoesNotExistAndUserHasNoPhotos()
+        public async Task GetUserPostPhotos_ShouldReturnNoPhotos_WhenCacheDoesNotExistAndUserHasNoPhotos()
         {
             // Arrange
             var request = new GetUserPostPhotosQuery { Username = "Tester2" };
 
             // Act
-            var response = await _handler.Handle(request, CancellationToken.None);
+            var response = await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             response.Photos.Should().BeEmpty();
         }
 
         [Fact]
-        public async Task Handle_ShouldThrowNotFoundException_WhenUserDoesNotExist()
+        public async Task GetUserPostPhotos_ShouldThrowNotFoundException_WhenUserDoesNotExist()
         {
             // Arrange
             var request = new GetUserPostPhotosQuery {  Username = "ImaginaryUser" };
 
             // Act
-            var action = async () => await _handler.Handle(request, CancellationToken.None);
+            Func<Task> action = async () => await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             await action.Should().ThrowAsync<NotFoundException>()

@@ -3,20 +3,27 @@ using Application.Features.Moderator.DeleteUserDescription;
 using Application.Interfaces;
 using Application.Tests.Unit.Configurations;
 using Domain.Entities;
+using MediatR;
 
 namespace Application.Tests.Unit.Features.Moderator
 {
-    public class DeleteUserDescriptionCommandHandlerTests
+    public class DeleteUserDescriptionCommandTests
     {
-        private readonly DeleteUserDescriptionCommandHandler _handler;
+        private readonly IMediator _mediator;
         private readonly IApplicationDbContext _context;
         private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public DeleteUserDescriptionCommandHandlerTests()
+        public DeleteUserDescriptionCommandTests()
         {
             _context = TestBase.CreateTestDbContext();
             _cacheInvalidationService = Substitute.For<ICacheInvalidationService>();
-            _handler = new DeleteUserDescriptionCommandHandler(_context, _cacheInvalidationService);
+            var mediatorMock = Substitute.For<IMediator>();
+            _mediator = mediatorMock;
+
+            mediatorMock.Send(Arg.Any<DeleteUserDescriptionCommand>(), Arg.Any<CancellationToken>())
+                .Returns(c => new DeleteUserDescriptionCommandHandler(
+                                       _context, _cacheInvalidationService)
+                                   .Handle(c.Arg<DeleteUserDescriptionCommand>(), c.Arg<CancellationToken>()));
 
             SeedTestData(_context);
         }
@@ -29,13 +36,13 @@ namespace Application.Tests.Unit.Features.Moderator
         }
 
         [Fact]
-        public async Task Handle_ShouldDeleteUserDescriptionAndReturnTheCorrectResponse_WhenUserIsModerator()
+        public async Task DeleteUserDescription_ShouldDeleteUserDescriptionAndReturnTheCorrectResponse_WhenUserIsModerator()
         {
             // Arrange
             var request = new DeleteUserDescriptionCommand { Username = "Tester" };
 
             // Act
-            var response = await _handler.Handle(request, CancellationToken.None);
+            var response = await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             response.Should().NotBeNull();
@@ -44,13 +51,13 @@ namespace Application.Tests.Unit.Features.Moderator
         }
 
         [Fact]
-        public async Task Handle_ShouldReturnFalse_WhenUserDoesNotHaveDescription()
+        public async Task DeleteUserDescription_ShouldReturnFalse_WhenUserDoesNotHaveDescription()
         {
             // Arrange
             var request = new DeleteUserDescriptionCommand { Username = "NoDescription" };
 
             // Act
-            var response = await _handler.Handle(request, CancellationToken.None);
+            var response = await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             response.Should().NotBeNull();
@@ -58,16 +65,16 @@ namespace Application.Tests.Unit.Features.Moderator
         }
 
         [Fact]
-        public async Task Handle_ShouldThrowNotFoundException_WhenUserDoesNotExist()
+        public async Task DeleteUserDescription_ShouldThrowNotFoundException_WhenUserDoesNotExist()
         {
             // Arrange
             var request = new DeleteUserDescriptionCommand { Username = "ImaginaryUser" };
 
             // Act
-            var result = async () => await _handler.Handle(request, CancellationToken.None);
+            Func<Task> action = async () => await _mediator.Send(request, CancellationToken.None);
 
             // Assert
-            await result.Should().ThrowAsync<NotFoundException>()
+            await action.Should().ThrowAsync<NotFoundException>()
                 .WithMessage("User not found.");
         }
     }

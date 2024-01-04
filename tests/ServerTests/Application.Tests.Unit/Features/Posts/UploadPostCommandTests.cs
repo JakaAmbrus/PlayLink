@@ -5,23 +5,30 @@ using Application.Interfaces;
 using Application.Models;
 using Application.Tests.Unit.Configurations;
 using Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 
 namespace Application.Tests.Unit.Features.Posts
 {
-    public class UploadPostCommandHandlerTests
+    public class UploadPostCommandTests
     {
-        private readonly UploadPostCommandHandler _handler;
+        private readonly IMediator _mediator;
         private readonly IApplicationDbContext _context;
         private readonly IPhotoService _photoService;
         private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public UploadPostCommandHandlerTests()
+        public UploadPostCommandTests()
         {
             _context = TestBase.CreateTestDbContext();
             _photoService = Substitute.For<IPhotoService>();
             _cacheInvalidationService = Substitute.For<ICacheInvalidationService>();
-            _handler = new UploadPostCommandHandler(_context, _photoService, _cacheInvalidationService);
+            var mediatorMock = Substitute.For<IMediator>();
+            _mediator = mediatorMock;
+
+            mediatorMock.Send(Arg.Any<UploadPostCommand>(), Arg.Any<CancellationToken>())
+                .Returns(c => new UploadPostCommandHandler(
+                    _context, _photoService, _cacheInvalidationService)
+                    .Handle(c.Arg<UploadPostCommand>(), c.Arg<CancellationToken>()));
 
             SeedTestData(_context);
         }
@@ -33,7 +40,7 @@ namespace Application.Tests.Unit.Features.Posts
         }
 
         [Fact]
-        public async Task Handle_ShouldCreatePostWithoutPhoto_WhenPhotoNotProvided()
+        public async Task UploadPost_ShouldCreatePostWithoutPhoto_WhenPhotoIsNotProvided()
         {
             // Arrange
             var request = new UploadPostCommand
@@ -43,15 +50,17 @@ namespace Application.Tests.Unit.Features.Posts
             };
 
             // Act
-            var result = await _handler.Handle(request, CancellationToken.None);
+            var response = await _mediator.Send(request, CancellationToken.None);
 
             // Assert
-            result.PostDto.Should().NotBeNull();
-            result.PostDto.PhotoUrl.Should().BeNull();
+            response.Should().NotBeNull();
+            response.PostDto.Should().NotBeNull();
+            response.PostDto.Should().BeOfType<PostDto>();
+            response.PostDto.PhotoUrl.Should().BeNull();
         }
 
         [Fact]
-        public async Task Handle_ShouldCreatePostWithPhoto_WhenPhotoProvided()
+        public async Task UploadPost_ShouldCreatePostWithPhoto_WhenPhotoIsProvided()
         {
             // Arrange
             var mockPhotoResult = new PhotoUploadResult
@@ -79,14 +88,18 @@ namespace Application.Tests.Unit.Features.Posts
             };
 
             // Act
-            var result = await _handler.Handle(request, CancellationToken.None);
+            var response = await _mediator.Send(request, CancellationToken.None);
 
             // Assert
-            result.PostDto.PhotoUrl.Should().Be(mockPhotoResult.Url);
+            response.Should().NotBeNull();
+            response.PostDto.Should().NotBeNull();
+            response.PostDto.Should().BeOfType<PostDto>();
+            response.PostDto.PhotoUrl.Should().Be(mockPhotoResult.Url);
+            response.PostDto.IsAuthorized.Should().BeTrue();
         }
 
         [Fact]
-        public async Task Handle_ShouldThrowUnauthorizedException_WhenUserIsNotAuthenticated()
+        public async Task UploadPost_ShouldThrowUnauthorizedException_WhenUserIsNotAuthenticated()
         {
             // Arrange
             var request = new UploadPostCommand
@@ -96,15 +109,15 @@ namespace Application.Tests.Unit.Features.Posts
             };
 
             // Act
-            var result = async () => await _handler.Handle(request, CancellationToken.None);
+            Func<Task> action = async () => await _mediator.Send(request, CancellationToken.None);
 
             // Assert
-            await result.Should().ThrowAsync<NotFoundException>()
+            await action.Should().ThrowAsync<NotFoundException>()
                 .WithMessage("Authenticated user not found");
         }
 
         [Fact]
-        public async Task Handle_ShouldThrowServerErrorException_WhenPhotoServiceReturnsError()
+        public async Task UploadPost_ShouldThrowServerErrorException_WhenPhotoServiceReturnsError()
         {
             // Arrange
             var mockErrorResult = new PhotoUploadResult
@@ -130,7 +143,7 @@ namespace Application.Tests.Unit.Features.Posts
             };
 
             // Act
-            Func<Task> action = async () => await _handler.Handle(request, CancellationToken.None);
+            Func<Task> action = async () => await _mediator.Send(request, CancellationToken.None);
 
             // Assert
             await action.Should().ThrowAsync<ServerErrorException>()

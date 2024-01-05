@@ -18,16 +18,16 @@ namespace Application.Features.Admin.AdminEditRoles
         public async Task<AdminEditRolesResponse> Handle(AdminEditRolesCommand request, CancellationToken cancellationToken)
         {
             var user = await _context.Users.FindAsync(new object[] { request.AppUserId }, cancellationToken)
-                ?? throw new NotFoundException("User to edit not found.");
+                ?? throw new NotFoundException("User to edit not found");
 
             var authUser = await _context.Users.FindAsync(new object[] { request.AuthUserId }, cancellationToken)
-                ?? throw new NotFoundException("Auth user not found.");
+                ?? throw new NotFoundException("Auth user not found");
 
             bool isAdmin = await _userManager.IsInRoleAsync(authUser, "Admin");
 
             if (!isAdmin)
             {
-                throw new UnauthorizedAccessException("Unauthorized, only an Admin can make this request.");
+                throw new UnauthorizedAccessException("Unauthorized, only an Admin can make this request");
             }
 
             bool isModerator = await _userManager.IsInRoleAsync(user, "Moderator");

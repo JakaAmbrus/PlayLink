@@ -21,35 +21,34 @@ namespace Application.Features.Friends.GetUserFriends
         {
             string cacheKey = $"Friends:GetUserFriends-{request.AuthUserId}";
 
-            if (!_memoryCache.TryGetValue(cacheKey, out List<FriendDto> friends))
+            if (_memoryCache.TryGetValue(cacheKey, out GetUserFriendsResponse cachedResponse))
             {
-                friends = await _context.Friendships
-                   .Where(f => f.User1Id == request.AuthUserId || f.User2Id == request.AuthUserId)
-                   .SelectMany(f => _context.Users
-                   .Where(u => u.Id == (f.User1Id == request.AuthUserId ? f.User2Id : f.User1Id))
-                   .Select(u => new FriendDto
-                   {
-                       Username = u.UserName,
-                       FullName = u.FullName,
-                       ProfilePictureUrl = u.ProfilePictureUrl,
-                       Gender = u.Gender,
-                       DateEstablished = f.DateEstablished
-                   }))
-                   .Distinct()
-                   .ToListAsync(cancellationToken);
-
-                var cacheEntryOptions = new MemoryCacheEntryOptions
-                {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(1)
-                };
-
-                _memoryCache.Set(cacheKey, friends, cacheEntryOptions);
+                return cachedResponse;
             }
-              
-            return new GetUserFriendsResponse
+
+            var friends = await _context.Friendships
+                .Where(f => f.User1Id == request.AuthUserId || f.User2Id == request.AuthUserId)
+                .SelectMany(f => _context.Users
+                    .Where(u => u.Id == (f.User1Id == request.AuthUserId ? f.User2Id : f.User1Id))
+                    .Select(u => new FriendDto
+                    {
+                        Username = u.UserName,
+                        FullName = u.FullName,
+                        ProfilePictureUrl = u.ProfilePictureUrl,
+                        Gender = u.Gender,
+                        DateEstablished = f.DateEstablished
+                    }))
+                .Distinct()
+                .ToListAsync(cancellationToken);
+
+            var cacheEntryOptions = new MemoryCacheEntryOptions
             {
-                Friends = friends
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(1)
             };
+
+            _memoryCache.Set(cacheKey, friends, cacheEntryOptions);
+              
+            return new GetUserFriendsResponse { Friends = friends };
         }
     }
 }

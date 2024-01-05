@@ -83,7 +83,7 @@ namespace Application.Tests.Unit.Features.Friends
         [InlineData(1, "3", FriendshipStatus.Pending)]
         [InlineData(2, "3", FriendshipStatus.Declined)]
         [InlineData(3, "4", FriendshipStatus.None)]
-        public async Task Handle_ShouldReturnCorrectFriendshipStatus_FromCache(int authUserId, string profileUsername, FriendshipStatus expectedStatus)
+        public async Task GetFriendshipStatus_ShouldReturnCorrectFriendshipStatus_FromCache(int authUserId, string profileUsername, FriendshipStatus expectedStatus)
         {
             // Arrange
             var request = new GetFriendshipStatusQuery { AuthUserId = authUserId, ProfileUsername = profileUsername };

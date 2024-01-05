@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
@@ -21,6 +22,16 @@ namespace Infrastructure.Services
         public async Task<AppUser> FindByIdAsync(string userId)
         {
             return await _userManager.FindByIdAsync(userId);
+        }
+
+        public async Task<AppUser> FindByUsernameAsync(string username)
+        {
+            return await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == username);
+        }
+
+        public async Task<bool> CheckPasswordAsync(AppUser user, string password)
+        {
+            return await _userManager.CheckPasswordAsync(user, password);
         }
 
         public async Task<bool> IsInRoleAsync(AppUser user, string role)

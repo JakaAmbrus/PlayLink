@@ -33,13 +33,13 @@ namespace Application.Tests.Unit.Features.Posts
             context.Users.Add(new AppUser { Id = 2, UserName = "Tester2" });
 
             var posts = Enumerable.Range(1, 10)
-                            .Select(i => new Post
-                            {
-                                PostId = i,
-                                AppUserId = 1,
-                                DatePosted = DateTime.UtcNow.AddMinutes(-i),
-                                CommentsCount = i
-                            }).ToList();
+                .Select(i => new Post
+                {
+                    PostId = i,
+                    AppUserId = 1,
+                    DatePosted = DateTime.UtcNow.AddMinutes(-i),
+                    CommentsCount = i
+                }).ToList();
             context.Posts.AddRange(posts);
 
             context.SaveChangesAsync(CancellationToken.None).Wait();

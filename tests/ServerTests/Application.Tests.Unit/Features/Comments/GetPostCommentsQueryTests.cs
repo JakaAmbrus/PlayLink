@@ -31,14 +31,14 @@ namespace Application.Tests.Unit.Features.Comments
             context.Users.Add(new AppUser { Id = 1 });
             context.Posts.Add(new Post { PostId = 1, CommentsCount = 2 });
             var comments = Enumerable.Range(1, 10)
-                             .Select(i => new Comment
-                             {
-                                 AppUserId = 1,
-                                 CommentId = i,
-                                 PostId = 1,
-                                 Content = $"Comment {i}",
-                                 TimeCommented = DateTime.UtcNow.AddMinutes(-i)
-                             }).ToList();
+                .Select(i => new Comment
+                {
+                    AppUserId = 1,
+                    CommentId = i,
+                    PostId = 1,
+                    Content = $"Comment {i}",
+                    TimeCommented = DateTime.UtcNow.AddMinutes(-i)
+                }).ToList();
 
             context.Comments.AddRange(comments);
             context.SaveChangesAsync(CancellationToken.None).Wait();

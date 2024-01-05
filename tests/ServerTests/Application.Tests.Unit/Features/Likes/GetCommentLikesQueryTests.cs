@@ -29,12 +29,12 @@ namespace Application.Tests.Unit.Features.Likes
         private static void SeedTestData(IApplicationDbContext context)
         {
             var users = Enumerable.Range(1, 11)
-                             .Select(i => new AppUser 
-                             { 
-                                 Id = i,
-                                 UserName = $"{i}",
-                                 FullName = $"{i} Tester",
-                             }).ToList();
+                .Select(i => new AppUser 
+                { 
+                    Id = i,
+                    UserName = $"{i}",
+                    FullName = $"{i} Tester",
+                }).ToList();
             context.Users.AddRange(users);
 
             context.Posts.Add(new Post { PostId = 1, CommentsCount = 1 });
@@ -43,11 +43,11 @@ namespace Application.Tests.Unit.Features.Likes
             context.Comments.Add(new Comment { CommentId = 2, PostId = 1, AppUserId = 2, LikesCount = 0 });
 
             var likes = Enumerable.Range(1, 10)
-                             .Select(i => new Like
-                             {
-                                 AppUserId = i,
-                                 CommentId = 1,
-                             }).ToList();
+                .Select(i => new Like
+                {
+                    AppUserId = i,
+                    CommentId = 1,
+                }).ToList();
             context.Likes.AddRange(likes);
 
             context.SaveChangesAsync(CancellationToken.None).Wait();

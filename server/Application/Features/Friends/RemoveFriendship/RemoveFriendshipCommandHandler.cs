@@ -18,10 +18,6 @@ namespace Application.Features.Friends.RemoveFriendship
 
         public async Task<RemoveFriendshipResponse> Handle(RemoveFriendshipCommand request, CancellationToken cancellationToken)
         {
-            var authUser = await _context.Users
-                .FirstOrDefaultAsync(u => u.Id == request.AuthUserId, cancellationToken)
-                ?? throw new NotFoundException("Authorized user not found");
-
             var profileUser = await _context.Users
                 .FirstOrDefaultAsync(u => u.UserName == request.ProfileUsername, cancellationToken)
                 ?? throw new NotFoundException("Profile user not found");
@@ -54,10 +50,7 @@ namespace Application.Features.Friends.RemoveFriendship
 
             _cacheInvalidationService.InvalidateFriendshipStatusCache(request.AuthUserId, profileUser.Id);
 
-            return new RemoveFriendshipResponse
-            {
-                FriendshipRemoved = true
-            };
+            return new RemoveFriendshipResponse { FriendshipRemoved = true };
         }
     }
 }

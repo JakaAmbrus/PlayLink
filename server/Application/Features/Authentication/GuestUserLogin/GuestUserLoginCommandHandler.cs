@@ -20,7 +20,7 @@ namespace Application.Features.Authentication.GuestUserLogin
         public async Task<GuestUserLoginResponse> Handle(GuestUserLoginCommand request, CancellationToken cancellationToken)
         {
             var memberUsernames = new List<string> { "testone", "testtwo", "testthree" };
-            var moderatorUsernames = new List<string> { "testmodone", "testmodtwo", "testmodtre" };
+            var moderatorUsernames = new List<string> { "modone", "modtwo", "modthree" };
 
             var usernames = request.Role.Equals("Moderator", StringComparison.OrdinalIgnoreCase) ? moderatorUsernames : memberUsernames;
 

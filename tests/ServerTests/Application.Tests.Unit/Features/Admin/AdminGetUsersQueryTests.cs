@@ -24,7 +24,7 @@ namespace Application.Tests.Unit.Features.Admin
 
             mediatorMock.Send(Arg.Any<AdminGetUsersQuery>(), Arg.Any<CancellationToken>())
                 .Returns(c => new AdminGetUsersQueryHandler(_context, _userManager)
-                               .Handle(c.Arg<AdminGetUsersQuery>(), c.Arg<CancellationToken>()));
+                .Handle(c.Arg<AdminGetUsersQuery>(), c.Arg<CancellationToken>()));
 
             SeedTestData(_context);
         }
@@ -36,8 +36,7 @@ namespace Application.Tests.Unit.Features.Admin
                 .Select(i => new AppUser
                 {
                     Id = i,
-                    UserName = $"{i}",
-                    FullName = $"User {i}",
+                    UserName = $"{i}"
                 }).ToList();
             context.Users.AddRange(users);
 

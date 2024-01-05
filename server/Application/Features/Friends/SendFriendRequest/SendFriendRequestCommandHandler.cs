@@ -20,20 +20,16 @@ namespace Application.Features.Friends.SendFriendRequest
 
         public async Task<SendFriendRequestResponse> Handle(SendFriendRequestCommand request, CancellationToken cancellationToken)
         {
-            var user = await _context.Users
-                .FindAsync(new object[] { request.AuthUserId }, cancellationToken)
-                ?? throw new NotFoundException("User not found");
-
             var receiver = await _context.Users
                 .FirstOrDefaultAsync(x => x.UserName == request.ReceiverUsername, cancellationToken)
                 ?? throw new NotFoundException("Receiver not found");
 
             bool existingFriendship = await _context.Friendships
-                .AnyAsync(f => (f.User1Id == user.Id && f.User2Id == receiver.Id) || (f.User1Id == receiver.Id && f.User2Id == user.Id), cancellationToken);
+                .AnyAsync(f => (f.User1Id == request.AuthUserId && f.User2Id == receiver.Id) || (f.User1Id == receiver.Id && f.User2Id == request.AuthUserId), cancellationToken);
 
             if (existingFriendship)
             {
-                throw new BadRequestException("You are already friends with this user.");
+                throw new BadRequestException("You are already friends with this user");
             }
 
             if (receiver.Id == request.AuthUserId)
@@ -42,13 +38,13 @@ namespace Application.Features.Friends.SendFriendRequest
             }
 
             var friendRequest = await _context.FriendRequests
-                .FirstOrDefaultAsync(x => x.SenderId == user.Id && x.ReceiverId == receiver.Id, cancellationToken);
+                .FirstOrDefaultAsync(x => x.SenderId == request.AuthUserId && x.ReceiverId == receiver.Id, cancellationToken);
 
             if (friendRequest != null)
             {
                 if (friendRequest.Status == FriendRequestStatus.Declined)
                 {
-                    throw new BadRequestException("A previous friend request was declined, wait for the owner to get notified before resending.");
+                    throw new BadRequestException("A previous friend request was declined, wait for the owner to get notified before resending");
                 }
 
                 throw new BadRequestException("Friend request already sent");
@@ -56,7 +52,7 @@ namespace Application.Features.Friends.SendFriendRequest
 
             friendRequest = new FriendRequest
             {
-                SenderId = user.Id,
+                SenderId = request.AuthUserId,
                 ReceiverId = receiver.Id,
                 Status = FriendRequestStatus.Pending
             };

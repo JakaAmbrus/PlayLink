@@ -18,10 +18,6 @@ namespace Application.Features.Friends.RemoveFriendRequest
 
         public async Task<RemoveFriendRequestResponse> Handle(RemoveFriendRequestCommand request, CancellationToken cancellationToken)
         {
-            var authUser = await _context.Users
-                .FindAsync(new object[] { request.AuthUserId }, cancellationToken)
-                ?? throw new NotFoundException("User not found");
-
             var friendRequest = await _context.FriendRequests
                 .FirstOrDefaultAsync(x => x.FriendRequestId == request.FriendRequestId && x.SenderId == request.AuthUserId, cancellationToken) 
                 ?? throw new NotFoundException("Friend request not found or unauthorized access.");
@@ -37,10 +33,7 @@ namespace Application.Features.Friends.RemoveFriendRequest
                 _cacheInvalidationService.InvalidateFriendshipStatusCache(friendRequest.SenderId, friendRequest.ReceiverId);
             }
 
-            return new RemoveFriendRequestResponse
-            {
-                RequestRemoved = true
-            };
+            return new RemoveFriendRequestResponse { RequestRemoved = true };
         }
     }
 }

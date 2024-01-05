@@ -25,7 +25,7 @@ namespace Application.Features.Friends.GetRelationshipStatus
         {            
             var profileUser = await _context.Users
                 .FirstOrDefaultAsync(u => u.UserName == request.ProfileUsername, cancellationToken)
-                ?? throw new NotFoundException("User not found");
+                ?? throw new NotFoundException("Profile user not found");
 
             string cacheKey = _cacheKeyService.GenerateFriendStatusCacheKey(request.AuthUserId, profileUser.Id);
 

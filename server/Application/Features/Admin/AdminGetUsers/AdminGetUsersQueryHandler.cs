@@ -22,13 +22,13 @@ namespace Application.Features.Admin.AdminGetUsers
         public async Task<AdminGetUsersResponse> Handle(AdminGetUsersQuery request, CancellationToken cancellationToken)
         {
             var authUser = await _context.Users.FindAsync(new object[] { request.AuthUserId}, cancellationToken) 
-                ?? throw new NotFoundException("Auth user not found.");
+                ?? throw new NotFoundException("Authorized user not found");
 
             bool isAdmin = await _userManager.IsInRoleAsync(authUser, "Admin");
             
             if (!isAdmin)
             {
-                throw new UnauthorizedAccessException("Unauthorized, only an Admin can make this request.");
+                throw new UnauthorizedException("Unauthorized, only an Admin can make this request");
             }
 
             var usersQuery = _context.Users

@@ -21,10 +21,10 @@ namespace Application.Features.Admin.AdminUserDelete
         public async Task<AdminUserDeleteResponse> Handle(AdminUserDeleteCommand request, CancellationToken cancellationToken)
         {
             var user = await _context.Users.FindAsync(new object[] { request.AppUserId }, cancellationToken)
-                ?? throw new NotFoundException("User not found.");
+                ?? throw new NotFoundException("User not found");
 
             var authUser = await _context.Users.FindAsync(new object[] { request.AuthUserId }, cancellationToken)
-                ?? throw new NotFoundException("Auth user not found.");
+                ?? throw new NotFoundException("Authorized user not found");
 
             // Only an Admin is authorized for deleting a user. This implementation includes multiple role checks (UserManager, DbContext, and API Policy)
             // to ensure robust security. While this might seem excessive, it's designed primarily for educational purposes to demonstrate various validation techniques.
@@ -35,60 +35,46 @@ namespace Application.Features.Admin.AdminUserDelete
 
             if (!isAdmin)
             {
-                throw new UnauthorizedAccessException("Unauthorized, only an Admin can delete a user.");
+                throw new UnauthorizedException("Unauthorized, only an Admin can delete a user");
             }
 
-            using (var transaction = await _context.BeginTransactionAsync(cancellationToken))
+
+            var userConnections = _context.Connections.Where(c => c.Username == user.UserName).ToList();
+            _context.Connections.RemoveRange(userConnections);
+
+            var posts = _context.Posts.Where(p => p.AppUserId == request.AppUserId).ToList();
+            _context.Posts.RemoveRange(posts);
+
+            var userLikes = _context.Likes.Where(l => l.AppUserId == request.AppUserId).ToList();
+            foreach (var like in userLikes)
             {
-                try
+                var post = _context.Posts.FirstOrDefault(p => p.PostId == like.PostId);
+                if (post != null)
                 {
-
-                    var userConnections = _context.Connections.Where(c => c.Username == user.UserName).ToList();
-                    _context.Connections.RemoveRange(userConnections);
-
-                    var posts = _context.Posts.Where(p => p.AppUserId == request.AppUserId).ToList();
-                    _context.Posts.RemoveRange(posts);
-
-                    var userLikes = _context.Likes.Where(l => l.AppUserId == request.AppUserId).ToList();
-                    foreach (var like in userLikes)
-                    {
-                        var post = _context.Posts.FirstOrDefault(p => p.PostId == like.PostId);
-                        if (post != null)
-                        {
-                            post.LikesCount -= 1;
-                        }
-                    }
-
-                    var sentRequests = _context.FriendRequests.Where(fr => fr.SenderId == request.AppUserId).ToList();
-                    var receivedRequests = _context.FriendRequests.Where(fr => fr.ReceiverId == request.AppUserId).ToList();
-                    _context.FriendRequests.RemoveRange(sentRequests.Concat(receivedRequests));
-
-                    var friendshipsAsUser1 = _context.Friendships.Where(f => f.User1Id == request.AppUserId).ToList();
-                    var friendshipsAsUser2 = _context.Friendships.Where(f => f.User2Id == request.AppUserId).ToList();
-                    _context.Friendships.RemoveRange(friendshipsAsUser1.Concat(friendshipsAsUser2));
-
-                    var sentMessages = _context.PrivateMessages.Where(msg => msg.SenderId == request.AppUserId).ToList();
-                    _context.PrivateMessages.RemoveRange(sentMessages);
-
-                    var receivedMessages = _context.PrivateMessages.Where(msg => msg.RecipientId == request.AppUserId).ToList();
-                    _context.PrivateMessages.RemoveRange(receivedMessages);
-
-                    _context.Users.Remove(user);
-
-                    await _context.SaveChangesAsync(cancellationToken);
-
-                    _cacheInvalidationService.InvalidateSearchUserCache();
-                    _cacheInvalidationService.InvalidateNearestBirthdayUsersCache();
-
-                    await transaction.CommitAsync(cancellationToken);
-
-                }
-                catch (Exception)
-                {
-                    await transaction.RollbackAsync(cancellationToken);
-                    throw;
+                    post.LikesCount -= 1;
                 }
             }
+
+            var sentRequests = _context.FriendRequests.Where(fr => fr.SenderId == request.AppUserId).ToList();
+            var receivedRequests = _context.FriendRequests.Where(fr => fr.ReceiverId == request.AppUserId).ToList();
+            _context.FriendRequests.RemoveRange(sentRequests.Concat(receivedRequests));
+
+            var friendshipsAsUser1 = _context.Friendships.Where(f => f.User1Id == request.AppUserId).ToList();
+            var friendshipsAsUser2 = _context.Friendships.Where(f => f.User2Id == request.AppUserId).ToList();
+            _context.Friendships.RemoveRange(friendshipsAsUser1.Concat(friendshipsAsUser2));
+
+            var sentMessages = _context.PrivateMessages.Where(msg => msg.SenderId == request.AppUserId).ToList();
+            _context.PrivateMessages.RemoveRange(sentMessages);
+
+            var receivedMessages = _context.PrivateMessages.Where(msg => msg.RecipientId == request.AppUserId).ToList();
+            _context.PrivateMessages.RemoveRange(receivedMessages);
+
+            _context.Users.Remove(user);
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+            _cacheInvalidationService.InvalidateSearchUserCache();
+            _cacheInvalidationService.InvalidateNearestBirthdayUsersCache();
 
             return new AdminUserDeleteResponse { UserDeleted = true };
         }

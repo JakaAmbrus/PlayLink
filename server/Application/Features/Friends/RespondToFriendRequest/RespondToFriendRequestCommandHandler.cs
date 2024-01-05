@@ -32,7 +32,17 @@ namespace Application.Features.Friends.RespondToFriendRequest
 
             if (friendRequest.Status != FriendRequestStatus.Pending)
             {
-                throw new BadRequestException("This friend request already has a response.");
+                throw new BadRequestException("This friend request already has a response");
+            }
+
+            var friendshipExists = await _context.Friendships.AnyAsync(f =>
+                    (f.User1Id == friendRequest.SenderId && f.User2Id == friendRequest.ReceiverId)
+                    || (f.User1Id == friendRequest.ReceiverId && f.User2Id == friendRequest.SenderId),
+                    cancellationToken);
+
+            if (friendshipExists)
+            {
+                throw new BadRequestException("You are already friends with this user");
             }
 
             if (request.FriendRequestResponse.Accept)
@@ -48,13 +58,9 @@ namespace Application.Features.Friends.RespondToFriendRequest
                 await _context.Friendships.AddAsync(friend, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                _cacheInvalidationService.InvalidateFriendRequestsCache(friendRequest.SenderId);
-                _cacheInvalidationService.InvalidateFriendRequestsCache(friendRequest.ReceiverId);
-
+                InvalidatFriendshipCaches(friendRequest);
                 _cacheInvalidationService.InvalidateUserFriendsCache(friendRequest.SenderId);
                 _cacheInvalidationService.InvalidateUserFriendsCache(friendRequest.ReceiverId);
-
-                _cacheInvalidationService.InvalidateFriendshipStatusCache(friendRequest.SenderId, friendRequest.ReceiverId);
 
                 var newFriend = await _context.Users
                     .FirstOrDefaultAsync(u => u.Id == friendRequest.SenderId, cancellationToken)
@@ -77,15 +83,16 @@ namespace Application.Features.Friends.RespondToFriendRequest
             friendRequest.Status = FriendRequestStatus.Declined;
             await _context.SaveChangesAsync(cancellationToken);
 
+            InvalidatFriendshipCaches(friendRequest);
+
+            return new RespondToFriendRequestResponse { RequestAccepted = false };         
+        }
+
+        private void InvalidatFriendshipCaches(FriendRequest friendRequest)
+        {
             _cacheInvalidationService.InvalidateFriendRequestsCache(friendRequest.SenderId);
             _cacheInvalidationService.InvalidateFriendRequestsCache(friendRequest.ReceiverId);
-
             _cacheInvalidationService.InvalidateFriendshipStatusCache(friendRequest.SenderId, friendRequest.ReceiverId);
-
-            return new RespondToFriendRequestResponse
-            {
-                RequestAccepted = false
-            };         
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Application.Features.Users.GetUsersUniqueCountries
     {
         private readonly IApplicationDbContext _context;
 
-        public GetUsersUniqueCountriesQueryHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService)
+        public GetUsersUniqueCountriesQueryHandler(IApplicationDbContext context)
         {
             _context = context;
         }

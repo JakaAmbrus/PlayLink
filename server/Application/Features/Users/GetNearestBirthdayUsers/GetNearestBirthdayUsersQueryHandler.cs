@@ -7,7 +7,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Application.Features.Users.GetNearestBirthdayUsers
 {
-    public class GetNearestBirthdayUsersQueryHandler : IRequestHandler<GetNearestBirthdayUsersQuery, GetNearestBirthdayUsersResult>
+    public class GetNearestBirthdayUsersQueryHandler : IRequestHandler<GetNearestBirthdayUsersQuery, GetNearestBirthdayUsersResponse>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMemoryCache _memoryCache;
@@ -18,13 +18,13 @@ namespace Application.Features.Users.GetNearestBirthdayUsers
             _memoryCache = memoryCache;
         }
 
-        public async Task<GetNearestBirthdayUsersResult> Handle(GetNearestBirthdayUsersQuery request, CancellationToken cancellationToken)
+        public async Task<GetNearestBirthdayUsersResponse> Handle(GetNearestBirthdayUsersQuery request, CancellationToken cancellationToken)
         {
             string cacheKey = "Users:GetNearestBirthdayUsers";
 
             if (_memoryCache.TryGetValue(cacheKey, out List<UserBirthdayDto> cachedUsers))
             {
-                return new GetNearestBirthdayUsersResult { Users = cachedUsers };
+                return new GetNearestBirthdayUsersResponse { Users = cachedUsers };
             }
 
             var today = DateOnly.FromDateTime(DateTime.Today);
@@ -70,7 +70,7 @@ namespace Application.Features.Users.GetNearestBirthdayUsers
 
             _memoryCache.Set(cacheKey, usersWithNearestBirthday, cacheEntryOptions);
 
-            return new GetNearestBirthdayUsersResult { Users = usersWithNearestBirthday };
+            return new GetNearestBirthdayUsersResponse { Users = usersWithNearestBirthday };
         }
     }
 }

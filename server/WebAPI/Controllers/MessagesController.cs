@@ -55,7 +55,7 @@ namespace WebAPI.Controllers
 
             var query = new GetMessageThreadQuery
             {
-                RecipientUsername = recipientUsername,
+                ProfileUsername = recipientUsername,
                 AuthUserId = authUserId
             };
 

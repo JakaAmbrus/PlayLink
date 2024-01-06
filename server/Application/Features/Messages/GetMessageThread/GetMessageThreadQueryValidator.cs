@@ -6,8 +6,8 @@ namespace Application.Features.Messages.GetMessageThread
     {
         public GetMessageThreadQueryValidator()
         {
-            RuleFor(x => x.RecipientUsername)
-                .NotEmpty().WithMessage("Recipient username is required");
+            RuleFor(x => x.ProfileUsername)
+                .NotEmpty().WithMessage("Profile username is required");
             RuleFor(x => x.AuthUserId)
                 .NotEmpty().WithMessage("Authenticated user Id required.");
         }

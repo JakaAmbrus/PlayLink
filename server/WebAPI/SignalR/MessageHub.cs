@@ -58,7 +58,7 @@ namespace WebAPI.SignalR
             var query = new GetMessageThreadQuery
             {
                 AuthUserId = authUserId,
-                RecipientUsername = otherUser
+                ProfileUsername = otherUser
             };
             var messages = await _mediator.Send(query);
 

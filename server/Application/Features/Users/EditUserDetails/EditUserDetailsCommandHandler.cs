@@ -20,13 +20,11 @@ namespace Application.Features.Users.EditUserDetails
         public async Task<EditUserDetailsResult> Handle(EditUserDetailsCommand request, CancellationToken cancellationToken)
         {
             var authUser = await _context.Users.FindAsync(new object[] { request.AuthUserId }, cancellationToken)
-                ?? throw new NotFoundException("User was not found");
+                ?? throw new NotFoundException("Authorized user was not found");
 
-            bool isModerator = request.AuthUserRoles.Contains("Moderator");
             bool isUserOwner = authUser.UserName == request.EditUserDto.Username;
 
-            //Only the owner or a moderator/admin can edit post
-            if (!isUserOwner && !isModerator)
+            if (!isUserOwner)
             {
                 throw new UnauthorizedException("User not authorized to edit profile");
             }

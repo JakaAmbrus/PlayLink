@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Application.Features.MessageGroups.MarkMessageAsRead
+namespace Application.Features.Messages.MarkMessageAsRead
 {
     public class MarkMessageAsReadCommandValidator : AbstractValidator<MarkMessageAsReadCommand>
     {

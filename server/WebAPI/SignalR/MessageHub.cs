@@ -3,7 +3,7 @@ using Application.Features.MessageGroups.AddGroup;
 using Application.Features.MessageGroups.Common;
 using Application.Features.MessageGroups.GetGroupForConnection;
 using Application.Features.MessageGroups.GetMessageGroup;
-using Application.Features.MessageGroups.MarkMessageAsRead;
+using Application.Features.Messages.MarkMessageAsRead;
 using Application.Features.MessageGroups.RemoveConnection;
 using Application.Features.Messages.Common;
 using Application.Features.Messages.GetMessageById;

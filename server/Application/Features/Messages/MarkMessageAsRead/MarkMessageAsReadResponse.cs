@@ -1,4 +1,4 @@
-﻿namespace Application.Features.MessageGroups.MarkMessageAsRead
+﻿namespace Application.Features.Messages.MarkMessageAsRead
 {
     public class MarkMessageAsReadResponse
     {

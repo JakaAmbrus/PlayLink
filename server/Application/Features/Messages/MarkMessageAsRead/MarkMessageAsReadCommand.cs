@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Application.Features.MessageGroups.MarkMessageAsRead
+namespace Application.Features.Messages.MarkMessageAsRead
 {
     public class MarkMessageAsReadCommand : IRequest<MarkMessageAsReadResponse>
     {

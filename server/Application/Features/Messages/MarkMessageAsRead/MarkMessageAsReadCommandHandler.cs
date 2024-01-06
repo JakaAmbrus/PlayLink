@@ -2,7 +2,7 @@
 using Application.Interfaces;
 using MediatR;
 
-namespace Application.Features.MessageGroups.MarkMessageAsRead
+namespace Application.Features.Messages.MarkMessageAsRead
 {
     public class MarkMessageAsReadCommandHandler : IRequestHandler<MarkMessageAsReadCommand, MarkMessageAsReadResponse>
     {
@@ -15,16 +15,16 @@ namespace Application.Features.MessageGroups.MarkMessageAsRead
 
         public async Task<MarkMessageAsReadResponse> Handle(MarkMessageAsReadCommand request, CancellationToken cancellationToken)
         {
-  
+
             var message = await _context.PrivateMessages.FindAsync(new object[] { request.MessageId }, cancellationToken)
                 ?? throw new NotFoundException("Message not found");
 
-  
+
             message.DateRead = DateTime.UtcNow;
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return new MarkMessageAsReadResponse { MessageMarked = true };         
+            return new MarkMessageAsReadResponse { MessageMarked = true };
         }
     }
 }

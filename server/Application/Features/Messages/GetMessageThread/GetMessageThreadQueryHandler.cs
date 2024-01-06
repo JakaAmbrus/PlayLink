@@ -10,29 +10,32 @@ namespace Application.Features.Messages.GetMessageThread
     {
         private readonly IApplicationDbContext _context;
 
-        public GetMessageThreadQueryHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService)
+        public GetMessageThreadQueryHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
         public async Task<GetMessageThreadResponse> Handle(GetMessageThreadQuery request, CancellationToken cancellationToken)
         {
-            var currentUser = await _context.Users.FindAsync(request.AuthUserId, cancellationToken)
-                ?? throw new NotFoundException("User not found");
+            var authUser = await _context.Users.FindAsync(new object[] { request.AuthUserId, cancellationToken }, cancellationToken)
+                ?? throw new NotFoundException("Authorized user not found");
+
+            var profileUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == request.ProfileUsername, cancellationToken)
+                ?? throw new NotFoundException("Profile user not found");
 
             var messages = await _context.PrivateMessages
                 .Include(m => m.Sender)
                 .Include(m => m.Recipient)
-                .Where(m => m.RecipientUsername == currentUser.UserName 
+                .Where(m => m.RecipientUsername == authUser.UserName 
                     && m.RecipientDeleted == false
-                    && m.SenderUsername == request.RecipientUsername || m.RecipientUsername == request.RecipientUsername 
+                    && m.SenderUsername == request.ProfileUsername || m.RecipientUsername == request.ProfileUsername
                     && m.SenderDeleted == false
-                    && m.SenderUsername == currentUser.UserName)
+                    && m.SenderUsername == authUser.UserName)
                 .OrderBy(m => m.PrivateMessageSent)
                 .ToListAsync(cancellationToken);
 
             var unreadMessages = messages
-                .Where(m => m.DateRead == null && m.RecipientUsername == currentUser.UserName)
+                .Where(m => m.DateRead == null && m.RecipientUsername == authUser.UserName)
                 .ToList();
 
             if (unreadMessages.Any())
@@ -54,7 +57,7 @@ namespace Application.Features.Messages.GetMessageThread
                 Content = m.Content,
                 DateRead = m.DateRead.HasValue ? m.DateRead.Value.ToUniversalTime() : (DateTime?)null,
                 PrivateMessageSent = m.PrivateMessageSent.ToUniversalTime(),
-                SenderGender = currentUser.Gender,
+                SenderGender = authUser.Gender,
                 RecipientGender = m.Recipient.Gender,
                 SenderFullName = m.Sender.FullName,
                 RecipientFullName = m.Recipient.FullName

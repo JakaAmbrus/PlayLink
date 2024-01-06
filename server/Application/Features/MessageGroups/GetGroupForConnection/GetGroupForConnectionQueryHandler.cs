@@ -20,12 +20,8 @@ namespace Application.Features.MessageGroups.GetGroupForConnection
             var group = await _context.Groups
                 .Include(g => g.Connections)
                 .Where(g => g.Connections.Any(c => c.ConnectionId == request.ConnectionId))
-                .FirstOrDefaultAsync();
-
-            if (group == null)
-            {
-                throw new NotFoundException("Group not found");
-            }
+                .FirstOrDefaultAsync(cancellationToken)
+                ?? throw new NotFoundException("Group not found");
 
             return new GroupDto
             {

@@ -22,38 +22,40 @@ namespace Application.Features.Users.GetUserByUsername
         {
             string cacheKey = $"Users:GetUserByUsername-{request.Username}";
 
-            if (!_memoryCache.TryGetValue(cacheKey, out ProfileUserDto profileUserDto))
+            if (_memoryCache.TryGetValue(cacheKey, out ProfileUserDto profileUserDto))
             {
-                var user = await _context.Users
+                return new GetUserByUsernameResponse { User = profileUserDto };
+            }
+
+            var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.UserName == request.Username, cancellationToken)
                 ?? throw new NotFoundException($"The user by the username: {request.Username} not found ");
 
-                bool isModerator = request.AuthUserRoles.Contains("Moderator");
-                bool isCurrentUser = request.AuthUserId == user.Id;
+            bool isModerator = request.AuthUserRoles.Contains("Moderator");
+            bool isCurrentUser = request.AuthUserId == user.Id;
 
-                profileUserDto = new ProfileUserDto
-                {
-                    AppUserId = user.Id,
-                    Username = user.UserName,
-                    Gender = user.Gender,
-                    FullName = user.FullName,
-                    DateOfBirth = user.DateOfBirth,
-                    Country = user.Country,
-                    ProfilePictureUrl = user.ProfilePictureUrl,
-                    Description = user.Description,
-                    Created = user.Created,
-                    LastActive = user.LastActive,
-                    Authorized = isModerator && !isCurrentUser
-                };
+            profileUserDto = new ProfileUserDto
+            {
+                AppUserId = user.Id,
+                Username = user.UserName,
+                Gender = user.Gender,
+                FullName = user.FullName,
+                DateOfBirth = user.DateOfBirth,
+                Country = user.Country,
+                ProfilePictureUrl = user.ProfilePictureUrl,
+                Description = user.Description,
+                Created = user.Created,
+                LastActive = user.LastActive,
+                Authorized = isModerator && !isCurrentUser // Moderation view is only seen on other profiles
+            };
 
-                var cacheEntryOptions = new MemoryCacheEntryOptions
-                {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(2)
-                };
+            var cacheEntryOptions = new MemoryCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(2)
+            };
 
-                _memoryCache.Set(cacheKey, profileUserDto, cacheEntryOptions);
-            }
-                
+            _memoryCache.Set(cacheKey, profileUserDto, cacheEntryOptions);
+
             return new GetUserByUsernameResponse { User = profileUserDto };
         }
     }

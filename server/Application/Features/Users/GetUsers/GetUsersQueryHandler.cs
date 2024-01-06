@@ -9,7 +9,7 @@ namespace Application.Features.Users.GetUsers
     {
         private readonly IApplicationDbContext _context;
 
-        public GetUsersQueryHandler(IApplicationDbContext context, IAuthenticatedUserService authenticatedUserService)
+        public GetUsersQueryHandler(IApplicationDbContext context)
         {
             _context = context;
         }

@@ -1,4 +1,5 @@
-﻿using Application.Features.Comments.Common;
+﻿using Application.Exceptions;
+using Application.Features.Comments.Common;
 using Application.Interfaces;
 using Application.Utils;
 using MediatR;
@@ -16,6 +17,9 @@ namespace Application.Features.Comments.GetComments
 
         public async Task<GetPostCommentsResponse> Handle(GetPostCommentsQuery request, CancellationToken cancellationToken)
         {
+            var post = await _context.Posts.FindAsync(new object[] { request.PostId }, cancellationToken)
+                ?? throw new NotFoundException("Post not found");
+
             bool isModerator = request.AuthUserRoles.Contains("Moderator");
 
             var comments = _context.Comments

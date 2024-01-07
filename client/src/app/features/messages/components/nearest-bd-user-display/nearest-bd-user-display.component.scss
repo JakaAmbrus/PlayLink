@@ -26,3 +26,8 @@
   font-family: "Roboto Regular";
   font-size: 1.8em;
 }
+@media (max-width: 1300px) {
+  .nearest-bd-date {
+    display: none;
+  }
+}

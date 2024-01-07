@@ -100,22 +100,61 @@
   align-self: flex-start;
 }
 
+@media (min-width: 2400px) {
+  #messages-section-container {
+    font-size: 13px;
+  }
+}
+
 @media (max-width: 1680px) {
+  #messages-section-container {
+    gap: 1em;
+  }
+  #messages-right,
+  #messages-left {
+    margin-top: 1.25em;
+    font-size: 0.8em;
+  }
+  #messages-left {
+    margin-left: 0.5em;
+  }
+  #messages-right {
+    margin-right: 0.5em;
+  }
+  #messages-middle {
+    margin-top: 1em;
+    flex-shrink: 0.7;
+  }
+  #messages-content-container {
+    height: 52em;
+    margin-bottom: 0em;
+  }
+  #messages-content-header {
+    padding: 0 0 0.5em 0;
+    font-size: 3em;
+  }
+}
+
+@media (max-width: 1100px) {
+  #messages-middle {
+    width: 80%;
+  }
   #messages-right,
   #messages-left {
     display: none;
   }
 }
-@media (max-width: 680px) {
+
+@media (max-width: 800px) {
   #messages-middle {
     margin: 0;
     width: 100%;
-    font-size: 2.1vw;
+    font-size: clamp(0.5em, 2.1vw, 1em);
     border-radius: 0;
   }
   #messages-content-container {
     font-size: 1.2em;
-    height: 53em;
+    height: 50em;
   }
   #messages-content-header {
     padding: 0 0 0.5em 0;
@@ -126,13 +165,9 @@
     border: none;
   }
 }
+
 @media (max-width: 380px) {
   #paginator {
     font-size: 25px;
-  }
-}
-@media (min-width: 2400px) {
-  #messages-section-container {
-    font-size: 13px;
   }
 }

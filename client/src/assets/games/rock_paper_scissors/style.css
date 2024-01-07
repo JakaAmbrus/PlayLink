@@ -277,4 +277,16 @@ body {
     font-size: 9vw;
     line-height: 15vh;
   }
+  *:focus {
+    outline: none;
+  }
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+  button:focus {
+    outline: none;
+  }
 }

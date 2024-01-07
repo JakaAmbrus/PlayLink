@@ -391,4 +391,13 @@ body {
   #pvp {
     bottom: 7%;
   }
+  #player-selections {
+    margin-top: 25px;
+  }
+  *:focus {
+    outline: none;
+  }
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
 }

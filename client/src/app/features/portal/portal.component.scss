@@ -1,3 +1,6 @@
+:host {
+  height: 100%;
+}
 #auth-page {
   font-size: 10px;
   height: 100%;
@@ -59,6 +62,10 @@ app-login-logo {
   transform: translateX(-2em);
   animation: animateH2 1s ease forwards 2.15s;
   color: #3d3a3a;
+}
+.hide {
+  position: absolute;
+  color: transparent;
 }
 @keyframes animateH2 {
   0% {

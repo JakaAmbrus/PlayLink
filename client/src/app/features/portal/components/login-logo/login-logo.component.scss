@@ -99,3 +99,8 @@
     transform: translateX(0.04em);
   }
 }
+@supports (-webkit-touch-callout: none) {
+  #logo-text-container {
+    gap: 10px;
+  }
+}

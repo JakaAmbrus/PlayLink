@@ -99,3 +99,12 @@ button:disabled {
     padding: 0.5em 1em;
   }
 }
+@media (max-width: 1300px) {
+  #quiz-start-container {
+    h1 {
+      position: absolute;
+      top: 1em;
+      font-size: 6em;
+    }
+  }
+}

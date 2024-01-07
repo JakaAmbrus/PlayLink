@@ -108,12 +108,40 @@
   }
 }
 @media (max-width: 1680px) {
+  #games-section-container {
+    gap: 1em;
+  }
+  #games-tab-left,
+  #games-tab-right {
+    margin-top: 1.25em;
+    font-size: 0.8em;
+  }
+  #games-tab-left {
+    margin-left: 0.5em;
+  }
+  #games-tab-right {
+    margin-right: 0.5em;
+  }
+  #game-selection-container {
+    margin-top: 1em;
+    flex-shrink: 0.7;
+  }
+  #games-content-container {
+    height: 52em;
+    margin-bottom: 0em;
+  }
+  #games-content-header {
+    padding: 0 0 0.5em 0;
+    font-size: 3em;
+  }
+}
+@media (max-width: 1100px) {
   #games-tab-left,
   #games-tab-right {
     display: none;
   }
 }
-@media (max-width: 900px) {
+@media (max-width: 800px) {
   #game-selection-container {
     border-radius: 0;
   }
@@ -125,7 +153,7 @@
     display: flex;
   }
   #playlink-gaming-text > h1 {
-    font-size: clamp(2em, 10vw, 7em);
+    font-size: clamp(2em, 10vw, 6em);
     letter-spacing: 0.03em;
   }
 }

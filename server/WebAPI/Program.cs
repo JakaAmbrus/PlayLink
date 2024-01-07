@@ -68,3 +68,5 @@ app.MapHub<PresenceHub>("hubs/presence");
 app.MapHub<MessageHub>("hubs/message");
 
 app.Run();
+
+public partial class Program { }

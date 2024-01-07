@@ -1,7 +1,11 @@
 :host {
   height: 100%;
+  width: 100%;
 }
 #auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 10px;
   height: 100%;
   min-height: 100vh;
@@ -116,6 +120,8 @@ app-login-logo {
 @media only screen and (max-width: 600px) {
   #auth-page {
     background-image: none;
+    justify-content: flex-start;
+    align-items: flex-start;
   }
   #auth-page-container {
     justify-content: flex-start;

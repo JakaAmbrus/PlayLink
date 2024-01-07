@@ -68,7 +68,7 @@ namespace Application.Tests.Unit.Features.Comments
         }
 
         [Fact]
-        public async Task GetPostComments_ShouldReturnTheCorrectResponse_WhenPostHasNoComments()
+        public async Task GetPostComments_ShouldReturnAndEmptyList_WhenPostHasNoComments()
         {
             // Arrange
             _context.Posts.Add(new Post { PostId = 2, CommentsCount = 0 });
@@ -78,6 +78,27 @@ namespace Application.Tests.Unit.Features.Comments
             { 
                 PostId = 2,
                 Params = new PaginationParams { PageNumber = 1, PageSize = 5 }     ,
+                AuthUserId = 1,
+                AuthUserRoles = new List<string>()
+            };
+
+            // Act
+            var response = await _mediator.Send(request, CancellationToken.None);
+
+            // Assert
+            response.Should().NotBeNull();
+            response.Comments.Should().NotBeNull();
+            response.Comments.Count().Should().Be(0);
+        }
+
+        [Fact]
+        public async Task GetPostComments_ShouldReturnAndEmptyList_WhenPageNumberIsGreaterThanTotalPages()
+        {
+            // Arrange
+            var request = new GetPostCommentsQuery
+            {
+                PostId = 1,
+                Params = new PaginationParams { PageNumber = 3, PageSize = 5 },
                 AuthUserId = 1,
                 AuthUserRoles = new List<string>()
             };

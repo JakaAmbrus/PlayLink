@@ -167,11 +167,56 @@
 }
 @media (max-width: 1680px) {
   #discover-section-container {
+    gap: 1em;
+  }
+  #discover-middle {
+    margin-top: 1em;
+    flex-shrink: 0.8;
+  }
+  #discover-left,
+  #discover-right {
+    margin-top: 1.25em;
+    font-size: 0.8em;
+  }
+  #discover-left {
+    margin-left: 0.5em;
+  }
+  #discover-right {
+    margin-right: 0.5em;
+  }
+  .discover-cards-container {
+    gap: 1em;
+  }
+  #matched-users {
+    font-size: 3.5em;
+  }
+}
+@media (max-width: 1420px) {
+  .discover-cards-container {
+    font-size: 0.7vw;
+  }
+  #matched-users {
+    font-size: 3em;
+  }
+}
+@media (max-width: 1100px) {
+  #discover-section-container {
     flex-direction: column;
     align-items: center;
+    gap: 0em;
   }
   #discover-right {
     display: none;
+  }
+  #discover-left {
+    align-self: center;
+    width: 68em;
+    font-size: 1em;
+    margin-top: 1em;
+    margin-left: 0;
+  }
+  .discover-cards-container {
+    font-size: 1em;
   }
   #discover-right.visible-mobile-filter {
     display: flex;
@@ -197,14 +242,12 @@
         font-size: 0.7em;
       }
     }
-  }
-
-  #discover-left {
-    align-self: center;
-    width: 68em;
+    #matched-users {
+      font-size: 3.8em;
+    }
   }
 }
-@media (max-width: 680px) {
+@media (max-width: 800px) {
   #discover-section-container {
     gap: 0.5em;
   }
@@ -218,10 +261,10 @@
     margin: 0;
   }
   .discover-cards-container {
-    font-size: 2.2vw;
+    font-size: clamp(0.5em, 2.2vw, 1.2em);
   }
   #matched-users {
-    font-size: 6vw;
+    font-size: clamp(1.5em, 6vw, 3.2em);
   }
   .discover-cards-container {
     padding: 2em 1em;

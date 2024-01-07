@@ -28,3 +28,8 @@
   height: 5em;
   flex-shrink: 0;
 }
+@media (max-width: 1300px) {
+  .date-established {
+    display: none;
+  }
+}

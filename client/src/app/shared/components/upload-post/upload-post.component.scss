@@ -6,7 +6,7 @@
   padding: 1.8em 3em;
   padding-bottom: 0.3em;
   width: 100%;
-  margin-bottom: 2em;
+  margin-bottom: 1.5em;
 }
 #upload-post-popup-top {
   display: flex;
@@ -135,6 +135,11 @@
   top: 0.5em;
   right: 0.5em;
   font-size: 4em;
+}
+@media (max-width: 1680px) {
+  #upload-post-popup {
+    margin-bottom: 1em;
+  }
 }
 @media (max-width: 900px) {
   #upload-post-popup {

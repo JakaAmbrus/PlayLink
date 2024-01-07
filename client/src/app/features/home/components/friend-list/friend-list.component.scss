@@ -1,6 +1,5 @@
 .friend-list-container {
   position: fixed;
-  width: 100%;
   display: flex;
   flex-direction: column;
   padding: 1em 2em;
@@ -8,6 +7,7 @@
   max-height: 42em;
   overflow-y: auto;
   scrollbar-width: none;
+  flex-shrink: 1;
 }
 .friend-list-container::-webkit-scrollbar {
   display: none;
@@ -46,4 +46,10 @@
   padding: 0.5em 0;
   margin-bottom: 0.5em;
   border-radius: 0.2em;
+}
+@media (max-width: 1680px) {
+  .friend-list-container {
+    position: relative;
+    width: 100%;
+  }
 }

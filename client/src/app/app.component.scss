@@ -8,9 +8,9 @@
   width: 100%;
 }
 
-@media (min-height: 2500px) and (orientation: portrait) {
+@media (min-width: 2400px) and (orientation: landscape) {
   .main-content-container {
-    min-height: calc(100vh - 38em);
+    min-height: calc(100vh - 8.85em);
   }
 }
 

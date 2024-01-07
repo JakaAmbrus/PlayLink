@@ -1,11 +1,12 @@
 .home-user-card {
   font-family: "Roboto Regular";
-  position: fixed;
   width: 100%;
+  position: fixed;
   display: flex;
   flex-direction: column;
   padding: 2em;
   width: 47em;
+  flex-shrink: 1;
 }
 .avatar-name-created-gender {
   display: flex;
@@ -88,5 +89,17 @@
 
   .placeholder-icon {
     font-size: 4.2em;
+  }
+}
+@media (max-width: 1680px) {
+  .home-user-card {
+    position: relative;
+    width: 100%;
+    padding: 2em;
+  }
+}
+@media (max-width: 1300px) {
+  .edit-profile {
+    display: none;
   }
 }

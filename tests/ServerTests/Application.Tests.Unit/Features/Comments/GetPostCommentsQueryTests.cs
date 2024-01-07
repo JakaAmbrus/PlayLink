@@ -1,4 +1,5 @@
-﻿using Application.Features.Comments.Common;
+﻿using Application.Exceptions;
+using Application.Features.Comments.Common;
 using Application.Features.Comments.GetComments;
 using Application.Interfaces;
 using Application.Tests.Unit.Configurations;
@@ -91,7 +92,7 @@ namespace Application.Tests.Unit.Features.Comments
         }
 
         [Fact]
-        public async Task GetPostComments_ShouldReturnPagedListOfCommentDTOs_WhenPostHasLessCommentsThanPageSize()
+        public async Task ReturnPagedListOfCommentDTOs_WhenPostHasLessCommentsThanPageSize()
         {
             // Arrange
             var request = new GetPostCommentsQuery
@@ -110,6 +111,26 @@ namespace Application.Tests.Unit.Features.Comments
             response.Comments.Should().NotBeNull();
             response.Comments.Count().Should().Be(10);
             response.Comments.Should().AllBeOfType<CommentDto>();
+        }
+
+        [Fact]
+        public async Task GetPostComments_ShouldThrowNotFoundException_WhenPostDoesNotExist()
+        {
+            // Arrange
+            var request = new GetPostCommentsQuery
+            {
+                PostId = 3,
+                Params = new PaginationParams { PageNumber = 1, PageSize = 5 },
+                AuthUserId = 1,
+                AuthUserRoles = new List<string>()
+            };
+
+            // Act
+            Func<Task> action = async () => await _mediator.Send(request, CancellationToken.None);
+
+            // Assert
+            await action.Should().ThrowAsync<NotFoundException>()
+                .WithMessage("Post not found");
         }
     }
 }

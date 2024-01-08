@@ -14,7 +14,7 @@ namespace Application.Features.Comments.DeleteComment
                 .NotEmpty().WithMessage("Authenticated user Id required.");
 
             RuleFor(x => x.AuthUserRoles)
-                .Must(ValidationUtils.IsValidRole).WithMessage("Invalid user role.");
+                .Must(ValidationUtils.IsValidRole).WithMessage("Invalid role detected.");
         }
     }
 }

@@ -119,5 +119,83 @@
             var post = await Context.Posts.FindAsync(1);
             post.CommentsCount.Should().Be(0);
         }
+
+        [Fact]
+        public async Task DeleteComment_ShouldThrowUnauthorizedException_WhenUserIsNotTheOwnerAndNotModerator()
+        {
+            // Arrange
+            await InitializeTestAsync(new List<string> { "Member" });
+
+            int commentId = 2;
+            string url = $"/api/comments/{commentId}";
+
+            // Act
+            var response = await Client.DeleteAsync(url);
+            string responseString = await response.Content.ReadAsStringAsync();
+            var result = JObject.Parse(responseString);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+            result["message"].Value<string>().Should().Be("User not authorized to delete comment");
+        }
+
+        [Fact]
+        public async Task DeleteComment_ShouldThrowNotFoundException_WhenCommentIsNotFound()
+        {
+            // Arrange
+            await InitializeTestAsync(new List<string> { "Member" });
+
+            int commentId = 3;
+            string url = $"/api/comments/{commentId}";
+
+            // Act
+            var response = await Client.DeleteAsync(url);
+            string responseString = await response.Content.ReadAsStringAsync();
+            var result = JObject.Parse(responseString);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            result["message"].Value<string>().Should().Be("Comment was not found");
+        }
+
+        [Fact]
+        public async Task GetPostComments_ShouldThrowForbiddenStatusCode_WhenUserIsNotMember()
+        {
+            // Arrange
+            await InitializeTestAsync(new List<string> { });
+
+            int postId = 1;
+            string url = $"/api/comments/{postId}";
+
+            // Act
+            var response = await Client.GetAsync(url);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        }
+
+        [Fact]
+        public async Task DeleteComment_ShouldThrowBadRequestValidationExceptionWhen_WhenTheRolesAreInvalid()
+        {
+            // Arrange
+            await ResetDatabaseAsync();
+            await RoleManager.CreateAsync(new AppRole { Name = "InvalidRole" });
+            await InitializeAuthenticatedClient(new List<string> { "Member", "InvalidRole" });
+            await InitializeTestSeedDataAsync();
+
+            int commentId = 1;
+            string url = $"/api/comments/{commentId}";
+
+            // Act
+            var response = await Client.DeleteAsync(url);
+            string responseString = await response.Content.ReadAsStringAsync();
+            var result = JObject.Parse(responseString);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            result.Should().NotBeNull();
+            result["errors"]["AuthUserRoles"].Should().HaveCount(1);
+            result["errors"]["AuthUserRoles"][0].Value<string>().Should().Be("Invalid role detected.");
+        }
     }
 }

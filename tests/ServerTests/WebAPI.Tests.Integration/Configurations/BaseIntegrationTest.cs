@@ -8,25 +8,56 @@ namespace WebAPI.Tests.Integration.Configurations
 {
     public abstract class BaseIntegrationTest : IClassFixture<IntegrationTestWebAppFactory>
     {
-        private readonly IServiceScope _scope;
-        protected readonly ISender Mediator;
-        protected readonly DataContext Context;
-        protected readonly IUserManager UserManager;
-        protected readonly RoleManager<AppRole> RoleManager;
-        protected readonly HttpClient Client;
-        private readonly ITokenService _tokenService;
-        protected readonly IPhotoService PhotoService;
+        private readonly IntegrationTestWebAppFactory _factory;
+        private IServiceScope _scope;
+        protected ISender Mediator;
+        protected DataContext Context;
+        protected IUserManager UserManager;
+        protected RoleManager<AppRole> RoleManager;
+        protected HttpClient Client;
+        private ITokenService _tokenService;
+        protected IPhotoService PhotoService;
 
         protected BaseIntegrationTest(IntegrationTestWebAppFactory factory)
         {
-            _scope = factory.Services.CreateScope();
-            Mediator = _scope.ServiceProvider.GetRequiredService<ISender>();
-            Context = _scope.ServiceProvider.GetRequiredService<DataContext>();
-            UserManager = _scope.ServiceProvider.GetRequiredService<IUserManager>();
-            RoleManager = _scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
-            _tokenService = _scope.ServiceProvider.GetRequiredService<ITokenService>();
-            Client = factory.CreateClient();
-            PhotoService = _scope.ServiceProvider.GetRequiredService<IPhotoService>();
+            _factory = factory;
+            CreateNewScope();
+        }
+
+        private void CreateNewScope()
+        {
+            _scope?.Dispose();
+            _scope = _factory.Services.CreateScope();
+            InitializeServices(_scope.ServiceProvider);
+        }
+
+        private void InitializeServices(IServiceProvider services)
+        {
+            Mediator = services.GetRequiredService<ISender>();
+            Context = services.GetRequiredService<DataContext>();
+            UserManager = services.GetRequiredService<IUserManager>();
+            RoleManager = services.GetRequiredService<RoleManager<AppRole>>();
+            _tokenService = services.GetRequiredService<ITokenService>();
+            PhotoService = services.GetRequiredService<IPhotoService>();
+            Client = _factory.CreateClient();
+        }
+
+        protected void RefreshContext()
+        {
+            CreateNewScope();
+        }
+
+        protected async Task ResetDatabaseAsync()
+        {
+            using (var scope = _factory.Services.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+                var db = scopedServices.GetRequiredService<DataContext>();
+                await db.Database.EnsureDeletedAsync();
+                await db.Database.EnsureCreatedAsync();
+
+                await Seed.SeedData(scopedServices);
+            }
         }
 
         protected async Task InitializeAuthenticatedClient(List<string> roles)

@@ -1,12 +1,13 @@
 ﻿namespace WebAPI.Tests.Integration.Controllers.Comments
 {
+    [Collection("Sequential")]
     public class GetPostCommentsTests : BaseIntegrationTest
     {
         public GetPostCommentsTests(IntegrationTestWebAppFactory factory) : base(factory)
         {
         }
 
-        private async Task InitializeSeedTestDataAsync()
+        private async Task InitializeTestSeedDataAsync()
         {
             Context.Posts.Add(new Post { PostId = 1, AppUserId = 1, CommentsCount = 1 });
 
@@ -24,12 +25,18 @@
             await Context.SaveChangesAsync(CancellationToken.None);
         }
 
+        private async Task InitializeTestAsync(List<string> roles)
+        {
+            await ResetDatabaseAsync();
+            await InitializeAuthenticatedClient(roles);
+            await InitializeTestSeedDataAsync();
+        }
+
         [Fact]
         public async Task GetPostComments_ShouldReturnCorrectResponseCode_WhenRequestIsValid()
         {
             // Arrange
-            await InitializeAuthenticatedClient(new List<string> { "Member" });
-            await InitializeSeedTestDataAsync();
+            await InitializeTestAsync(new List<string> { "Member" });
 
             int postId = 1;
             string url = $"/api/comments/{postId}";
@@ -45,8 +52,7 @@
         public async Task GetPostComments_ShouldReturnPagedListOfCommentDTOs_WhenPostHasComments()
         {
             // Arrange
-            await InitializeAuthenticatedClient(new List<string> { "Member" });
-            await InitializeSeedTestDataAsync();
+            await InitializeTestAsync(new List<string> { "Member" });
 
             int postId = 1;
             string url = $"/api/comments/{postId}?pageNumber=1&pageSize=5";
@@ -68,8 +74,7 @@
         public async Task GetPostComments_ShouldReturnAnEmptyList_WhenPostHasNoComments()
         {
             // Arrange
-            await InitializeAuthenticatedClient(new List<string> { "Member" });
-            await InitializeSeedTestDataAsync();
+            await InitializeTestAsync(new List<string> { "Member" });
 
             var postId = 2;
             string url = $"/api/comments/{postId}?pageNumber=1&pageSize=5";
@@ -88,8 +93,7 @@
         public async Task GetPostComments_ShouldReturnPagedListOfCommentDTOs_WhenPostHasLessCommentsThanPageSize()
         {
             // Arrange
-            await InitializeAuthenticatedClient(new List<string> { "Member" });
-            await InitializeSeedTestDataAsync();
+            await InitializeTestAsync(new List<string> { "Member" });
 
             var postId = 1;
             string url = $"/api/comments/{postId}?pageNumber=1&pageSize=15";
@@ -108,8 +112,8 @@
         public async Task GetPostComments_ShouldReturnMaxNumberOfCommentDtos_WhenPageSizeIsGreaterThanMaxPageSize()
         {
             // Arrange
-            await InitializeAuthenticatedClient(new List<string> { "Member" });
-            await InitializeSeedTestDataAsync();
+            await InitializeTestAsync(new List<string> { "Member" });
+
             var comments = Enumerable.Range(11, 20)
                 .Select(i => new Comment
                 {
@@ -139,8 +143,7 @@
         public async Task GetPostComments_ShouldReturnAnEmptyList_WhenPageNumberIsGreaterThanTotalPages()
         {
             // Arrange
-            await InitializeAuthenticatedClient(new List<string> { "Member" });
-            await InitializeSeedTestDataAsync();
+            await InitializeTestAsync(new List<string> { "Member" });
 
             int postId = 1;
             string url = $"/api/comments/{postId}?pageNumber=3&pageSize=5";
@@ -159,8 +162,7 @@
         public async Task GetPostComments_ShouldThrowNotFoundException_WhenPostDoesNotExist()
         {
             // Arrange
-            await InitializeAuthenticatedClient(new List<string> { "Member" });
-            await InitializeSeedTestDataAsync();
+            await InitializeTestAsync(new List<string> { "Member" });
 
             int postId = 3;
             string url = $"/api/comments/{postId}?pageNumber=1&pageSize=5";
@@ -181,8 +183,7 @@
         public async Task GetPostComments_ShouldThrowForbiddenStatusCode_WhenAuthUserIsNotMember()
         {
             // Arrange
-            await InitializeAuthenticatedClient(new List<string> { });
-            await InitializeSeedTestDataAsync();
+            await InitializeTestAsync(new List<string> { });
 
             int postId = 1;
             string url = $"/api/comments/{postId}?pageNumber=1&pageSize=5";
@@ -198,9 +199,10 @@
         public async Task GetPostComments_ShouldThrowBadRequestValidationException_WhenTheRolesAreInvalid()
         {
             // Arrange
+            await ResetDatabaseAsync();
             await RoleManager.CreateAsync(new AppRole { Name = "InvalidRole" });
             await InitializeAuthenticatedClient(new List<string> { "Member", "InvalidRole" });
-            await InitializeSeedTestDataAsync();
+            await InitializeTestSeedDataAsync();
 
             int postId = 1;
             string url = $"/api/comments/{postId}?pageNumber=1&pageSize=5";
@@ -221,8 +223,7 @@
         public async Task GetPostComments_ShouldThrowBadRequestValidationExceptionWhenPageSizeIsZero()
         {
             // Arrange
-            await InitializeAuthenticatedClient(new List<string> { "Member" });
-            await InitializeSeedTestDataAsync();
+            await InitializeTestAsync(new List<string> { "Member" });
 
             int postId = 1;
             string url = $"/api/comments/{postId}?pageNumber=1&pageSize=0";
@@ -243,8 +244,7 @@
         public async Task GetPostComments_ShouldThrowBadRequestValidationExceptionWhenPageSizeIsLessThanZero()
         {
             // Arrange
-            await InitializeAuthenticatedClient(new List<string> { "Member" });
-            await InitializeSeedTestDataAsync();
+            await InitializeTestAsync(new List<string> { "Member" });
 
             int postId = 1;
             string url = $"/api/comments/{postId}?pageNumber=1&pageSize=-1";
@@ -265,8 +265,7 @@
         public async Task GetPostComments_ShouldThrowBadRequestValidationExceptionWhenPageNumberIsZero()
         {
             // Arrange
-            await InitializeAuthenticatedClient(new List<string> { "Member" });
-            await InitializeSeedTestDataAsync();
+            await InitializeTestAsync(new List<string> { "Member" });
 
             int postId = 1;
             string url = $"/api/comments/{postId}?pageNumber=0&pageSize=10";
@@ -287,8 +286,7 @@
         public async Task GetPostComments_ShouldThrowBadRequestValidationExceptionWhenPageNumberIsLessThanZero()
         {
             // Arrange
-            await InitializeAuthenticatedClient(new List<string> { "Member" });
-            await InitializeSeedTestDataAsync();
+            await InitializeTestAsync(new List<string> { "Member" });
 
             int postId = 1;
             string url = $"/api/comments/{postId}?pageNumber=-1&pageSize=10";

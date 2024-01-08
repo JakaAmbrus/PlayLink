@@ -105,6 +105,37 @@
         }
 
         [Fact]
+        public async Task GetPostComments_ShouldReturnMaxNumberOfCommentDtos_WhenPageSizeIsGreaterThanMaxPageSize()
+        {
+            // Arrange
+            await InitializeAuthenticatedClient(new List<string> { "Member" });
+            await InitializeSeedTestDataAsync();
+            var comments = Enumerable.Range(11, 20)
+                .Select(i => new Comment
+                {
+                    AppUserId = 1,
+                    CommentId = i,
+                    PostId = 1,
+                    Content = $"Comment {i}",
+                    TimeCommented = DateTime.UtcNow.AddMinutes(-i)
+                }).ToList();
+            Context.AddRange(comments);
+            await Context.SaveChangesAsync(CancellationToken.None);
+
+            var postId = 1;
+            string url = $"/api/comments/{postId}?pageNumber=1&pageSize=100";
+
+            // Act
+            var response = await Client.GetAsync(url);
+            string responseString = await response.Content.ReadAsStringAsync();
+            var result = JObject.Parse(responseString);
+
+            // Assert
+            result.Should().NotBeNull();
+            result["comments"].Should().HaveCount(20);
+        }
+
+        [Fact]
         public async Task GetPostComments_ShouldReturnAnEmptyList_WhenPageNumberIsGreaterThanTotalPages()
         {
             // Arrange

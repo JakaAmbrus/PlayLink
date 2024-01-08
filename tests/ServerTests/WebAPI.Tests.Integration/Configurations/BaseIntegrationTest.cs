@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http.Headers;
 
@@ -11,6 +12,7 @@ namespace WebAPI.Tests.Integration.Configurations
         protected readonly ISender Mediator;
         protected readonly DataContext Context;
         protected readonly IUserManager UserManager;
+        protected readonly RoleManager<AppRole> RoleManager;
         protected readonly HttpClient Client;
         private readonly ITokenService _tokenService;
         protected readonly IPhotoService PhotoService;
@@ -21,12 +23,13 @@ namespace WebAPI.Tests.Integration.Configurations
             Mediator = _scope.ServiceProvider.GetRequiredService<ISender>();
             Context = _scope.ServiceProvider.GetRequiredService<DataContext>();
             UserManager = _scope.ServiceProvider.GetRequiredService<IUserManager>();
+            RoleManager = _scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
             _tokenService = _scope.ServiceProvider.GetRequiredService<ITokenService>();
             Client = factory.CreateClient();
             PhotoService = _scope.ServiceProvider.GetRequiredService<IPhotoService>();
         }
 
-        protected async Task InitializeAuthenticatedClient()
+        protected async Task InitializeAuthenticatedClient(List<string> roles)
         {
             var user = new AppUser 
             { 
@@ -41,13 +44,19 @@ namespace WebAPI.Tests.Integration.Configurations
                 Created = DateTime.UtcNow.AddDays(-1)
             };
 
-            UserManager.CreateAsync(user, "Password123").Wait();
+            await UserManager.CreateAsync(user, "Password123");
 
             var createdUser = await UserManager.FindByIdAsync(user.Id.ToString());
 
-            await UserManager.AddToRoleAsync(createdUser, "Member");
+            foreach (var role in roles)
+            {
+
+                await UserManager.AddToRoleAsync(createdUser, role);
+
+            }
 
             var token = await _tokenService.CreateToken(createdUser);
+
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
     }

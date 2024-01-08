@@ -92,7 +92,7 @@ namespace Application.Tests.Unit.Features.Comments
         }
 
         [Fact]
-        public async Task GetPostComments_ShouldReturnAndEmptyList_WhenPageNumberIsGreaterThanTotalPages()
+        public async Task GetPostComments_ShouldReturnAnEmptyList_WhenPageNumberIsGreaterThanTotalPages()
         {
             // Arrange
             var request = new GetPostCommentsQuery
@@ -132,6 +132,46 @@ namespace Application.Tests.Unit.Features.Comments
             response.Comments.Should().NotBeNull();
             response.Comments.Count().Should().Be(10);
             response.Comments.Should().AllBeOfType<CommentDto>();
+        }
+        [Fact]
+        public async Task GetPostComments_ShouldReturnIsAuthorizedTrue_WhenUserIsTheOwner()
+        {
+            // Arrange
+            var request = new GetPostCommentsQuery
+            {
+                PostId = 1,
+                Params = new PaginationParams { PageNumber = 1, PageSize = 5 },
+                AuthUserId = 1,
+                AuthUserRoles = new List<string>()
+            };
+
+            // Act
+            var response = await _mediator.Send(request, CancellationToken.None);
+
+            // Assert
+            response.Comments[0].IsAuthorized.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task GetPostComments_ShouldReturnIsAuthorizedTrue_WhenUserIsModerator()
+        {
+            // Arrange
+            _context.Users.Add(new AppUser { Id = 2 });
+            _context.SaveChangesAsync(CancellationToken.None).Wait();
+
+            var request = new GetPostCommentsQuery
+            {
+                PostId = 1,
+                Params = new PaginationParams { PageNumber = 1, PageSize = 5 },
+                AuthUserId = 2,
+                AuthUserRoles = new List<string> { "Moderator" }
+            };
+
+            // Act
+            var response = await _mediator.Send(request, CancellationToken.None);
+
+            // Assert
+            response.Comments[0].IsAuthorized.Should().BeTrue();
         }
 
         [Fact]

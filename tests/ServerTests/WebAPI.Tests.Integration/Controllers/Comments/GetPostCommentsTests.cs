@@ -1,22 +1,9 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Net;
-using WebAPI.Errors;
-using WebAPI.Tests.Integration.Configurations;
-
-namespace WebAPI.Tests.Integration.Controllers.Comments
+﻿namespace WebAPI.Tests.Integration.Controllers.Comments
 {
     public class GetPostCommentsTests : BaseIntegrationTest
     {
         public GetPostCommentsTests(IntegrationTestWebAppFactory factory) : base(factory)
         {
-            Initialize().Wait();
-        }
-
-        private async Task Initialize()
-        {
-            await InitializeAuthenticatedClient();
-            await InitializeSeedTestDataAsync();
         }
 
         private async Task InitializeSeedTestDataAsync()
@@ -41,8 +28,11 @@ namespace WebAPI.Tests.Integration.Controllers.Comments
         public async Task GetPostComments_ShouldReturnCorrectResponseCode_WhenRequestIsValid()
         {
             // Arrange
-            var postId = 1;
-            var url = $"/api/comments/{postId}";
+            await InitializeAuthenticatedClient(new List<string> { "Member" });
+            await InitializeSeedTestDataAsync();
+
+            int postId = 1;
+            string url = $"/api/comments/{postId}";
 
             // Act
             var response = await Client.GetAsync(url);
@@ -55,12 +45,15 @@ namespace WebAPI.Tests.Integration.Controllers.Comments
         public async Task GetPostComments_ShouldReturnPagedListOfCommentDTOs_WhenPostHasComments()
         {
             // Arrange
-            var postId = 1;
-            var url = $"/api/comments/{postId}?pageNumber=1&pageSize=5";
+            await InitializeAuthenticatedClient(new List<string> { "Member" });
+            await InitializeSeedTestDataAsync();
+
+            int postId = 1;
+            string url = $"/api/comments/{postId}?pageNumber=1&pageSize=5";
 
             // Act
             var response = await Client.GetAsync(url);
-            var responseString = await response.Content.ReadAsStringAsync();
+            string responseString = await response.Content.ReadAsStringAsync();
             var result = JObject.Parse(responseString);
 
             // Assert
@@ -75,29 +68,35 @@ namespace WebAPI.Tests.Integration.Controllers.Comments
         public async Task GetPostComments_ShouldReturnAnEmptyList_WhenPostHasNoComments()
         {
             // Arrange
+            await InitializeAuthenticatedClient(new List<string> { "Member" });
+            await InitializeSeedTestDataAsync();
+
             var postId = 2;
-            var url = $"/api/comments/{postId}?pageNumber=1&pageSize=5";
+            string url = $"/api/comments/{postId}?pageNumber=1&pageSize=5";
 
             // Act
             var response = await Client.GetAsync(url);
-            var responseString = await response.Content.ReadAsStringAsync();
+            string responseString = await response.Content.ReadAsStringAsync();
             var result = JObject.Parse(responseString);
 
             // Assert
             result.Should().NotBeNull();
-            result["comments"].Should().HaveCount(0);
+            result["comments"].Should().BeNull();
         }
 
         [Fact]
         public async Task GetPostComments_ShouldReturnPagedListOfCommentDTOs_WhenPostHasLessCommentsThanPageSize()
         {
             // Arrange
+            await InitializeAuthenticatedClient(new List<string> { "Member" });
+            await InitializeSeedTestDataAsync();
+
             var postId = 1;
-            var url = $"/api/comments/{postId}?pageNumber=1&pageSize=15";
+            string url = $"/api/comments/{postId}?pageNumber=1&pageSize=15";
 
             // Act
             var response = await Client.GetAsync(url);
-            var responseString = await response.Content.ReadAsStringAsync();
+            string responseString = await response.Content.ReadAsStringAsync();
             var result = JObject.Parse(responseString);
 
             // Assert
@@ -106,15 +105,38 @@ namespace WebAPI.Tests.Integration.Controllers.Comments
         }
 
         [Fact]
-        public async Task GetPostComments_ShouldThrowNotFoundException_WhenPostDoesNotExist()
+        public async Task GetPostComments_ShouldReturnAnEmptyList_WhenPageNumberIsGreaterThanTotalPages()
         {
             // Arrange
-            var postId = 3;
-            var url = $"/api/comments/{postId}?pageNumber=1&pageSize=5";
+            await InitializeAuthenticatedClient(new List<string> { "Member" });
+            await InitializeSeedTestDataAsync();
+
+            int postId = 1;
+            string url = $"/api/comments/{postId}?pageNumber=3&pageSize=5";
 
             // Act
             var response = await Client.GetAsync(url);
-            var content = await response.Content.ReadAsStringAsync();
+            string responseString = await response.Content.ReadAsStringAsync();
+            var result = JObject.Parse(responseString);
+
+            // Assert
+            result.Should().NotBeNull();
+            result["comments"].Should().HaveCount(0);
+        }
+
+        [Fact]
+        public async Task GetPostComments_ShouldThrowNotFoundException_WhenPostDoesNotExist()
+        {
+            // Arrange
+            await InitializeAuthenticatedClient(new List<string> { "Member" });
+            await InitializeSeedTestDataAsync();
+
+            int postId = 3;
+            string url = $"/api/comments/{postId}?pageNumber=1&pageSize=5";
+
+            // Act
+            var response = await Client.GetAsync(url);
+            string content = await response.Content.ReadAsStringAsync();
             var errorResponse = JsonConvert.DeserializeObject<ApiException>(content);
 
             // Assert
@@ -122,6 +144,134 @@ namespace WebAPI.Tests.Integration.Controllers.Comments
             errorResponse.Should().NotBeNull();
             errorResponse.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
             errorResponse.Message.Should().Be("Post not found");
+        }
+
+        [Fact]
+        public async Task GetPostComments_ShouldThrowForbiddenStatusCode_WhenAuthUserIsNotMember()
+        {
+            // Arrange
+            await InitializeAuthenticatedClient(new List<string> { });
+            await InitializeSeedTestDataAsync();
+
+            int postId = 1;
+            string url = $"/api/comments/{postId}?pageNumber=1&pageSize=5";
+
+            // Act
+            var response = await Client.GetAsync(url);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        }
+
+        [Fact]
+        public async Task GetPostComments_ShouldThrowBadRequestValidationException_WhenTheRolesAreInvalid()
+        {
+            // Arrange
+            await RoleManager.CreateAsync(new AppRole { Name = "InvalidRole" });
+            await InitializeAuthenticatedClient(new List<string> { "Member", "InvalidRole" });
+            await InitializeSeedTestDataAsync();
+
+            int postId = 1;
+            string url = $"/api/comments/{postId}?pageNumber=1&pageSize=5";
+
+            // Act
+            var response = await Client.GetAsync(url);
+            string responseString = await response.Content.ReadAsStringAsync();
+            var result = JObject.Parse(responseString);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            result.Should().NotBeNull();
+            result["errors"]["AuthUserRoles"].Should().HaveCount(1);
+            result["errors"]["AuthUserRoles"][0].Value<string>().Should().Be("Invalid role detected.");
+        }
+
+        [Fact]
+        public async Task GetPostComments_ShouldThrowBadRequestValidationExceptionWhenPageSizeIsZero()
+        {
+            // Arrange
+            await InitializeAuthenticatedClient(new List<string> { "Member" });
+            await InitializeSeedTestDataAsync();
+
+            int postId = 1;
+            string url = $"/api/comments/{postId}?pageNumber=1&pageSize=0";
+
+            // Act
+            var response = await Client.GetAsync(url);
+            string responseString = await response.Content.ReadAsStringAsync();
+            var result = JObject.Parse(responseString);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            result.Should().NotBeNull();
+            result["errors"]["Params.PageSize"].Should().HaveCount(1);
+            result["errors"]["Params.PageSize"][0].Value<string>().Should().Be("Page Size must be greater than 0.");
+        }
+
+        [Fact]
+        public async Task GetPostComments_ShouldThrowBadRequestValidationExceptionWhenPageSizeIsLessThanZero()
+        {
+            // Arrange
+            await InitializeAuthenticatedClient(new List<string> { "Member" });
+            await InitializeSeedTestDataAsync();
+
+            int postId = 1;
+            string url = $"/api/comments/{postId}?pageNumber=1&pageSize=-1";
+
+            // Act
+            var response = await Client.GetAsync(url);
+            string responseString = await response.Content.ReadAsStringAsync();
+            var result = JObject.Parse(responseString);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            result.Should().NotBeNull();
+            result["errors"]["Params.PageSize"].Should().HaveCount(1);
+            result["errors"]["Params.PageSize"][0].Value<string>().Should().Be("Page Size must be greater than 0.");
+        }
+
+        [Fact]
+        public async Task GetPostComments_ShouldThrowBadRequestValidationExceptionWhenPageNumberIsZero()
+        {
+            // Arrange
+            await InitializeAuthenticatedClient(new List<string> { "Member" });
+            await InitializeSeedTestDataAsync();
+
+            int postId = 1;
+            string url = $"/api/comments/{postId}?pageNumber=0&pageSize=10";
+
+            // Act
+            var response = await Client.GetAsync(url);
+            string responseString = await response.Content.ReadAsStringAsync();
+            var result = JObject.Parse(responseString);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            result.Should().NotBeNull();
+            result["errors"]["Params.PageNumber"].Should().HaveCount(1);
+            result["errors"]["Params.PageNumber"][0].Value<string>().Should().Be("Page Number must be greater than 0.");
+        }
+
+        [Fact]
+        public async Task GetPostComments_ShouldThrowBadRequestValidationExceptionWhenPageNumberIsLessThanZero()
+        {
+            // Arrange
+            await InitializeAuthenticatedClient(new List<string> { "Member" });
+            await InitializeSeedTestDataAsync();
+
+            int postId = 1;
+            string url = $"/api/comments/{postId}?pageNumber=-1&pageSize=10";
+
+            // Act
+            var response = await Client.GetAsync(url);
+            string responseString = await response.Content.ReadAsStringAsync();
+            var result = JObject.Parse(responseString);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            result.Should().NotBeNull();
+            result["errors"]["Params.PageNumber"].Should().HaveCount(1);
+            result["errors"]["Params.PageNumber"][0].Value<string>().Should().Be("Page Number must be greater than 0.");
         }
     }
 }

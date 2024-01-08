@@ -3,3 +3,8 @@ global using FluentAssertions;
 global using NSubstitute;
 global using MediatR;
 global using Domain.Entities;
+global using Newtonsoft.Json;
+global using Newtonsoft.Json.Linq;
+global using System.Net;
+global using WebAPI.Errors;
+global using WebAPI.Tests.Integration.Configurations;

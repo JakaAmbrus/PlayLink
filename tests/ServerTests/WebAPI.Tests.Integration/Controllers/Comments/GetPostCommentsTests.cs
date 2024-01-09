@@ -224,7 +224,7 @@ namespace WebAPI.Tests.Integration.Controllers.Comments
         }
 
         [Fact]
-        public async Task GetPostComments_ShouldThrowBadRequestValidationExceptionWhenPageSizeIsZero()
+        public async Task GetPostComments_ShouldThrowBadRequestValidationException_WhenPageSizeIsZero()
         {
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
@@ -246,7 +246,7 @@ namespace WebAPI.Tests.Integration.Controllers.Comments
         }
 
         [Fact]
-        public async Task GetPostComments_ShouldThrowBadRequestValidationExceptionWhenPageSizeIsLessThanZero()
+        public async Task GetPostComments_ShouldThrowBadRequestValidationException_WhenPageSizeIsLessThanZero()
         {
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
@@ -268,7 +268,7 @@ namespace WebAPI.Tests.Integration.Controllers.Comments
         }
 
         [Fact]
-        public async Task GetPostComments_ShouldThrowBadRequestValidationExceptionWhenPageNumberIsZero()
+        public async Task GetPostComments_ShouldThrowBadRequestValidationException_WhenPageNumberIsZero()
         {
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
@@ -290,7 +290,7 @@ namespace WebAPI.Tests.Integration.Controllers.Comments
         }
 
         [Fact]
-        public async Task GetPostComments_ShouldThrowBadRequestValidationExceptionWhenPageNumberIsLessThanZero()
+        public async Task GetPostComments_ShouldThrowBadRequestValidationException_WhenPageNumberIsLessThanZero()
         {
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });

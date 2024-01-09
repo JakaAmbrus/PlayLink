@@ -60,8 +60,8 @@ namespace Application.Tests.Unit.Features.Posts
             // Assert
             response.Should().NotBeNull();
             response.Posts.Should().NotBeNull();
-            response.Posts.Count().Should().Be(5);
             response.Posts.Should().AllBeOfType<PostDto>();
+            response.Posts.Count.Should().Be(5);
         }
 
         [Fact]
@@ -84,7 +84,27 @@ namespace Application.Tests.Unit.Features.Posts
             // Assert
             response.Should().NotBeNull();
             response.Posts.Should().NotBeNull();
-            response.Posts.Count().Should().Be(0);
+            response.Posts.Count.Should().Be(0);
+        }
+
+        [Fact]
+        public async Task GetPosts_ShouldReturnAnEmptyList_WhenPageNumberIsGreaterThanTotalPages()
+        {
+            // Arrange
+            var request = new GetPostsQuery
+            {
+                Params = new PaginationParams { PageNumber = 3, PageSize = 10 },
+                AuthUserId = 1,
+                AuthUserRoles = new List<string>()
+            };
+
+            // Act
+            var response = await _mediator.Send(request, CancellationToken.None);
+
+            // Assert
+            response.Should().NotBeNull();
+            response.Posts.Should().NotBeNull();
+            response.Posts.Count.Should().Be(0);
         }
 
         [Fact]
@@ -104,8 +124,8 @@ namespace Application.Tests.Unit.Features.Posts
             // Assert
             response.Should().NotBeNull();
             response.Posts.Should().NotBeNull();
-            response.Posts.Count().Should().Be(10);
             response.Posts.Should().AllBeOfType<PostDto>();
+            response.Posts.Count.Should().Be(10);
         }
     }
 }

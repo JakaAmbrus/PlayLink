@@ -1,4 +1,6 @@
-﻿namespace WebAPI.Tests.Integration.Controllers.Comments
+﻿using Application.Features.Comments.Common;
+
+namespace WebAPI.Tests.Integration.Controllers.Comments
 {
     [Collection("Sequential")]
     public class GetPostCommentsTests : BaseIntegrationTest
@@ -59,15 +61,15 @@
 
             // Act
             var response = await Client.GetAsync(url);
-            string responseString = await response.Content.ReadAsStringAsync();
-            var result = JObject.Parse(responseString);
+            var result = await response.Content.ReadFromJsonAsync<GetCommentResponse>();
 
             // Assert
             result.Should().NotBeNull();
-            result["comments"].Should().HaveCount(5);
-            result["comments"][0]["commentId"].Value<int>().Should().Be(1);
-            result["comments"][0]["postId"].Value<int>().Should().Be(1);
-            result["comments"][0]["content"].Value<string>().Should().Be("Comment 1");
+            result.Comments.Should().AllBeOfType<CommentDto>();
+            result.Comments.Should().HaveCount(5);
+            result.Comments[0].CommentId.Should().Be(1);
+            result.Comments[0].PostId.Should().Be(1);
+            result.Comments[0].Content.Should().Be("Comment 1");
         }
 
         [Fact]
@@ -75,18 +77,20 @@
         {
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
+            await Context.Posts.AddAsync(new Post { PostId = 2, AppUserId = 1, CommentsCount = 0 });
+            await Context.SaveChangesAsync(CancellationToken.None);
 
             var postId = 2;
             string url = $"/api/comments/{postId}?pageNumber=1&pageSize=5";
 
             // Act
             var response = await Client.GetAsync(url);
-            string responseString = await response.Content.ReadAsStringAsync();
-            var result = JObject.Parse(responseString);
+            var result = await response.Content.ReadFromJsonAsync<GetCommentResponse>();
 
             // Assert
             result.Should().NotBeNull();
-            result["comments"].Should().BeNull();
+            result.Comments.Should().AllBeOfType<CommentDto>();
+            result.Comments.Should().HaveCount(0);
         }
 
         [Fact]
@@ -100,12 +104,12 @@
 
             // Act
             var response = await Client.GetAsync(url);
-            string responseString = await response.Content.ReadAsStringAsync();
-            var result = JObject.Parse(responseString);
+            var result = await response.Content.ReadFromJsonAsync<GetCommentResponse>();
 
             // Assert
             result.Should().NotBeNull();
-            result["comments"].Should().HaveCount(10);
+            result.Comments.Should().AllBeOfType<CommentDto>();
+            result.Comments.Should().HaveCount(10);
         }
 
         [Fact]
@@ -131,12 +135,12 @@
 
             // Act
             var response = await Client.GetAsync(url);
-            string responseString = await response.Content.ReadAsStringAsync();
-            var result = JObject.Parse(responseString);
+            var result = await response.Content.ReadFromJsonAsync<GetCommentResponse>();
 
             // Assert
             result.Should().NotBeNull();
-            result["comments"].Should().HaveCount(20);
+            result.Comments.Should().AllBeOfType<CommentDto>();
+            result.Comments.Should().HaveCount(20);
         }
 
         [Fact]
@@ -150,12 +154,12 @@
 
             // Act
             var response = await Client.GetAsync(url);
-            string responseString = await response.Content.ReadAsStringAsync();
-            var result = JObject.Parse(responseString);
+            var result = await response.Content.ReadFromJsonAsync<GetCommentResponse>();
 
             // Assert
             result.Should().NotBeNull();
-            result["comments"].Should().HaveCount(0);
+            result.Comments.Should().AllBeOfType<CommentDto>();
+            result.Comments.Should().HaveCount(0);
         }
 
         [Fact]
@@ -169,13 +173,12 @@
 
             // Act
             var response = await Client.GetAsync(url);
-            string content = await response.Content.ReadAsStringAsync();
-            var errorResponse = JsonConvert.DeserializeObject<ApiException>(content);
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
             errorResponse.Should().NotBeNull();
-            errorResponse.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+            errorResponse.StatusCode.Should().Be(404);
             errorResponse.Message.Should().Be("Post not found");
         }
 
@@ -209,14 +212,15 @@
 
             // Act
             var response = await Client.GetAsync(url);
-            string responseString = await response.Content.ReadAsStringAsync();
-            var result = JObject.Parse(responseString);
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            result.Should().NotBeNull();
-            result["errors"]["AuthUserRoles"].Should().HaveCount(1);
-            result["errors"]["AuthUserRoles"][0].Value<string>().Should().Be("Invalid role detected.");
+            errorResponse.Should().NotBeNull();
+            errorResponse.StatusCode.Should().Be(400);
+            errorResponse.Errors.Should().HaveCount(1);
+            errorResponse.Errors["AuthUserRoles"].Should().HaveCount(1);
+            errorResponse.Errors["AuthUserRoles"][0].Should().Be("Invalid role detected.");           
         }
 
         [Fact]
@@ -230,14 +234,15 @@
 
             // Act
             var response = await Client.GetAsync(url);
-            string responseString = await response.Content.ReadAsStringAsync();
-            var result = JObject.Parse(responseString);
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            result.Should().NotBeNull();
-            result["errors"]["Params.PageSize"].Should().HaveCount(1);
-            result["errors"]["Params.PageSize"][0].Value<string>().Should().Be("Page Size must be greater than 0.");
+            errorResponse.Should().NotBeNull();
+            errorResponse.StatusCode.Should().Be(400);
+            errorResponse.Errors.Should().HaveCount(1);
+            errorResponse.Errors["Params.PageSize"].Should().HaveCount(1);
+            errorResponse.Errors["Params.PageSize"][0].Should().Be("Page Size must be greater than 0.");           
         }
 
         [Fact]
@@ -251,14 +256,15 @@
 
             // Act
             var response = await Client.GetAsync(url);
-            string responseString = await response.Content.ReadAsStringAsync();
-            var result = JObject.Parse(responseString);
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            result.Should().NotBeNull();
-            result["errors"]["Params.PageSize"].Should().HaveCount(1);
-            result["errors"]["Params.PageSize"][0].Value<string>().Should().Be("Page Size must be greater than 0.");
+            errorResponse.Should().NotBeNull();
+            errorResponse.StatusCode.Should().Be(400);
+            errorResponse.Errors.Should().HaveCount(1);
+            errorResponse.Errors["Params.PageSize"].Should().HaveCount(1);
+            errorResponse.Errors["Params.PageSize"][0].Should().Be("Page Size must be greater than 0.");          
         }
 
         [Fact]
@@ -272,14 +278,15 @@
 
             // Act
             var response = await Client.GetAsync(url);
-            string responseString = await response.Content.ReadAsStringAsync();
-            var result = JObject.Parse(responseString);
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            result.Should().NotBeNull();
-            result["errors"]["Params.PageNumber"].Should().HaveCount(1);
-            result["errors"]["Params.PageNumber"][0].Value<string>().Should().Be("Page Number must be greater than 0.");
+            errorResponse.Should().NotBeNull();
+            errorResponse.StatusCode.Should().Be(400);
+            errorResponse.Errors.Should().HaveCount(1);
+            errorResponse.Errors["Params.PageNumber"].Should().HaveCount(1);
+            errorResponse.Errors["Params.PageNumber"][0].Should().Be("Page Number must be greater than 0.");
         }
 
         [Fact]
@@ -293,14 +300,15 @@
 
             // Act
             var response = await Client.GetAsync(url);
-            string responseString = await response.Content.ReadAsStringAsync();
-            var result = JObject.Parse(responseString);
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            result.Should().NotBeNull();
-            result["errors"]["Params.PageNumber"].Should().HaveCount(1);
-            result["errors"]["Params.PageNumber"][0].Value<string>().Should().Be("Page Number must be greater than 0.");
+            errorResponse.Should().NotBeNull();
+            errorResponse.StatusCode.Should().Be(400);
+            errorResponse.Errors.Should().HaveCount(1);
+            errorResponse.Errors["Params.PageNumber"].Should().HaveCount(1);
+            errorResponse.Errors["Params.PageNumber"][0].Should().Be("Page Number must be greater than 0.");
         }
     }
 }

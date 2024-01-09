@@ -1,4 +1,7 @@
-﻿namespace WebAPI.Tests.Integration.Controllers.Comments
+﻿using Application.Features.Comments.DeleteComment;
+using WebAPI.Tests.Integration.Models;
+
+namespace WebAPI.Tests.Integration.Controllers.Comments
 {
     [Collection("Sequential")]
     public class DeleteCommentTests : BaseIntegrationTest
@@ -67,12 +70,12 @@
 
             // Act
             var response = await Client.DeleteAsync(url);
-            string responseString = await response.Content.ReadAsStringAsync();
-            var result = JObject.Parse(responseString);
+            
+            var result = await response.Content.ReadFromJsonAsync<DeleteCommentResponse>();
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            result["isDeleted"].Value<bool>().Should().Be(true);
+            result.IsDeleted.Should().Be(true);
             Context.Comments.Count().Should().Be(1);
         }
 
@@ -87,12 +90,12 @@
 
             // Act
             var response = await Client.DeleteAsync(url);
-            string responseString = await response.Content.ReadAsStringAsync();
-            var result = JObject.Parse(responseString);
+
+            var result = await response.Content.ReadFromJsonAsync<DeleteCommentResponse>();
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            result["isDeleted"].Value<bool>().Should().Be(true);
+            result.IsDeleted.Should().Be(true);
             Context.Comments.Count().Should().Be(1);
         }
 
@@ -131,12 +134,13 @@
 
             // Act
             var response = await Client.DeleteAsync(url);
-            string responseString = await response.Content.ReadAsStringAsync();
-            var result = JObject.Parse(responseString);
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-            result["message"].Value<string>().Should().Be("User not authorized to delete comment");
+            errorResponse.Should().NotBeNull();
+            errorResponse.StatusCode.Should().Be(401);
+            errorResponse.Message.Should().Be("User not authorized to delete comment");
         }
 
         [Fact]
@@ -150,12 +154,13 @@
 
             // Act
             var response = await Client.DeleteAsync(url);
-            string responseString = await response.Content.ReadAsStringAsync();
-            var result = JObject.Parse(responseString);
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-            result["message"].Value<string>().Should().Be("Comment was not found");
+            errorResponse.Should().NotBeNull();
+            errorResponse.StatusCode.Should().Be(404);
+            errorResponse.Message.Should().Be("Comment was not found");
         }
 
         [Fact]
@@ -188,14 +193,15 @@
 
             // Act
             var response = await Client.DeleteAsync(url);
-            string responseString = await response.Content.ReadAsStringAsync();
-            var result = JObject.Parse(responseString);
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            result.Should().NotBeNull();
-            result["errors"]["AuthUserRoles"].Should().HaveCount(1);
-            result["errors"]["AuthUserRoles"][0].Value<string>().Should().Be("Invalid role detected.");
+            errorResponse.Should().NotBeNull();
+            errorResponse.StatusCode.Should().Be(400);
+            errorResponse.Errors.Should().HaveCount(1);
+            errorResponse.Errors["AuthUserRoles"].Should().HaveCount(1);
+            errorResponse.Errors["AuthUserRoles"][0].Should().Be("Invalid role detected.");
         }
     }
 }

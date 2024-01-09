@@ -144,6 +144,61 @@ namespace WebAPI.Tests.Integration.Controllers.Comments
         }
 
         [Fact]
+        public async Task GetPostComments_ShouldReturnAuthorizedTrue_WhenUserIsOwnerOfComment()
+        {
+            // Arrange
+            await InitializeTestAsync(new List<string> { "Member" });
+
+            var postId = 1;
+            string url = $"/api/comments/{postId}?pageNumber=1&pageSize=5";
+
+            // Act
+            var response = await Client.GetAsync(url);
+            var result = await response.Content.ReadFromJsonAsync<GetCommentResponse>();
+
+            // Assert
+            result.Comments[0].IsAuthorized.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task GetPostComments_ShouldReturnAuthorizedFalse_WhenUserIsNotOwnerOfComment()
+        {
+            // Arrange
+            await InitializeTestAsync(new List<string> { "Member" });
+            Context.Users.Add(new AppUser { Id = 2 });
+            Context.Comments.Add(new Comment { CommentId = 11, PostId = 1, AppUserId = 2 });
+            await Context.SaveChangesAsync(CancellationToken.None);
+
+            var postId = 1;
+            string url = $"/api/comments/{postId}?pageNumber=1&pageSize=15";
+
+            // Act
+            var response = await Client.GetAsync(url);
+            var result = await response.Content.ReadFromJsonAsync<GetCommentResponse>();
+
+            // Assert
+            var comment = result.Comments.Find(c => c.CommentId == 11);
+            comment.IsAuthorized.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task GetPostComments_ShouldReturnAuthorizedTrueOnAllComments_WhenUserIsModerator()
+        {
+            // Arrange
+            await InitializeTestAsync(new List<string> { "Member", "Moderator" });
+
+            var postId = 1;
+            string url = $"/api/comments/{postId}?pageNumber=1&pageSize=5";
+
+            // Act
+            var response = await Client.GetAsync(url);
+            var result = await response.Content.ReadFromJsonAsync<GetCommentResponse>();
+
+            // Assert
+            result.Comments.Should().Match(c => c.All(comment => comment.IsAuthorized == true));
+        }
+
+        [Fact]
         public async Task GetPostComments_ShouldReturnAnEmptyList_WhenPageNumberIsGreaterThanTotalPages()
         {
             // Arrange
@@ -214,13 +269,13 @@ namespace WebAPI.Tests.Integration.Controllers.Comments
             var response = await Client.GetAsync(url);
             var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
 
-            // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            errorResponse.Should().NotBeNull();
-            errorResponse.StatusCode.Should().Be(400);
-            errorResponse.Errors.Should().HaveCount(1);
-            errorResponse.Errors["AuthUserRoles"].Should().HaveCount(1);
-            errorResponse.Errors["AuthUserRoles"][0].Should().Be("Invalid role detected.");           
+                // Assert
+                response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+                errorResponse.Should().NotBeNull();
+                errorResponse.StatusCode.Should().Be(400);
+                errorResponse.Errors.Should().HaveCount(1);
+                errorResponse.Errors["AuthUserRoles"].Should().HaveCount(1);
+                errorResponse.Errors["AuthUserRoles"][0].Should().Be("Invalid role detected.");           
         }
 
         [Fact]

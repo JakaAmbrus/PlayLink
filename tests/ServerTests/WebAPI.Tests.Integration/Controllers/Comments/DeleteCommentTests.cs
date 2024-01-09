@@ -1,5 +1,4 @@
 ﻿using Application.Features.Comments.DeleteComment;
-using WebAPI.Tests.Integration.Models;
 
 namespace WebAPI.Tests.Integration.Controllers.Comments
 {

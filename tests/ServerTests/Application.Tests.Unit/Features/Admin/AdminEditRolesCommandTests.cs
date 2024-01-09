@@ -112,7 +112,7 @@ namespace Application.Tests.Unit.Features.Admin
 
             // Assert
             await action.Should().ThrowAsync<NotFoundException>()
-                .WithMessage("Auth user not found");
+                .WithMessage("Authenticated Admin user not found");
         }
 
         [Fact]
@@ -131,7 +131,7 @@ namespace Application.Tests.Unit.Features.Admin
             var action = async () => await _mediator.Send(request);
 
             // Assert
-            await action.Should().ThrowAsync<UnauthorizedAccessException>()
+            await action.Should().ThrowAsync<UnauthorizedException>()
                 .WithMessage("Unauthorized, only an Admin can make this request");
         }
     }

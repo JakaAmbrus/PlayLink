@@ -1,6 +1,4 @@
-﻿using Application.Features.Admin.AdminGetUsers;
-using Application.Features.Admin.Common;
-using FluentAssertions.Equivalency;
+﻿using Application.Features.Admin.Common;
 
 namespace WebAPI.Tests.Integration.Controllers.Admin
 {

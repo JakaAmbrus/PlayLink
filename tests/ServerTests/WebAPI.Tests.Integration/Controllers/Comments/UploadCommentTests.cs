@@ -122,6 +122,25 @@ namespace WebAPI.Tests.Integration.Controllers.Comments
         }
 
         [Fact]
+        public async Task UploadComment_ShouldThrowForbiddenStatusCode_WhenAuthUserIsNotMember()
+        {
+            // Arrange
+            await InitializeTestAsync(new List<string> { });
+
+            var commentUploadDto = new CommentUploadDto
+            {
+                PostId = 1,
+                Content = "Test comment content"
+            };
+
+            // Act
+            var response = await Client.PostAsJsonAsync("/api/comments", commentUploadDto);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        }
+
+        [Fact]
         public async Task UploadComment_ShouldThrowNotFoundException_WhenPostIsNotFound()
         {
             // Arrange

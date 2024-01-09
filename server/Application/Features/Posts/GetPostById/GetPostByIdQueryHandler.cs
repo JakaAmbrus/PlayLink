@@ -17,6 +17,8 @@ namespace Application.Features.Posts.GetPostById
 
         public async Task<GetPostByIdResponse> Handle(GetPostByIdQuery request, CancellationToken cancellationToken)
         {
+            bool isModerator = request.AuthUserRoles.Contains("Moderator");
+
             var post = await _context.Posts
                .Where(p => p.PostId == request.PostId)
                .Select(p => new PostDto
@@ -25,13 +27,19 @@ namespace Application.Features.Posts.GetPostById
                    PostId = p.PostId,
                    Description = p.Description,
                    DatePosted = p.DatePosted,
-                   PhotoUrl = p.PhotoUrl,        
+                   Username = p.AppUser.UserName,
+                   FullName = p.AppUser.FullName,
+                   PhotoUrl = p.PhotoUrl,
+                   Gender = p.AppUser.Gender,
+                   LikesCount = p.LikesCount,
+                   CommentsCount = p.CommentsCount,
+                   IsLikedByCurrentUser = p.Likes.Any(l => l.AppUserId == request.AuthUserId),
+                   IsAuthorized = p.AppUserId == request.AuthUserId || isModerator
                })
-               .FirstOrDefaultAsync(cancellationToken);
+               .FirstOrDefaultAsync(cancellationToken)
+               ?? throw new NotFoundException("Post not found");
 
-            return post == null
-                ? throw new NotFoundException($"Post with ID {request.PostId} not found.")
-                : new GetPostByIdResponse { Post = post};
+            return  new GetPostByIdResponse { Post = post };
         }
     }
 }

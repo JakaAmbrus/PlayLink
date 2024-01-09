@@ -20,7 +20,7 @@ namespace Application.Tests.Unit.Features.Likes
 
             mediatorMock.Send(Arg.Any<LikeCommentCommand>(), Arg.Any<CancellationToken>())
                 .Returns(c => new LikeCommentCommandHandler(_context)
-                               .Handle(c.Arg<LikeCommentCommand>(), c.Arg<CancellationToken>()));
+                .Handle(c.Arg<LikeCommentCommand>(), c.Arg<CancellationToken>()));
 
             SeedTestData(_context);
         }
@@ -50,8 +50,20 @@ namespace Application.Tests.Unit.Features.Likes
 
             // Assert
             response.Should().BeOfType<LikeCommentResponse>();
-            response.Liked.Should().BeTrue();
             _context.Comments.Find(2).LikesCount.Should().Be(1);
+        }
+
+        [Fact]
+        public async Task LikeComment_ShouldReturnLikedTrue_WhenLikeIsAdd()
+        {
+            // Arrange
+            var request = new LikeCommentCommand { CommentId = 2, AuthUserId = 1 };
+
+            // Act
+            var response = await _mediator.Send(request);
+
+            // Assert
+            response.Liked.Should().BeTrue();
         }
 
         [Fact]

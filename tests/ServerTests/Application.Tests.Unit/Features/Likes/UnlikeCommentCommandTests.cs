@@ -20,7 +20,7 @@ namespace Application.Tests.Unit.Features.Likes
 
             mediatorMock.Send(Arg.Any<UnlikeCommentCommand>(), Arg.Any<CancellationToken>())
                 .Returns(c => new UnlikeCommentCommandHandler(_context)
-                               .Handle(c.Arg<UnlikeCommentCommand>(), c.Arg<CancellationToken>()));
+                .Handle(c.Arg<UnlikeCommentCommand>(), c.Arg<CancellationToken>()));
 
             SeedTestData(_context);
         }
@@ -40,7 +40,7 @@ namespace Application.Tests.Unit.Features.Likes
         }
 
         [Fact]
-        public async Task UnlikeComment_ShouldUnlikeCommentAndDecrementLikesCount_WhenCommentExistsAndIsLikedByUser()
+        public async Task UnlikeComment_ShouldRemoveLikeFromComment_WhenCommentExistsAndIsLikedByUser()
         {
             // Arrange
             var request = new UnlikeCommentCommand { CommentId = 1, AuthUserId = 1 };
@@ -49,9 +49,34 @@ namespace Application.Tests.Unit.Features.Likes
             var response = await _mediator.Send(request);
 
             // Assert
-            response.Unliked.Should().BeTrue();
             _context.Likes.Count().Should().Be(0);
+        }
+
+        [Fact]
+        public async Task UnlikeComment_ShouldDecrementLikesCount_WhenCommentExistsAndIsLikedByUser()
+        {
+            // Arrange
+            var request = new UnlikeCommentCommand { CommentId = 1, AuthUserId = 1 };
+
+            // Act
+            await _mediator.Send(request);
+
+            // Assert
             _context.Comments.Find(1).LikesCount.Should().Be(0);
+        }
+
+        [Fact]
+        public async Task UnlikeComment_ShouldReturnUnlikedTrue_WhenLikeIsRemoved()
+        {
+            // Arrange
+            var request = new UnlikeCommentCommand { CommentId = 1, AuthUserId = 1 };
+
+            // Act
+            var response = await _mediator.Send(request);
+
+            // Assert
+            response.Should().BeOfType<UnlikeCommentResponse>();
+            response.Unliked.Should().BeTrue();
         }
 
         [Fact]

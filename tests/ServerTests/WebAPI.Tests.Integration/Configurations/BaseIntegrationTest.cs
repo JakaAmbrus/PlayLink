@@ -56,7 +56,20 @@ namespace WebAPI.Tests.Integration.Configurations
                 await db.Database.EnsureDeletedAsync();
                 await db.Database.EnsureCreatedAsync();
 
-                await Seed.SeedData(scopedServices);
+                string[] roleNames = { "Member", "Moderator", "Admin", "Guest" };
+                foreach (var roleName in roleNames)
+                {
+                    var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                    if (!roleExist)
+                    {
+                        var roleResult = await RoleManager.CreateAsync(new AppRole { Name = roleName });
+
+                        if (!roleResult.Succeeded)
+                        {
+                            throw new InvalidOperationException($"Error seeding '{roleName}' role");
+                        }
+                    }
+                }
             }
         }
 

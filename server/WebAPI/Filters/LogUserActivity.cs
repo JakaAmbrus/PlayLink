@@ -16,15 +16,13 @@ namespace WebAPI.Filters
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
 
-        var resultContext = await next();
+            var resultContext = await next();
 
-        if (!resultContext.HttpContext.User.Identity.IsAuthenticated) return;
-
-        var userId = _authenticatedUserService.UserId;
-        
-        await _userActivityService.UpdateLastActiveAsync(userId);
-
-
+            if (resultContext.HttpContext.User.Identity.IsAuthenticated && resultContext.Exception == null)
+            {
+                var userId = _authenticatedUserService.UserId;
+                await _userActivityService.UpdateLastActiveAsync(userId);
+            }
         }
     }
 }

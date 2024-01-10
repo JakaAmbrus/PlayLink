@@ -198,21 +198,31 @@
     border-radius: 2em;
 
     .current-status {
-      font-size: 3.5em;
+      font-size: 4em;
       color: transparent;
-      width: 1.2em;
-      border-bottom-right-radius: 0.4em;
-      background-color: #e57373;
+      width: 2.3em;
+      border-bottom-right-radius: 2.5em;
+      background-color: #de5858;
       border: none;
 
       &.is-online {
         background-color: #66bb6a;
         color: transparent;
+        animation: flash 1.6s infinite ease-in-out;
       }
     }
 
     #picture-moderation {
       font-size: 2em;
+    }
+  }
+  @keyframes flash {
+    0%,
+    100% {
+      background-color: #66bb6a;
+    }
+    50% {
+      background-color: #66bb6a89;
     }
   }
   #profile-content-container {

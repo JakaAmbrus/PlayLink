@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Exceptions;
+using Application.Interfaces;
 using Application.Models;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
@@ -16,6 +17,14 @@ namespace Infrastructure.Services
 
         public async Task<PhotoUploadResult> AddPhotoAsync(IFormFile file, string typeOfPhoto)
         {
+            // Checks if the cloudinary account is configured
+            if (string.IsNullOrEmpty(_cloudinary.Api.Account.Cloud) ||
+                string.IsNullOrEmpty(_cloudinary.Api.Account.ApiKey) ||
+                string.IsNullOrEmpty(_cloudinary.Api.Account.ApiSecret))
+            {
+                throw new BadRequestException("Cloudinary account not configured");
+            }
+
             var uploadResult = new ImageUploadResult();
 
             if (file.Length > 0)

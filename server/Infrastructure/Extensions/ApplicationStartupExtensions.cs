@@ -17,14 +17,34 @@ namespace Infrastructure.Extensions
 
             app.UseHttpsRedirection();
 
-            app.UseCors(builder => builder
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials()
-                .WithOrigins("https://localhost:4200"));
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+            {
+                // Production
+                app.UseCors(builder => builder
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials()
+                    .WithOrigins("??"));
 
+            }
+            else
+            {
+                // Development
+                using (var scope = serviceProvider.CreateScope())
+                {
+                    var scopedProvider = scope.ServiceProvider;
+                    Seed.SeedData(scopedProvider).Wait();
+                }
+
+                app.UseCors(builder => builder
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials()
+                    .WithOrigins("https://localhost:4200"));
+            }
+
+            app.UseHttpsRedirection();
             app.UseIpRateLimiting();
-
             app.UseAuthentication();
             app.UseAuthorization();
 

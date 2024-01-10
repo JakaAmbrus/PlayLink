@@ -10,7 +10,7 @@ public static class DependencyInjection
     {
         services.AddDatabaseServices(configuration);
         services.AddIdentityServices(configuration);
-        services.AddCloudinaryServices(configuration);
+        services.AddCloudinaryServices();
         services.AddRateLimitServices(configuration);
 
         return services;

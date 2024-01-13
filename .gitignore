@@ -5,6 +5,7 @@
 /tmp
 /out-tsc
 /bazel-out
+client/dist
 
 # Node
 client/node_modules
@@ -29,7 +30,6 @@ client/!.vscode/launch.json
 client/!.vscode/extensions.json
 client/.history/*
 client/ssl
-client/src/environments
 
 # Miscellaneous
 client/.angular/cache
@@ -56,19 +56,16 @@ Thumbs.db
 server/WebAPI/Logs/
 server/WebAPI/obj/
 server/WebAPI/bin/
-server/WebAPI/Properties/launchSettings.json
-server/WebAPI/appsettings.json
-server/WebAPI/appsettings.Development.json
-server/WebAPI/wwwroot/
-server/WebAPI/wwwroot/assets
 
 # Visual Studio specific
 .vs/
 server/server.sln
-# Cloudinaty access keys
-server/Infrastructure/CloudinaryAccessKeys.json
-
-client/src/app/features/portal/data
 
 **/bin/
 **/obj/
+
+# Producition compose setup
+/docker-compose.yml
+.env
+client/nginx.conf
+client/Dockerfile

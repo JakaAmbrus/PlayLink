@@ -1,5 +1,4 @@
-﻿using Application.Interfaces;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -115,7 +114,7 @@ namespace Infrastructure.Data
                 new AppUser
                 {
                     UserName = "modthree",
-                    FullName = "Anita Horva",
+                    FullName = "Anita Horvat",
                     Gender = "female",
                     Country = "Slovenia",
                     DateOfBirth = new DateOnly(1983, 4, 30),
@@ -160,13 +159,25 @@ namespace Infrastructure.Data
 
             // Admin user role only reserved for the user with username "admin". if you want to test admin
             // functionality register under username "admin" and restart the application
+            // if you want to test administrator functionality locally then create an admin user with username "admin" then rerun the application
             var adminUser = await userManager.FindByNameAsync("admin");
-            if (adminUser != null && !await userManager.IsInRoleAsync(adminUser, "Admin"))
+            if (adminUser != null)
             {
-                var adminRoleResult = await userManager.AddToRoleAsync(adminUser, "Admin");
-                if (!adminRoleResult.Succeeded)
+                if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
                 {
-                    throw new InvalidOperationException("Error adding 'Admin' role to 'admin' user");
+                    var adminRoleResult = await userManager.AddToRoleAsync(adminUser, "Admin");
+                    if (!adminRoleResult.Succeeded)
+                    {
+                        throw new InvalidOperationException("Error adding 'Admin' role to 'admin' user");
+                    }
+                }
+                if (!await userManager.IsInRoleAsync(adminUser, "Moderator"))
+                {
+                    var memberRoleResult = await userManager.AddToRoleAsync(adminUser, "Moderator");
+                    if (!memberRoleResult.Succeeded)
+                    {
+                        throw new InvalidOperationException("Error adding 'Moderator' role to 'admin' user");
+                    }
                 }
             }
         }

@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  webapi:
+    build:
+      context: ./server
+      dockerfile: WebAPI/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ALLOW_DEV_ORIGIN=true
+      - ConnectionStrings__DefaultConnection=Server=db;Port=5432;User Id=postgres;Password=dev_password;Database=playlink_dev
+      - TokenKey=YourTokenKeyHereThatMustBeAtLeast64CharactersLongAndCanBeAnyStringYouWantJustMakeSureItsSecureAndLongEnoughForYourNeedsMaybeEvenLongerThan64CharactersHopefullyThisIsLongEnough
+      - CLOUDINARY_CLOUD_NAME=your_cloud_name_here # CloudinaryName
+      - CLOUDINARY_API_KEY=your_api_key_here # CloudinaryApiKey
+      - CLOUDINARY_API_SECRET=your_api_secret_here # CloudinaryApiSecret
+    depends_on:
+      - db
+    ports:
+      - "8080:80"
+
+  angular:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    ports:
+      - "4200:80"
+    depends_on:
+      - webapi
+
+  db:
+    container_name: postgres_dev
+    image: postgres
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_DB=playlink_dev
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=dev_password
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+
+volumes:
+  postgres_data_dev:

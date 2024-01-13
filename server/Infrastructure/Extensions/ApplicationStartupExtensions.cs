@@ -19,13 +19,23 @@ namespace Infrastructure.Extensions
 
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {
-                // Production
+                var corsOrigins = new List<string>
+                {
+                    "https://ambrusocialmedia.com",
+                    "https://www.ambrusocialmedia.com"
+                };
+
+                // this allows tesing in production mode with docker compose, wrote like this to emphasize
+                if (Environment.GetEnvironmentVariable("ALLOW_DEV_ORIGIN") == "true")
+                {
+                    corsOrigins.Add("http://localhost:4200");
+                }
+
                 app.UseCors(builder => builder
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()
-                    .WithOrigins("??"));
-
+                    .WithOrigins(corsOrigins.ToArray()));
             }
             else
             {
@@ -40,14 +50,12 @@ namespace Infrastructure.Extensions
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()
-                    .WithOrigins("https://localhost:4200"));
+                    .WithOrigins("https://localhost:4200", "http://localhost:4200"));
             }
 
-            app.UseHttpsRedirection();
             app.UseIpRateLimiting();
             app.UseAuthentication();
             app.UseAuthorization();
-
         }
     }
 }

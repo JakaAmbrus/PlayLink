@@ -69,3 +69,4 @@ server/server.sln
 .env
 client/nginx.conf
 client/Dockerfile
+client/robots.txt

@@ -110,7 +110,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   toggleNotifications(): void {
-    if (!this.username || this.friendRequests.length === 0) {
+    if (!this.username) {
       return;
     }
 

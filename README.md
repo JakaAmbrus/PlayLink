@@ -14,7 +14,7 @@ Experience PlayLink live at [https://ambrusocialmedia.com](https://ambrusocialme
 
 ## Video Demo ▶️
 
-Check out my [PlayLink Features Showcase Video](https://www.youtube.com/watch?v=your-video-id)!
+Check out my [PlayLink Features Showcase Video](https://www.youtube.com/watch?v=CYa95LGn1cI)!
 
 ---
 

@@ -58,6 +58,6 @@ If PlayLink has been helpful or interesting to you, I would greatly appreciate y
 
 Thank you for trying out PlayLink. If you're interested in professional collaboration or if my skills and project align with what you're looking for in a developer, I'm open to discussing potential opportunities. Please feel free to reach out to me for any professional inquiries or collaborations.
 
-## License
+## License 📜
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.

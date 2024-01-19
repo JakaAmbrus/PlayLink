@@ -202,5 +202,26 @@ namespace WebAPI.Tests.Integration.Controllers.Posts
             errorResponse.Message.Should().Be("Authenticated user not found");
         }
 
+        [Fact]
+        public async Task UploadPost_ShouldThrowBadRequestValidationException_WhenTheDescriptionExceedsMaxLength()
+        {
+            // Arrange
+            await InitializeTestAsync(new List<string> { "Member" });
+
+            var postContent = new MultipartFormDataContent
+            {
+                { new StringContent(new string('a', 501)), TestDescriptionFieldName },
+            };
+
+            // Act
+            var response = await Client.PostAsync("/api/posts", postContent);
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            errorResponse.Should().NotBeNull();
+            errorResponse.StatusCode.Should().Be(400);
+            errorResponse.Errors["PostContentDto.Description"].Should().Contain("Description must not exceed 400 characters of space");
+        }
     }
 }

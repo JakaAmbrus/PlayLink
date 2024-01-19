@@ -40,7 +40,6 @@ namespace Application.Features.Moderator.DeleteUserPhoto
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            _cacheInvalidationService.InvalidateUserCache(user.UserName);
             _cacheInvalidationService.InvalidateUserPhotosCache(user.UserName);
 
             return new DeleteUserPhotoResponse { IsDeleted = true };

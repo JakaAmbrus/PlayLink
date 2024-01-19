@@ -159,40 +159,5 @@ namespace Application.Tests.Unit.Features.Users
             await action.Should().ThrowAsync<NotFoundException>()
                 .WithMessage("The user by the username: tester4 not found ");
         }
-
-        [Fact]
-        public async Task GetUserByUsername_ShouldReturnProfileUserDto_WhenThereIsCache()
-        {
-            // Arrange
-            var cachedUser = new ProfileUserDto
-            {
-                Username = "tester",
-                FullName = "Tester Test",
-                DateOfBirth = new DateOnly(1999, 5, 16)
-            };
-
-            _memoryCache.TryGetValue(Arg.Any<string>(), out Arg.Any<ProfileUserDto>())
-                .Returns(x =>
-                {
-                    x[1] = cachedUser;
-                    return true;
-                });
-
-            var request = new GetUserByUsernameQuery
-            {
-                Username = "tester",
-                AuthUserId = 2,
-                AuthUserRoles = new List<string> { "Moderator" }
-            };
-
-            // Act
-            var response = await _mediator.Send(request, CancellationToken.None);
-
-            // Assert
-            response.Should().NotBeNull();
-            response.User.Should().NotBeNull();
-            response.User.Should().BeOfType<ProfileUserDto>();
-            response.User.Should().BeEquivalentTo(cachedUser);
-        }
     }
 }

@@ -20,12 +20,6 @@ namespace Application.Features.Users.GetUserByUsername
 
         public async Task<GetUserByUsernameResponse> Handle(GetUserByUsernameQuery request, CancellationToken cancellationToken)
         {
-            string cacheKey = $"Users:GetUserByUsername-{request.Username}";
-
-            if (_memoryCache.TryGetValue(cacheKey, out ProfileUserDto profileUserDto))
-            {
-                return new GetUserByUsernameResponse { User = profileUserDto };
-            }
 
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.UserName == request.Username, cancellationToken)
@@ -34,7 +28,7 @@ namespace Application.Features.Users.GetUserByUsername
             bool isModerator = request.AuthUserRoles.Contains("Moderator");
             bool isCurrentUser = request.AuthUserId == user.Id;
 
-            profileUserDto = new ProfileUserDto
+            var profileUserDto = new ProfileUserDto
             {
                 AppUserId = user.Id,
                 Username = user.UserName,
@@ -48,13 +42,6 @@ namespace Application.Features.Users.GetUserByUsername
                 LastActive = user.LastActive,
                 Authorized = isModerator && !isCurrentUser // Moderation view is only seen on other profiles
             };
-
-            var cacheEntryOptions = new MemoryCacheEntryOptions
-            {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(2)
-            };
-
-            _memoryCache.Set(cacheKey, profileUserDto, cacheEntryOptions);
 
             return new GetUserByUsernameResponse { User = profileUserDto };
         }

@@ -27,7 +27,7 @@ namespace WebAPI.Tests.Integration.Controllers.Posts
             Context.Likes.Add(new Like { PostId = 1, AppUserId = 1 });
             Context.Likes.Add(new Like { PostId = 1, AppUserId = 2 });
 
-            Context.SaveChanges();
+            await Context.SaveChangesAsync();
         }
 
         private async Task InitializeTestAsync(List<string> roles)

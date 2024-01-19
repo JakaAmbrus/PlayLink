@@ -54,7 +54,7 @@ Check out my [PlayLink Features Showcase Video](https://www.youtube.com/watch?v=
 
 ## Show Your Support 🌟
 
-If PlayLink has been helpful or interesting to you, I would greatly appreciate your support! Giving a star ⭐️ on GitHub is a fantastic way to show your appreciation and helps more people discover my project. If you are interested, visit my [LinkedIn profile](www.linkedin.com/in/jaka-ambrus) and connect with me there.
+If PlayLink has been helpful or interesting to you, I would greatly appreciate your support! Giving a star ⭐️ on GitHub is a fantastic way to show your appreciation and helps more people discover my project. If you are interested, visit my [LinkedIn profile](https://www.linkedin.com/in/jaka-ambrus) and connect with me there.
 
 Thank you for trying out PlayLink. If you're interested in professional collaboration or if my skills and project align with what you're looking for in a developer, I'm open to discussing potential opportunities. Please feel free to reach out to me for any professional inquiries or collaborations.
 

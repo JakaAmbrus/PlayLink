@@ -2,6 +2,7 @@
 
 namespace WebAPI.Tests.Integration.Controllers.Posts
 {
+    [Collection("Sequential")]
     public class UnlikePostTests : BaseIntegrationTest
     {
         public UnlikePostTests(IntegrationTestWebAppFactory factory) : base(factory)

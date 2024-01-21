@@ -3,6 +3,7 @@ using Application.Features.Likes.GetPostLikes;
 
 namespace WebAPI.Tests.Integration.Controllers.Posts
 {
+    [Collection("Sequential")]
     public class GetPostLikesTests : BaseIntegrationTest
     {
         public GetPostLikesTests(IntegrationTestWebAppFactory factory) : base(factory)

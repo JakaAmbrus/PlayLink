@@ -2,6 +2,7 @@
 
 namespace WebAPI.Tests.Integration.Controllers.Posts
 {
+    [Collection("Sequential")]
     public class LikePostTests : BaseIntegrationTest
     {
         public LikePostTests(IntegrationTestWebAppFactory factory) : base(factory)
@@ -15,7 +16,7 @@ namespace WebAPI.Tests.Integration.Controllers.Posts
 
             Context.Likes.Add(new Like { PostId = 2, AppUserId = 1 });
 
-            Context.SaveChanges();
+            await Context.SaveChangesAsync();
         }
 
         private async Task InitializeTestAsync(List<string> roles)

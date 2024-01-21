@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
 
         /// <summary>
         /// Registers a new user and adds them to the Database.
-        /// </summary>https://desktop.postman.com/?desktopVersion=10.20.0&userId=30655445&teamId=0
+        /// </summary>
         /// <param name="command">Required information for successful registration: Username, Password, Gender, Full Name, Country and Date of birth.</param>
         /// <returns>JWT and username.</returns>
         [HttpPost("register")] 
@@ -49,7 +49,7 @@ namespace WebAPI.Controllers
         /// <summary>
         /// Logs in a guest user and returns a JWT.
         /// </summary>
-        /// <param name="role">The role of the guest user account.</param>
+        /// <param name="role">The role of the guest user account(member or moderator).</param>
         /// <returns>JWT and username.</returns>
         [HttpPost("guest-login/{role}")]
         public async Task<IActionResult> GuestLogin(string role, CancellationToken cancellationToken)

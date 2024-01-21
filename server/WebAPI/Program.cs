@@ -34,6 +34,8 @@ builder.Services.AddSignalRExtensions();
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 
+builder.Services.AddSwaggerDocumentation();
+
 var app = builder.Build();
 
 // To make it easier to spin up the docker compose file I added this so anybody can run the site
@@ -58,6 +60,12 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
 }
 
 app.UseSerilogRequestLogging();

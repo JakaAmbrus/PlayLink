@@ -11,19 +11,16 @@ namespace Application.Tests.Unit.Features.Moderator
     {
         private readonly IMediator _mediator;
         private readonly IApplicationDbContext _context;
-        private readonly ICacheInvalidationService _cacheInvalidationService;
 
         public DeleteUserDescriptionCommandTests()
         {
             _context = TestBase.CreateTestDbContext();
-            _cacheInvalidationService = Substitute.For<ICacheInvalidationService>();
             var mediatorMock = Substitute.For<IMediator>();
             _mediator = mediatorMock;
 
             mediatorMock.Send(Arg.Any<DeleteUserDescriptionCommand>(), Arg.Any<CancellationToken>())
-                .Returns(c => new DeleteUserDescriptionCommandHandler(
-                                       _context, _cacheInvalidationService)
-                                   .Handle(c.Arg<DeleteUserDescriptionCommand>(), c.Arg<CancellationToken>()));
+                .Returns(c => new DeleteUserDescriptionCommandHandler(_context)
+                .Handle(c.Arg<DeleteUserDescriptionCommand>(), c.Arg<CancellationToken>()));
 
             SeedTestData(_context);
         }

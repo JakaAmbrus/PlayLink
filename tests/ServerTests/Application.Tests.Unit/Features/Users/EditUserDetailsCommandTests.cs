@@ -184,27 +184,6 @@ namespace Application.Tests.Unit.Features.Users
         }
 
         [Fact]
-        public async Task EditUserDetails_ShouldInvalidateUserCache_WhenUserDetailsEdited()
-        {
-            // Arrange          
-            var request = new EditUserDetailsCommand
-            {
-                AuthUserId = 1,
-                EditUserDto = new EditUserDto
-                {
-                    Username = "tester",
-                    Description = "test description edited",
-                }
-            };
-
-            // Act
-            await _mediator.Send(request);
-
-            // Assert
-            _cacheInvalidationService.Received(1).InvalidateUserCache("tester");
-        }
-
-        [Fact]
         public async Task EditUserDetails_ShouldThrowNotFoundException_WhenUserNotFound()
         {
             // Arrange

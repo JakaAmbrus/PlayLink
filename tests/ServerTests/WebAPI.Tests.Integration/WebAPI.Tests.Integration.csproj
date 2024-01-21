@@ -31,8 +31,4 @@
     <ProjectReference Include="..\..\..\server\WebAPI\WebAPI.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\Messages\" />
-  </ItemGroup>
-
 </Project>

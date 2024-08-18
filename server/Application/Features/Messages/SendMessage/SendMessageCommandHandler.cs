@@ -1,7 +1,7 @@
-﻿using Application.Exceptions;
-using Application.Features.Messages.Common;
+﻿using Application.Features.Messages.Common;
 using Application.Interfaces;
 using Domain.Entities;
+using Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

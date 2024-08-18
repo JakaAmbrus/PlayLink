@@ -1,8 +1,9 @@
-﻿using Application.Exceptions;
-using Application.Features.Friends.SendFriendRequest;
+﻿using Application.Features.Friends.SendFriendRequest;
 using Application.Interfaces;
 using Application.Tests.Unit.Configurations;
 using Domain.Entities;
+using Domain.Enums;
+using Domain.Exceptions;
 using MediatR;
 
 namespace Application.Tests.Unit.Features.Friends
@@ -42,7 +43,7 @@ namespace Application.Tests.Unit.Features.Friends
                 FriendRequestId = 1,
                 SenderId = 1,
                 ReceiverId = 3,
-                Status = Domain.Enums.FriendRequestStatus.Declined
+                Status = FriendRequestStatus.Declined
             });
 
             context.FriendRequests.Add(new FriendRequest
@@ -50,7 +51,7 @@ namespace Application.Tests.Unit.Features.Friends
                 FriendRequestId = 2,
                 SenderId = 1,
                 ReceiverId = 4,
-                Status = Domain.Enums.FriendRequestStatus.Pending
+                Status = FriendRequestStatus.Pending
             });
 
             context.Friendships.Add(new Friendship { User1Id = 1, User2Id = 5 });

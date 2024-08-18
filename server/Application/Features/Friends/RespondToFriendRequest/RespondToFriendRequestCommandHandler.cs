@@ -1,8 +1,8 @@
-﻿using Application.Exceptions;
-using Application.Features.Friends.Common;
+﻿using Application.Features.Friends.Common;
 using Application.Interfaces;
 using Domain.Entities;
 using Domain.Enums;
+using Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

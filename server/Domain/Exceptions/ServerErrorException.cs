@@ -1,8 +1,8 @@
 ﻿using System.Net;
 
-namespace Application.Exceptions
+namespace Domain.Exceptions
 {
-    internal class ServerErrorException : ApplicationExceptions
+    public class ServerErrorException : ApplicationExceptions
     {
         public ServerErrorException(string message)
             : base(HttpStatusCode.InternalServerError, message)

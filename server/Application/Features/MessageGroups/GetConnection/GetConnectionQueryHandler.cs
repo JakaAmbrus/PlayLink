@@ -1,6 +1,6 @@
-﻿using Application.Exceptions;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Domain.Entities;
+using Domain.Exceptions;
 using MediatR;
 
 namespace Application.Features.MessageGroups.GetConnection

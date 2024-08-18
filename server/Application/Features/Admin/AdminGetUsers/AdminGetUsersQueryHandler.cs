@@ -1,10 +1,9 @@
-﻿using Application.Exceptions;
-using Application.Features.Admin.Common;
+﻿using Application.Features.Admin.Common;
 using Application.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using Application.Utils;
+using Domain.Exceptions;
 using MediatR;
-using System.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Admin.AdminGetUsers
 {

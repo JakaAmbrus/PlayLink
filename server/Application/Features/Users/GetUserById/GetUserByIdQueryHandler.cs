@@ -1,7 +1,7 @@
-﻿using Application.Exceptions;
-using Application.Features.Users.Common;
+﻿using Application.Features.Users.Common;
 using Application.Interfaces;
 using Application.Utils;
+using Domain.Exceptions;
 using MediatR;
 
 namespace Application.Features.Users.GetUserById

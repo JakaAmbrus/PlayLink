@@ -1,9 +1,9 @@
-﻿using Application.Exceptions;
-using Application.Features.Posts.DeletePost;
+﻿using Application.Features.Posts.DeletePost;
 using Application.Interfaces;
 using Application.Models;
 using Application.Tests.Unit.Configurations;
 using Domain.Entities;
+using Domain.Exceptions;
 using MediatR;
 
 namespace Application.Tests.Unit.Features.Posts

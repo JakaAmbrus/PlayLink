@@ -1,5 +1,5 @@
-﻿using Application.Exceptions;
-using Application.Interfaces;
+﻿using Application.Interfaces;
+using Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;

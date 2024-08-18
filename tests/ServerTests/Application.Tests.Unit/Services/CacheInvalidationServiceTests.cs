@@ -1,6 +1,6 @@
-﻿using Application.Exceptions;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Application.Services;
+using Domain.Exceptions;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Application.Tests.Unit.Services

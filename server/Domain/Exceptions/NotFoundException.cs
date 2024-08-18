@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Application.Exceptions
+namespace Domain.Exceptions
 {
     public class NotFoundException : ApplicationExceptions
     {

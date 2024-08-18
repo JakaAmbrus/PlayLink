@@ -1,9 +1,9 @@
-﻿using Application.Exceptions;
-using Application.Features.Users.Common;
+﻿using Application.Features.Users.Common;
 using Application.Features.Users.GetUserByUsername;
 using Application.Interfaces;
 using Application.Tests.Unit.Configurations;
 using Domain.Entities;
+using Domain.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 

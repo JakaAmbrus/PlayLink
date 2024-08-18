@@ -1,7 +1,7 @@
-﻿using Application.Exceptions;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Domain.Entities;
 using Domain.Enums;
+using Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

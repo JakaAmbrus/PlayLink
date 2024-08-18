@@ -1,7 +1,7 @@
-﻿using Application.Exceptions;
-using Application.Features.Comments.Common;
+﻿using Application.Features.Comments.Common;
 using Application.Interfaces;
 using Domain.Entities;
+using Domain.Exceptions;
 using MediatR;
 
 namespace Application.Features.Comments.UploadComment

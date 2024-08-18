@@ -1,8 +1,8 @@
-﻿using Application.Exceptions;
-using Application.Features.MessageGroups.RemoveConnection;
+﻿using Application.Features.MessageGroups.RemoveConnection;
 using Application.Interfaces;
 using Application.Tests.Unit.Configurations;
 using Domain.Entities;
+using Domain.Exceptions;
 using MediatR;
 
 namespace Application.Tests.Unit.Features.MessageGroups

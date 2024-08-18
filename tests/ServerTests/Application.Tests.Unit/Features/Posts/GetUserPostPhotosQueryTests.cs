@@ -1,8 +1,8 @@
-﻿using Application.Exceptions;
-using Application.Features.Posts.GetUserPostPhotos;
+﻿using Application.Features.Posts.GetUserPostPhotos;
 using Application.Interfaces;
 using Application.Tests.Unit.Configurations;
 using Domain.Entities;
+using Domain.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 

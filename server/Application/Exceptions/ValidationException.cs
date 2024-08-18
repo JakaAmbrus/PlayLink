@@ -1,5 +1,6 @@
-﻿using FluentValidation.Results;
-using System.Net;
+﻿using System.Net;
+using Domain.Exceptions;
+using FluentValidation.Results;
 
 namespace Application.Exceptions
 {

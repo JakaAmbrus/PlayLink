@@ -1,6 +1,6 @@
-﻿using Application.Exceptions;
-using Application.Features.Users.Common;
+﻿using Application.Features.Users.Common;
 using Application.Interfaces;
+using Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;

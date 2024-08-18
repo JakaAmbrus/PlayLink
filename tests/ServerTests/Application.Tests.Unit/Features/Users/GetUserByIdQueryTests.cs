@@ -1,9 +1,9 @@
-﻿using Application.Exceptions;
-using Application.Features.Users.Common;
+﻿using Application.Features.Users.Common;
 using Application.Features.Users.GetUserById;
 using Application.Interfaces;
 using Application.Tests.Unit.Configurations;
 using Domain.Entities;
+using Domain.Exceptions;
 using MediatR;
 
 namespace Application.Tests.Unit.Features.Users

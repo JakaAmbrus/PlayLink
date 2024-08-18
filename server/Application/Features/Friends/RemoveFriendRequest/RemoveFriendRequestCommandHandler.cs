@@ -1,5 +1,6 @@
-﻿using Application.Exceptions;
-using Application.Interfaces;
+﻿using Application.Interfaces;
+using Domain.Enums;
+using Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,7 +29,7 @@ namespace Application.Features.Friends.RemoveFriendRequest
 
             _cacheInvalidationService.InvalidateFriendRequestsCache(request.AuthUserId);
 
-            if(friendRequest.Status == Domain.Enums.FriendRequestStatus.Declined)
+            if(friendRequest.Status == FriendRequestStatus.Declined)
             {
                 _cacheInvalidationService.InvalidateFriendshipStatusCache(friendRequest.SenderId, friendRequest.ReceiverId);
             }

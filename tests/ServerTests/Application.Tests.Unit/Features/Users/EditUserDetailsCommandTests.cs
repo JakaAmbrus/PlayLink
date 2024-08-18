@@ -1,10 +1,10 @@
-﻿using Application.Exceptions;
-using Application.Features.Users.Common;
+﻿using Application.Features.Users.Common;
 using Application.Features.Users.EditUserDetails;
 using Application.Interfaces;
 using Application.Models;
 using Application.Tests.Unit.Configurations;
 using Domain.Entities;
+using Domain.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 

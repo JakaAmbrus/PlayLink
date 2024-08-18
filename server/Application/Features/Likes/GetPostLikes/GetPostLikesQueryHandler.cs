@@ -1,6 +1,6 @@
-﻿using Application.Exceptions;
-using Application.Features.Likes.Common;
+﻿using Application.Features.Likes.Common;
 using Application.Interfaces;
+using Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

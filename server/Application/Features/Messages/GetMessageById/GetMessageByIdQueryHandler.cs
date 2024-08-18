@@ -1,6 +1,6 @@
-﻿using Application.Exceptions;
-using Application.Features.Messages.Common;
+﻿using Application.Features.Messages.Common;
 using Application.Interfaces;
+using Domain.Exceptions;
 using MediatR;
 
 namespace Application.Features.Messages.GetMessageById

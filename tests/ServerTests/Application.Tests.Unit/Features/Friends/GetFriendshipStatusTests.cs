@@ -1,9 +1,9 @@
-﻿using Application.Exceptions;
-using Application.Features.Friends.GetRelationshipStatus;
+﻿using Application.Features.Friends.GetRelationshipStatus;
 using Application.Interfaces;
 using Application.Tests.Unit.Configurations;
 using Domain.Entities;
 using Domain.Enums;
+using Domain.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 

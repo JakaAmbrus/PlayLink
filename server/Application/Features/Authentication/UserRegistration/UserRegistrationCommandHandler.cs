@@ -1,9 +1,9 @@
-﻿using Application.Exceptions;
+﻿using System.Globalization;
 using Application.Features.Authentication.Common;
 using Application.Interfaces;
 using Domain.Entities;
+using Domain.Exceptions;
 using MediatR;
-using System.Globalization;
 
 namespace Application.Features.Authentication.UserRegistration
 {

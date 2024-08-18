@@ -1,10 +1,10 @@
-﻿using Application.Exceptions;
-using Application.Features.Friends.Common;
+﻿using Application.Features.Friends.Common;
 using Application.Features.Friends.RespondToFriendRequest;
 using Application.Interfaces;
 using Application.Tests.Unit.Configurations;
 using Domain.Entities;
 using Domain.Enums;
+using Domain.Exceptions;
 using MediatR;
 
 namespace Application.Tests.Unit.Features.Friends

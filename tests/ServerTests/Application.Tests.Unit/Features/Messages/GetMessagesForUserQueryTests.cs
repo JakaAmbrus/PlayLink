@@ -1,10 +1,10 @@
-﻿using Application.Exceptions;
-using Application.Features.Messages.Common;
+﻿using Application.Features.Messages.Common;
 using Application.Features.Messages.GetMessagesForUser;
 using Application.Interfaces;
 using Application.Tests.Unit.Configurations;
 using Application.Utils;
 using Domain.Entities;
+using Domain.Exceptions;
 using MediatR;
 
 namespace Application.Tests.Unit.Features.Messages

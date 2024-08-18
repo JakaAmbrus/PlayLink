@@ -1,9 +1,9 @@
-﻿using Application.Exceptions;
-using Application.Features.MessageGroups.Common;
+﻿using Application.Features.MessageGroups.Common;
 using Application.Features.MessageGroups.GetGroupForConnection;
 using Application.Interfaces;
 using Application.Tests.Unit.Configurations;
 using Domain.Entities;
+using Domain.Exceptions;
 using MediatR;
 
 namespace Application.Tests.Unit.Features.MessageGroups

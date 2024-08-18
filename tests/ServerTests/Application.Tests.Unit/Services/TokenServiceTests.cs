@@ -1,10 +1,10 @@
-﻿using Application.Exceptions;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Application.Services;
 using Domain.Entities;
+using Domain.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 namespace Application.Tests.Unit.Services
 {

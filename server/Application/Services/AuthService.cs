@@ -1,7 +1,7 @@
-﻿using Application.Exceptions;
+﻿using System.Security.Claims;
 using Application.Interfaces;
+using Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
 
 namespace Application.Services
 {

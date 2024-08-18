@@ -1,8 +1,8 @@
-﻿using Application.Exceptions;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Application.Models;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
 
 namespace Infrastructure.Services

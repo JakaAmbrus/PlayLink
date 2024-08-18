@@ -59,7 +59,6 @@ server/WebAPI/bin/
 
 # Visual Studio specific
 .vs/
-server/server.sln
 
 **/bin/
 **/obj/

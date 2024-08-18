@@ -9,8 +9,7 @@ namespace Application.Extensions
         public static IServiceCollection AddAuthenticatedUserServices(this IServiceCollection services)
         {
 
-            services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();
-            services.AddScoped<IAuthenticatedUserUsernameService, AuthenticatedUserUsernameService>();
+            services.AddScoped<IAuthService, AuthService>();
 
             return services;
         }

@@ -1,9 +1,7 @@
 ﻿using Application.Features.Admin.AdminEditRoles;
 using Application.Features.Admin.AdminGetUsers;
 using Application.Features.Admin.AdminUserDelete;
-using Application.Interfaces;
 using Application.Utils;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Extensions;
@@ -14,12 +12,8 @@ namespace WebAPI.Controllers
     /// Manages administrator actions
     /// </summary>
     [Authorize(Policy = "RequireAdminRole")]
-    public class AdminController : BaseAuthApiController
+    public class AdminController : BaseController
     {
-        public AdminController(ISender mediator, IAuthenticatedUserService authenticatedUserService) : base(mediator, authenticatedUserService)
-        {
-        }
-
         /// <summary>
         /// Returns a list of users with their assigned roles.
         /// </summary>
@@ -28,64 +22,52 @@ namespace WebAPI.Controllers
         [HttpGet("users")]
         public async Task<IActionResult> GetUsersWithRoles([FromQuery] PaginationParams paginationParams, CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-
-            var query = new AdminGetUsersQuery
+            var request = new AdminGetUsersQuery
             {
                 Params = paginationParams,
-                AuthUserId = authUserId
+                AuthUserId = AuthService.GetCurrentUserId()
             };
 
-            var result = await Mediator.Send(query, cancellationToken);
-
-            Response.AddPaginationHeader(new PaginationHeader(result.Users.CurrentPage, result.Users.PageSize, result.Users.TotalCount, result.Users.TotalPages));
-
-            return Ok(result);
+            var response = await Mediator.Send(request, cancellationToken);
+            Response.AddPaginationHeader(new PaginationHeader(response.Users.CurrentPage, response.Users.PageSize, response.Users.TotalCount, response.Users.TotalPages));
+            return Ok(response);
         }
 
         /// <summary>
         /// Edits the roles of a user.
         /// </summary>
         /// <param name="UserId">User ID.</param>
-        /// <param name="AssignModeratorRole">Boolean value that lets the controller know if the moderator role should be added or removed.</param>
         /// <returns>A confirmation of the edit success.</returns>
-        [HttpPut("edit-roles/{UserId}")]
-        public async Task<ActionResult> EditRoles(int UserId, CancellationToken cancellationToken)
+        [HttpPut("edit-roles/{userId:int}")]
+        public async Task<ActionResult> EditRoles(int userId, CancellationToken cancellationToken)
         {        
-            int authUserId = GetCurrentUserId();
-
-            var command = new AdminEditRolesCommand
+            var request = new AdminEditRolesCommand
             {
-                AppUserId = UserId,
-                AuthUserId = authUserId
+                AppUserId = userId,
+                AuthUserId = AuthService.GetCurrentUserId()
             };
 
-            var result = await Mediator.Send(command, cancellationToken);
-
-            return Ok(result);
+            var response = await Mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
 
         /// <summary>
         /// Deletes a user.
         /// </summary>
-        /// <param name="UserId">User ID.</param>
+        /// <param name="userId">User ID.</param>
         /// <returns>A confirmation of the success of deletion.</returns>
-        [HttpDelete("delete-user/{UserId}")]
-        public async Task<ActionResult> DeleteUser(int UserId, CancellationToken cancellationToken)
+        [HttpDelete("delete-user/{userId:int}")]
+        public async Task<ActionResult> DeleteUser(int userId, CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-            IEnumerable<string> authUserRoles = GetCurrentUserRoles();
-
-            var command = new AdminUserDeleteCommand
+            var request = new AdminUserDeleteCommand
             {
-                AppUserId = UserId,
-                AuthUserId = authUserId,
-                AuthUserRoles = authUserRoles
+                AppUserId = userId,
+                AuthUserId = AuthService.GetCurrentUserId(),
+                AuthUserRoles = AuthService.GetCurrentUserRoles()
             };
 
-            var result = await Mediator.Send(command, cancellationToken);
-
-            return Ok(result);
+            var response = await Mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
     }
 }

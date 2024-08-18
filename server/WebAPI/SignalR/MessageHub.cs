@@ -22,27 +22,22 @@ namespace WebAPI.SignalR
     public class MessageHub : Hub
     {
         private readonly ISender _mediator;
-        private readonly IAuthenticatedUserUsernameService _authenticatedUserUsernameService;
-        private readonly IAuthenticatedUserService _authenticatedUserService;
+        private readonly IAuthService _authService;
         private readonly IHubContext<PresenceHub> _presenceHub;
 
-        private static readonly ConcurrentDictionary<int, Queue<DateTime>> _messageTime
-            = new();
+        private static readonly ConcurrentDictionary<int, Queue<DateTime>> MessageTime = new();
 
-        public MessageHub(ISender mediator, IAuthenticatedUserService authenticatedUserService 
-            ,IAuthenticatedUserUsernameService authenticatedUserUsernameService,
-            IHubContext<PresenceHub> presenceHub)
+        public MessageHub(ISender mediator, IAuthService authService, IHubContext<PresenceHub> presenceHub)
         {
             _mediator = mediator;
-            _authenticatedUserUsernameService = authenticatedUserUsernameService;
-            _authenticatedUserService = authenticatedUserService;
+            _authService = authService;
             _presenceHub = presenceHub;
         }
 
         public override async Task OnConnectedAsync()
         {
-            int authUserId = _authenticatedUserService.UserId;
-            string authUsername = await _authenticatedUserUsernameService.GetUsernameByIdAsync();
+            var authUserId = _authService.GetCurrentUserId();
+            var authUsername = await _authService.GetUsernameByIdAsync(CancellationToken.None);
 
             var httpContext = Context.GetHttpContext();
             var otherUser = httpContext.Request.Query["user"].ToString();
@@ -75,7 +70,7 @@ namespace WebAPI.SignalR
         public async Task SendMessage(CreateMessageDto createMessageDto)
         {
 
-            int authUserId = _authenticatedUserService.UserId;
+            int authUserId = _authService.GetCurrentUserId();
 
             if (!IsWithinMessageRateLimit(authUserId, out var retryAfter))
             {
@@ -86,7 +81,7 @@ namespace WebAPI.SignalR
                 return;
             }
 
-            string authUsername = await _authenticatedUserUsernameService.GetUsernameByIdAsync();
+            var authUsername = await _authService.GetUsernameByIdAsync(CancellationToken.None);;
 
             var command = new SendMessageCommand
             {
@@ -125,7 +120,7 @@ namespace WebAPI.SignalR
         private static bool IsWithinMessageRateLimit(int userId, out TimeSpan? retryAfter)
         {
             var currentTime = DateTime.UtcNow;
-            var timestamps = _messageTime.GetOrAdd(userId, new Queue<DateTime>());
+            var timestamps = MessageTime.GetOrAdd(userId, new Queue<DateTime>());
 
             lock (timestamps)
             {
@@ -162,7 +157,7 @@ namespace WebAPI.SignalR
                 _ = await _mediator.Send(new AddGroupCommand { GroupName = groupName });
             }
 
-            string authUsername = await _authenticatedUserUsernameService.GetUsernameByIdAsync();
+            string authUsername = await _authService.GetUsernameByIdAsync(CancellationToken.None);
             var connectionDto = new ConnectionDto
             {
                 ConnectionId = Context.ConnectionId,

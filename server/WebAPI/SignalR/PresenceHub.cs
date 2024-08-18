@@ -7,18 +7,18 @@ namespace WebAPI.SignalR
     [Authorize]
     public class PresenceHub : Hub
     {
-        private readonly IAuthenticatedUserService _authenticatedUserService;
+        private readonly IAuthService _authService;
         private readonly PresenceTracker _tracker;
 
-        public PresenceHub(IAuthenticatedUserService authenticatedUserService, PresenceTracker tracker)
+        public PresenceHub(IAuthService authService, PresenceTracker tracker)
         {
-            _authenticatedUserService = authenticatedUserService;
+            _authService = authService;
             _tracker = tracker;
         }
 
         public override async Task OnConnectedAsync()
         {
-            int authUserId = _authenticatedUserService.UserId;
+            var authUserId = _authService.GetCurrentUserId();
 
             var isOnline = await _tracker.UserConnected(authUserId, Context.ConnectionId);
             if (isOnline)
@@ -32,7 +32,7 @@ namespace WebAPI.SignalR
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            int authUserId = _authenticatedUserService.UserId;
+            var authUserId = _authService.GetCurrentUserId();
 
             var isOffline = await _tracker.UserDisconnected(authUserId, Context.ConnectionId);
             if (isOffline)

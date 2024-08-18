@@ -5,11 +5,11 @@ namespace WebAPI.Filters
 {
     public class LogUserActivity : IAsyncActionFilter
     {
-        private readonly IAuthenticatedUserService _authenticatedUserService;
+        private readonly IAuthService _authService;
         private readonly IUserActivityService _userActivityService;
-        public LogUserActivity(IAuthenticatedUserService authenticatedUserService, IUserActivityService userActivityService)
+        public LogUserActivity(IAuthService authService, IUserActivityService userActivityService)
         {
-            _authenticatedUserService = authenticatedUserService;
+            _authService = authService;
             _userActivityService = userActivityService;
         }
 
@@ -18,9 +18,9 @@ namespace WebAPI.Filters
 
             var resultContext = await next();
 
-            if (resultContext.HttpContext.User.Identity.IsAuthenticated && resultContext.Exception == null)
+            if (resultContext.HttpContext.User.Identity != null && resultContext.HttpContext.User.Identity.IsAuthenticated && resultContext.Exception == null)
             {
-                var userId = _authenticatedUserService.UserId;
+                var userId = _authService.GetCurrentUserId();
                 await _userActivityService.UpdateLastActiveAsync(userId);
             }
         }

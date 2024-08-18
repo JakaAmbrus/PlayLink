@@ -7,9 +7,7 @@ using Application.Features.Users.GetUserByUsername;
 using Application.Features.Users.GetUsers;
 using Application.Features.Users.GetUsersForSearchBar;
 using Application.Features.Users.GetUsersUniqueCountries;
-using Application.Interfaces;
 using Application.Utils;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Extensions;
 
@@ -18,33 +16,25 @@ namespace WebAPI.Controllers
     /// <summary>
     /// Manages users related operations.
     /// </summary>
-    public class UsersController : BaseAuthApiController
+    public class UsersController : BaseController
     {
-        public UsersController(ISender mediator, IAuthenticatedUserService authenticatedUserService) : base(mediator, authenticatedUserService)
-        {
-        }
-
         /// <summary>
         /// Returns all users based on filters: Age, Gender , Country, Activity and pagination parameters.
         /// </summary>
-        /// <param name="paginationParams">Pagination parameters.</param>
+        /// <param name="userParams">Pagination parameters.</param>
         /// <returns>A paginated and filtered list of users DTOs.</returns>
         [HttpGet]
         public async Task<IActionResult> GetUsers([FromQuery] UserParams userParams, CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-
-            var query = new GetUsersQuery 
+            var request = new GetUsersQuery 
             { 
                 Params = userParams,
-                AuthUserId = authUserId
+                AuthUserId = AuthService.GetCurrentUserId()
             };
 
-            var users = await Mediator.Send(query, cancellationToken);
-
-            Response.AddPaginationHeader(new PaginationHeader(users.Users.CurrentPage, users.Users.PageSize, users.Users.TotalCount, users.Users.TotalPages));
-
-            return Ok(users);
+            var response = await Mediator.Send(request, cancellationToken);
+            Response.AddPaginationHeader(new PaginationHeader(response.Users.CurrentPage, response.Users.PageSize, response.Users.TotalCount, response.Users.TotalPages));
+            return Ok(response);
         }
 
         /// <summary>
@@ -54,11 +44,10 @@ namespace WebAPI.Controllers
         [HttpGet("searchbar")]
         public async Task<IActionResult> GetUsersForSearchBar(CancellationToken cancellationToken)
         {
-            var query = new GetUsersForSearchBarQuery { };
+            var request = new GetUsersForSearchBarQuery();
 
-            var users = await Mediator.Send(query, cancellationToken);
-
-            return Ok(users);
+            var response = await Mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
 
         /// <summary>
@@ -68,11 +57,10 @@ namespace WebAPI.Controllers
         [HttpGet("nearest-birthday")]
         public async Task<IActionResult> GetNearestBirthdayUsers(CancellationToken cancellationToken)
         {
-            var query = new GetNearestBirthdayUsersQuery { };
+            var request = new GetNearestBirthdayUsersQuery();
 
-            var users = await Mediator.Send(query, cancellationToken);
-
-            return Ok(users);
+            var response = await Mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
 
         /// <summary>
@@ -80,12 +68,12 @@ namespace WebAPI.Controllers
         /// </summary>
         /// <param name="id">User ID.</param>
         /// <returns>A user DTO.</returns>
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetUser(int id, CancellationToken cancellationToken)
         {
-            var query = new GetUserByIdQuery { Id = id };
+            var request = new GetUserByIdQuery { Id = id };
 
-            var user = await Mediator.Send(query, cancellationToken);
+            var user = await Mediator.Send(request, cancellationToken);
 
             return Ok(user); 
         }
@@ -98,18 +86,14 @@ namespace WebAPI.Controllers
         [HttpGet("username/{username}")]
         public async Task<IActionResult> GetUserByUsername(string username, CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-            IEnumerable<string> authUserRoles = GetCurrentUserRoles();
-
-            var query = new GetUserByUsernameQuery 
+            var request = new GetUserByUsernameQuery 
             { 
                 Username = username,
-                AuthUserId = authUserId,
-                AuthUserRoles = authUserRoles
+                AuthUserId = AuthService.GetCurrentUserId(),
+                AuthUserRoles = AuthService.GetCurrentUserRoles()
             };
 
-            var response = await Mediator.Send(query, cancellationToken);
-
+            var response = await Mediator.Send(request, cancellationToken);
             return Ok(response);
         }
 
@@ -120,12 +104,9 @@ namespace WebAPI.Controllers
         [HttpGet("countries")]
         public async Task<IActionResult> GetUniqueCountries(CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
+            var request = new GetUsersUniqueCountriesQuery { AuthUserId = AuthService.GetCurrentUserId() };
 
-            var query = new GetUsersUniqueCountriesQuery { AuthUserId = authUserId };
-
-            var response = await Mediator.Send(query, cancellationToken);
-
+            var response = await Mediator.Send(request, cancellationToken);
             return Ok(response);
         }
 
@@ -137,18 +118,14 @@ namespace WebAPI.Controllers
         [HttpPut("edit")]
         public async Task<IActionResult> EditUserDetails([FromForm] EditUserDto editUserDto, CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-            IEnumerable<string> authUserRoles = GetCurrentUserRoles();
-
-            var command = new EditUserDetailsCommand
+            var request = new EditUserDetailsCommand
             {
                 EditUserDto = editUserDto,
-                AuthUserId = authUserId,
-                AuthUserRoles = authUserRoles
+                AuthUserId = AuthService.GetCurrentUserId(),
+                AuthUserRoles = AuthService.GetCurrentUserRoles()
             };
 
-            var response = await Mediator.Send(command, cancellationToken);
-
+            var response = await Mediator.Send(request, cancellationToken);
             return Ok(response);
         }
 
@@ -159,17 +136,13 @@ namespace WebAPI.Controllers
         [HttpDelete("delete")]
         public async Task<IActionResult> DeleteUser(CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-            IEnumerable<string> authUserRoles = GetCurrentUserRoles();
-
-            var command = new DeleteUserCommand
+            var request = new DeleteUserCommand
             {
-                AuthUserId = authUserId,
-                AuthUserRoles = authUserRoles
+                AuthUserId = AuthService.GetCurrentUserId(),
+                AuthUserRoles = AuthService.GetCurrentUserRoles()
             };
 
-            var response = await Mediator.Send(command, cancellationToken);
-
+            var response = await Mediator.Send(request, cancellationToken);
             return Ok(response);
         }
     }

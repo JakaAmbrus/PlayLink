@@ -6,8 +6,6 @@ using Application.Features.Friends.RemoveFriendRequest;
 using Application.Features.Friends.RemoveFriendship;
 using Application.Features.Friends.RespondToFriendRequest;
 using Application.Features.Friends.SendFriendRequest;
-using Application.Interfaces;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -15,12 +13,8 @@ namespace WebAPI.Controllers
     /// <summary>
     /// Handles friend requests and friendships.
     /// </summary>
-    public class FriendsController : BaseAuthApiController
+    public class FriendsController : BaseController
     {
-        public FriendsController(ISender mediator, IAuthenticatedUserService authenticatedUserService) : base(mediator, authenticatedUserService)
-        {
-        }
-
         /// <summary>
         /// Fetches friends of the currently authenticated user.
         /// </summary>
@@ -28,16 +22,13 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUserFriends(CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-
-            var query = new GetUserFriendsQuery
+            var request = new GetUserFriendsQuery
             {
-                AuthUserId = authUserId
+                AuthUserId = AuthService.GetCurrentUserId()
             };
 
-            var result = await Mediator.Send(query, cancellationToken);
-
-            return Ok(result);
+            var response = await Mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
 
         /// <summary>
@@ -47,16 +38,13 @@ namespace WebAPI.Controllers
         [HttpGet("requests")]
         public async Task<IActionResult> GetFriendRequests(CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-
-            var query = new GetFriendRequestsQuery
+            var request = new GetFriendRequestsQuery
             {
-                AuthUserId = authUserId
+                AuthUserId = AuthService.GetCurrentUserId()
             };
 
-            var result = await Mediator.Send(query, cancellationToken);
-
-            return Ok(result);
+            var response = await Mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
 
         /// <summary>
@@ -67,17 +55,14 @@ namespace WebAPI.Controllers
         [HttpGet("status/{username}")]
         public async Task<IActionResult> GetFriendshipStatus(string username, CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-
-            var query = new GetFriendshipStatusQuery
+            var request = new GetFriendshipStatusQuery
             {
                 ProfileUsername = username,
-                AuthUserId = authUserId
+                AuthUserId = AuthService.GetCurrentUserId()
             };
 
-            var result = await Mediator.Send(query, cancellationToken);
-
-            return Ok(result);
+            var response = await Mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
 
         /// <summary>
@@ -88,17 +73,14 @@ namespace WebAPI.Controllers
         [HttpPost("{receiverUsername}")]
         public async Task<IActionResult> SendFriendRequest(string receiverUsername, CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-
-            var command = new SendFriendRequestCommand
+            var request = new SendFriendRequestCommand
             {
                 ReceiverUsername = receiverUsername,
-                AuthUserId = authUserId
+                AuthUserId = AuthService.GetCurrentUserId()
             };
 
-            var result = await Mediator.Send(command, cancellationToken);
-
-            return Ok(result);
+            var response = await Mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
 
         /// <summary>
@@ -109,17 +91,14 @@ namespace WebAPI.Controllers
         [HttpPut("request-response")]
         public async Task<IActionResult> RespondToFriendRequest(FriendRequestResponseDto friendRequestResponse, CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-
-            var command = new RespondToFriendRequestCommand
+            var request = new RespondToFriendRequestCommand
             {
                 FriendRequestResponse = friendRequestResponse,
-                AuthUserId = authUserId
+                AuthUserId = AuthService.GetCurrentUserId()
             };
 
-            var result = await Mediator.Send(command, cancellationToken);
-
-            return Ok(result);
+            var response = await Mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
 
         /// <summary>
@@ -130,17 +109,14 @@ namespace WebAPI.Controllers
         [HttpDelete("{username}")]
         public async Task<IActionResult> RemoveFriendship(string username, CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-
-            var command = new RemoveFriendshipCommand
+            var request = new RemoveFriendshipCommand
             {
                 ProfileUsername = username,
-                AuthUserId = authUserId
+                AuthUserId = AuthService.GetCurrentUserId()
             };
 
-            var result = await Mediator.Send(command, cancellationToken);
-
-            return Ok(result);
+            var response = await Mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
 
         /// <summary>
@@ -151,17 +127,14 @@ namespace WebAPI.Controllers
         [HttpDelete("request/{friendRequestId}")]
         public async Task<IActionResult> RemoveFriendRequest(int friendRequestId, CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-
-            var command = new RemoveFriendRequestCommand
+            var request = new RemoveFriendRequestCommand
             {
                 FriendRequestId = friendRequestId,
-                AuthUserId = authUserId
+                AuthUserId = AuthService.GetCurrentUserId()
             };
 
-            var result = await Mediator.Send(command, cancellationToken);
-
-            return Ok(result);
+            var response = await Mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
     }
 }

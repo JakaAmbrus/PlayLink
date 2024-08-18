@@ -5,9 +5,7 @@ using Application.Features.Comments.UploadComment;
 using Application.Features.Likes.GetCommentLikes;
 using Application.Features.Likes.LikeComment;
 using Application.Features.Likes.UnlikeComment;
-using Application.Interfaces;
 using Application.Utils;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Extensions;
 
@@ -16,12 +14,8 @@ namespace WebAPI.Controllers
     /// <summary>
     /// Manages comments related operations.
     /// </summary>
-    public class CommentsController : BaseAuthApiController
+    public class CommentsController : BaseController
     {
-        public CommentsController(ISender mediator, IAuthenticatedUserService authenticatedUserService) : base(mediator, authenticatedUserService)
-        {
-        }
-
         /// <summary>
         /// Gets all comments for a post.
         /// </summary>
@@ -31,21 +25,18 @@ namespace WebAPI.Controllers
         [HttpGet("{postId}")]
         public async Task<IActionResult> GetPostComments(int postId, [FromQuery] PaginationParams paginationParams, CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-            IEnumerable<string> authUserRoles = GetCurrentUserRoles();
-
-            var query = new GetPostCommentsQuery { 
+            var request = new GetPostCommentsQuery { 
                 Params = paginationParams,
                 PostId = postId,
-                AuthUserId = authUserId,
-                AuthUserRoles = authUserRoles 
+                AuthUserId = AuthService.GetCurrentUserId(),
+                AuthUserRoles = AuthService.GetCurrentUserRoles()
             };
 
-            var result = await Mediator.Send(query, cancellationToken);
+            var response = await Mediator.Send(request, cancellationToken);
 
-            Response.AddPaginationHeader(new PaginationHeader(result.Comments.CurrentPage, result.Comments.PageSize, result.Comments.TotalCount, result.Comments.TotalPages));
+            Response.AddPaginationHeader(new PaginationHeader(response.Comments.CurrentPage, response.Comments.PageSize, response.Comments.TotalCount, response.Comments.TotalPages));
 
-            return Ok(result);
+            return Ok(response);
         }
 
         /// <summary>
@@ -57,17 +48,14 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadComment(CommentUploadDto commentUploadDto, CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-
-            var command = new UploadCommentCommand
+            var request = new UploadCommentCommand
             {
                 Comment = commentUploadDto,
-                AuthUserId = authUserId, 
+                AuthUserId = AuthService.GetCurrentUserId()
             };
 
-            var result = await Mediator.Send(command, cancellationToken);
-
-            return Ok(result);
+            var response = await Mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
 
         /// <summary>
@@ -79,19 +67,15 @@ namespace WebAPI.Controllers
         [HttpDelete("{commentId}")]
         public async Task<IActionResult> DeleteComment(int commentId, CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-            IEnumerable<string> authUserRoles = GetCurrentUserRoles();
-
-            var command = new DeleteCommentCommand
+            var request = new DeleteCommentCommand
             {
                 CommentId = commentId,
-                AuthUserId = authUserId,
-                AuthUserRoles = authUserRoles
+                AuthUserId = AuthService.GetCurrentUserId(),
+                AuthUserRoles = AuthService.GetCurrentUserRoles()
             };
 
-            var result = await Mediator.Send(command, cancellationToken);
-
-            return Ok(result);
+            var response = await Mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
 
         /// <summary>
@@ -102,17 +86,14 @@ namespace WebAPI.Controllers
         [HttpGet("{commentId}/likes")]
         public async Task<IActionResult> GetCommentLikes(int commentId, CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-
-            var query = new GetCommentLikesQuery 
+            var request = new GetCommentLikesQuery 
             { 
                 CommentId = commentId,
-                AuthUserId = authUserId 
+                AuthUserId = AuthService.GetCurrentUserId() 
             };
 
-            var result = await Mediator.Send(query, cancellationToken);
-
-            return Ok(result);
+            var response = await Mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
 
         /// <summary>
@@ -123,16 +104,13 @@ namespace WebAPI.Controllers
         [HttpPost("{commentId}/like")]
         public async Task<IActionResult> LikeComment(int commentId, CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-
-            var command = new LikeCommentCommand { 
+            var request = new LikeCommentCommand { 
                 CommentId = commentId,
-                AuthUserId = authUserId
+                AuthUserId = AuthService.GetCurrentUserId()
             };
 
-            var result = await Mediator.Send(command, cancellationToken);
-
-            return Ok(result);
+            var response = await Mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
 
         /// <summary>
@@ -143,17 +121,14 @@ namespace WebAPI.Controllers
         [HttpDelete("{commentId}/like")]
         public async Task<IActionResult> UnlikeComment(int commentId, CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-
-            var command = new UnlikeCommentCommand
+            var request = new UnlikeCommentCommand
             {
                 CommentId = commentId,
-                AuthUserId = authUserId
+                AuthUserId = AuthService.GetCurrentUserId()
             };
 
-            var result = await Mediator.Send(command, cancellationToken);
-
-            return Ok(result);
+            var response = await Mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
     }
 }

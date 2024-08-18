@@ -3,9 +3,7 @@ using Application.Features.Messages.DeleteMessage;
 using Application.Features.Messages.GetMessagesForUser;
 using Application.Features.Messages.GetMessageThread;
 using Application.Features.Messages.SendMessage;
-using Application.Interfaces;
 using Application.Utils;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Extensions;
 
@@ -14,12 +12,8 @@ namespace WebAPI.Controllers
     /// <summary>
     /// Manages messages related operations.
     /// </summary>
-    public class MessagesController : BaseAuthApiController
+    public class MessagesController : BaseController
     {
-        public MessagesController(ISender mediator, IAuthenticatedUserService authenticatedUserService) : base(mediator, authenticatedUserService)
-        {
-        }
-
         /// <summary>
         /// Returns all messages related to a user based on filters: Inbox, Outbox, Unread.
         /// </summary>
@@ -28,19 +22,15 @@ namespace WebAPI.Controllers
         [HttpGet("user")]
         public async Task<IActionResult> GetMessagesForUser([FromQuery] MessageParams messageParams, CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-
-            var query = new GetMessagesForUserQuery
+            var request = new GetMessagesForUserQuery
             {
                 Params = messageParams,
-                AuthUserId = authUserId
+                AuthUserId = AuthService.GetCurrentUserId()
             };
 
-            var result = await Mediator.Send(query, cancellationToken);
-
-            Response.AddPaginationHeader(new PaginationHeader(result.Messages.CurrentPage, result.Messages.PageSize, result.Messages.TotalCount, result.Messages.TotalPages));
-
-            return Ok(result);
+            var response = await Mediator.Send(request, cancellationToken);
+            Response.AddPaginationHeader(new PaginationHeader(response.Messages.CurrentPage, response.Messages.PageSize, response.Messages.TotalCount, response.Messages.TotalPages));
+            return Ok(response);
         }
 
         /// <summary>
@@ -51,17 +41,14 @@ namespace WebAPI.Controllers
         [HttpGet("thread/{recipientUsername}")]
         public async Task<IActionResult> GetMessageThread(string recipientUsername, CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-
-            var query = new GetMessageThreadQuery
+            var request = new GetMessageThreadQuery
             {
                 ProfileUsername = recipientUsername,
-                AuthUserId = authUserId
+                AuthUserId = AuthService.GetCurrentUserId()
             };
 
-            var result = await Mediator.Send(query, cancellationToken);
-
-            return Ok(result);
+            var response = await Mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
 
         /// <summary>
@@ -72,17 +59,14 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateMessage(CreateMessageDto createMessageDto, CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-
-            var command = new SendMessageCommand 
+            var request = new SendMessageCommand 
             { 
                 CreateMessageDto = createMessageDto,
-                AuthUserId = authUserId
+                AuthUserId = AuthService.GetCurrentUserId()
             };
 
-            var result = await Mediator.Send(command, cancellationToken);
-
-            return Ok(result);
+            var response = await Mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
 
         /// <summary>
@@ -90,20 +74,17 @@ namespace WebAPI.Controllers
         /// </summary>
         /// <param name="id">Message ID.</param>
         /// <returns></returns>
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteMessage(int id, CancellationToken cancellationToken)
         {
-            int authUserId = GetCurrentUserId();
-
-            var command = new DeleteMessageCommand 
+            var request = new DeleteMessageCommand 
             { 
                 PrivateMessageId = id,
-                AuthUserId = authUserId,
+                AuthUserId = AuthService.GetCurrentUserId()
             };
 
-            var result = await Mediator.Send(command, cancellationToken);
-
-            return Ok(result);
+            var response = await Mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
 
     }

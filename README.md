@@ -1,4 +1,4 @@
-# PlayLink - Portfolio Application
+# PlayLink 1.0 - Portfolio Application
 
 Welcome to PlayLink, a vibrant social media platform designed for sharing, connecting, gaming and engaging with the community.
 
@@ -6,7 +6,7 @@ This application was developed and designed by me, Jaka Ambrus over multiple mon
 
 My application contains authentication, authorization, personalized profiles, a dynamic posts feed, gaming, live chat and more. Prioritizing both frontend and backend optimization, I focused on performance and best practices to enhance user experience and interface design, ensuring a responsive and user-friendly environment.
 
-## Live Site 🌐
+## Live Site (Down) 🌐
 
 Experience PlayLink live at [https://ambrusocialmedia.com](https://ambrusocialmedia.com)!
 
@@ -41,6 +41,10 @@ Check out my [PlayLink Features Showcase Video](https://www.youtube.com/watch?v=
 ![Docker](https://img.shields.io/badge/-Docker-2496ED?style=flat&logo=docker&logoColor=white)
 ![Cloudinary](https://img.shields.io/badge/-Cloudinary-3448C5?style=flat&logo=cloudinary&logoColor=white)
 ![DigitalOcean](https://img.shields.io/badge/-DigitalOcean-0080FF?style=flat&logo=digitalocean&logoColor=white)
+
+## Application Workflow 🔄
+
+![Application Workflow](./workflow.png)
 
 ## Setup Guides ⚙️
 

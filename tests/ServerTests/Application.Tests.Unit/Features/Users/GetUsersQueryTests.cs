@@ -33,7 +33,7 @@ namespace Application.Tests.Unit.Features.Users
                 Id = i,
                 UserName = $"tester{i}",
                 FullName = $"tester {i}",
-                DateOfBirth = new DateOnly(1950, 5, 16),
+                DateOfBirth = new DateTime(1950, 5, 16),
                 Country = "USA",
                 Gender = "male"
             }).ToList();
@@ -44,7 +44,7 @@ namespace Application.Tests.Unit.Features.Users
                 Id = i,
                 UserName = $"tester{i}",
                 FullName = $"tester {i}",
-                DateOfBirth = new DateOnly(2005, 5, 16),
+                DateOfBirth = new DateTime(2005, 5, 16),
                 Country = "UK",
                 Gender = "female"
             }).ToList();

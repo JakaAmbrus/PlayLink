@@ -34,19 +34,19 @@ namespace Application.Tests.Unit.Features.Users
             {
                 Id = 1,
                 UserName = "tester",
-                DateOfBirth = new DateOnly(1999, 5, 16)
+                DateOfBirth = new DateTime(1999, 5, 16)
             });
             context.Users.Add(new AppUser
             {
                 Id = 2,
                 UserName = "tester2",
-                DateOfBirth = new DateOnly(2002, 5, 16)
+                DateOfBirth = new DateTime(2002, 5, 16)
             });
             context.Users.Add(new AppUser
             {
                 Id = 3,
                 UserName = "tester3",
-                DateOfBirth = new DateOnly(1990, 5, 16)
+                DateOfBirth = new DateTime(1990, 5, 16)
             });
 
             context.SaveChangesAsync(CancellationToken.None).Wait();
@@ -153,7 +153,7 @@ namespace Application.Tests.Unit.Features.Users
                 {
                     Id = i,
                     UserName = $"tester{i}",
-                    DateOfBirth = new DateOnly(1999, 5, 16)
+                    DateOfBirth = new DateTime(1999, 5, 16)
                 }).ToList();
             _context.Users.AddRange(users);
 

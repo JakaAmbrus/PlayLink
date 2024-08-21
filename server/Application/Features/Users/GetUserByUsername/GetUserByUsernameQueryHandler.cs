@@ -34,7 +34,7 @@ namespace Application.Features.Users.GetUserByUsername
                 Username = user.UserName,
                 Gender = user.Gender,
                 FullName = user.FullName,
-                DateOfBirth = user.DateOfBirth,
+                DateOfBirth = DateOnly.FromDateTime(user.DateOfBirth),
                 Country = user.Country,
                 ProfilePictureUrl = user.ProfilePictureUrl,
                 Description = user.Description,

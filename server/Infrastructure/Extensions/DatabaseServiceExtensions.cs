@@ -13,7 +13,7 @@ namespace Infrastructure.Extensions
         {
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseNpgsql(config.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
             }); 
  
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<DataContext>());

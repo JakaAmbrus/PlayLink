@@ -10,12 +10,13 @@ namespace Infrastructure.Data.Configurations
         {
             entity.HasOne(c => c.AppUser)
                 .WithMany(u => u.Comments)
-                .HasForeignKey(c => c.AppUserId);
+                .HasForeignKey(c => c.AppUserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             entity.HasOne(c => c.Post)
                 .WithMany(p => p.Comments)
                 .HasForeignKey(c => c.PostId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

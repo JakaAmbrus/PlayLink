@@ -84,7 +84,7 @@ namespace WebAPI.Tests.Integration.Configurations
                 Gender = "male",
                 Description = "I am a tester.",
                 ProfilePictureUrl = "https://CloudinaryTestPicture.com",
-                DateOfBirth = new DateOnly(1999, 5, 16),
+                DateOfBirth = new DateTime(1999, 5, 16),
                 Created = DateTime.UtcNow.AddDays(-1)
             };
 

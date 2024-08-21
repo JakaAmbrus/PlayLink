@@ -16,8 +16,8 @@ namespace Application.Features.Users.GetUsers
 
         public async Task<GetUsersResponse> Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
-            var minDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-request.Params.MaxAge - 1));
-            var maxDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-request.Params.MinAge));
+            var minDob = DateTime.Today.AddYears(-request.Params.MaxAge - 1);
+            var maxDob = DateTime.Today.AddYears(-request.Params.MinAge);
 
             var users = _context.Users
                .AsQueryable()
@@ -32,7 +32,7 @@ namespace Application.Features.Users.GetUsers
                    Username = u.UserName,
                    Gender = u.Gender,
                    FullName = u.FullName,
-                   Age = u.DateOfBirth.CalculateAge(),
+                   Age = DateOnly.FromDateTime(u.DateOfBirth).CalculateAge(),
                    Country = u.Country,
                    ProfilePictureUrl = u.ProfilePictureUrl
                });

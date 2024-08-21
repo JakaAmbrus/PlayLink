@@ -36,7 +36,7 @@ namespace Infrastructure.Data
                     FullName = "George Foreman",
                     Gender = "male",
                     Country = "United States",
-                    DateOfBirth = new DateOnly(1980, 1, 10),
+                    DateOfBirth = new DateTime(1980, 1, 10),
                     Created = DateTime.UtcNow,
                 },
 
@@ -46,7 +46,7 @@ namespace Infrastructure.Data
                     FullName = "Andreea Popescu",
                     Gender = "female",
                     Country = "Romania",
-                    DateOfBirth = new DateOnly(2000, 5, 15),
+                    DateOfBirth = new DateTime(2000, 5, 15),
                     Created = DateTime.UtcNow,
                 },
 
@@ -56,7 +56,7 @@ namespace Infrastructure.Data
                     FullName = "Ravi Patel",
                     Gender = "male",
                     Country = "India",
-                    DateOfBirth = new DateOnly(1985, 11, 20),
+                    DateOfBirth = new DateTime(1985, 11, 20),
                     Created = DateTime.UtcNow,
                 },              
             };
@@ -97,7 +97,7 @@ namespace Infrastructure.Data
                     FullName = "Hikari Takahashi",
                     Gender = "female",
                     Country = "Japan",
-                    DateOfBirth = new DateOnly(1992, 2, 28),
+                    DateOfBirth = new DateTime(1992, 2, 28),
                     Created = DateTime.UtcNow,
                 },
 
@@ -107,7 +107,7 @@ namespace Infrastructure.Data
                     FullName = "Carlos Rivera",
                     Gender = "male",
                     Country = "Mexico",
-                    DateOfBirth = new DateOnly(1958, 8, 5),
+                    DateOfBirth = new DateTime(1958, 8, 5),
                     Created = DateTime.UtcNow,
                 },
 
@@ -117,7 +117,7 @@ namespace Infrastructure.Data
                     FullName = "Anita Horvat",
                     Gender = "female",
                     Country = "Slovenia",
-                    DateOfBirth = new DateOnly(1983, 4, 30),
+                    DateOfBirth = new DateTime(1983, 4, 30),
                     Created = DateTime.UtcNow,
                 }
             };

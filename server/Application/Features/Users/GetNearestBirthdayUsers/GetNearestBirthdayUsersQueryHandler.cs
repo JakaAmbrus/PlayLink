@@ -48,7 +48,7 @@ namespace Application.Features.Users.GetNearestBirthdayUsers
                     u.ProfilePictureUrl,
                     u.Gender,
                     u.DateOfBirth,
-                    DaysUntilBirthday = DateTimeUtils.CalculateDaysUntilBirthday(u.DateOfBirth, today)
+                    DaysUntilBirthday = DateTimeUtils.CalculateDaysUntilBirthday(DateOnly.FromDateTime(u.DateOfBirth), today)
                 })
                 .OrderBy(u => u.DaysUntilBirthday)
                 .Take(3)
@@ -58,7 +58,7 @@ namespace Application.Features.Users.GetNearestBirthdayUsers
                     FullName = u.FullName,
                     ProfilePictureUrl = u.ProfilePictureUrl,
                     Gender = u.Gender,
-                    DateOfBirth = u.DateOfBirth,
+                    DateOfBirth = DateOnly.FromDateTime(u.DateOfBirth),
                     DaysUntilBirthday = u.DaysUntilBirthday
                 })
                 .ToList();

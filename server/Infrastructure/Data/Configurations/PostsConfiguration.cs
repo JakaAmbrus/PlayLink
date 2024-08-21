@@ -11,7 +11,7 @@ namespace Infrastructure.Data.Configurations
             entity.HasOne(p => p.AppUser)
                 .WithMany(u => u.Posts)
                 .HasForeignKey(p => p.AppUserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

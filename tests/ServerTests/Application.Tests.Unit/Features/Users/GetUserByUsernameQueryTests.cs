@@ -39,7 +39,7 @@ namespace Application.Tests.Unit.Features.Users
                 Gender = "male",
                 Country = "USA",
                 ProfilePictureUrl = "https://res.cloudinary.com",
-                DateOfBirth = new DateOnly(1999, 5, 16),
+                DateOfBirth = new DateTime(1999, 5, 16),
                 Description = "test description",
                 LastActive = DateTime.UtcNow,
                 Created = DateTime.UtcNow - TimeSpan.FromDays(1),

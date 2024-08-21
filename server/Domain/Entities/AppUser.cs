@@ -7,7 +7,7 @@ namespace Domain.Entities
         public string FullName { get; set; }
         public string Gender { get; set; }
         public string Country { get; set; }
-        public DateOnly DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public DateTime Created { get; set; } = DateTime.UtcNow;
         public DateTime LastActive { get; set; }  = DateTime.UtcNow;
         public string ProfilePictureUrl { get; set; }

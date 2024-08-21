@@ -21,6 +21,9 @@ client/.project
 *.launch
 .settings/
 *.sublime-workspace
+.idea/
+*.suo
+*.user
 
 # Visual Studio Code
 client/.vscode

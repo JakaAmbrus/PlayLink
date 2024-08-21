@@ -1,9 +1,0 @@
-global using Xunit;
-global using FluentAssertions;
-global using NSubstitute;
-global using MediatR;
-global using Domain.Entities;
-global using System.Net;
-global using WebAPI.Tests.Integration.Configurations;
-global using System.Net.Http.Json;
-global using WebAPI.Tests.Integration.Models;

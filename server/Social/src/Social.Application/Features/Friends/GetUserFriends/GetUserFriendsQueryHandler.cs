@@ -1,0 +1,54 @@
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
+using Social.Application.Features.Friends.Common;
+using Social.Application.Interfaces;
+
+namespace Social.Application.Features.Friends.GetUserFriends
+{
+    public class GetUserFriendsQueryHandler : IRequestHandler<GetUserFriendsQuery, GetUserFriendsResponse>
+    {
+        private readonly IApplicationDbContext _context;
+        private readonly IMemoryCache _memoryCache;
+
+        public GetUserFriendsQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache)
+        {
+            _context = context;
+            _memoryCache = memoryCache;
+        }
+
+        public async Task<GetUserFriendsResponse> Handle(GetUserFriendsQuery request, CancellationToken cancellationToken)
+        {
+            string cacheKey = $"Friends:GetUserFriends-{request.AuthUserId}";
+
+            if (_memoryCache.TryGetValue(cacheKey, out GetUserFriendsResponse cachedResponse))
+            {
+                return cachedResponse;
+            }
+
+            var friends = await _context.Friendships
+                .Where(f => f.User1Id == request.AuthUserId || f.User2Id == request.AuthUserId)
+                .SelectMany(f => _context.Users
+                    .Where(u => u.Id == (f.User1Id == request.AuthUserId ? f.User2Id : f.User1Id))
+                    .Select(u => new FriendDto
+                    {
+                        Username = u.UserName,
+                        FullName = u.FullName,
+                        ProfilePictureUrl = u.ProfilePictureUrl,
+                        Gender = u.Gender,
+                        DateEstablished = f.DateEstablished
+                    }))
+                .Distinct()
+                .ToListAsync(cancellationToken);
+
+            var cacheEntryOptions = new MemoryCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(1)
+            };
+
+            _memoryCache.Set(cacheKey, friends, cacheEntryOptions);
+              
+            return new GetUserFriendsResponse { Friends = friends };
+        }
+    }
+}

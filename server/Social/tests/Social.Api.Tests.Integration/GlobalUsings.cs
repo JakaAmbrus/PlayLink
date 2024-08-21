@@ -1,0 +1,9 @@
+global using Xunit;
+global using FluentAssertions;
+global using NSubstitute;
+global using MediatR;
+global using Social.Domain.Entities;
+global using System.Net;
+global using Social.Api.Tests.Integration.Configurations;
+global using System.Net.Http.Json;
+global using Social.Api.Tests.Integration.Models;

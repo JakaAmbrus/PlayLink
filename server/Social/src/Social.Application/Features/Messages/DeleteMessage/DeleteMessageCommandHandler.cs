@@ -39,9 +39,9 @@ namespace Social.Application.Features.Messages.DeleteMessage
                 _context.PrivateMessages.Remove(message);
             }
 
-            var success = await _context.SaveChangesAsync(cancellationToken) > 0;
+            await _context.SaveChangesAsync(cancellationToken);
 
-            return new DeleteMessageResponse { MessageDeleted = success };
+            return new DeleteMessageResponse { MessageDeleted = true };
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Social.Domain.Exceptions;
 using MediatR;
 using Social.Application.Interfaces;
+using Social.Domain.Enums;
 
 namespace Social.Application.Features.Comments.DeleteComment
 {
@@ -22,7 +23,7 @@ namespace Social.Application.Features.Comments.DeleteComment
                 ?? throw new NotFoundException("Post was not found");
 
             bool isPostOwner = selectedComment.AppUserId == request.AuthUserId;
-            bool isModerator = request.AuthUserRoles.Contains("Moderator");
+            bool isModerator = request.AuthUserRoles.Contains(Role.Moderator.ToString());
 
             if (!isPostOwner && !isModerator)
             {

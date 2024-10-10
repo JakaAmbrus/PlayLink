@@ -21,11 +21,16 @@ namespace Social.Application.Features.Friends.SendFriendRequest
         public async Task<SendFriendRequestResponse> Handle(SendFriendRequestCommand request, CancellationToken cancellationToken)
         {
             var receiver = await _context.Users
-                .FirstOrDefaultAsync(x => x.UserName == request.ReceiverUsername, cancellationToken)
+                .AsNoTracking()
+                .Where(x => x.UserName == request.ReceiverUsername)
+                .FirstOrDefaultAsync(cancellationToken)
                 ?? throw new NotFoundException("Receiver not found");
 
             bool existingFriendship = await _context.Friendships
-                .AnyAsync(f => (f.User1Id == request.AuthUserId && f.User2Id == receiver.Id) || (f.User1Id == receiver.Id && f.User2Id == request.AuthUserId), cancellationToken);
+                .AnyAsync(f => 
+                    (f.User1Id == request.AuthUserId && f.User2Id == receiver.Id) || 
+                    (f.User1Id == receiver.Id && f.User2Id == request.AuthUserId), 
+                    cancellationToken);
 
             if (existingFriendship)
             {
@@ -38,7 +43,9 @@ namespace Social.Application.Features.Friends.SendFriendRequest
             }
 
             var friendRequest = await _context.FriendRequests
-                .FirstOrDefaultAsync(x => x.SenderId == request.AuthUserId && x.ReceiverId == receiver.Id, cancellationToken);
+                .AsNoTracking()
+                .Where(x => x.SenderId == request.AuthUserId && x.ReceiverId == receiver.Id)
+                .FirstOrDefaultAsync(cancellationToken);
 
             if (friendRequest != null)
             {
@@ -50,18 +57,17 @@ namespace Social.Application.Features.Friends.SendFriendRequest
                 throw new BadRequestException("Friend request already sent");
             }
 
-            friendRequest = new FriendRequest
+            var newFriendRequest = new FriendRequest
             {
                 SenderId = request.AuthUserId,
                 ReceiverId = receiver.Id,
                 Status = FriendRequestStatus.Pending
             };
 
-            await _context.FriendRequests.AddAsync(friendRequest, cancellationToken);
-
+            _context.FriendRequests.Add(newFriendRequest);
             await _context.SaveChangesAsync(cancellationToken);
 
-            _cacheInvalidationService.InvalidateFriendRequestsCache(friendRequest.ReceiverId);
+            _cacheInvalidationService.InvalidateFriendRequestsCache(newFriendRequest.ReceiverId);
             _cacheInvalidationService.InvalidateFriendshipStatusCache(request.AuthUserId, receiver.Id);
 
             return new SendFriendRequestResponse { RequestSent = true };

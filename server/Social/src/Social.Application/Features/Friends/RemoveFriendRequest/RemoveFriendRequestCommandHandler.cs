@@ -20,7 +20,8 @@ namespace Social.Application.Features.Friends.RemoveFriendRequest
         public async Task<RemoveFriendRequestResponse> Handle(RemoveFriendRequestCommand request, CancellationToken cancellationToken)
         {
             var friendRequest = await _context.FriendRequests
-                .FirstOrDefaultAsync(x => x.FriendRequestId == request.FriendRequestId && x.SenderId == request.AuthUserId, cancellationToken) 
+                .Where(x => x.FriendRequestId == request.FriendRequestId && x.SenderId == request.AuthUserId)
+                .FirstOrDefaultAsync(cancellationToken) 
                 ?? throw new NotFoundException("Friend request not found or unauthorized access.");
 
             _context.FriendRequests.Remove(friendRequest);

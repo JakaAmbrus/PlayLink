@@ -21,6 +21,7 @@ namespace Social.Application.Features.Likes.GetPostLikes
                 ?? throw new NotFoundException("Post not found");
 
             var likes = await _context.Likes
+                .AsNoTracking()
                 .Where(l => l.PostId == request.PostId && l.AppUserId != request.AuthUserId)
                 .Include(l => l.AppUser)
                 .ToListAsync(cancellationToken);

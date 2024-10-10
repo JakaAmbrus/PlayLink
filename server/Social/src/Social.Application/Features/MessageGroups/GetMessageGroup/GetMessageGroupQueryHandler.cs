@@ -17,8 +17,10 @@ namespace Social.Application.Features.MessageGroups.GetMessageGroup
         public async Task<GroupDto> Handle(GetMessageGroupQuery request, CancellationToken cancellationToken)
         {
             var group = await _context.Groups
+                .AsNoTracking()
                 .Include(g => g.Connections)
-                .FirstOrDefaultAsync(g => g.Name == request.GroupName, cancellationToken);
+                .Where(g => g.Name == request.GroupName)
+                .FirstOrDefaultAsync(cancellationToken);
             
             if (group == null)
             {

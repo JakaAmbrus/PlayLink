@@ -6,6 +6,7 @@ using Social.Application.Utils;
 using Social.Domain.Entities;
 using Social.Domain.Exceptions;
 using MediatR;
+using Social.Application.Features.Comments.GetPostComments;
 
 namespace Social.Application.Tests.Unit.Features.Comments
 {

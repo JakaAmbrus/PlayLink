@@ -1,12 +1,13 @@
-﻿using Social.Domain.Entities;
-using Social.Domain.Enums;
-using Social.Domain.Exceptions;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Social.Application.Features.Friends.GetRelationshipStatus;
 using Social.Application.Interfaces;
+using Social.Domain.Entities;
+using Social.Domain.Enums;
+using Social.Domain.Exceptions;
 
-namespace Social.Application.Features.Friends.GetRelationshipStatus
+namespace Social.Application.Features.Friends.GetFriendshipStatus
 {
     public class GetFriendshipStatusQueryHandler : IRequestHandler<GetFriendshipStatusQuery, GetFriendshipStatusResponse>
     {
@@ -24,7 +25,9 @@ namespace Social.Application.Features.Friends.GetRelationshipStatus
         public async Task<GetFriendshipStatusResponse> Handle(GetFriendshipStatusQuery request, CancellationToken cancellationToken)
         {            
             var profileUser = await _context.Users
-                .FirstOrDefaultAsync(u => u.UserName == request.ProfileUsername, cancellationToken)
+                .AsNoTracking()
+                .Where(u => u.UserName == request.ProfileUsername)
+                .FirstOrDefaultAsync(cancellationToken)
                 ?? throw new NotFoundException("Profile user not found");
 
             string cacheKey = _cacheKeyService.GenerateFriendStatusCacheKey(request.AuthUserId, profileUser.Id);

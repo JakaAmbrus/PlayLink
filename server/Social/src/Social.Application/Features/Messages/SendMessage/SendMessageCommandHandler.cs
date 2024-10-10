@@ -41,7 +41,6 @@ namespace Social.Application.Features.Messages.SendMessage
             };
 
             _context.Add(message);
-
             await _context.SaveChangesAsync(cancellationToken);
 
             return new SendMessageResponse

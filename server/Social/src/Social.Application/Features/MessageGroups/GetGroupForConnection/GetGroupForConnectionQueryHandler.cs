@@ -18,6 +18,7 @@ namespace Social.Application.Features.MessageGroups.GetGroupForConnection
         public async Task<GroupDto> Handle(GetGroupForConnectionQuery request, CancellationToken cancellationToken)
         {
             var group = await _context.Groups
+                .AsNoTracking()
                 .Include(g => g.Connections)
                 .Where(g => g.Connections.Any(c => c.ConnectionId == request.ConnectionId))
                 .FirstOrDefaultAsync(cancellationToken)

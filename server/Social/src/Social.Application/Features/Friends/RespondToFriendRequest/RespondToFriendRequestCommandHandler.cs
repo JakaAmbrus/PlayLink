@@ -58,12 +58,13 @@ namespace Social.Application.Features.Friends.RespondToFriendRequest
                 await _context.Friendships.AddAsync(friend, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                InvalidatFriendshipCaches(friendRequest);
+                InvalidateFriendshipCaches(friendRequest);
                 _cacheInvalidationService.InvalidateUserFriendsCache(friendRequest.SenderId);
                 _cacheInvalidationService.InvalidateUserFriendsCache(friendRequest.ReceiverId);
 
                 var newFriend = await _context.Users
-                    .FirstOrDefaultAsync(u => u.Id == friendRequest.SenderId, cancellationToken)
+                    .Where(u => u.Id == friendRequest.SenderId)
+                    .FirstOrDefaultAsync(cancellationToken)
                     ?? throw new NotFoundException("New friend user not found");     
 
                 return new RespondToFriendRequestResponse
@@ -83,12 +84,12 @@ namespace Social.Application.Features.Friends.RespondToFriendRequest
             friendRequest.Status = FriendRequestStatus.Declined;
             await _context.SaveChangesAsync(cancellationToken);
 
-            InvalidatFriendshipCaches(friendRequest);
+            InvalidateFriendshipCaches(friendRequest);
 
             return new RespondToFriendRequestResponse { RequestAccepted = false };         
         }
 
-        private void InvalidatFriendshipCaches(FriendRequest friendRequest)
+        private void InvalidateFriendshipCaches(FriendRequest friendRequest)
         {
             _cacheInvalidationService.InvalidateFriendRequestsCache(friendRequest.SenderId);
             _cacheInvalidationService.InvalidateFriendRequestsCache(friendRequest.ReceiverId);

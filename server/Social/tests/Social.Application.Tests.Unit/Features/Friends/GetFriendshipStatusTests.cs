@@ -6,6 +6,7 @@ using Social.Domain.Enums;
 using Social.Domain.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
+using Social.Application.Features.Friends.GetFriendshipStatus;
 
 namespace Social.Application.Tests.Unit.Features.Friends
 {

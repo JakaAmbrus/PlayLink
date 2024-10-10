@@ -22,7 +22,6 @@ namespace Social.Application.Features.MessageGroups.AddGroup
             };
 
             _context.Groups.Add(group);
-
             await _context.SaveChangesAsync(cancellationToken);
 
             return new GroupDto

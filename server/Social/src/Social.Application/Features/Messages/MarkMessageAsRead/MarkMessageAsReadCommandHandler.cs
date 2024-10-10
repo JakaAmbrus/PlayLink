@@ -21,7 +21,6 @@ namespace Social.Application.Features.Messages.MarkMessageAsRead
 
 
             message.DateRead = DateTime.UtcNow;
-
             await _context.SaveChangesAsync(cancellationToken);
 
             return new MarkMessageAsReadResponse { MessageMarked = true };

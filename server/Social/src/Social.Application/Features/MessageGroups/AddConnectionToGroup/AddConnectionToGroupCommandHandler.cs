@@ -28,7 +28,6 @@ namespace Social.Application.Features.MessageGroups.AddConnectionToGroup
             };
 
             group.Connections.Add(connection);
-
             await _context.SaveChangesAsync(cancellationToken);
 
             return new GroupDto

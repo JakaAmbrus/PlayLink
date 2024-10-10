@@ -21,7 +21,7 @@ public class LikePostCommandHandler : IRequestHandler<LikePostCommand, LikePostR
             ?? throw new NotFoundException("Post not found");
 
         var existingLike = await _context.Likes
-            .AnyAsync(l => l.PostId == request.PostId && l.AppUserId == request.AuthUserId);
+            .AnyAsync(l => l.PostId == request.PostId && l.AppUserId == request.AuthUserId, cancellationToken);
 
         if (existingLike)
         {
@@ -36,7 +36,6 @@ public class LikePostCommandHandler : IRequestHandler<LikePostCommand, LikePostR
 
         post.LikesCount++;
         _context.Likes.Add(like);
-
         await _context.SaveChangesAsync(cancellationToken);
 
         return new LikePostResponse { Liked = true };

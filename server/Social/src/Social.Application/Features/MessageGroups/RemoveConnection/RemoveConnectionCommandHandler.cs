@@ -19,7 +19,6 @@ namespace Social.Application.Features.MessageGroups.RemoveConnection
                 ?? throw new NotFoundException("Connection not found");
 
             _context.Connections.Remove(connection);
-
             await _context.SaveChangesAsync(cancellationToken);
 
             return new RemoveConnectionResponse { Succeeded = true };

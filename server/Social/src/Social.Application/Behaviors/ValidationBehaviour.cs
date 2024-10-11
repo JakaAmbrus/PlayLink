@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using MediatR;
-using Exceptions_ValidationException = Social.Application.Exceptions.ValidationException;
 using ValidationException = Social.Application.Exceptions.ValidationException;
 
 namespace Social.Application.Behaviors
@@ -31,7 +30,7 @@ namespace Social.Application.Behaviors
                     .ToList();
 
                 if (failures.Any())
-                    throw new Exceptions_ValidationException(failures);
+                    throw new ValidationException(failures);
             }
             return await next();
         }

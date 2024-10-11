@@ -20,10 +20,13 @@ namespace Social.Application.Features.Messages.GetMessageThread
             var authUser = await _context.Users.FindAsync(new object[] { request.AuthUserId, cancellationToken }, cancellationToken)
                 ?? throw new NotFoundException("Authorized user not found");
 
-            var profileUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == request.ProfileUsername, cancellationToken)
+            var profileUser = await _context.Users
+                .Where(u => u.UserName == request.ProfileUsername)
+                .FirstOrDefaultAsync(cancellationToken)
                 ?? throw new NotFoundException("Profile user not found");
 
             var messages = await _context.PrivateMessages
+                .AsNoTracking()
                 .Include(m => m.Sender)
                 .Include(m => m.Recipient)
                 .Where(m => m.RecipientUsername == authUser.UserName 
@@ -44,9 +47,10 @@ namespace Social.Application.Features.Messages.GetMessageThread
                 {
                     message.DateRead = DateTime.UtcNow;
                 }
-
-                await _context.SaveChangesAsync(cancellationToken);
             }
+            
+            await _context.SaveChangesAsync(cancellationToken);
+            
             var messageDtos = messages.Select(m => new MessageDto
             {
                 PrivateMessageId = m.PrivateMessageId,
@@ -55,7 +59,7 @@ namespace Social.Application.Features.Messages.GetMessageThread
                 RecipientUsername = m.RecipientUsername,
                 RecipientProfilePictureUrl = m.Recipient.ProfilePictureUrl,
                 Content = m.Content,
-                DateRead = m.DateRead.HasValue ? m.DateRead.Value.ToUniversalTime() : (DateTime?)null,
+                DateRead = m.DateRead?.ToUniversalTime(),
                 PrivateMessageSent = m.PrivateMessageSent.ToUniversalTime(),
                 SenderGender = authUser.Gender,
                 RecipientGender = m.Recipient.Gender,

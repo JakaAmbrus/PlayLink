@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Social.Application.Features.Posts.Common;
 using Social.Application.Interfaces;
 using Social.Application.Utils;
+using Social.Domain.Enums;
 
 namespace Social.Application.Features.Posts.GetPostsByUser
 {
@@ -18,7 +19,7 @@ namespace Social.Application.Features.Posts.GetPostsByUser
 
         public async Task<GetPostsByUserResponse> Handle(GetPostsByUserQuery request, CancellationToken cancellationToken)
         {
-            bool isModerator = request.AuthUserRoles.Contains("Moderator");
+            bool isModerator = request.AuthUserRoles.Contains(Role.Moderator.ToString());
 
             var requestedUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == request.Username, cancellationToken)
                 ?? throw new NotFoundException($"User with Username {request.Username} not found");

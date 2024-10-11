@@ -1,6 +1,7 @@
 ﻿using Social.Domain.Exceptions;
 using MediatR;
 using Social.Application.Interfaces;
+using Social.Domain.Enums;
 
 namespace Social.Application.Features.Admin.AdminEditRoles
 {
@@ -30,16 +31,16 @@ namespace Social.Application.Features.Admin.AdminEditRoles
                 throw new UnauthorizedException("Unauthorized, only an Admin can make this request");
             }
 
-            bool isModerator = await _userManager.IsInRoleAsync(user, "Moderator");
+            bool isModerator = await _userManager.IsInRoleAsync(user, Role.Moderator.ToString());
 
             if (!isModerator)
             {
-                await _userManager.AddToRoleAsync(user, "Moderator");
+                await _userManager.AddToRoleAsync(user, Role.Moderator.ToString());
             }
             
             else
             {
-                await _userManager.RemoveFromRoleAsync(user, "Moderator");
+                await _userManager.RemoveFromRoleAsync(user, Role.Moderator.ToString());
             }
 
             await _context.SaveChangesAsync(cancellationToken);

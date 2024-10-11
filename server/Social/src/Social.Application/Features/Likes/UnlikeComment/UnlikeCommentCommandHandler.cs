@@ -16,7 +16,7 @@ namespace Social.Application.Features.Likes.UnlikeComment
 
         public async Task<UnlikeCommentResponse> Handle(UnlikeCommentCommand request, CancellationToken cancellationToken)
         {
-            var comment = await _context.Comments.FindAsync(request.CommentId, cancellationToken)
+            var comment = await _context.Comments.FindAsync(new object[] { request.CommentId }, cancellationToken)
                 ?? throw new NotFoundException("Comment not found");
 
             var like = await _context.Likes.FirstOrDefaultAsync(l => l.CommentId == request.CommentId 

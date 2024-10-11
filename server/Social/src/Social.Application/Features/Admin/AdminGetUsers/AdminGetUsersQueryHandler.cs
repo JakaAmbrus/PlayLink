@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Social.Application.Features.Admin.Common;
 using Social.Application.Interfaces;
 using Social.Application.Utils;
+using Social.Domain.Enums;
 
 namespace Social.Application.Features.Admin.AdminGetUsers
 {
@@ -41,7 +42,7 @@ namespace Social.Application.Features.Admin.AdminGetUsers
                     Username = u.UserName,
                     Gender = u.Gender,
                     FullName = u.FullName,
-                    IsModerator = u.UserRoles.Any(ur => ur.Role.Name == "Moderator"),
+                    IsModerator = u.UserRoles.Any(ur => ur.Role.Name == Role.Moderator.ToString()),
                     ProfilePictureUrl = u.ProfilePictureUrl,
                     Created = u.Created
                 });

@@ -1,10 +1,12 @@
-﻿using Social.Domain.Exceptions;
-using MediatR;
+﻿using MediatR;
 using Social.Application.Features.Comments.Common;
+using Social.Application.Features.Comments.GetComments;
 using Social.Application.Interfaces;
 using Social.Application.Utils;
+using Social.Domain.Enums;
+using Social.Domain.Exceptions;
 
-namespace Social.Application.Features.Comments.GetComments
+namespace Social.Application.Features.Comments.GetPostComments
 {
     public class GetPostCommentsQueryHandler : IRequestHandler<GetPostCommentsQuery, GetPostCommentsResponse>
     {
@@ -20,7 +22,7 @@ namespace Social.Application.Features.Comments.GetComments
             var post = await _context.Posts.FindAsync(new object[] { request.PostId }, cancellationToken)
                 ?? throw new NotFoundException("Post not found");
 
-            bool isModerator = request.AuthUserRoles.Contains("Moderator");
+            bool isModerator = request.AuthUserRoles.Contains(Role.Moderator.ToString());
 
             var comments = _context.Comments
                 .Where(comment => comment.PostId == request.PostId)

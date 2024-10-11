@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Social.Domain.Enums;
 
 namespace Social.Application.Features.Messages.GetMessagesForUser
 {
@@ -17,6 +18,15 @@ namespace Social.Application.Features.Messages.GetMessagesForUser
 
             RuleFor(x => x.AuthUserId)
                 .NotEmpty().WithMessage("Authenticated user Id required.");
+            
+            RuleFor(x => x.Params.Container)
+                .Must(BeAValidMessageStatus)
+                .WithMessage("Not a valid MessageStatus. Valid values are: Inbox, Outbox, Unread.");
+        }
+        
+        private bool BeAValidMessageStatus(string containerValue)
+        {
+            return Enum.TryParse<MessageStatus>(containerValue, true, out _);
         }
     }
 }

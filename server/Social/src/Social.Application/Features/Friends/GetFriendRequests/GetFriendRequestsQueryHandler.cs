@@ -1,10 +1,9 @@
-﻿using Social.Application.Exceptions;
-using Social.Domain.Enums;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Social.Application.Features.Friends.Common;
 using Social.Application.Interfaces;
+using Social.Domain.Enums;
 
 namespace Social.Application.Features.Friends.GetFriendRequests
 {
@@ -29,6 +28,7 @@ namespace Social.Application.Features.Friends.GetFriendRequests
             }
 
             var incomingRequests = await _context.FriendRequests
+                .AsNoTracking()
                 .Include(fr => fr.Sender)
                 .Where(fr => fr.ReceiverId == request.AuthUserId && fr.Status == FriendRequestStatus.Pending)
                 .Select(fr => new FriendRequestDto
@@ -44,6 +44,7 @@ namespace Social.Application.Features.Friends.GetFriendRequests
                 .ToListAsync(cancellationToken);
 
             var sentRequestResponses = await _context.FriendRequests
+                .AsNoTracking()
                 .Where(fr => fr.SenderId == request.AuthUserId && fr.Status != FriendRequestStatus.Pending)
                 .Select(fr => new FriendRequestDto
                 {

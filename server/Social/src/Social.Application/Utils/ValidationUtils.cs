@@ -14,7 +14,7 @@ namespace Social.Application.Utils
                 return false;
             }
 
-            var validRoles = new HashSet<string> { "Member", "Moderator", "Admin", "Guest" };
+            var validRoles = new HashSet<string> { Role.Member.ToString(), Role.Moderator.ToString(), Role.Admin.ToString(), Role.Guest.ToString() };
             return roles.All(role => validRoles.Contains(role));
         }
 

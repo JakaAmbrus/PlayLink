@@ -27,6 +27,7 @@ namespace Social.Application.Features.Friends.GetUserFriends
             }
 
             var friends = await _context.Friendships
+                .AsNoTracking()
                 .Where(f => f.User1Id == request.AuthUserId || f.User2Id == request.AuthUserId)
                 .SelectMany(f => _context.Users
                     .Where(u => u.Id == (f.User1Id == request.AuthUserId ? f.User2Id : f.User1Id))

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Social.Application.Features.Users.Common;
 using Social.Application.Interfaces;
+using Social.Domain.Enums;
 
 namespace Social.Application.Features.Users.GetUserByUsername
 {
@@ -25,7 +26,7 @@ namespace Social.Application.Features.Users.GetUserByUsername
                 .FirstOrDefaultAsync(u => u.UserName == request.Username, cancellationToken)
                 ?? throw new NotFoundException($"The user by the username: {request.Username} not found ");
 
-            bool isModerator = request.AuthUserRoles.Contains("Moderator");
+            bool isModerator = request.AuthUserRoles.Contains(Role.Moderator.ToString());
             bool isCurrentUser = request.AuthUserId == user.Id;
 
             var profileUserDto = new ProfileUserDto

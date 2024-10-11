@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Social.Application.Features.Posts.Common;
 using Social.Application.Interfaces;
+using Social.Domain.Enums;
 
 namespace Social.Application.Features.Posts.GetPostById
 {
@@ -17,7 +18,7 @@ namespace Social.Application.Features.Posts.GetPostById
 
         public async Task<GetPostByIdResponse> Handle(GetPostByIdQuery request, CancellationToken cancellationToken)
         {
-            bool isModerator = request.AuthUserRoles.Contains("Moderator");
+            bool isModerator = request.AuthUserRoles.Contains(Role.Moderator.ToString());
 
             var post = await _context.Posts
                .Where(p => p.PostId == request.PostId)

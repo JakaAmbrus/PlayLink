@@ -2,6 +2,7 @@
 using Social.Application.Features.Posts.Common;
 using Social.Application.Interfaces;
 using Social.Application.Utils;
+using Social.Domain.Enums;
 
 namespace Social.Application.Features.Posts.GetPosts
 {
@@ -16,7 +17,7 @@ namespace Social.Application.Features.Posts.GetPosts
 
         public async Task<GetPostsResponse> Handle(GetPostsQuery request, CancellationToken cancellationToken)
         {
-            bool isModerator = request.AuthUserRoles.Contains("Moderator");
+            bool isModerator = request.AuthUserRoles.Contains(Role.Moderator.ToString());
 
             var posts = _context.Posts
             .AsQueryable()

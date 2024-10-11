@@ -5,4 +5,5 @@ public enum Role
     Member,
     Moderator,
     Admin,
+    Guest,
 }

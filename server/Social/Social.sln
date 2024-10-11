@@ -10,9 +10,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Social.Domain", "src\Social
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Social.Infrastructure", "src\Social.Infrastructure\Social.Infrastructure.csproj", "{B261C365-8226-4D11-83A5-2F1F6A110412}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Social.Api.Tests.Integration", "tests\Social.Api.Tests.Integration\Social.Api.Tests.Integration.csproj", "{E817298C-D4D8-45A2-8E13-919C0C1C34B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Social.FunctionalTests", "tests\Social.FunctionalTests\Social.FunctionalTests.csproj", "{E817298C-D4D8-45A2-8E13-919C0C1C34B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Social.Application.Tests.Unit", "tests\Social.Application.Tests.Unit\Social.Application.Tests.Unit.csproj", "{1FA80219-858B-436C-8122-5FD995B84016}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Social.UnitTests", "tests\Social.UnitTests\Social.UnitTests.csproj", "{1FA80219-858B-436C-8122-5FD995B84016}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

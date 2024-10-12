@@ -115,3 +115,5 @@ build/docker/config/nginx.conf
 client/core/Dockerfile
 client/core/robots.txt
 client/core/ssl
+
+firebase.prod.json

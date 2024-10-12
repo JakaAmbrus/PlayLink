@@ -8,10 +8,19 @@ public class Settings
 public class FirebaseOptions
 {
     public string ProjectId { get; set; }
-    public string ApiKey { get; set; }
-    public string AuthDomain { get; set; }
-    public string StorageBucket { get; set; }
-    public string MessagingSenderId { get; set; }
-    public string AppId { get; set; }
     public string ServiceAccountKeyPath { get; set; }
+    public FirestoreOptions Firestore { get; set; }
+}
+
+public class FirestoreOptions
+{
+    public string Collection { get; set; }
+    public FirestoreFields Fields { get; set; }
+}
+
+public class FirestoreFields
+{
+    public string UserId { get; set; }
+    public string Username { get; set; }
+    public string RolesField { get; set; }
 }

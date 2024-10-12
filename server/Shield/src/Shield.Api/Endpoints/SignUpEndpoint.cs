@@ -1,7 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Shield.Api.Features.SignUp;
 
-namespace Shield.Api.Features.SignUp;
+namespace Shield.Api.Endpoints;
 
 public static class SignUpEndpoint
 {
@@ -11,6 +12,6 @@ public static class SignUpEndpoint
             {
                 var result = await mediator.Send(request, cancellationToken);
                 return Results.Ok(result);
-            });
+            }).WithOpenApi();
     }
 }

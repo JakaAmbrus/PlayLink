@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Grpc", "src\Shared.Grpc\Shared.Grpc.csproj", "{23039739-5651-4A3A-864C-04A5D86D0E74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.EventBusRabbitMQ", "src\Shared.EventBusRabbitMQ\Shared.EventBusRabbitMQ.csproj", "{3AE9A97F-F090-4D7B-9B99-2464BFB2EDD1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{23039739-5651-4A3A-864C-04A5D86D0E74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23039739-5651-4A3A-864C-04A5D86D0E74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23039739-5651-4A3A-864C-04A5D86D0E74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23039739-5651-4A3A-864C-04A5D86D0E74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AE9A97F-F090-4D7B-9B99-2464BFB2EDD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AE9A97F-F090-4D7B-9B99-2464BFB2EDD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AE9A97F-F090-4D7B-9B99-2464BFB2EDD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AE9A97F-F090-4D7B-9B99-2464BFB2EDD1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

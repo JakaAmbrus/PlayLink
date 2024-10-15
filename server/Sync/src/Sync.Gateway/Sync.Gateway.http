@@ -1,0 +1,6 @@
+@Sync.Gateway_HostAddress = http://localhost:5257
+
+GET {{Sync.Gateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

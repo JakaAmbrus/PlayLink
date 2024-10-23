@@ -9,14 +9,14 @@
 client/dist
 
 # Node
-client/node_modules
-client/npm-debug.log
-client/yarn-error.log
-client/dist
+client/core/node_modules
+client/core/npm-debug.log
+client/core/yarn-error.log
+client/core/dist
 
 # IDEs and editors
-client/.idea/
-client/.project
+client/core/.idea/
+client/core/.project
 .classpath
 .c9/
 *.launch
@@ -27,22 +27,22 @@ client/.project
 *.user
 
 # Visual Studio Code
-client/.vscode
-client/!.vscode/settings.json
-client/!.vscode/tasks.json
-client/!.vscode/launch.json
-client/!.vscode/extensions.json
-client/.history/*
-client/ssl
+client/core/.vscode
+client/core/!.vscode/settings.json
+client/core/!.vscode/tasks.json
+client/core/!.vscode/launch.json
+client/core/!.vscode/extensions.json
+client/core/.history/*
+client/core/ssl
 
 # Miscellaneous
-client/.angular/cache
-client/.sass-cache/
-client/connect.lock
-client/coverage
-client/libpeerconnection.log
-client/testem.log
-client/typings
+client/core/.angular/cache
+client/core/.sass-cache/
+client/core/connect.lock
+client/core/coverage
+client/core/libpeerconnection.log
+client/core/testem.log
+client/core/typings
 
 # System files
 .DS_Store
@@ -70,6 +70,6 @@ server/WebAPI/bin/
 # Producition compose setup
 /docker-compose.yml
 .env
-client/nginx.conf
-client/Dockerfile
-client/robots.txt
+client/core/nginx.conf
+client/core/Dockerfile
+client/core/robots.txt

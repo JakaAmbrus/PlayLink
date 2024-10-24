@@ -1,62 +1,100 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+##########################################################
+# General Configurations
+##########################################################
 
 .editorconfig
-# Compiled output
+
+##########################################################
+# Compiled Output
+##########################################################
+
 /dist
 /tmp
 /out-tsc
 /bazel-out
 client/dist
-
-# Node
-client/core/node_modules
-client/core/npm-debug.log
-client/core/yarn-error.log
 client/core/dist
 
-# IDEs and editors
-client/core/.idea/
-client/core/.project
+##########################################################
+# Node.js Related
+##########################################################
+
+# Node modules and logs
+**/node_modules/
+**/npm-debug.log
+**/yarn-error.log
+
+##########################################################
+# IDEs and Editors
+##########################################################
+
+# General IDE settings
+/.idea/
+/.project
 .classpath
 .c9/
 *.launch
 .settings/
 *.sublime-workspace
-.idea/
-*.suo
-*.user
 
 # Visual Studio Code
-client/core/.vscode
-client/core/!.vscode/settings.json
-client/core/!.vscode/tasks.json
-client/core/!.vscode/launch.json
-client/core/!.vscode/extensions.json
-client/core/.history/*
-client/core/ssl
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/
 
-# Miscellaneous
+# IntelliJ IDEA
+**/.idea/
+**/*.iml
+**/*.ipr
+**/*.iws
+
+##########################################################
+# Miscellaneous Caches and Logs
+##########################################################
+
+# Angular cache
 client/core/.angular/cache
-client/core/.sass-cache/
-client/core/connect.lock
-client/core/coverage
-client/core/libpeerconnection.log
-client/core/testem.log
-client/core/typings
 
-# System files
+# Sass cache
+**/.sass-cache/
+
+# Lock files
+**/connect.lock
+
+# Coverage and log files
+**/coverage/
+libpeerconnection.log
+testem.log
+**/typings
+
+##########################################################
+# System Files
+##########################################################
+
 .DS_Store
 Thumbs.db
 
-# .NET specific
+##########################################################
+# .NET Specific
+##########################################################
+
+# Binary directories
 **/[Bb]in/
 **/[Oo]bj/
+
+# User-specific files
 *.csproj.user
+*.sln.DotSettings.user
 *.dll
 *.exe
 *.pdb
 *.cache
 *.suo
+
+# Logs and build output
 server/WebAPI/Logs/
 server/WebAPI/obj/
 server/WebAPI/bin/
@@ -64,12 +102,16 @@ server/WebAPI/bin/
 # Visual Studio specific
 .vs/
 
-**/bin/
-**/obj/
+##########################################################
+# Production and Deployment Configurations
+##########################################################
 
-# Producition compose setup
+# Docker and environment files
 build/docker/docker-compose.yml
 .env
 build/docker/config/nginx.conf
+
+# Client-specific files
 client/core/Dockerfile
 client/core/robots.txt
+client/core/ssl

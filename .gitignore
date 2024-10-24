@@ -68,8 +68,8 @@ server/WebAPI/bin/
 **/obj/
 
 # Producition compose setup
-/docker-compose.yml
+build/docker/docker-compose.yml
 .env
-client/core/nginx.conf
+build/docker/config/nginx.conf
 client/core/Dockerfile
 client/core/robots.txt

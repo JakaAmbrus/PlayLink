@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
+using Discount.Data;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Store.Shared.Behaviours;
@@ -20,6 +22,12 @@ public static class DependencyInjection
         mediatrAssemblies.Add(typeof(DependencyInjection).Assembly);
         services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        
+        // Database setup
+        services.AddDbContext<OrderDbContext>(options =>
+        {
+            options.UseSqlServer(settings!.ConnectionString);
+        });
         
         return services;
     }

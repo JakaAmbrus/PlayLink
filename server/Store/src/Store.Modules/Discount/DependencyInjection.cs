@@ -20,8 +20,6 @@ public static class DependencyInjection
         
         // Mediator pipeline setup
         mediatrAssemblies.Add(typeof(DependencyInjection).Assembly);
-        services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         
         // Database setup
         services.AddDbContext<DiscountDbContext>(options =>

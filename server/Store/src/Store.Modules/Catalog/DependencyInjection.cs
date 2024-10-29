@@ -1,11 +1,8 @@
 ﻿using System.Reflection;
 using Catalog.Data;
-using FluentValidation;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Store.Shared.Behaviours;
 
 namespace Catalog;
 
@@ -20,8 +17,6 @@ public static class DependencyInjection
         
         // Mediator pipeline setup
         mediatrAssemblies.Add(typeof(DependencyInjection).Assembly);
-        services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         
         // Database setup
         services.AddDbContext<CatalogDbContext>(options =>

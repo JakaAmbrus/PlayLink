@@ -4,8 +4,11 @@ using Catalog;
 using Discount;
 using FastEndpoints;
 using FastEndpoints.Swagger;
+using FluentValidation;
+using MediatR;
 using Order;
 using Serilog;
+using Store.Shared.Behaviours;
 
 var logger = Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
@@ -19,10 +22,26 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog((_, config) =>
     config.ReadFrom.Configuration(builder.Configuration));
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddFastEndpoints().SwaggerDocument();
+builder.Services
+    .AddFastEndpoints()
+    .SwaggerDocument(o =>
+    {
+        o.DocumentSettings = s =>
+        {
+            s.Title = "PlayLink Store Api";
+            s.DocumentName = "Store Api";
+            s.Description = "Swagger documentation for the PlayLink Store API";
+        };
+        o.RemoveEmptyRequestSchema = true;
+        o.AutoTagPathSegmentIndex = 2;
+        o.TagDescriptions = tags =>
+        {
+            tags["Catalog"] = "Catalog Module Endpoints";
+            tags["Basket"] = "Basket Module Endpoints";
+            tags["Discount"] = "Discount Module Endpoints";
+            tags["Order"] = "Order Module Endpoints";
+        };
+    });
 
 List<Assembly> mediatorAssemblies = [typeof(Program).Assembly];
 builder.Services
@@ -31,16 +50,17 @@ builder.Services
     .AddDiscountModuleServices(builder.Configuration, mediatorAssemblies)
     .AddOrderModuleServices(builder.Configuration, mediatorAssemblies);
 
-logger.Information("Module registrations finished");
+builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblies(mediatorAssemblies.ToArray()));
+builder.Services.AddValidatorsFromAssemblies(mediatorAssemblies);
+builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseDefaultExceptionHandler();
 
 app.UseHttpsRedirection();
+
+app.UseFastEndpoints()
+    .UseSwaggerGen();
 
 app.Run();

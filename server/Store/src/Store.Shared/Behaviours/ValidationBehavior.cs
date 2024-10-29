@@ -1,44 +1,50 @@
 ﻿using Ardalis.Result;
+using Ardalis.Result.FluentValidation;
 using FluentValidation;
 using MediatR;
 
-namespace Store.Shared.Behaviours
+namespace Store.Shared.Behaviours;
+
+public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators)
+    : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
-    public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : IRequest<TResponse>
-        where TResponse : Result
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
-        private readonly IEnumerable<IValidator<TRequest>> _validators;
-
-        public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
+        if (!validators.Any())
         {
-            _validators = validators;
-        }
-
-        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
-        {
-            var context = new ValidationContext<TRequest>(request);
-            
-            var failures = _validators
-                .Select(v => v.Validate(context))
-                .SelectMany(result => result.Errors)
-                .Where(f => f != null)
-                .ToList();
-            
-            if (failures.Count != 0)
-            {
-                var validationErrors = failures
-                    .Select(f => new ValidationError
-                    {
-                        Identifier = f.PropertyName,
-                        ErrorMessage = f.ErrorMessage
-                    })
-                    .ToList();
-                
-                return (TResponse)Result.Invalid(validationErrors);
-            }
-            
             return await next();
         }
+
+        var context = new ValidationContext<TRequest>(request);
+        var validationResults = await Task.WhenAll(validators.Select(v => v.ValidateAsync(context, cancellationToken)));
+        var resultErrors = validationResults.SelectMany(r => r.AsErrors()).ToList();
+        var failures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
+
+        if (failures.Count != 0)
+        {
+            if (typeof(TResponse).IsGenericType && typeof(TResponse).GetGenericTypeDefinition() == typeof(Result<>))
+            {
+                var resultType = typeof(TResponse).GetGenericArguments()[0];
+                var invalidMethod = typeof(Result<>)
+                    .MakeGenericType(resultType)
+                    .GetMethod(nameof(Result<int>.Invalid), new[] { typeof(List<ValidationError>) });
+
+                if (invalidMethod != null)
+                {
+                    return (TResponse)invalidMethod.Invoke(null, [resultErrors])!;
+                }
+            }
+            else if (typeof(TResponse) == typeof(Result))
+            {
+                return (TResponse)(object)Result.Invalid(resultErrors);
+            }
+            else
+            {
+                throw new ValidationException(failures);
+            }
+        }
+
+        return await next();
     }
 }

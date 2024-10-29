@@ -1,44 +1,66 @@
+using System.Reflection;
+using Basket;
+using Catalog;
+using Discount;
+using FastEndpoints;
+using FastEndpoints.Swagger;
+using FluentValidation;
+using MediatR;
+using Order;
+using Serilog;
+using Store.Shared.Behaviours;
+
+var logger = Log.Logger = new LoggerConfiguration()
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .CreateLogger();
+
+logger.Information("Starting api configuration");
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Host.UseSerilog((_, config) =>
+    config.ReadFrom.Configuration(builder.Configuration));
+
+builder.Services
+    .AddFastEndpoints()
+    .SwaggerDocument(o =>
+    {
+        o.DocumentSettings = s =>
+        {
+            s.Title = "PlayLink Store Api";
+            s.DocumentName = "Store Api";
+            s.Description = "Swagger documentation for the PlayLink Store API";
+        };
+        o.RemoveEmptyRequestSchema = true;
+        o.AutoTagPathSegmentIndex = 2;
+        o.TagDescriptions = tags =>
+        {
+            tags["Catalog"] = "Catalog Module Endpoints";
+            tags["Basket"] = "Basket Module Endpoints";
+            tags["Discount"] = "Discount Module Endpoints";
+            tags["Order"] = "Order Module Endpoints";
+        };
+    });
+
+List<Assembly> mediatorAssemblies = [typeof(Program).Assembly];
+builder.Services
+    .AddBasketModuleServices(builder.Configuration, mediatorAssemblies)
+    .AddCatalogModuleServices(builder.Configuration, mediatorAssemblies)
+    .AddDiscountModuleServices(builder.Configuration, mediatorAssemblies)
+    .AddOrderModuleServices(builder.Configuration, mediatorAssemblies);
+
+builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblies(mediatorAssemblies.ToArray()));
+builder.Services.AddValidatorsFromAssemblies(mediatorAssemblies);
+builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseDefaultExceptionHandler();
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-    {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
-    })
-    .WithName("GetWeatherForecast")
-    .WithOpenApi();
+app.UseFastEndpoints()
+    .UseSwaggerGen();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

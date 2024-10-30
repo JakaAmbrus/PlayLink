@@ -16,8 +16,7 @@
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:5287",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "AzureAdB2C__Instance":  "randommmm"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "https": {

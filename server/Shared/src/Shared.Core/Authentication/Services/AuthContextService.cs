@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
-using Shared.Core.Interfaces;
+using Shared.Core.Authentication.Interfaces;
 
-namespace Shared.Core.Services;
+namespace Shared.Core.Authentication.Services;
 
 public class AuthContextService : IAuthContextService
 {

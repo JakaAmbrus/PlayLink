@@ -2,5 +2,5 @@
 
 public interface IIdentityService
 {
-    Task<string> SignUpMemberAsync(string username, string password);
+    Task<string> SignUpMemberAsync(string username, string password, List<string> roles);
 }

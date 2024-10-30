@@ -1,56 +1,86 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Identity.Web;
+﻿using FirebaseAdmin;
+using FluentValidation;
+using Google.Apis.Auth.OAuth2;
+using Google.Cloud.Firestore;
+using Google.Cloud.Firestore.V1;
+using Grpc.Auth;
+using MediatR;
+using Microsoft.OpenApi.Models;
+using Shield.Api.Common.Abstractions;
+using Shield.Api.Common.Behaviours;
 using Shield.Api.Configurations;
-using Shield.Api.Features.SignUp;
+using Shield.Api.Endpoints;
+using Shield.Api.Infrastructure.FireStoreDB;
+using Shield.Api.Infrastructure.Identity;
 using Shield.Api.Middleware;
 
 namespace Shield.Api;
 
 public class Startup
 {
-    private readonly IConfiguration configuration;
+    private readonly IConfiguration _configuration;
 
     public Startup(IConfiguration configuration)
     {
-        this.configuration = configuration;
+        _configuration = configuration;
     }
 
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllers();
-        var myVar = Environment.GetEnvironmentVariable("AZURE_AD_B2C_CLIENT_ID");
-        // Options pattern setup
-        var settings = configuration.Get<Settings>();
-        services.AddSingleton<Settings>(settings);
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "Shield API",
+                Version = "v1",
+                Description = "API for Shield service"
+            });
+        });
 
-        // JWT Authentication
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddMicrosoftIdentityWebApi(configuration.GetSection("AzureAdB2C"));
+        // Options pattern setup
+        var settings = _configuration.Get<Settings>();
+        services.AddSingleton(settings);
         
-        // Authorization
-        services.AddAuthorizationBuilder()
-            .AddPolicy("MemberPolicy", policy => policy.RequireRole("Member"))
-            .AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
+        // Firebase setup
+        var googleCredential = GoogleCredential.FromFile(settings.Firebase.ServiceAccountKeyPath);
+        
+        FirebaseApp.Create(new AppOptions
+        {
+            Credential = googleCredential
+        });
+
+        // Create a FirestoreClient using the GoogleCredential
+        var firestoreClient = new FirestoreClientBuilder
+        {
+            ChannelCredentials = googleCredential.ToChannelCredentials()
+        }.Build();
+
+        // Initialize FirestoreDb with FirestoreClient
+        services.AddSingleton(_ => FirestoreDb.Create(settings.Firebase.ProjectId, firestoreClient));
         
         // Mediatr pipeline
         var assembly = typeof(Startup).Assembly;
         services.AddMediatR(x => x.RegisterServicesFromAssembly(assembly));
         services.AddValidatorsFromAssembly(assembly);
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+        services.AddSingleton<IIdentityService, IdentityService>();
+        services.AddSingleton<IFirebaseDbContext, FirebaseDbContext>();
 
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         app.UseMiddleware<ExceptionMiddleware>();
-
+        
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        
         app.UseHttpsRedirection();
         app.UseRouting();
-
-        app.UseAuthentication();
-        app.UseAuthorization();
         
-        // Endpoints
         app.UseEndpoints(endpoint =>
         {
             endpoint.MapSignUpEndpoint();

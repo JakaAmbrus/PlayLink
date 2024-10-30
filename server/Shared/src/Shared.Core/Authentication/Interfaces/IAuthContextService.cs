@@ -1,4 +1,4 @@
-﻿namespace Shared.Core.Interfaces;
+﻿namespace Shared.Core.Authentication.Interfaces;
 
 public interface IAuthContextService
 {

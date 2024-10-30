@@ -52,7 +52,7 @@ public class SignUpCommandValidator : AbstractValidator<SignUpCommand>
     {
         var words = fullName.Split(' ');
 
-        if (words.Length == 0)
+        if (words.Length == 0 || words.Length == 1)
         {
             return false;
         }

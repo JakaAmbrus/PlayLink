@@ -7,6 +7,7 @@ using Grpc.Auth;
 using MediatR;
 using Microsoft.OpenApi.Models;
 using Shield.Api.Common.Abstractions;
+using Shield.Api.Common.Behaviours;
 using Shield.Api.Configurations;
 using Shield.Api.Endpoints;
 using Shield.Api.Infrastructure.FireStoreDB;

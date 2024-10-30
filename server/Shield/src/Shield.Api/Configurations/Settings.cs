@@ -9,6 +9,7 @@ public class FirebaseOptions
 {
     public string ProjectId { get; set; }
     public string ServiceAccountKeyPath { get; set; }
+    public string UserEmailDomain { get; set; }
     public FirestoreOptions Firestore { get; set; }
 }
 

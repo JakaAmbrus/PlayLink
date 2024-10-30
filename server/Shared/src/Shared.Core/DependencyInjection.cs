@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Shared.Core.Interfaces;
-using Shared.Core.Services;
+using Shared.Core.Authentication.Interfaces;
+using Shared.Core.Authentication.Services;
 
 namespace Shared.Core;
 

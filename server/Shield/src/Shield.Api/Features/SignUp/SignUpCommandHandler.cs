@@ -24,6 +24,7 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, SignUpRespons
         
         // Now I go into Social and create the user, smt like:
         // await _socialApi.AddUserAsync(request) 
+        // RabbitMq notifies store to make a coupon for the new member 20% discount
         // Todo: also do not forget to implement rollback if any of these fails
 
         return new SignUpResponse();

@@ -2,7 +2,7 @@
 using MediatR;
 using ValidationException = Shield.Api.Common.Exceptions.ValidationException;
 
-namespace Shield.Api.Common.Behaviour;
+namespace Shield.Api.Common.Behaviours;
 
 public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull

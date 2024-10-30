@@ -14,5 +14,5 @@ public class SignUpCommand : IRequest<SignUpResponse>
     
     public string Country { get; set; }
     
-    public DateOnly DateOfBirth { get; set; }
+    public DateTime DateOfBirth { get; set; }
 }

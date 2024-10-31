@@ -17,10 +17,7 @@ namespace Social.Infrastructure.Extensions
             });
  
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<DataContext>());
-
             services.AddScoped<IUserManager, UserManagerService>();
-
-            services.AddCors();
 
             return services;
         }

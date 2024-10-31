@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
-using ValidationException = Social.Application.Exceptions.ValidationException;
+using ValidationException = Social.Application.Behaviors.ValidationException;
 
 namespace Social.Application.Behaviors
 {

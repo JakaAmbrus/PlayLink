@@ -1,11 +1,9 @@
-﻿using Social.Application.Extensions;
-using Social.Application.Interfaces;
-using Social.Application.Services;
-using FluentValidation;
-
+﻿using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Social.Application.Behaviors;
+using Social.Application.Interfaces;
+using Social.Application.Services;
 
 namespace Social.Application
 {
@@ -17,16 +15,15 @@ namespace Social.Application
 
             services.AddMediatR(configuration => 
                 configuration.RegisterServicesFromAssembly(assembly));
-
             services.AddValidatorsFromAssembly(assembly);
-
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
-            services.AddTokenServices();
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IAuthService, AuthService>();
 
-            services.AddAuthenticatedUserServices();
-
-            services.AddMemoryCacheExtensions();
+            services.AddMemoryCache();
+            services.AddScoped<ICacheKeyService, CacheKeyService>();
+            services.AddScoped<ICacheInvalidationService, CacheInvalidationService>();
 
             return services;
         }

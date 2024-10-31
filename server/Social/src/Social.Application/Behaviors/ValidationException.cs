@@ -1,8 +1,8 @@
 ﻿using System.Net;
-using Social.Domain.Exceptions;
 using FluentValidation.Results;
+using Social.Domain.Exceptions;
 
-namespace Social.Application.Exceptions
+namespace Social.Application.Behaviors
 {
     public class ValidationException : ApplicationExceptions
     {

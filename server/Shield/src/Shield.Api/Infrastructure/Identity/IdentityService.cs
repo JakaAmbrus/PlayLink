@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using FirebaseAdmin.Auth;
+using Shared.Core.Enums;
 using Shield.Api.Common.Abstractions;
 using Shield.Api.Common.Exceptions;
 using Shield.Api.Configurations;
@@ -17,7 +18,7 @@ internal sealed class IdentityService : IIdentityService
         _firebaseAuth = firebaseAuth ?? FirebaseAuth.DefaultInstance;
     }
 
-    public async Task<string> SignUpMemberAsync(string username, string password, List<string> roles = null)
+    public async Task<string> SignUpMemberAsync(string username, string password)
     {
         try
         {
@@ -32,15 +33,6 @@ internal sealed class IdentityService : IIdentityService
             
             var userRecord = await _firebaseAuth.CreateUserAsync(userArgs);
             
-            var customClaims = new Dictionary<string, object>
-            {
-                { ClaimTypes.NameIdentifier, userRecord.Uid },
-                { ClaimTypes.Name, username },
-                { ClaimTypes.Role, roles }
-            };
-            
-            await _firebaseAuth.SetCustomUserClaimsAsync(userRecord.Uid, customClaims);
-            
             return userRecord.Uid;
         }
         catch (FirebaseAuthException ex) when (ex.AuthErrorCode == AuthErrorCode.EmailAlreadyExists)
@@ -50,6 +42,26 @@ internal sealed class IdentityService : IIdentityService
         catch (Exception)
         {
             throw new ServerErrorException("An unexpected error occurred during sign-up");
+        }
+    }
+
+    public async Task SetUserClaimsAsync(string userId, string socialId, string username, List<string> roles)
+    {
+        try
+        {
+            var customClaims = new Dictionary<string, object>
+            {
+                { ClaimTypes.NameIdentifier, userId },
+                { ClaimTypes.PrimarySid, socialId },
+                { ClaimTypes.Name, username },
+                { ClaimTypes.Role, roles }
+            };
+
+            await _firebaseAuth.SetCustomUserClaimsAsync(userId, customClaims);
+        }
+        catch
+        {
+            throw new ServerErrorException("An unexpected error occurred during claims assignment");
         }
     }
 }

@@ -1,0 +1,12 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "https://your-hetzner-vm-domain.com",
+    "RequestIdKey": "Oc-Request-Id",
+    "RateLimitOptions": {
+      "ClientIdHeader": "Client-Id",
+      "QuotaExceededMessage": "Rate limit exceeded. Try again later.",
+      "HttpStatusCode": 429,
+      "RateLimitCounterPrefix": "ocelot"
+    }
+  }
+}

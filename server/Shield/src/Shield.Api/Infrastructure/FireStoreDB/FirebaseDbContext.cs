@@ -1,4 +1,5 @@
 ﻿using Google.Cloud.Firestore;
+using Shared.Core.Enums;
 using Shield.Api.Common.Abstractions;
 using Shield.Api.Common.Exceptions;
 using Shield.Api.Configurations;
@@ -36,10 +37,11 @@ public class FirebaseDbContext : IFirebaseDbContext
         }
     }
 
-    public async Task AddUserAsync(string userId, string username, List<string> initialRoles)
+    public async Task AddUserAsync(string userId, string username, long socialId)
     {
         try
         {
+            var initialRoles = new List<string> { Role.Member.ToString() };
             var userData = new Dictionary<string, object>
             {
                 { _options.Fields.UserId, userId },

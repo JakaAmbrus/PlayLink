@@ -22,6 +22,7 @@ public class FirestoreOptions
 public class FirestoreFields
 {
     public string UserId { get; set; }
+    public string SocialId { get; set; }
     public string Username { get; set; }
     public string RolesField { get; set; }
 }

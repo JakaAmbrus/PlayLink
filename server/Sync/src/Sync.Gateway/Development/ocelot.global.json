@@ -1,0 +1,12 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:8000",
+    "RequestIdKey": "Oc-Request-Id",
+    "RateLimitOptions": {
+      "ClientIdHeader": "Client-Id",
+      "QuotaExceededMessage": "Rate limit exceeded. Please try again later.",
+      "HttpStatusCode": 429,
+      "RateLimitCounterPrefix": "ocelot"
+    }
+  }
+}

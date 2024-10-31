@@ -6,6 +6,7 @@ using Google.Cloud.Firestore.V1;
 using Grpc.Auth;
 using MediatR;
 using Microsoft.OpenApi.Models;
+using Shared.Core;
 using Shield.Api.Common.Abstractions;
 using Shield.Api.Common.Behaviours;
 using Shield.Api.Configurations;
@@ -27,6 +28,7 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
+        // General setup
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
@@ -51,13 +53,13 @@ public class Startup
             Credential = googleCredential
         });
 
-        // Create a FirestoreClient using the GoogleCredential
+        // FirebaseAuth setup
         var firestoreClient = new FirestoreClientBuilder
         {
             ChannelCredentials = googleCredential.ToChannelCredentials()
         }.Build();
 
-        // Initialize FirestoreDb with FirestoreClient
+        // FirestoreDb setup
         services.AddSingleton(_ => FirestoreDb.Create(settings.Firebase.ProjectId, firestoreClient));
         
         // Mediatr pipeline
@@ -65,7 +67,11 @@ public class Startup
         services.AddMediatR(x => x.RegisterServicesFromAssembly(assembly));
         services.AddValidatorsFromAssembly(assembly);
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        
+        // Shared security
+        services.AddSharedSecurity(settings.Firebase.ProjectId);
 
+        // Service registration
         services.AddSingleton<IIdentityService, IdentityService>();
         services.AddSingleton<IFirebaseDbContext, FirebaseDbContext>();
 
@@ -74,11 +80,13 @@ public class Startup
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         app.UseMiddleware<ExceptionMiddleware>();
+
+        if (env.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
         
-        app.UseSwagger();
-        app.UseSwaggerUI();
-        
-        app.UseHttpsRedirection();
         app.UseRouting();
         
         app.UseEndpoints(endpoint =>

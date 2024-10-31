@@ -17,7 +17,7 @@ namespace Social.Api.Extensions
                     Description = "The PlayLink API is the backbone of my social media platform. " +
                     "To test PlayLink endpoints in Swagger, " +
                     "I suggest you use Guest Login to receive a valid role JWT." +
-                    "Then put 'Bearer (paste the token)' in the Authorize section." +
+                    "Then put 'Bearer (paste the token)' in the Authorize section. " +
                     "In order to test the Admin endpoints, please refer to the documentation."
                 });
 

@@ -34,7 +34,7 @@ namespace Social.Infrastructure.Extensions
                     {
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey =
-                            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"])),
+                            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]!)),
                         ValidateIssuer = false,
                         ValidateAudience = false
                     };
@@ -57,12 +57,10 @@ namespace Social.Infrastructure.Extensions
                     };
                 });
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("RequireModeratorRole", policy => policy.RequireRole("Moderator"));
-                options.AddPolicy("RequireMemberRole", policy => policy.RequireRole("Member"));
-            });
+            services.AddAuthorizationBuilder()
+                .AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"))
+                .AddPolicy("RequireModeratorRole", policy => policy.RequireRole("Moderator"))
+                .AddPolicy("RequireMemberRole", policy => policy.RequireRole("Member"));
 
             return services;
         }

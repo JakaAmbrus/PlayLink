@@ -13,14 +13,11 @@ namespace Social.Infrastructure.Extensions
         {
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
-            }); 
+                options.UseNpgsql(config.GetConnectionString("DefaultConnection"));
+            });
  
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<DataContext>());
-
             services.AddScoped<IUserManager, UserManagerService>();
-
-            services.AddCors();
 
             return services;
         }

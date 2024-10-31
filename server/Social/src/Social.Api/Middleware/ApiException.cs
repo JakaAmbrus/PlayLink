@@ -1,4 +1,4 @@
-﻿namespace Social.Api.Errors
+﻿namespace Social.Api.Middleware
 {
     public class ApiException
     {

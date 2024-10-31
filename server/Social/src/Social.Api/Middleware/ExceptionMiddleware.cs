@@ -1,8 +1,7 @@
-﻿using Social.Application.Exceptions;
-using System.Net;
+﻿using System.Net;
 using System.Text.Json;
+using Social.Application.Behaviors;
 using Social.Domain.Exceptions;
-using Social.Api.Errors;
 
 namespace Social.Api.Middleware
 {

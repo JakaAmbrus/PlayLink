@@ -45,6 +45,7 @@ public class FirebaseDbContext : IFirebaseDbContext
             var userData = new Dictionary<string, object>
             {
                 { _options.Fields.UserId, userId },
+                { _options.Fields.SocialId, socialId },
                 { _options.Fields.Username, username },
                 { _options.Fields.RolesField, initialRoles }
             };

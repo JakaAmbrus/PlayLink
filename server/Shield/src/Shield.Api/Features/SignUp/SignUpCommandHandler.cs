@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Shared.Core.Enums;
 using Shield.Api.Common.Abstractions;
 
 namespace Shield.Api.Features.SignUp;
@@ -24,6 +25,8 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, SignUpRespons
         // Todo: also do not forget to implement rollback if any of these fails
         const long socialId = 1;
         await _firebaseDbContext.AddUserAsync(userId, request.Username, socialId);
+        
+        await _identityService.SetUserClaimsAsync(userId , request.Username, socialId, [Role.Member.ToString()]);
 
         return new SignUpResponse();
     }

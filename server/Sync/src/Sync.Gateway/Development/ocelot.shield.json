@@ -9,8 +9,8 @@
         "EnableRateLimiting": true,
         "Period": "1h",
         "PeriodTimespan": 3600,
-        "Limit": 5,
-        "QuotaExceededMessage": "Signup limit exceeded. Try again later.",
+        "Limit": 10,
+        "QuotaExceededMessage": "Signup hour limit exceeded.",
         "HttpStatusCode": 429
       },
       "UpstreamHttpMethod": ["POST"]

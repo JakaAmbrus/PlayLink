@@ -7,6 +7,9 @@
       "QuotaExceededMessage": "Rate limit exceeded. Please try again later.",
       "HttpStatusCode": 429,
       "RateLimitCounterPrefix": "ocelot"
+    },
+    "AddHeadersToRequest": {
+      "Authorization": "{Authorization}"
     }
   }
 }

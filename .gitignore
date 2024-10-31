@@ -117,3 +117,5 @@ client/core/robots.txt
 client/core/ssl
 
 firebase.prod.json
+
+ocelot.json

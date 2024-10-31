@@ -6,7 +6,7 @@ public interface IFirebaseDbContext
 {
     Task<DocumentSnapshot> GetUserByIdAsync(string userId);
 
-    Task AddUserAsync(string userId, string username, List<string> initialRoles);
+    Task AddUserAsync(string userId, string username, long socialId);
     
     Task AddRolesAsync(string userId, List<string> rolesToAdd);
     

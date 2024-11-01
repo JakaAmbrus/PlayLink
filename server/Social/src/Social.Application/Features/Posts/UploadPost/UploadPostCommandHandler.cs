@@ -22,7 +22,7 @@ namespace Social.Application.Features.Posts.UploadPost
         public async Task<UploadPostResponse> Handle(UploadPostCommand request, CancellationToken cancellationToken)
         {
 
-            var authUser = await _context.Users.FindAsync(new object[] { request.AuthUserId }, cancellationToken)
+            var authUser = await _context.Users.FindAsync(request.AuthUserId)
                 ?? throw new NotFoundException("Authenticated user not found");
 
             var newPost = new Post

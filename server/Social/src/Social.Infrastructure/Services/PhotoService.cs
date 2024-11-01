@@ -67,7 +67,7 @@ namespace Social.Infrastructure.Services
             var result = new PhotoUploadResult
             {
                 PublicId = uploadResult.PublicId,
-                Url = uploadResult.SecureUrl.ToString(),
+                Url = uploadResult.PublicId, // this is a quick fix because the sdk on client searches by public id, I do not feel like refactoring everything right now
                 Error = uploadResult.Error != null ? uploadResult.Error.Message : null
             };
 

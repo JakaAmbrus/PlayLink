@@ -16,7 +16,7 @@ namespace Social.Application.Features.MessageGroups.GetConnection
 
         public async Task<Connection> Handle(GetConnectionQuery request, CancellationToken cancellationToken)
         {
-            var connection = await _context.Connections.FindAsync(new object[] { request.ConnectionId }, cancellationToken) 
+            var connection = await _context.Connections.FindAsync(request.ConnectionId) 
                 ?? throw new NotFoundException("Connection not found");
 
             return connection;

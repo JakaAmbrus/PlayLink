@@ -16,12 +16,17 @@ namespace Social.Application.Features.Likes.UnlikePost
 
         public async Task<UnlikePostResponse> Handle(UnlikePostCommand request, CancellationToken cancellationToken)
         {
-            var post = await _context.Posts.FindAsync(new object[] { request.PostId }, cancellationToken)
+            var post = await _context.Posts.FindAsync(request.PostId)
                 ?? throw new NotFoundException("Post not found");
 
-            var like = await _context.Likes.FirstOrDefaultAsync(l => l.PostId == request.PostId 
-                && l.AppUserId == request.AuthUserId, cancellationToken) 
-                ?? throw new NotFoundException("Posts like not found");
+            var like = await _context.Likes
+                .Where(l => l.PostId == request.PostId && l.AppUserId == request.AuthUserId)
+                .FirstOrDefaultAsync(cancellationToken);
+            
+            if (like == null)
+            {
+                return new UnlikePostResponse { Unliked = true };
+            }
 
             post.LikesCount--;
             _context.Likes.Remove(like);

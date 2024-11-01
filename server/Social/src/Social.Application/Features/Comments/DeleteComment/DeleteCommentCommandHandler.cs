@@ -16,10 +16,10 @@ namespace Social.Application.Features.Comments.DeleteComment
 
         public async Task<DeleteCommentResponse> Handle(DeleteCommentCommand request, CancellationToken cancellationToken)
         {
-            var selectedComment = await _context.Comments.FindAsync(new object[] { request.CommentId}, cancellationToken)
+            var selectedComment = await _context.Comments.FindAsync(request.CommentId)
                 ?? throw new NotFoundException("Comment was not found");
 
-            var selectedPost = await _context.Posts.FindAsync(new object[] { selectedComment.PostId }, cancellationToken)
+            var selectedPost = await _context.Posts.FindAsync(selectedComment.PostId)
                 ?? throw new NotFoundException("Post was not found");
 
             bool isPostOwner = selectedComment.AppUserId == request.AuthUserId;

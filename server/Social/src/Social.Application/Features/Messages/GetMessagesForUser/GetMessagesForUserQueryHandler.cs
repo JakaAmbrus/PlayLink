@@ -23,7 +23,7 @@ namespace Social.Application.Features.Messages.GetMessagesForUser
             Enum.TryParse<MessageStatus>(request.Params.Container, true, out var status);
 
             var user = await _context.Users
-                .FindAsync(new object[] { request.AuthUserId }, cancellationToken)
+                .FindAsync(request.AuthUserId)
                 ?? throw new NotFoundException("User not found");
 
             IQueryable<PrivateMessage> messageQuery;

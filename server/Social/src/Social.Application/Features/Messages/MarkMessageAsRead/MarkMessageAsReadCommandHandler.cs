@@ -16,7 +16,7 @@ namespace Social.Application.Features.Messages.MarkMessageAsRead
         public async Task<MarkMessageAsReadResponse> Handle(MarkMessageAsReadCommand request, CancellationToken cancellationToken)
         {
 
-            var message = await _context.PrivateMessages.FindAsync(new object[] { request.MessageId }, cancellationToken)
+            var message = await _context.PrivateMessages.FindAsync(request.MessageId)
                 ?? throw new NotFoundException("Message not found");
 
 

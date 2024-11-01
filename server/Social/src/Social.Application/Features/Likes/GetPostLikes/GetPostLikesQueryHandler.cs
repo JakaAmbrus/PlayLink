@@ -17,7 +17,7 @@ namespace Social.Application.Features.Likes.GetPostLikes
 
         public async Task<GetPostLikesResponse> Handle(GetPostLikesQuery request, CancellationToken cancellationToken)
         {
-            var post = await _context.Posts.FindAsync(new object[] { request.PostId }, cancellationToken)
+            var post = await _context.Posts.FindAsync(request.PostId)
                 ?? throw new NotFoundException("Post not found");
 
             var likes = await _context.Likes

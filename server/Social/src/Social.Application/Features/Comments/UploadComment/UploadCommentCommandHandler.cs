@@ -16,10 +16,10 @@ namespace Social.Application.Features.Comments.UploadComment
         }
         public async Task<UploadCommentResponse> Handle(UploadCommentCommand request, CancellationToken cancellationToken)
         {
-            var post = await _context.Posts.FindAsync(new object[] { request.Comment.PostId }, cancellationToken)
+            var post = await _context.Posts.FindAsync(request.Comment.PostId)
                 ?? throw new NotFoundException("Post not found");
 
-            var authUser = await _context.Users.FindAsync(new object[] { request.AuthUserId }, cancellationToken) 
+            var authUser = await _context.Users.FindAsync(request.AuthUserId) 
                 ?? throw new NotFoundException("User not found");
 
             var newComment = new Comment

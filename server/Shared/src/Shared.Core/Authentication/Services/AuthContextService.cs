@@ -24,7 +24,7 @@ public class AuthContextService : IAuthContextService
         
         if (!int.TryParse(userIdString, out var userId))
         {
-            throw new ArgumentException();
+            throw new InvalidOperationException("Social ID claim is missing.");
         }
 
         return userId;

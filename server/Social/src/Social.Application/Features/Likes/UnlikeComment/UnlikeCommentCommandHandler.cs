@@ -16,13 +16,18 @@ namespace Social.Application.Features.Likes.UnlikeComment
 
         public async Task<UnlikeCommentResponse> Handle(UnlikeCommentCommand request, CancellationToken cancellationToken)
         {
-            var comment = await _context.Comments.FindAsync(new object[] { request.CommentId }, cancellationToken)
+            var comment = await _context.Comments.FindAsync(request.CommentId)
                 ?? throw new NotFoundException("Comment not found");
 
-            var like = await _context.Likes.FirstOrDefaultAsync(l => l.CommentId == request.CommentId 
-                && l.AppUserId == request.AuthUserId, cancellationToken) 
-                ?? throw new NotFoundException("Comments like not found");
+            var like = await _context.Likes
+                .Where(l => l.CommentId == request.CommentId && l.AppUserId == request.AuthUserId)
+                .FirstOrDefaultAsync(cancellationToken);
 
+            if (like == null)
+            {
+                return new UnlikeCommentResponse { Unliked = true };
+            }
+            
             comment.LikesCount--;
             _context.Likes.Remove(like);
             await _context.SaveChangesAsync(cancellationToken);

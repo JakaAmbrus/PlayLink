@@ -18,7 +18,7 @@ namespace Social.Application.Features.Messages.SendMessage
 
         public async Task<SendMessageResponse> Handle(SendMessageCommand request, CancellationToken cancellationToken)
         {
-            var sender = await _context.Users.FindAsync(new object[] { request.AuthUserId }, cancellationToken)
+            var sender = await _context.Users.FindAsync(request.AuthUserId)
                 ?? throw new NotFoundException("Sender not found");
 
             var recipient = await _context.Users

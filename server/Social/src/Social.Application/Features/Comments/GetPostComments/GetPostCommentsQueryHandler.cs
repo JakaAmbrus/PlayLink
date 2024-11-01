@@ -19,7 +19,7 @@ namespace Social.Application.Features.Comments.GetPostComments
 
         public async Task<GetPostCommentsResponse> Handle(GetPostCommentsQuery request, CancellationToken cancellationToken)
         {
-            var post = await _context.Posts.FindAsync(new object[] { request.PostId }, cancellationToken)
+            var post = await _context.Posts.FindAsync(request.PostId)
                 ?? throw new NotFoundException("Post not found");
 
             bool isModerator = request.AuthUserRoles.Contains(Role.Moderator.ToString());

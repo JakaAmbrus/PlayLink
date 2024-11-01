@@ -16,7 +16,7 @@ namespace Social.Application.Features.Messages.GetMessageById
 
         public async Task<MessageDto> Handle(GetMessageByIdQuery request, CancellationToken cancellationToken)
         {
-            var message = await _context.PrivateMessages.FindAsync(new object[] { request.MessageId }, cancellationToken)
+            var message = await _context.PrivateMessages.FindAsync(request.MessageId)
                 ?? throw new NotFoundException("Message not found");
 
             return new MessageDto

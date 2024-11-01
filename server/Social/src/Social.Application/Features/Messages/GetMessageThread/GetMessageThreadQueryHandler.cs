@@ -17,7 +17,7 @@ namespace Social.Application.Features.Messages.GetMessageThread
 
         public async Task<GetMessageThreadResponse> Handle(GetMessageThreadQuery request, CancellationToken cancellationToken)
         {
-            var authUser = await _context.Users.FindAsync(new object[] { request.AuthUserId, cancellationToken }, cancellationToken)
+            var authUser = await _context.Users.FindAsync(request.AuthUserId)
                 ?? throw new NotFoundException("Authorized user not found");
 
             var profileUser = await _context.Users

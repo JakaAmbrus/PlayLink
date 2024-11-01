@@ -21,7 +21,7 @@ namespace Social.Application.Features.Admin.AdminUserDelete
             var user = await _context.Users.FindAsync(new object[] { request.AppUserId }, cancellationToken)
                 ?? throw new NotFoundException("User not found");
 
-            var authUser = await _context.Users.FindAsync(new object[] { request.AuthUserId }, cancellationToken)
+            var authUser = await _context.Users.FindAsync(request.AuthUserId)
                 ?? throw new NotFoundException("Authorized user not found");
 
             // Only an Admin is authorized for deleting a user. This implementation includes multiple role checks (UserManager, DbContext, and API Policy)

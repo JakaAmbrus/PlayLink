@@ -15,7 +15,7 @@ namespace Social.Application.Features.MessageGroups.RemoveConnection
 
         public async Task<RemoveConnectionResponse> Handle(RemoveConnectionCommand request, CancellationToken cancellationToken)
         {
-            var connection = await _context.Connections.FindAsync(new object[] { request.ConnectionId }, cancellationToken) 
+            var connection = await _context.Connections.FindAsync( request.ConnectionId) 
                 ?? throw new NotFoundException("Connection not found");
 
             _context.Connections.Remove(connection);

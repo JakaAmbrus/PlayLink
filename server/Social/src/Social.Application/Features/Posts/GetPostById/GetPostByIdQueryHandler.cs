@@ -21,9 +21,10 @@ namespace Social.Application.Features.Posts.GetPostById
             bool isModerator = request.AuthUserRoles.Contains(Role.Moderator.ToString());
 
             var post = await _context.Posts
-               .Where(p => p.PostId == request.PostId)
-               .Select(p => new PostDto
-               {
+                .AsNoTracking()
+                .Where(p => p.PostId == request.PostId)
+                .Select(p => new PostDto
+                {
                    AppUserId = p.AppUserId,
                    PostId = p.PostId,
                    Description = p.Description,
@@ -36,9 +37,9 @@ namespace Social.Application.Features.Posts.GetPostById
                    CommentsCount = p.CommentsCount,
                    IsLikedByCurrentUser = p.Likes.Any(l => l.AppUserId == request.AuthUserId),
                    IsAuthorized = p.AppUserId == request.AuthUserId || isModerator
-               })
-               .FirstOrDefaultAsync(cancellationToken)
-               ?? throw new NotFoundException("Post not found");
+                })
+                .FirstOrDefaultAsync(cancellationToken)
+                ?? throw new NotFoundException("Post not found");
 
             return  new GetPostByIdResponse { Post = post };
         }

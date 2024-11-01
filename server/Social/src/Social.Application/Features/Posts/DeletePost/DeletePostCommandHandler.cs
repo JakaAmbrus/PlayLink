@@ -20,10 +20,10 @@ namespace Social.Application.Features.Posts.DeletePost
 
         public async Task<DeletePostResponse> Handle(DeletePostCommand request, CancellationToken cancellationToken)
         {
-            var authUser = await _context.Users.FindAsync(new object[] { request.AuthUserId }, cancellationToken)
+            var authUser = await _context.Users.FindAsync(request.AuthUserId)
                 ?? throw new NotFoundException("Authorized user not found");
 
-            var selectedPost = await _context.Posts.FindAsync(new object[] { request.PostId }, cancellationToken)
+            var selectedPost = await _context.Posts.FindAsync(request.PostId)
                 ?? throw new NotFoundException("Post was not found");
 
             bool isPostOwner = selectedPost.AppUserId == request.AuthUserId;

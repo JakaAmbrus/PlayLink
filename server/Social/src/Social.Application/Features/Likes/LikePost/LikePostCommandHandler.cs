@@ -17,7 +17,7 @@ public class LikePostCommandHandler : IRequestHandler<LikePostCommand, LikePostR
     public async Task<LikePostResponse> Handle(LikePostCommand request, CancellationToken cancellationToken)
     {
 
-        var post = await _context.Posts.FindAsync(new object[] { request.PostId }, cancellationToken)
+        var post = await _context.Posts.FindAsync(request.PostId)
             ?? throw new NotFoundException("Post not found");
 
         var existingLike = await _context.Likes
@@ -25,7 +25,7 @@ public class LikePostCommandHandler : IRequestHandler<LikePostCommand, LikePostR
 
         if (existingLike)
         {
-            throw new BadRequestException("You have already liked this post");
+            return new LikePostResponse { Liked = true };
         }
 
         var like = new Like

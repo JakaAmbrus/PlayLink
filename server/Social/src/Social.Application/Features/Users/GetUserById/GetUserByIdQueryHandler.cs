@@ -17,8 +17,8 @@ namespace Social.Application.Features.Users.GetUserById
 
         public async Task<GetUserByIdResponse> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
-            var user = await _context.Users.FindAsync(new object[] { request.Id }, cancellationToken)
-                ?? throw new NotFoundException($"User with the id {request.Id} not found.");
+            var user = await _context.Users.FindAsync(request.Id)
+                ?? throw new NotFoundException($"User not found.");
 
             var userDto = new UsersDto
             {

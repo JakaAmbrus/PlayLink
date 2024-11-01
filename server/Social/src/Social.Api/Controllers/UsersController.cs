@@ -128,23 +128,6 @@ namespace Social.Api.Controllers
             var response = await Mediator.Send(request, cancellationToken);
             return Ok(response);
         }
-
-        /// <summary>
-        /// Deletes a user from the Database, but a guest user is restricted.
-        /// </summary>
-        /// <returns>Confirmation of deletion.</returns>
-        [HttpDelete("delete")]
-        public async Task<IActionResult> DeleteUser(CancellationToken cancellationToken)
-        {
-            var request = new DeleteUserCommand
-            {
-                AuthUserId = AuthService.GetSocialId(),
-                AuthUserRoles = AuthService.GetUserRoles()
-            };
-
-            var response = await Mediator.Send(request, cancellationToken);
-            return Ok(response);
-        }
     }
 }
 

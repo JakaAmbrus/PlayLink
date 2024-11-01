@@ -17,7 +17,7 @@ namespace Social.Application.Features.Likes.LikeComment
 
         public async Task<LikeCommentResponse> Handle(LikeCommentCommand request, CancellationToken cancellationToken)
         {
-            var comment = await _context.Comments.FindAsync(new object[] { request.CommentId }, cancellationToken) 
+            var comment = await _context.Comments.FindAsync(request.CommentId) 
                 ?? throw new NotFoundException("Comment not found");
 
             var existingLike = await _context.Likes
@@ -25,7 +25,7 @@ namespace Social.Application.Features.Likes.LikeComment
 
             if (existingLike)
             {
-                throw new BadRequestException("You have already liked this comment");
+                return new LikeCommentResponse { Liked = true };
             }
 
             var like = new Like

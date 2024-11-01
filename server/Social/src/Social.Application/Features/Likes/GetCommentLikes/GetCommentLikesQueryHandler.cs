@@ -17,7 +17,7 @@ namespace Social.Application.Features.Likes.GetCommentLikes
 
         public async Task<GetCommentLikesResponse> Handle(GetCommentLikesQuery request, CancellationToken cancellationToken)
         {
-            var comment = await _context.Comments.FindAsync(new object[] { request.CommentId }, cancellationToken)
+            var comment = await _context.Comments.FindAsync(request.CommentId)
                 ?? throw new NotFoundException("Comment not found");
 
             var likes = await _context.Likes

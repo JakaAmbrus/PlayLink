@@ -16,7 +16,7 @@ namespace Social.Application.Features.Messages.DeleteMessage
         public async Task<DeleteMessageResponse> Handle(DeleteMessageCommand request, CancellationToken cancellationToken)
         {
             var message = await _context.PrivateMessages
-                .FindAsync(new object[] { request.PrivateMessageId }, cancellationToken)
+                .FindAsync(request.PrivateMessageId)
                 ?? throw new NotFoundException("Message not found");
 
             if (message.SenderId != request.AuthUserId && message.RecipientId != request.AuthUserId)

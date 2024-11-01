@@ -19,7 +19,7 @@ namespace Social.Application.Features.Users.EditUserDetails
 
         public async Task<EditUserDetailsResult> Handle(EditUserDetailsCommand request, CancellationToken cancellationToken)
         {
-            var authUser = await _context.Users.FindAsync(new object[] { request.AuthUserId }, cancellationToken)
+            var authUser = await _context.Users.FindAsync(request.AuthUserId)
                 ?? throw new NotFoundException("Authorized user was not found");
 
             bool isUserOwner = authUser.Username == request.EditUserDto.Username;
@@ -28,8 +28,7 @@ namespace Social.Application.Features.Users.EditUserDetails
             {
                 throw new UnauthorizedException("User not authorized to edit profile");
             }
-
-            //Add Photo to user and store it in cloudinary
+            
             if (request.EditUserDto.PhotoFile != null && request.EditUserDto.PhotoFile.Length > 0)
             {
                 if (!string.IsNullOrEmpty(authUser.ProfilePicturePublicId))

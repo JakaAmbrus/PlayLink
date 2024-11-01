@@ -6,6 +6,7 @@ package social;
 
 service UserRegistration {
   rpc RegisterUser (RegisterUserRequest) returns (RegisterUserResponse);
+  rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse);
 }
 
 message RegisterUserRequest {
@@ -21,4 +22,12 @@ message RegisterUserResponse {
   string error_message = 2;
   string error_code = 3;
   int32 social_id = 4;
+}
+
+message DeleteUserRequest {
+  int32 social_id = 1;
+}
+
+message DeleteUserResponse {
+  bool success = 1;
 }

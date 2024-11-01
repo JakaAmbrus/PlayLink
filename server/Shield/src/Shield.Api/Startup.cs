@@ -82,7 +82,6 @@ public class Startup
         {
             options.Address = new Uri(settings.SocialUrl);
         });
-
         services.AddScoped<ISocialClientService, SocialClientService>();
         
         // CORS setup

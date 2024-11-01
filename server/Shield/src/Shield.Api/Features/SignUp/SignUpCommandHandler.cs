@@ -1,7 +1,7 @@
 ﻿using MediatR;
-using Microsoft.IdentityModel.Tokens;
 using Shared.Core.Enums;
 using Shield.Api.Common.Abstractions;
+using Shield.Api.Common.Exceptions;
 
 namespace Shield.Api.Features.SignUp;
 
@@ -20,30 +20,46 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, SignUpRespons
 
     public async Task<SignUpResponse> Handle(SignUpCommand request, CancellationToken cancellationToken)
     {
-        // var userId = await _identityService.SignUpMemberAsync(request.Username, request.Password);
+        string userId = null;
+        int socialId = 0;
 
-        var socialResponse = await _socialClientService
-            .RegisterUserAsync(
+        try
+        {
+            userId = await _identityService.SignUpMemberAsync(request.Username, request.Password);
+            
+            var socialResponse = await _socialClientService.RegisterUserAsync(
                 request.Username, 
                 request.Gender,
                 request.FullName, 
                 request.Country, 
                 request.DateOfBirth);
 
-        int socialId = socialResponse.SocialId;
-        
-        if (!socialResponse.ErrorMessage.IsNullOrEmpty() || socialId == 0)
-        {
-            // ERROR
-        }
-        
-        // await _firebaseDbContext.AddUserAsync(userId, request.Username, socialId);
-        
-        // await _identityService.SetUserClaimsAsync(userId , request.Username, socialId, [Role.Member.ToString()]);
-        
-        // RabbitMq notifies store to make a coupon for the new member 20% discount
-        // Todo: also do not forget to implement rollback if any of these fails
+            if (!string.IsNullOrEmpty(socialResponse.ErrorMessage) || socialResponse.SocialId == 0)
+            {
+                throw new ServerErrorException("Social registration failed");
+            }
+            socialId = socialResponse.SocialId;
+            
+            await _firebaseDbContext.AddUserAsync(userId, request.Username, socialId);
+            
+            await _identityService.SetUserClaimsAsync(userId, request.Username, socialId, [Role.Member.ToString()]);
 
-        return new SignUpResponse();
+            // Todo: rabbitmq message for discount on store service
+        }
+        catch (Exception)
+        {
+            if (userId != null)
+            {
+                await _identityService.DeleteUserAsync(userId);
+            }
+            if (socialId != 0)
+            {
+                await _socialClientService.DeleteUserAsync(socialId);
+            }
+
+            throw;
+        }
+
+        return new SignUpResponse { };
     }
 }

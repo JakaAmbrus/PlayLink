@@ -1,6 +1,7 @@
 ﻿using Grpc.Core;
 using Shared.Grpc;
 using Shield.Api.Common.Abstractions;
+using Shield.Api.Common.Exceptions;
 
 namespace Shield.Api.Infrastructure.GrpcSocial;
 
@@ -28,11 +29,26 @@ public class SocialClientService : ISocialClientService
 
             return await _client.RegisterUserAsync(request);
         }
-        catch (RpcException ex)
+        catch (RpcException)
         {
-            // Handle gRPC exceptions, log errors, or rethrow as necessary
-            Console.WriteLine($"Error calling RegisterUser: {ex.Status.Detail}");
-            throw;
+            throw new ServerErrorException("Error occured while registering user");
+        }
+    }
+    
+    public async Task<DeleteUserResponse> DeleteUserAsync(int socialId)
+    {
+        try
+        {
+            var request = new DeleteUserRequest
+            {
+                SocialId = socialId,
+            };
+
+            return await _client.DeleteUserAsync(request);
+        }
+        catch (RpcException)
+        {
+            throw new ServerErrorException("Error occured while registering user");
         }
     }
 }

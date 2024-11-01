@@ -2,6 +2,7 @@
 using MediatR;
 using Shared.Grpc;
 using Social.Application.Features.Authentication.UserRegistration;
+using Social.Application.Features.Users.DeleteUserById;
 using Social.Domain.Exceptions;
 
 namespace Social.Api.Grpc;
@@ -61,6 +62,31 @@ public class UserRegistrationService : UserRegistration.UserRegistrationBase
                 ErrorMessage = "An unexpected error occurred.",
                 ErrorCode = "500",
                 SocialId = 0,
+            };
+        }
+    }
+
+    public override async Task<DeleteUserResponse> DeleteUser(DeleteUserRequest request, ServerCallContext context)
+    {
+        try
+        {
+            var command = new DeleteUserByIdCommand
+            {
+                UserId = request.SocialId
+            };
+
+            await _mediator.Send(command);
+
+            return new DeleteUserResponse
+            {
+                Success = true
+            };
+        }
+        catch (Exception)
+        {
+            return new DeleteUserResponse
+            {
+                Success = false,
             };
         }
     }

@@ -7,7 +7,6 @@ using Social.Api.Filters;
 namespace Social.Api.Controllers
 {
     [ServiceFilter(typeof(LogUserActivity))]
-    [Authorize(Policy = "RequireMemberRole")]
     [Route("api/[controller]")]
     [ApiController]
     public abstract class BaseController : ControllerBase

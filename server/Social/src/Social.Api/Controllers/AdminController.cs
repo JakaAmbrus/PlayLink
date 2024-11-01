@@ -1,17 +1,15 @@
-﻿using Social.Application.Features.Admin.AdminEditRoles;
+﻿using Microsoft.AspNetCore.Mvc;
+using Social.Api.Extensions;
+using Social.Application.Features.Admin.AdminEditRoles;
 using Social.Application.Features.Admin.AdminGetUsers;
 using Social.Application.Features.Admin.AdminUserDelete;
 using Social.Application.Utils;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Social.Api.Extensions;
 
 namespace Social.Api.Controllers
 {
     /// <summary>
     /// Manages administrator actions
     /// </summary>
-    [Authorize(Policy = "RequireAdminRole")]
     public class AdminController : BaseController
     {
         /// <summary>

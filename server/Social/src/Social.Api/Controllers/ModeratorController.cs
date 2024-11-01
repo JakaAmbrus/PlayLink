@@ -1,15 +1,12 @@
-﻿using Social.Application.Features.Moderator.DeleteUserDescription;
+﻿using Microsoft.AspNetCore.Mvc;
+using Social.Application.Features.Moderator.DeleteUserDescription;
 using Social.Application.Features.Moderator.DeleteUserPhoto;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Social.Api.Controllers
 {
     /// <summary>
     /// Manages Moderator functions
     /// </summary>
-    [Authorize(Policy = "RequireModeratorRole")] 
-    
     public class ModeratorController : BaseController
     {
         /// <summary>

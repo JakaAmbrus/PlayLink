@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option csharp_namespace = "Shared.Grpc";
+
+package social;
+
+service UserRegistration {
+  rpc RegisterUser (RegisterUserRequest) returns (RegisterUserResponse);
+}
+
+message RegisterUserRequest {
+  string username = 1;
+  string gender = 2;
+  string fullname = 3;
+  string country = 4;
+  string date_of_birth = 5;
+}
+
+message RegisterUserResponse {
+  bool success = 1;
+  string error_message = 2;
+  string error_code = 3;
+  int32 social_id = 4;
+}

@@ -2,6 +2,8 @@
 
 public class Settings
 {
+    public string[] AllowedOrigins { get; set; }
+    public string SocialUrl { get; set; }
     public FirebaseOptions Firebase { get; set; }
 }
 

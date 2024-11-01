@@ -30,12 +30,12 @@ namespace Social.UnitTests.Features.Authentication
 
         private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new User { Id = 1, UserName = "testone" });
-            context.Users.Add(new User { Id = 2, UserName = "testtwo" });
-            context.Users.Add(new User { Id = 3, UserName = "testthree" });
-            context.Users.Add(new User { Id = 4, UserName = "modone" });
-            context.Users.Add(new User { Id = 5, UserName = "modtwo" });
-            context.Users.Add(new User { Id = 6, UserName = "modthree" });
+            context.Users.Add(new User { Id = 1, Username = "testone" });
+            context.Users.Add(new User { Id = 2, Username = "testtwo" });
+            context.Users.Add(new User { Id = 3, Username = "testthree" });
+            context.Users.Add(new User { Id = 4, Username = "modone" });
+            context.Users.Add(new User { Id = 5, Username = "modtwo" });
+            context.Users.Add(new User { Id = 6, Username = "modthree" });
 
             context.SaveChangesAsync(CancellationToken.None).Wait();
         }

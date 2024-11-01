@@ -34,7 +34,7 @@ namespace Social.UnitTests.Features.Admin
             context.Users.Add(new User
             {
                 Id = 1,
-                UserName = "AdminTestUser",
+                Username = "AdminTestUser",
                 UserRoles = new List<AppUserRole>
                 {
                     new AppUserRole
@@ -46,7 +46,7 @@ namespace Social.UnitTests.Features.Admin
                     }
                 },
             });
-            context.Users.Add(new User { Id = 2, UserName = "Tester" });
+            context.Users.Add(new User { Id = 2, Username = "Tester" });
 
             context.Connections.Add(new Connection { ConnectionId = "1", Username = "Tester" });
 

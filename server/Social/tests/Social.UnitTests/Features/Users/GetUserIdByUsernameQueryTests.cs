@@ -30,7 +30,7 @@ namespace Social.UnitTests.Features.Users
             context.Users.Add(new User
             {
                 Id = 1,
-                UserName = "tester",
+                Username = "tester",
             });
 
             context.SaveChangesAsync(CancellationToken.None).Wait();

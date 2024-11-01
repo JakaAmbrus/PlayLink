@@ -29,8 +29,8 @@ namespace Social.UnitTests.Features.Admin
 
         private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new User { Id = 1, UserName = "FakeTestUser" });
-            context.Users.Add(new User { Id = 2, UserName = "FakeTestUser2" });
+            context.Users.Add(new User { Id = 1, Username = "FakeTestUser" });
+            context.Users.Add(new User { Id = 2, Username = "FakeTestUser2" });
 
             context.SaveChangesAsync(CancellationToken.None).Wait();
         }

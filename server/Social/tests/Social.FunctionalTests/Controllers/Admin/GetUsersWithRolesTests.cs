@@ -17,7 +17,7 @@ namespace Social.FunctionalTests.Controllers.Admin
                 .Select(i => new User
                 {
                     Id = i,
-                    UserName = $"{i}",
+                    Username = $"{i}",
                 }).ToList();
             Context.Users.AddRange(members);
 
@@ -82,7 +82,7 @@ namespace Social.FunctionalTests.Controllers.Admin
                 .Select(i => new User
                 {
                     Id = i,
-                    UserName = $"{i}",
+                    Username = $"{i}",
                 }).ToList();
             Context.Users.AddRange(users);
             await Context.SaveChangesAsync(CancellationToken.None);
@@ -133,7 +133,7 @@ namespace Social.FunctionalTests.Controllers.Admin
             var moderator = new User
             {
                 Id = 100,
-                UserName = "moderator",
+                Username = "moderator",
             };
             await UserManager.CreateAsync(moderator, "Password123");
             var createdUser = await UserManager.FindByIdAsync(moderator.Id.ToString());

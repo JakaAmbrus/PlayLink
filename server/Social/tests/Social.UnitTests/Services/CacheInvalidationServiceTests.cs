@@ -22,24 +22,24 @@ namespace Social.UnitTests.Services
         public void InvalidateUserCache_ShouldInvalidateCorrectCacheKey_WhenCalled()
         {
             // Arrange
-            string username = "Tester";
+            string Username = "Tester";
 
             // Act
-            _cacheInvalidationService.InvalidateUserCache(username);
+            _cacheInvalidationService.InvalidateUserCache(Username);
 
             // Assert
-            _memoryCache.Received(1).Remove($"Users:GetUserByUsername-{username}");
+            _memoryCache.Received(1).Remove($"Users:GetUserByUsername-{Username}");
         }
 
         [Fact]
         public void InvalidateUserCache_ShouldThrowServerErrorException_WhenThereIsAnError()
         {
             // Arrange
-            string username = "Tester";
+            string Username = "Tester";
             _memoryCache.When(x => x.Remove(Arg.Any<string>())).Do(x => { throw new Exception(); });
 
             // Act
-            var action = () => _cacheInvalidationService.InvalidateUserCache(username);
+            var action = () => _cacheInvalidationService.InvalidateUserCache(Username);
 
             // Assert
             action.Should().Throw<ServerErrorException>()
@@ -126,24 +126,24 @@ namespace Social.UnitTests.Services
         public void InvalidateUserPhotosCache_ShouldInvalidateCorrectCacheKey_WhenCalled()
         {
             // Arrange
-            string username = "Tester";
+            string Username = "Tester";
 
             // Act
-            _cacheInvalidationService.InvalidateUserPhotosCache(username);
+            _cacheInvalidationService.InvalidateUserPhotosCache(Username);
 
             // Assert
-            _memoryCache.Received(1).Remove($"Photos:GetUserPhotos-{username}");
+            _memoryCache.Received(1).Remove($"Photos:GetUserPhotos-{Username}");
         }
 
         [Fact]
         public void InvalidateUserPhotosCache_ShouldThrowServerErrorException_WhenThereIsAnError()
         {
             // Arrange
-            string username = "Tester";
+            string Username = "Tester";
             _memoryCache.When(x => x.Remove(Arg.Any<string>())).Do(x => { throw new Exception(); });
 
             // Act
-            var action = () => _cacheInvalidationService.InvalidateUserPhotosCache(username);
+            var action = () => _cacheInvalidationService.InvalidateUserPhotosCache(Username);
 
             // Assert
             action.Should().Throw<ServerErrorException>()

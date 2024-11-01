@@ -12,8 +12,8 @@ namespace Social.FunctionalTests.Controllers.Moderator
 
         private async Task InitializeTestSeedDataAsync()
         {
-            Context.Users.Add(new User { Id = 2, UserName = "Description", Description = "Test Description" });
-            Context.Users.Add(new User { Id = 3, UserName = "NoDescription" });
+            Context.Users.Add(new User { Id = 2, Username = "Description", Description = "Test Description" });
+            Context.Users.Add(new User { Id = 3, Username = "NoDescription" });
 
             await Context.SaveChangesAsync();
         }

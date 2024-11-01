@@ -28,7 +28,7 @@ namespace Social.UnitTests.Features.Users
 
         private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new User { Id = 1, UserName = "tester" });
+            context.Users.Add(new User { Id = 1, Username = "tester" });
 
             context.SaveChangesAsync(CancellationToken.None).Wait();
         }

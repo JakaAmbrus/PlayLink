@@ -31,12 +31,12 @@ namespace Social.UnitTests.Features.Admin
 
         private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new User { Id = 50, UserName = "AdminTestUser" });
+            context.Users.Add(new User { Id = 50, Username = "AdminTestUser" });
             var users = Enumerable.Range(1, 15)
                 .Select(i => new User
                 {
                     Id = i,
-                    UserName = $"{i}"
+                    Username = $"{i}"
                 }).ToList();
             context.Users.AddRange(users);
 
@@ -112,7 +112,7 @@ namespace Social.UnitTests.Features.Admin
         {
             // Arrange
             _context.Users.RemoveRange(_context.Users);
-            _context.Users.Add(new User { Id = 50, UserName = "AdminTestUser" });
+            _context.Users.Add(new User { Id = 50, Username = "AdminTestUser" });
             _context.SaveChangesAsync(CancellationToken.None).Wait();
 
             _userManager.IsInRoleAsync(Arg.Any<User>(), "Admin").Returns(Task.FromResult(true));

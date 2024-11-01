@@ -33,19 +33,19 @@ namespace Social.UnitTests.Features.Users
             context.Users.Add(new User
             {
                 Id = 1,
-                UserName = "tester",
+                Username = "tester",
                 DateOfBirth = new DateTime(1999, 5, 16)
             });
             context.Users.Add(new User
             {
                 Id = 2,
-                UserName = "tester2",
+                Username = "tester2",
                 DateOfBirth = new DateTime(2002, 5, 16)
             });
             context.Users.Add(new User
             {
                 Id = 3,
-                UserName = "tester3",
+                Username = "tester3",
                 DateOfBirth = new DateTime(1990, 5, 16)
             });
 
@@ -152,7 +152,7 @@ namespace Social.UnitTests.Features.Users
                 .Select(i => new User
                 {
                     Id = i,
-                    UserName = $"tester{i}",
+                    Username = $"tester{i}",
                     DateOfBirth = new DateTime(1999, 5, 16)
                 }).ToList();
             _context.Users.AddRange(users);

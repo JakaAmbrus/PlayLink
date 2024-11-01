@@ -12,8 +12,8 @@ namespace Social.FunctionalTests.Controllers.Admin
 
         private async Task InitializeTestSeedDataAsync()
         {
-            Context.Users.Add(new User { Id = 2, UserName = "testertwo" });
-            Context.Users.Add(new User { Id = 3, UserName = "testerthree" });
+            Context.Users.Add(new User { Id = 2, Username = "testertwo" });
+            Context.Users.Add(new User { Id = 3, Username = "testerthree" });
 
             var group = new Group("SampleGroup");
             group.Connections.Add(new Connection { ConnectionId = "2", Username = "testertwo" });

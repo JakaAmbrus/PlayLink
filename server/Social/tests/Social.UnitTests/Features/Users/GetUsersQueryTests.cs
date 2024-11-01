@@ -31,7 +31,7 @@ namespace Social.UnitTests.Features.Users
             var elderMaleUsersUSA = Enumerable.Range(1, 10).Select(i => new User
             {
                 Id = i,
-                UserName = $"tester{i}",
+                Username = $"tester{i}",
                 FullName = $"tester {i}",
                 DateOfBirth = new DateTime(1950, 5, 16),
                 Country = "USA",
@@ -42,7 +42,7 @@ namespace Social.UnitTests.Features.Users
             var youngFemaleUsersUK = Enumerable.Range(11, 10).Select(i => new User
             {
                 Id = i,
-                UserName = $"tester{i}",
+                Username = $"tester{i}",
                 FullName = $"tester {i}",
                 DateOfBirth = new DateTime(2005, 5, 16),
                 Country = "UK",

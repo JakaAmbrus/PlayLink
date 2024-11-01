@@ -13,7 +13,7 @@ namespace Social.FunctionalTests.Controllers.Messages
 
         private async Task InitializeTestSeedDataAsync()
         {
-            Context.Users.Add(new User { Id = 2, UserName = "testtwo" });
+            Context.Users.Add(new User { Id = 2, Username = "testtwo" });
 
             Context.PrivateMessages.Add(new PrivateMessage
             {

@@ -11,8 +11,8 @@ namespace Social.FunctionalTests.Controllers.Admin
 
         private async Task InitializeTestSeedDataAsync()
         {
-            var member = new User { Id = 2, UserName = "member" };
-            var moderator = new User { Id = 3, UserName = "moderator" };
+            var member = new User { Id = 2, Username = "member" };
+            var moderator = new User { Id = 3, Username = "moderator" };
 
             await UserManager.CreateAsync(member, "Password123");
             await UserManager.CreateAsync(moderator, "Password123");

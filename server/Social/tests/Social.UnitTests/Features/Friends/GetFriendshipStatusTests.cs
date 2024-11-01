@@ -38,7 +38,7 @@ namespace Social.UnitTests.Features.Friends
                 .Select(i => new User
                 {
                     Id = i,
-                    UserName = $"{i}",
+                    Username = $"{i}",
                     FullName = $"{i} Tester",
                 }).ToList();
             context.Users.AddRange(users);
@@ -67,10 +67,10 @@ namespace Social.UnitTests.Features.Friends
         [InlineData(2, "3", FriendshipStatus.Declined)] 
         [InlineData(3, "4", FriendshipStatus.None)]    
         public async Task GetFriendshipStatus_ShouldReturnCorrectFriendshipStatus_WhenThereIsNoCache(
-            int Id, string username, FriendshipStatus expectedStatus)
+            int Id, string Username, FriendshipStatus expectedStatus)
         {
             // Arrange
-            var request = new GetFriendshipStatusQuery { AuthUserId = Id, ProfileUsername = username };
+            var request = new GetFriendshipStatusQuery { AuthUserId = Id, ProfileUsername = Username };
 
             // Act
             var response = await _mediator.Send(request, CancellationToken.None);

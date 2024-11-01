@@ -11,7 +11,7 @@ namespace Social.FunctionalTests.Controllers.Posts
 
         private async Task InitializeTestSeedDataAsync()
         {
-            Context.Users.Add(new User { Id = 2, UserName = "tester" });
+            Context.Users.Add(new User { Id = 2, Username = "tester" });
 
             Context.Posts.Add(new Post { PostId = 1, AppUserId = 1, CommentsCount = 1 });
             Context.Posts.Add(new Post { PostId = 2, AppUserId = 2, CommentsCount = 0 });

@@ -32,7 +32,7 @@ namespace Social.UnitTests.Features.Likes
                 .Select(i => new User 
                 { 
                     Id = i,
-                    UserName = $"{i}",
+                    Username = $"{i}",
                     FullName = $"{i} Tester",
                 }).ToList();
             context.Users.AddRange(users);

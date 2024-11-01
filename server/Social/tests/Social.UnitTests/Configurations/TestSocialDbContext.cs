@@ -1,16 +1,12 @@
-﻿using Social.Application.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+using Social.Application.Interfaces;
 using Social.Domain.Entities;
 using Social.Infrastructure.Data.Configurations;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Social.UnitTests.Configurations
 {
-    public class TestSocialDbContext :
-        IdentityDbContext<User, AppRole, int, IdentityUserClaim<int>, AppUserRole, 
-        IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>, 
+    public class TestSocialDbContext : DbContext, 
         ISocialDbContext
     {
         public TestSocialDbContext(DbContextOptions options) : base(options) { }
@@ -46,9 +42,6 @@ namespace Social.UnitTests.Configurations
 
             //User
             builder.ApplyConfiguration(new UserConfiguration());
-
-            //AppUserRole
-            builder.ApplyConfiguration(new AppRoleConfiguration());
 
             //Posts
             builder.ApplyConfiguration(new PostConfiguration());

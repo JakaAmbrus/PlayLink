@@ -32,7 +32,7 @@ namespace Social.UnitTests.Features.Authentication
 
         private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new User { Id = 1, UserName = "tester" });
+            context.Users.Add(new User { Id = 1, Username = "tester" });
 
             context.SaveChangesAsync(CancellationToken.None).Wait();
         }
@@ -41,7 +41,7 @@ namespace Social.UnitTests.Features.Authentication
         public async Task UserLogin_ShouldReturnMemberUserDTO_WhenInputsAreValid()
         {
             // Arrange
-            _userManager.FindByUsernameAsync(Arg.Any<string>()).Returns(Task.FromResult(new User() { UserName = "tester"}));
+            _userManager.FindByUsernameAsync(Arg.Any<string>()).Returns(Task.FromResult(new User() { Username = "tester"}));
             _userManager.CheckPasswordAsync(Arg.Any<User>(), Arg.Any<string>()).Returns(Task.FromResult(true));
             _tokenService.CreateToken(Arg.Any<User>()).Returns("token");
 
@@ -66,7 +66,7 @@ namespace Social.UnitTests.Features.Authentication
         public async Task UserLogin_ShouldThrowUnauthorizedException_WhenPasswordIsInvalid()
         {
             // Arrange
-            _userManager.FindByUsernameAsync(Arg.Any<string>()).Returns(Task.FromResult(new User() { UserName = "tester" }));
+            _userManager.FindByUsernameAsync(Arg.Any<string>()).Returns(Task.FromResult(new User() { Username = "tester" }));
             _userManager.CheckPasswordAsync(Arg.Any<User>(), Arg.Any<string>()).Returns(Task.FromResult(false));
 
             var request = new UserLoginCommand

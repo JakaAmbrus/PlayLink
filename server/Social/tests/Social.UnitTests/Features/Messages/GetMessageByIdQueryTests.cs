@@ -30,12 +30,12 @@ namespace Social.UnitTests.Features.Messages
             context.Users.Add(new User 
             { 
                 Id = 1,
-                UserName = "tester",
+                Username = "tester",
                 FullName = "Test Tester",
                 Gender = "male",
                 ProfilePictureUrl = "https://Coudinary.com",
             });
-            context.Users.Add(new User { Id = 2, UserName = "tester2" });
+            context.Users.Add(new User { Id = 2, Username = "tester2" });
 
             context.PrivateMessages.Add(new PrivateMessage
             {

@@ -29,8 +29,8 @@ namespace Social.UnitTests.Features.Posts
 
         private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new User { Id = 1, UserName = "Tester1" });
-            context.Users.Add(new User { Id = 2, UserName = "Tester2" });
+            context.Users.Add(new User { Id = 1, Username = "Tester1" });
+            context.Users.Add(new User { Id = 2, Username = "Tester2" });
 
             var posts = Enumerable.Range(1, 10)
                 .Select(i => new Post

@@ -33,7 +33,7 @@ namespace Social.UnitTests.Features.Users
             var users = Enumerable.Range(1, 10).Select(i => new User
             {
                 Id = i,
-                UserName = $"tester{i}",
+                Username = $"tester{i}",
                 FullName = $"tester {i}",
             }).ToList();
             context.Users.AddRange(users);

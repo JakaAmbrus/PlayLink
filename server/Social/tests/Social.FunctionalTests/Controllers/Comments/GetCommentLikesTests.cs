@@ -24,7 +24,7 @@ namespace Social.FunctionalTests.Controllers.Comments
                 .Select(i => new User
                 {
                     Id = i,
-                    UserName = $"{i}",
+                    Username = $"{i}",
                     FullName = $"{i} Tester",
                 }).ToList();
             Context.Users.AddRange(users);

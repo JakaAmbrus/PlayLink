@@ -27,8 +27,8 @@ namespace Social.UnitTests.Features.Moderator
 
         private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new User { UserName = "Tester", Description = "Test description" });
-            context.Users.Add(new User { UserName = "NoDescription" });
+            context.Users.Add(new User { Username = "Tester", Description = "Test description" });
+            context.Users.Add(new User { Username = "NoDescription" });
             context.SaveChangesAsync(CancellationToken.None).Wait();
         }
 

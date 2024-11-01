@@ -12,7 +12,7 @@ namespace Social.FunctionalTests.Controllers.Posts
 
         private async Task InitializeTestSeedDataAsync()
         {
-            Context.Users.Add(new User { Id = 2, UserName = "tester" });
+            Context.Users.Add(new User { Id = 2, Username = "tester" });
 
             var postsWithoutPhotos = Enumerable.Range(1, 10)
                 .Select(i => new Post
@@ -52,8 +52,8 @@ namespace Social.FunctionalTests.Controllers.Posts
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
 
-            string username = "tester";
-            string url = $"/api/posts/user/{username}/photos";
+            string Username = "tester";
+            string url = $"/api/posts/user/{Username}/photos";
 
             // Act
             var response = await Client.GetAsync(url);
@@ -68,8 +68,8 @@ namespace Social.FunctionalTests.Controllers.Posts
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
 
-            string username = "authtester";
-            string url = $"/api/posts/user/{username}/photos";
+            string Username = "authtester";
+            string url = $"/api/posts/user/{Username}/photos";
 
             // Act
             var response = await Client.GetAsync(url);
@@ -85,8 +85,8 @@ namespace Social.FunctionalTests.Controllers.Posts
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
 
-            string username = "tester";
-            string url = $"/api/posts/user/{username}/photos";
+            string Username = "tester";
+            string url = $"/api/posts/user/{Username}/photos";
 
             // Act
             var response = await Client.GetAsync(url);
@@ -102,9 +102,9 @@ namespace Social.FunctionalTests.Controllers.Posts
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
 
-            string username = "authtester";
+            string Username = "authtester";
             string userPhoto = "https://CloudinaryTestPicture.com";
-            string url = $"/api/posts/user/{username}/photos";
+            string url = $"/api/posts/user/{Username}/photos";
 
             // Act
             var response = await Client.GetAsync(url);
@@ -121,9 +121,9 @@ namespace Social.FunctionalTests.Controllers.Posts
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
 
-            string username = "authtester";
+            string Username = "authtester";
             string userPhoto = "https://CloudinaryTestPicture.com";
-            string url = $"/api/posts/user/{username}/photos";
+            string url = $"/api/posts/user/{Username}/photos";
 
             // Act 
             var response1 = await Client.GetAsync(url);
@@ -149,8 +149,8 @@ namespace Social.FunctionalTests.Controllers.Posts
             // Arrange
             await InitializeTestAsync(new List<string> { });
 
-            string username = "tester";
-            string url = $"/api/posts/user/{username}/photos";
+            string Username = "tester";
+            string url = $"/api/posts/user/{Username}/photos";
 
             // Act
             var response = await Client.GetAsync(url);
@@ -165,8 +165,8 @@ namespace Social.FunctionalTests.Controllers.Posts
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
 
-            string username = "ImaginaryUser";
-            string url = $"/api/posts/user/{username}/photos";
+            string Username = "ImaginaryUser";
+            string url = $"/api/posts/user/{Username}/photos";
 
             // Act
             var response = await Client.GetAsync(url);
@@ -176,7 +176,7 @@ namespace Social.FunctionalTests.Controllers.Posts
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
             errorResponse.Should().NotBeNull();
             errorResponse.StatusCode.Should().Be(404);
-            errorResponse.Message.Should().Be("User with username ImaginaryUser does not exist");
+            errorResponse.Message.Should().Be("User with Username ImaginaryUser does not exist");
         }
     }
 }

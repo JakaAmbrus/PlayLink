@@ -30,8 +30,8 @@ namespace Social.UnitTests.Features.Posts
 
         private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new User { Id = 1, UserName = "Tester1", ProfilePictureUrl = "https://photo.com" });
-            context.Users.Add(new User { Id = 2, UserName = "Tester2" });
+            context.Users.Add(new User { Id = 1, Username = "Tester1", ProfilePictureUrl = "https://photo.com" });
+            context.Users.Add(new User { Id = 2, Username = "Tester2" });
 
             var posts = Enumerable.Range(1, 10)
                 .Select(i => new Post
@@ -103,7 +103,7 @@ namespace Social.UnitTests.Features.Posts
 
             // Assert
             await action.Should().ThrowAsync<NotFoundException>()
-                .WithMessage("User with username ImaginaryUser does not exist");
+                .WithMessage("User with Username ImaginaryUser does not exist");
         }
     }
 }

@@ -38,11 +38,11 @@ namespace Social.UnitTests.Features.Moderator
         {
             context.Users.Add(new User
             { 
-                UserName = "Tester",
+                Username = "Tester",
                 ProfilePictureUrl = "picture_url",
                 ProfilePicturePublicId = "picture_id" 
             });
-            context.Users.Add(new User { UserName = "NoProfilePicture" });
+            context.Users.Add(new User { Username = "NoProfilePicture" });
             context.SaveChangesAsync(CancellationToken.None).Wait();
         }
 

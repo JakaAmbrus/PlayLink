@@ -37,7 +37,7 @@ namespace Social.UnitTests.Features.Users
             context.Users.Add(new User 
             { 
                 Id = 1,
-                UserName = "tester",
+                Username = "tester",
                 Description = "test description",
                 Country = "Slovenia",
                 ProfilePictureUrl = "https://res.cloudinary.com",
@@ -46,7 +46,7 @@ namespace Social.UnitTests.Features.Users
             context.Users.Add(new User 
             { 
                 Id = 2,
-                UserName = "tester2",
+                Username = "tester2",
                 Description = "test description",
             });
 

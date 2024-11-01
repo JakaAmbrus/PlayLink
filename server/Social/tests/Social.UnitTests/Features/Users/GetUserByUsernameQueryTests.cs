@@ -34,7 +34,7 @@ namespace Social.UnitTests.Features.Users
             context.Users.Add(new User
             {
                 Id = 1,
-                UserName = "tester",
+                Username = "tester",
                 FullName = "Tester Test",
                 Gender = "male",
                 Country = "USA",
@@ -47,12 +47,12 @@ namespace Social.UnitTests.Features.Users
             context.Users.Add(new User
             {
                 Id = 2,
-                UserName = "tester2",
+                Username = "tester2",
             });
             context.Users.Add(new User
             {
                 Id = 3,
-                UserName = "tester3",
+                Username = "tester3",
             });
 
             context.SaveChangesAsync(CancellationToken.None).Wait();
@@ -157,7 +157,7 @@ namespace Social.UnitTests.Features.Users
 
             // Assert
             await action.Should().ThrowAsync<NotFoundException>()
-                .WithMessage("The user by the username: tester4 not found ");
+                .WithMessage("The user by the Username: tester4 not found ");
         }
     }
 }

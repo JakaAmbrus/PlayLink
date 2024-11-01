@@ -12,7 +12,7 @@ namespace Social.FunctionalTests.Controllers.Messages
 
         private async Task InitializeTestSeedDataAsync()
         {
-            Context.Users.Add(new User { Id = 2, UserName = "testtwo" });
+            Context.Users.Add(new User { Id = 2, Username = "testtwo" });
 
             Context.PrivateMessages.Add(new PrivateMessage
             {
@@ -168,8 +168,8 @@ namespace Social.FunctionalTests.Controllers.Messages
         {
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
-            Context.Users.Add(new User { Id = 3, UserName = "testthree" });
-            Context.Users.Add(new User { Id = 4, UserName = "testfour" });
+            Context.Users.Add(new User { Id = 3, Username = "testthree" });
+            Context.Users.Add(new User { Id = 4, Username = "testfour" });
             Context.Add(new PrivateMessage
             {
                 PrivateMessageId = 2,

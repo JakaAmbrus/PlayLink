@@ -28,9 +28,9 @@ namespace Social.UnitTests.Features.Messages
 
         private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new User { Id = 1, UserName = "tester" });
-            context.Users.Add(new User { Id = 2, UserName = "tester2" });
-            context.Users.Add(new User { Id = 3, UserName = "tester3" });
+            context.Users.Add(new User { Id = 1, Username = "tester" });
+            context.Users.Add(new User { Id = 2, Username = "tester2" });
+            context.Users.Add(new User { Id = 3, Username = "tester3" });
 
             var sentUnreadMessages = Enumerable.Range(1, 3)
                 .Select(i => new PrivateMessage

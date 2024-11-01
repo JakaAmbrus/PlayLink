@@ -39,7 +39,7 @@ namespace Social.UnitTests.Services
         public async Task CreateToken_ShouldReturnValidToken_WhenUserIsValid()
         {
             // Arrange
-            var user = new User { Id = 1, UserName = "TestUser" };
+            var user = new User { Id = 1, Username = "TestUser" };
             _userManagerMock.GetRolesAsync(user).Returns(Task.FromResult<IList<string>>(new List<string> { "Role1", "Role2" }));
 
             // Act
@@ -54,7 +54,7 @@ namespace Social.UnitTests.Services
             var token = tokenHandler.ReadToken(result) as JwtSecurityToken;
 
             token.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value.Should().Be(user.Id.ToString());
-            token.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.UniqueName)?.Value.Should().Be(user.UserName);
+            token.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.UniqueName)?.Value.Should().Be(user.Username);
             token.ValidTo.Should().BeCloseTo(DateTime.UtcNow.AddDays(7), TimeSpan.FromSeconds(30));
             token.SignatureAlgorithm.Should().Be("HS512");
 

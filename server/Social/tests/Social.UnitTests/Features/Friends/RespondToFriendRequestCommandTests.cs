@@ -35,7 +35,7 @@ namespace Social.UnitTests.Features.Friends
                 .Select(i => new User
                 {
                     Id = i,
-                    UserName = $"{i}"
+                    Username = $"{i}"
                 }).ToList();
             context.Users.AddRange(users);
 

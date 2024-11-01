@@ -33,7 +33,7 @@ namespace Social.Infrastructure.Data.Migrations
                     FullName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Gender = table.Column<string>(type: "character varying(6)", maxLength: 6, nullable: false),
                     Country = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DateOfBirth = table.Column<DateOnly>(type: "date", nullable: false),
                     Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     LastActive = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ProfilePictureUrl = table.Column<string>(type: "text", nullable: true),

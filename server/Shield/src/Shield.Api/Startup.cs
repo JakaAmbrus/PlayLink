@@ -101,8 +101,6 @@ public class Startup
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         app.UseMiddleware<ExceptionMiddleware>();
-        
-        app.UseCors("RestrictedCorsPolicy");
 
         if (env.IsDevelopment())
         {
@@ -111,6 +109,8 @@ public class Startup
         }
         
         app.UseRouting();
+        
+        app.UseCors("RestrictedCorsPolicy");
         
         app.UseAuthentication();
         app.UseAuthorization();

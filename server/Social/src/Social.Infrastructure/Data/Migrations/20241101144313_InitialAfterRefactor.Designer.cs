@@ -12,7 +12,7 @@ using Social.Infrastructure.Data;
 namespace Social.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241101091129_InitialAfterRefactor")]
+    [Migration("20241101144313_InitialAfterRefactor")]
     partial class InitialAfterRefactor
     {
         /// <inheritdoc />
@@ -268,8 +268,8 @@ namespace Social.Infrastructure.Data.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("DateOfBirth")
+                        .HasColumnType("date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(200)

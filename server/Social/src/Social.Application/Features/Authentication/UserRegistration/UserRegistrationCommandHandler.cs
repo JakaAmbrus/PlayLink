@@ -34,7 +34,7 @@ namespace Social.Application.Features.Authentication.UserRegistration
                 Gender = request.Gender,
                 FullName = FormatPropertiesToTitleCase(request.FullName),
                 Country = FormatPropertiesToTitleCase(request.Country),
-                DateOfBirth = DateTime.SpecifyKind(request.DateOfBirth.ToDateTime(TimeOnly.MinValue), DateTimeKind.Utc),
+                DateOfBirth = request.DateOfBirth,
                 Created = DateTime.UtcNow,
             };
 

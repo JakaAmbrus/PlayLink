@@ -9,10 +9,10 @@ namespace Social.Application.Features.Users.GetNearestBirthdayUsers
 {
     public class GetNearestBirthdayUsersQueryHandler : IRequestHandler<GetNearestBirthdayUsersQuery, GetNearestBirthdayUsersResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IMemoryCache _memoryCache;
 
-        public GetNearestBirthdayUsersQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache)
+        public GetNearestBirthdayUsersQueryHandler(ISocialDbContext context, IMemoryCache memoryCache)
         {
             _context = context;
             _memoryCache = memoryCache;
@@ -32,7 +32,7 @@ namespace Social.Application.Features.Users.GetNearestBirthdayUsers
             var users = await _context.Users
                 .Select(u => new
                 {
-                    u.UserName,
+                    u.Username,
                     u.FullName,
                     u.ProfilePictureUrl,
                     u.Gender,
@@ -43,7 +43,7 @@ namespace Social.Application.Features.Users.GetNearestBirthdayUsers
             var usersWithNearestBirthday = users
                 .Select(u => new
                 {
-                    u.UserName,
+                    u.Username,
                     u.FullName,
                     u.ProfilePictureUrl,
                     u.Gender,
@@ -54,7 +54,7 @@ namespace Social.Application.Features.Users.GetNearestBirthdayUsers
                 .Take(3)
                 .Select(u => new UserBirthdayDto
                 {
-                    Username = u.UserName,
+                    Username = u.Username,
                     FullName = u.FullName,
                     ProfilePictureUrl = u.ProfilePictureUrl,
                     Gender = u.Gender,

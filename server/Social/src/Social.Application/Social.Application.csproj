@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\src\Shared.Core\Shared.Core.csproj" />
     <ProjectReference Include="..\Social.Domain\Social.Domain.csproj" />
   </ItemGroup>
 

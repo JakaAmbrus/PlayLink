@@ -11,7 +11,7 @@ namespace Social.UnitTests.Features.Moderator
     public class DeleteUserPhotoCommandTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IPhotoService _photoService;
         private readonly ICacheInvalidationService _cacheInvalidationService;
 
@@ -34,15 +34,15 @@ namespace Social.UnitTests.Features.Moderator
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new AppUser
+            context.Users.Add(new User
             { 
-                UserName = "Tester",
+                Username = "Tester",
                 ProfilePictureUrl = "picture_url",
                 ProfilePicturePublicId = "picture_id" 
             });
-            context.Users.Add(new AppUser { UserName = "NoProfilePicture" });
+            context.Users.Add(new User { Username = "NoProfilePicture" });
             context.SaveChangesAsync(CancellationToken.None).Wait();
         }
 

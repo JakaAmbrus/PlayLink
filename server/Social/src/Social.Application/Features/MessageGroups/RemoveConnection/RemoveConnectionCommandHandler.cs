@@ -6,9 +6,9 @@ namespace Social.Application.Features.MessageGroups.RemoveConnection
 {
     public class RemoveConnectionCommandHandler : IRequestHandler<RemoveConnectionCommand, RemoveConnectionResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public RemoveConnectionCommandHandler(IApplicationDbContext context)
+        public RemoveConnectionCommandHandler(ISocialDbContext context)
         {
             _context = context;
         }

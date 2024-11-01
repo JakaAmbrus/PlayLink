@@ -7,9 +7,9 @@ namespace Social.Application.Features.Messages.GetMessageById
 {
     public class GetMessageByIdQueryHandler : IRequestHandler<GetMessageByIdQuery, MessageDto>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public GetMessageByIdQueryHandler(IApplicationDbContext context)
+        public GetMessageByIdQueryHandler(ISocialDbContext context)
         {
             _context = context;
         }
@@ -22,8 +22,8 @@ namespace Social.Application.Features.Messages.GetMessageById
             return new MessageDto
             {
                 PrivateMessageId = message.PrivateMessageId,
-                SenderUsername = message.Sender.UserName,
-                RecipientUsername = message.Recipient.UserName,
+                SenderUsername = message.Sender.Username,
+                RecipientUsername = message.Recipient.Username,
                 SenderFullName = message.Sender.FullName,
                 RecipientFullName = message.Recipient.FullName,
                 SenderGender = message.Sender.Gender,

@@ -13,7 +13,7 @@ namespace Social.UnitTests.Features.Friends
     public class GetFriendshipStatusTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IMemoryCache _memoryCache;
         private readonly ICacheKeyService _cacheKeyService;
 
@@ -32,13 +32,13 @@ namespace Social.UnitTests.Features.Friends
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
             var users = Enumerable.Range(1, 4)
-                .Select(i => new AppUser
+                .Select(i => new User
                 {
                     Id = i,
-                    UserName = $"{i}",
+                    Username = $"{i}",
                     FullName = $"{i} Tester",
                 }).ToList();
             context.Users.AddRange(users);
@@ -67,10 +67,10 @@ namespace Social.UnitTests.Features.Friends
         [InlineData(2, "3", FriendshipStatus.Declined)] 
         [InlineData(3, "4", FriendshipStatus.None)]    
         public async Task GetFriendshipStatus_ShouldReturnCorrectFriendshipStatus_WhenThereIsNoCache(
-            int Id, string username, FriendshipStatus expectedStatus)
+            int Id, string Username, FriendshipStatus expectedStatus)
         {
             // Arrange
-            var request = new GetFriendshipStatusQuery { AuthUserId = Id, ProfileUsername = username };
+            var request = new GetFriendshipStatusQuery { AuthUserId = Id, ProfileUsername = Username };
 
             // Act
             var response = await _mediator.Send(request, CancellationToken.None);

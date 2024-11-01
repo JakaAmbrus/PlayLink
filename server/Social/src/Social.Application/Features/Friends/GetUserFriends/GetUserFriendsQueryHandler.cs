@@ -8,10 +8,10 @@ namespace Social.Application.Features.Friends.GetUserFriends
 {
     public class GetUserFriendsQueryHandler : IRequestHandler<GetUserFriendsQuery, GetUserFriendsResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IMemoryCache _memoryCache;
 
-        public GetUserFriendsQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache)
+        public GetUserFriendsQueryHandler(ISocialDbContext context, IMemoryCache memoryCache)
         {
             _context = context;
             _memoryCache = memoryCache;
@@ -33,7 +33,7 @@ namespace Social.Application.Features.Friends.GetUserFriends
                     .Where(u => u.Id == (f.User1Id == request.AuthUserId ? f.User2Id : f.User1Id))
                     .Select(u => new FriendDto
                     {
-                        Username = u.UserName,
+                        Username = u.Username,
                         FullName = u.FullName,
                         ProfilePictureUrl = u.ProfilePictureUrl,
                         Gender = u.Gender,

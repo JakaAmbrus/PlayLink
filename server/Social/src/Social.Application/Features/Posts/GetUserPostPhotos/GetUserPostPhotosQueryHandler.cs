@@ -8,10 +8,10 @@ namespace Social.Application.Features.Posts.GetUserPostPhotos
 {
     public class GetUserPostPhotosQueryHandler : IRequestHandler<GetUserPostPhotosQuery, GetUserPostPhotosResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IMemoryCache _memoryCache;
 
-        public GetUserPostPhotosQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache) 
+        public GetUserPostPhotosQueryHandler(ISocialDbContext context, IMemoryCache memoryCache) 
         { 
             _context = context;
             _memoryCache = memoryCache;
@@ -25,7 +25,7 @@ namespace Social.Application.Features.Posts.GetUserPostPhotos
             {
                 var user = await _context.Users
                     .Include(user => user.Posts)
-                    .SingleOrDefaultAsync(user => user.UserName == request.Username, cancellationToken)
+                    .SingleOrDefaultAsync(user => user.Username == request.Username, cancellationToken)
                     ?? throw new NotFoundException($"User with username {request.Username} does not exist");
 
                 photos = user.Posts

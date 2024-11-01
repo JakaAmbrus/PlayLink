@@ -1,13 +1,14 @@
 ﻿using Social.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Shared.Core.Authentication.Interfaces;
 
 namespace Social.Api.Filters
 {
     public class LogUserActivity : IAsyncActionFilter
     {
-        private readonly IAuthService _authService;
+        private readonly IAuthContextService _authService;
         private readonly IUserActivityService _userActivityService;
-        public LogUserActivity(IAuthService authService, IUserActivityService userActivityService)
+        public LogUserActivity(IAuthContextService authService, IUserActivityService userActivityService)
         {
             _authService = authService;
             _userActivityService = userActivityService;
@@ -20,7 +21,7 @@ namespace Social.Api.Filters
 
             if (resultContext.HttpContext.User.Identity != null && resultContext.HttpContext.User.Identity.IsAuthenticated && resultContext.Exception == null)
             {
-                var userId = _authService.GetCurrentUserId();
+                var userId = _authService.GetSocialId();
                 await _userActivityService.UpdateLastActiveAsync(userId);
             }
         }

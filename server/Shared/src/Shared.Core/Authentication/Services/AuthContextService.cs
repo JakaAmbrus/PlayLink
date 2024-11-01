@@ -18,6 +18,18 @@ public class AuthContextService : IAuthContextService
         return _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
     }
     
+    public int GetSocialId()
+    {
+        var userIdString =  _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.PrimarySid)?.Value;
+        
+        if (!int.TryParse(userIdString, out var userId))
+        {
+            throw new ArgumentException();
+        }
+
+        return userId;
+    }
+    
     public string? GetUsername()
     {
         return _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;

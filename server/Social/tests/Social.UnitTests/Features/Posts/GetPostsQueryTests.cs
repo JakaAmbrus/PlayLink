@@ -11,7 +11,7 @@ namespace Social.UnitTests.Features.Posts
     public class GetPostsQueryTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
         public GetPostsQueryTests()
         {
@@ -26,9 +26,9 @@ namespace Social.UnitTests.Features.Posts
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new AppUser { Id = 1 });
+            context.Users.Add(new User { Id = 1 });
 
             var posts = Enumerable.Range(1, 10)
                 .Select(i => new Post

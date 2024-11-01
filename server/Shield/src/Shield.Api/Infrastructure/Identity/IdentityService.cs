@@ -45,7 +45,7 @@ internal sealed class IdentityService : IIdentityService
         }
     }
 
-    public async Task SetUserClaimsAsync(string userId, string username, long socialId, List<string> roles)
+    public async Task SetUserClaimsAsync(string userId, string username, int socialId, List<string> roles)
     {
         try
         {

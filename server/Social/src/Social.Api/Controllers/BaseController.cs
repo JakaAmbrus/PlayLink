@@ -1,7 +1,7 @@
-﻿using Social.Application.Interfaces;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Core.Authentication.Interfaces;
 using Social.Api.Filters;
 
 namespace Social.Api.Controllers
@@ -13,9 +13,9 @@ namespace Social.Api.Controllers
     public abstract class BaseController : ControllerBase
     {
         private ISender _mediator;
-        private IAuthService _authService;
+        private IAuthContextService _authService;
 
         protected ISender Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<ISender>();
-        protected IAuthService AuthService => _authService ??= HttpContext.RequestServices.GetRequiredService<IAuthService>();
+        protected IAuthContextService AuthService => _authService ??= HttpContext.RequestServices.GetRequiredService<IAuthContextService>();
     }
 }

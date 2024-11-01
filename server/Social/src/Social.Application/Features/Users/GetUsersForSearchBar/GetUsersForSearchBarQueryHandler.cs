@@ -8,10 +8,10 @@ namespace Social.Application.Features.Users.GetUsersForSearchBar
 {
     public class GetUsersForSearchBarQueryHandler : IRequestHandler<GetUsersForSearchBarQuery, GetUsersForSearchBarResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IMemoryCache _memoryCache;
 
-        public GetUsersForSearchBarQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache)
+        public GetUsersForSearchBarQueryHandler(ISocialDbContext context, IMemoryCache memoryCache)
         {
             _context = context;
             _memoryCache = memoryCache;
@@ -27,7 +27,7 @@ namespace Social.Application.Features.Users.GetUsersForSearchBar
                   .Select(u => new SearchUserDto
                   {
                       AppUserId = u.Id,
-                      Username = u.UserName,
+                      Username = u.Username,
                       FullName = u.FullName,
                       ProfilePictureUrl = u.ProfilePictureUrl,
                       Gender = u.Gender,

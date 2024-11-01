@@ -7,9 +7,9 @@ namespace Social.Application.Features.MessageGroups.AddGroup
 {
     public class AddGroupCommandHandler : IRequestHandler<AddGroupCommand, GroupDto>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public AddGroupCommandHandler(IApplicationDbContext context)
+        public AddGroupCommandHandler(ISocialDbContext context)
         {
             _context = context;
         }

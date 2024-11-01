@@ -10,7 +10,7 @@ namespace Social.UnitTests.Features.Likes
     public class UnlikePostCommandTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
         public UnlikePostCommandTests()
         {
@@ -25,9 +25,9 @@ namespace Social.UnitTests.Features.Likes
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new AppUser { Id = 1 });
+            context.Users.Add(new User { Id = 1 });
 
             context.Posts.Add(new Post { PostId = 1, LikesCount = 1 });
             context.Posts.Add(new Post { PostId = 2, LikesCount = 0 });

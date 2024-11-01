@@ -11,9 +11,9 @@ namespace Social.Application.Features.Messages.GetMessagesForUser
 {
     public class GetMessagesForUserQueryHandler : IRequestHandler<GetMessagesForUserQuery, GetMessagesForUserResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public GetMessagesForUserQueryHandler(IApplicationDbContext context)
+        public GetMessagesForUserQueryHandler(ISocialDbContext context)
         {
             _context = context;
         }
@@ -32,17 +32,17 @@ namespace Social.Application.Features.Messages.GetMessagesForUser
             {
                 case MessageStatus.Inbox:
                     messageQuery = _context.PrivateMessages
-                        .Where(u => u.RecipientUsername == user.UserName && u.RecipientDeleted == false);
+                        .Where(u => u.RecipientUsername == user.Username && u.RecipientDeleted == false);
                     break;
 
                 case MessageStatus.Outbox:
                     messageQuery = _context.PrivateMessages
-                        .Where(u => u.SenderUsername == user.UserName && u.SenderDeleted == false);
+                        .Where(u => u.SenderUsername == user.Username && u.SenderDeleted == false);
                     break;
                 
                 case MessageStatus.Unread:
                     messageQuery = _context.PrivateMessages
-                        .Where(u => u.SenderUsername == user.UserName && u.SenderDeleted == false);
+                        .Where(u => u.SenderUsername == user.Username && u.SenderDeleted == false);
                     break;
 
                 default:

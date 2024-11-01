@@ -11,7 +11,7 @@ namespace Social.UnitTests.Features.Messages
     public class GetMessageThreadQueryTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
         public GetMessageThreadQueryTests()
         {
@@ -26,11 +26,11 @@ namespace Social.UnitTests.Features.Messages
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new AppUser { Id = 1, UserName = "tester" });
-            context.Users.Add(new AppUser { Id = 2, UserName = "tester2" });
-            context.Users.Add(new AppUser { Id = 3, UserName = "tester3" });
+            context.Users.Add(new User { Id = 1, Username = "tester" });
+            context.Users.Add(new User { Id = 2, Username = "tester2" });
+            context.Users.Add(new User { Id = 3, Username = "tester3" });
 
             var sentUnreadMessages = Enumerable.Range(1, 3)
                 .Select(i => new PrivateMessage

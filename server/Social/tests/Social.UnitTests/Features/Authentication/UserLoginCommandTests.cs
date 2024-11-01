@@ -11,7 +11,7 @@ namespace Social.UnitTests.Features.Authentication
     public class UserLoginCommandTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IUserManager _userManager;
         private readonly ITokenService _tokenService;
 
@@ -30,9 +30,9 @@ namespace Social.UnitTests.Features.Authentication
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new AppUser { Id = 1, UserName = "tester" });
+            context.Users.Add(new User { Id = 1, Username = "tester" });
 
             context.SaveChangesAsync(CancellationToken.None).Wait();
         }
@@ -41,9 +41,9 @@ namespace Social.UnitTests.Features.Authentication
         public async Task UserLogin_ShouldReturnMemberUserDTO_WhenInputsAreValid()
         {
             // Arrange
-            _userManager.FindByUsernameAsync(Arg.Any<string>()).Returns(Task.FromResult(new AppUser() { UserName = "tester"}));
-            _userManager.CheckPasswordAsync(Arg.Any<AppUser>(), Arg.Any<string>()).Returns(Task.FromResult(true));
-            _tokenService.CreateToken(Arg.Any<AppUser>()).Returns("token");
+            _userManager.FindByUsernameAsync(Arg.Any<string>()).Returns(Task.FromResult(new User() { Username = "tester"}));
+            _userManager.CheckPasswordAsync(Arg.Any<User>(), Arg.Any<string>()).Returns(Task.FromResult(true));
+            _tokenService.CreateToken(Arg.Any<User>()).Returns("token");
 
             var request = new UserLoginCommand
             {
@@ -66,8 +66,8 @@ namespace Social.UnitTests.Features.Authentication
         public async Task UserLogin_ShouldThrowUnauthorizedException_WhenPasswordIsInvalid()
         {
             // Arrange
-            _userManager.FindByUsernameAsync(Arg.Any<string>()).Returns(Task.FromResult(new AppUser() { UserName = "tester" }));
-            _userManager.CheckPasswordAsync(Arg.Any<AppUser>(), Arg.Any<string>()).Returns(Task.FromResult(false));
+            _userManager.FindByUsernameAsync(Arg.Any<string>()).Returns(Task.FromResult(new User() { Username = "tester" }));
+            _userManager.CheckPasswordAsync(Arg.Any<User>(), Arg.Any<string>()).Returns(Task.FromResult(false));
 
             var request = new UserLoginCommand
             {
@@ -87,7 +87,7 @@ namespace Social.UnitTests.Features.Authentication
         public async Task UserLogin_ShouldThrowUnauthorizedException_WhenUserDoesNotExist()
         {
             // Arrange
-            _userManager.FindByUsernameAsync(Arg.Any<string>()).Returns(Task.FromResult((AppUser)null));
+            _userManager.FindByUsernameAsync(Arg.Any<string>()).Returns(Task.FromResult((User)null));
 
             var request = new UserLoginCommand
             {

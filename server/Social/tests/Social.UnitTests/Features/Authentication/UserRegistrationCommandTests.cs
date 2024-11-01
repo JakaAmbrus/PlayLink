@@ -9,7 +9,7 @@ namespace Social.UnitTests.Features.Authentication
     public class UserRegistrationCommandTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IUserManager _userManager;
         private readonly ITokenService _tokenService;
         private readonly ICacheInvalidationService _cacheInvalidationService;
@@ -30,9 +30,9 @@ namespace Social.UnitTests.Features.Authentication
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new AppUser { Id = 1, UserName = "tester" });
+            context.Users.Add(new User { Id = 1, Username = "tester" });
 
             context.SaveChangesAsync(CancellationToken.None).Wait();
         }

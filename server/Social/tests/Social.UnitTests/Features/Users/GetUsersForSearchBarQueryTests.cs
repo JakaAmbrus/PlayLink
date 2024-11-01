@@ -11,7 +11,7 @@ namespace Social.UnitTests.Features.Users
     public class GetUsersForSearchBarQueryTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IMemoryCache _memoryCache;
 
         public GetUsersForSearchBarQueryTests()
@@ -28,12 +28,12 @@ namespace Social.UnitTests.Features.Users
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
-            var users = Enumerable.Range(1, 10).Select(i => new AppUser
+            var users = Enumerable.Range(1, 10).Select(i => new User
             {
                 Id = i,
-                UserName = $"tester{i}",
+                Username = $"tester{i}",
                 FullName = $"tester {i}",
             }).ToList();
             context.Users.AddRange(users);

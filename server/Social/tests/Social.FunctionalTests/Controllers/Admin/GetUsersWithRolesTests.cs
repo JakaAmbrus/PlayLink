@@ -14,10 +14,10 @@ namespace Social.FunctionalTests.Controllers.Admin
         private async Task InitializeTestSeedDataAsync()
         {
             var members = Enumerable.Range(2, 20)
-                .Select(i => new AppUser
+                .Select(i => new User
                 {
                     Id = i,
-                    UserName = $"{i}",
+                    Username = $"{i}",
                 }).ToList();
             Context.Users.AddRange(members);
 
@@ -79,10 +79,10 @@ namespace Social.FunctionalTests.Controllers.Admin
             // Arrange
             await InitializeTestAsync(new List<string> { "Member", "Moderator", "Admin" });
             var users = Enumerable.Range(25, 20)
-                .Select(i => new AppUser
+                .Select(i => new User
                 {
                     Id = i,
-                    UserName = $"{i}",
+                    Username = $"{i}",
                 }).ToList();
             Context.Users.AddRange(users);
             await Context.SaveChangesAsync(CancellationToken.None);
@@ -130,10 +130,10 @@ namespace Social.FunctionalTests.Controllers.Admin
         {
             // Arrange
             await InitializeTestAsync(new List<string> { "Member", "Moderator", "Admin" });
-            var moderator = new AppUser
+            var moderator = new User
             {
                 Id = 100,
-                UserName = "moderator",
+                Username = "moderator",
             };
             await UserManager.CreateAsync(moderator, "Password123");
             var createdUser = await UserManager.FindByIdAsync(moderator.Id.ToString());
@@ -165,7 +165,7 @@ namespace Social.FunctionalTests.Controllers.Admin
         {
             // Arrange
             await InitializeTestAsync(new List<string> { "Member", "Moderator", "Admin" });
-            var authUser = await Context.FindAsync<AppUser>(1);
+            var authUser = await Context.FindAsync<User>(1);
             Context.Remove(authUser);
             await Context.SaveChangesAsync();
 
@@ -185,7 +185,7 @@ namespace Social.FunctionalTests.Controllers.Admin
         {
             // Arrange
             await InitializeTestAsync(new List<string> { "Member", "Moderator", "Admin" });
-            var authUser = await Context.FindAsync<AppUser>(1);
+            var authUser = await Context.FindAsync<User>(1);
             await UserManager.RemoveFromRoleAsync(authUser, "Admin");
             await Context.SaveChangesAsync();
 

@@ -10,7 +10,7 @@ namespace Social.UnitTests.Features.Users
     public class GetUserIdByUsernameQueryTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
         public GetUserIdByUsernameQueryTests()
         {
@@ -25,12 +25,12 @@ namespace Social.UnitTests.Features.Users
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new AppUser
+            context.Users.Add(new User
             {
                 Id = 1,
-                UserName = "tester",
+                Username = "tester",
             });
 
             context.SaveChangesAsync(CancellationToken.None).Wait();

@@ -167,7 +167,7 @@ namespace Social.FunctionalTests.Controllers.Comments
         {
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
-            Context.Users.Add(new AppUser { Id = 2 });
+            Context.Users.Add(new User { Id = 2 });
             Context.Comments.Add(new Comment { CommentId = 11, PostId = 1, AppUserId = 2 });
             await Context.SaveChangesAsync(CancellationToken.None);
 

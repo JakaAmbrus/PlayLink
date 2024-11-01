@@ -12,10 +12,7 @@ namespace Social.FunctionalTests.Configurations
         private IServiceScope _scope;
         protected ISender Mediator;
         protected DataContext Context;
-        protected IUserManager UserManager;
-        protected RoleManager<AppRole> RoleManager;
         protected HttpClient Client;
-        private ITokenService _tokenService;
         protected IPhotoService PhotoService;
 
         protected BaseIntegrationTest(IntegrationTestWebAppFactory factory)
@@ -35,9 +32,6 @@ namespace Social.FunctionalTests.Configurations
         {
             Mediator = services.GetRequiredService<ISender>();
             Context = services.GetRequiredService<DataContext>();
-            UserManager = services.GetRequiredService<IUserManager>();
-            RoleManager = services.GetRequiredService<RoleManager<AppRole>>();
-            _tokenService = services.GetRequiredService<ITokenService>();
             PhotoService = services.GetRequiredService<IPhotoService>();
             Client = _factory.CreateClient();
         }
@@ -75,10 +69,9 @@ namespace Social.FunctionalTests.Configurations
 
         protected async Task InitializeAuthenticatedClient(List<string> roles)
         {
-            var user = new AppUser 
+            var user = new User 
             { 
                 Id = 1,
-                UserName = "authtester",
                 FullName = "Auth Tester",
                 Country = "Slovenia",
                 Gender = "male",
@@ -98,8 +91,6 @@ namespace Social.FunctionalTests.Configurations
                 await UserManager.AddToRoleAsync(createdUser, role);
 
             }
-
-            var token = await _tokenService.CreateToken(createdUser);
 
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }

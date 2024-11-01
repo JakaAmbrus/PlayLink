@@ -8,9 +8,9 @@ namespace Social.Application.Features.Likes.LikeComment
 {
     public class LikeCommentCommandHandler : IRequestHandler<LikeCommentCommand, LikeCommentResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public LikeCommentCommandHandler(IApplicationDbContext context)
+        public LikeCommentCommandHandler(ISocialDbContext context)
         {
             _context = context;
         }

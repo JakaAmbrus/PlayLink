@@ -8,9 +8,9 @@ namespace Social.Application.Features.Messages.GetMessageThread
 {
     public class GetMessageThreadQueryHandler : IRequestHandler<GetMessageThreadQuery, GetMessageThreadResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public GetMessageThreadQueryHandler(IApplicationDbContext context)
+        public GetMessageThreadQueryHandler(ISocialDbContext context)
         {
             _context = context;
         }
@@ -21,7 +21,7 @@ namespace Social.Application.Features.Messages.GetMessageThread
                 ?? throw new NotFoundException("Authorized user not found");
 
             var profileUser = await _context.Users
-                .Where(u => u.UserName == request.ProfileUsername)
+                .Where(u => u.Username == request.ProfileUsername)
                 .FirstOrDefaultAsync(cancellationToken)
                 ?? throw new NotFoundException("Profile user not found");
 
@@ -29,16 +29,16 @@ namespace Social.Application.Features.Messages.GetMessageThread
                 .AsNoTracking()
                 .Include(m => m.Sender)
                 .Include(m => m.Recipient)
-                .Where(m => m.RecipientUsername == authUser.UserName 
+                .Where(m => m.RecipientUsername == authUser.Username 
                     && m.RecipientDeleted == false
                     && m.SenderUsername == request.ProfileUsername || m.RecipientUsername == request.ProfileUsername
                     && m.SenderDeleted == false
-                    && m.SenderUsername == authUser.UserName)
+                    && m.SenderUsername == authUser.Username)
                 .OrderBy(m => m.PrivateMessageSent)
                 .ToListAsync(cancellationToken);
 
             var unreadMessages = messages
-                .Where(m => m.DateRead == null && m.RecipientUsername == authUser.UserName)
+                .Where(m => m.DateRead == null && m.RecipientUsername == authUser.Username)
                 .ToList();
 
             if (unreadMessages.Any())

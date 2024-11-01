@@ -7,14 +7,12 @@ namespace Social.Application.Features.Admin.AdminUserDelete
 {
     public class AdminUserDeleteCommandHandler : IRequestHandler<AdminUserDeleteCommand, AdminUserDeleteResponse>
     {
-        private readonly IApplicationDbContext _context;
-        private readonly IUserManager _userManager;
+        private readonly ISocialDbContext _context;
         private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public AdminUserDeleteCommandHandler(IApplicationDbContext context, IUserManager userManager, ICacheInvalidationService cacheInvalidationService)
+        public AdminUserDeleteCommandHandler(ISocialDbContext context, ICacheInvalidationService cacheInvalidationService)
         {
             _context = context;
-            _userManager = userManager;
             _cacheInvalidationService = cacheInvalidationService;
         }
 
@@ -29,18 +27,18 @@ namespace Social.Application.Features.Admin.AdminUserDelete
             // Only an Admin is authorized for deleting a user. This implementation includes multiple role checks (UserManager, DbContext, and API Policy)
             // to ensure robust security. While this might seem excessive, it's designed primarily for educational purposes to demonstrate various validation techniques.
             // The endpoint is not expected to be heavily used, but the approach highlights a thorough understanding of security practices and redundancy for critical operations.
-            bool isAdmin = await _userManager.IsInRoleAsync(authUser, "Admin")
-                && await _context.Users.AnyAsync(u => u.Id == request.AuthUserId && u.UserRoles.Any(r => r.Role.Name == "Admin"), cancellationToken)
-                && request.AuthUserRoles.Contains("Admin");
-
-            if (!isAdmin)
-            {
-                throw new UnauthorizedException("Unauthorized, only an Admin can delete a user");
-            }
-
-
-            var userConnections = _context.Connections.Where(c => c.Username == user.UserName).ToList();
-            _context.Connections.RemoveRange(userConnections);
+            // bool isAdmin = await _userManager.IsInRoleAsync(authUser, "Admin")
+            //     && await _context.Users.AnyAsync(u => u.Id == request.AuthUserId && u.UserRoles.Any(r => r.Role.Name == "Admin"), cancellationToken)
+            //     && request.AuthUserRoles.Contains("Admin");
+            //
+            // if (!isAdmin)
+            // {
+            //     throw new UnauthorizedException("Unauthorized, only an Admin can delete a user");
+            // }
+            //
+            //
+            // var userConnections = _context.Connections.Where(c => c.Username == user.Username).ToList();
+            // _context.Connections.RemoveRange(userConnections);
 
             var posts = _context.Posts.Where(p => p.AppUserId == request.AppUserId).ToList();
             _context.Posts.RemoveRange(posts);

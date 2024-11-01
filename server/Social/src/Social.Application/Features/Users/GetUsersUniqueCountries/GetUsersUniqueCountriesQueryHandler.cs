@@ -6,9 +6,9 @@ namespace Social.Application.Features.Users.GetUsersUniqueCountries
 {
     public class GetUsersUniqueCountriesQueryHandler : IRequestHandler<GetUsersUniqueCountriesQuery, GetUsersUniqueCountriesResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public GetUsersUniqueCountriesQueryHandler(IApplicationDbContext context)
+        public GetUsersUniqueCountriesQueryHandler(ISocialDbContext context)
         {
             _context = context;
         }

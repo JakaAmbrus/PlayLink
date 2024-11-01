@@ -10,7 +10,7 @@ namespace Social.UnitTests.Features.Admin
     public class AdminUserDeleteCommandTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IUserManager _userManager;
         private readonly ICacheInvalidationService _cacheInvalidationService;
 
@@ -29,12 +29,12 @@ namespace Social.UnitTests.Features.Admin
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new AppUser
+            context.Users.Add(new User
             {
                 Id = 1,
-                UserName = "AdminTestUser",
+                Username = "AdminTestUser",
                 UserRoles = new List<AppUserRole>
                 {
                     new AppUserRole
@@ -46,7 +46,7 @@ namespace Social.UnitTests.Features.Admin
                     }
                 },
             });
-            context.Users.Add(new AppUser { Id = 2, UserName = "Tester" });
+            context.Users.Add(new User { Id = 2, Username = "Tester" });
 
             context.Connections.Add(new Connection { ConnectionId = "1", Username = "Tester" });
 
@@ -67,7 +67,7 @@ namespace Social.UnitTests.Features.Admin
         public async Task AdminUserDelete_ShouldDeleteUserAndRelatedEntities_WhenUserExists()
         {
             // Arrange
-            _userManager.IsInRoleAsync(Arg.Any<AppUser>(), "Admin").Returns(Task.FromResult(true));
+            _userManager.IsInRoleAsync(Arg.Any<User>(), "Admin").Returns(Task.FromResult(true));
 
             var request = new AdminUserDeleteCommand
             {
@@ -95,7 +95,7 @@ namespace Social.UnitTests.Features.Admin
         public async Task AdminUserDelete_ShouldInvalidateCache_WhenUserIsDeleted()
         {
             // Arrange
-            _userManager.IsInRoleAsync(Arg.Any<AppUser>(), "Admin").Returns(Task.FromResult(true));
+            _userManager.IsInRoleAsync(Arg.Any<User>(), "Admin").Returns(Task.FromResult(true));
 
             var request = new AdminUserDeleteCommand
             {
@@ -156,7 +156,7 @@ namespace Social.UnitTests.Features.Admin
         public async Task AdminUserDelete_ShouldThrowUnauthorizedException_WhenUserIsNotAdmin()
         {
             // Arrange
-            _userManager.IsInRoleAsync(Arg.Any<AppUser>(), "Admin").Returns(Task.FromResult(false));
+            _userManager.IsInRoleAsync(Arg.Any<User>(), "Admin").Returns(Task.FromResult(false));
 
             var request = new AdminUserDeleteCommand
             {

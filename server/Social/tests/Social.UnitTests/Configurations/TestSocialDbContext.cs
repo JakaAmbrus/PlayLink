@@ -1,21 +1,17 @@
-﻿using Social.Application.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+using Social.Application.Interfaces;
 using Social.Domain.Entities;
 using Social.Infrastructure.Data.Configurations;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Social.UnitTests.Configurations
 {
-    public class TestApplicationDbContext :
-        IdentityDbContext<AppUser, AppRole, int, IdentityUserClaim<int>, AppUserRole, 
-        IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>, 
-        IApplicationDbContext
+    public class TestSocialDbContext : DbContext, 
+        ISocialDbContext
     {
-        public TestApplicationDbContext(DbContextOptions options) : base(options) { }
+        public TestSocialDbContext(DbContextOptions options) : base(options) { }
 
-        public DbSet<AppUser> Users { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Like> Likes { get; set; }
@@ -44,11 +40,8 @@ namespace Social.UnitTests.Configurations
         {
             base.OnModelCreating(builder);
 
-            //AppUser
-            builder.ApplyConfiguration(new AppUserConfiguration());
-
-            //AppUserRole
-            builder.ApplyConfiguration(new AppRoleConfiguration());
+            //User
+            builder.ApplyConfiguration(new UserConfiguration());
 
             //Posts
             builder.ApplyConfiguration(new PostConfiguration());

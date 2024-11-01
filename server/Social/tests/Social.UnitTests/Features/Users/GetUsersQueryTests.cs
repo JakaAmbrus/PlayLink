@@ -10,7 +10,7 @@ namespace Social.UnitTests.Features.Users
     public class GetUsersQueryTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
         public GetUsersQueryTests()
         {
@@ -26,12 +26,12 @@ namespace Social.UnitTests.Features.Users
         }
 
         // In my seed data I have a a variety of users with different characteristics that I can filter through
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
-            var elderMaleUsersUSA = Enumerable.Range(1, 10).Select(i => new AppUser
+            var elderMaleUsersUSA = Enumerable.Range(1, 10).Select(i => new User
             {
                 Id = i,
-                UserName = $"tester{i}",
+                Username = $"tester{i}",
                 FullName = $"tester {i}",
                 DateOfBirth = new DateTime(1950, 5, 16),
                 Country = "USA",
@@ -39,10 +39,10 @@ namespace Social.UnitTests.Features.Users
             }).ToList();
             context.Users.AddRange(elderMaleUsersUSA);
 
-            var youngFemaleUsersUK = Enumerable.Range(11, 10).Select(i => new AppUser
+            var youngFemaleUsersUK = Enumerable.Range(11, 10).Select(i => new User
             {
                 Id = i,
-                UserName = $"tester{i}",
+                Username = $"tester{i}",
                 FullName = $"tester {i}",
                 DateOfBirth = new DateTime(2005, 5, 16),
                 Country = "UK",

@@ -11,11 +11,11 @@ namespace Social.Application.Features.Friends.GetFriendshipStatus
 {
     public class GetFriendshipStatusQueryHandler : IRequestHandler<GetFriendshipStatusQuery, GetFriendshipStatusResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IMemoryCache _memoryCache;
         private readonly ICacheKeyService _cacheKeyService;
 
-        public GetFriendshipStatusQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache, ICacheKeyService cacheKeyService)
+        public GetFriendshipStatusQueryHandler(ISocialDbContext context, IMemoryCache memoryCache, ICacheKeyService cacheKeyService)
         {
             _context = context;
             _memoryCache = memoryCache;
@@ -26,7 +26,7 @@ namespace Social.Application.Features.Friends.GetFriendshipStatus
         {            
             var profileUser = await _context.Users
                 .AsNoTracking()
-                .Where(u => u.UserName == request.ProfileUsername)
+                .Where(u => u.Username == request.ProfileUsername)
                 .FirstOrDefaultAsync(cancellationToken)
                 ?? throw new NotFoundException("Profile user not found");
 

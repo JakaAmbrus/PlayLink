@@ -10,7 +10,7 @@ namespace Social.UnitTests.Features.Moderator
     public class DeleteUserDescriptionCommandTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
         public DeleteUserDescriptionCommandTests()
         {
@@ -25,10 +25,10 @@ namespace Social.UnitTests.Features.Moderator
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new AppUser { UserName = "Tester", Description = "Test description" });
-            context.Users.Add(new AppUser { UserName = "NoDescription" });
+            context.Users.Add(new User { Username = "Tester", Description = "Test description" });
+            context.Users.Add(new User { Username = "NoDescription" });
             context.SaveChangesAsync(CancellationToken.None).Wait();
         }
 

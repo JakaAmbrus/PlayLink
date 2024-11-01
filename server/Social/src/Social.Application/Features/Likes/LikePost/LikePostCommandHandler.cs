@@ -7,9 +7,9 @@ using Social.Application.Interfaces;
 namespace Social.Application.Features.Likes.LikePost;
 public class LikePostCommandHandler : IRequestHandler<LikePostCommand, LikePostResponse>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly ISocialDbContext _context;
 
-    public LikePostCommandHandler(IApplicationDbContext context)
+    public LikePostCommandHandler(ISocialDbContext context)
     {
         _context = context;
     }

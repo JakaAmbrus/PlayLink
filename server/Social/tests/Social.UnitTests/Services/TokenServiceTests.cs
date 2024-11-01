@@ -11,15 +11,15 @@ namespace Social.UnitTests.Services
     public class TokenServiceTests
     {
         private readonly TokenService _tokenService;
-        private readonly UserManager<AppUser> _userManagerMock;
+        private readonly UserManager<User> _userManagerMock;
 
         public TokenServiceTests()
         {
             var configMock = Substitute.For<IConfiguration>();
             configMock["TokenKey"].Returns("Some Secret Key that I will be using for testing purposes and has to be at least 128 bits");
 
-            var store = Substitute.For<IUserStore<AppUser>>();
-            _userManagerMock = Substitute.For<UserManager<AppUser>>(store, null, null, null, null, null, null, null, null);
+            var store = Substitute.For<IUserStore<User>>();
+            _userManagerMock = Substitute.For<UserManager<User>>(store, null, null, null, null, null, null, null, null);
 
             _tokenService = new TokenService(configMock, _userManagerMock);
         }
@@ -39,7 +39,7 @@ namespace Social.UnitTests.Services
         public async Task CreateToken_ShouldReturnValidToken_WhenUserIsValid()
         {
             // Arrange
-            var user = new AppUser { Id = 1, UserName = "TestUser" };
+            var user = new User { Id = 1, Username = "TestUser" };
             _userManagerMock.GetRolesAsync(user).Returns(Task.FromResult<IList<string>>(new List<string> { "Role1", "Role2" }));
 
             // Act
@@ -54,7 +54,7 @@ namespace Social.UnitTests.Services
             var token = tokenHandler.ReadToken(result) as JwtSecurityToken;
 
             token.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value.Should().Be(user.Id.ToString());
-            token.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.UniqueName)?.Value.Should().Be(user.UserName);
+            token.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.UniqueName)?.Value.Should().Be(user.Username);
             token.ValidTo.Should().BeCloseTo(DateTime.UtcNow.AddDays(7), TimeSpan.FromSeconds(30));
             token.SignatureAlgorithm.Should().Be("HS512");
 

@@ -7,10 +7,10 @@ namespace Social.Application.Features.Friends.RemoveFriendship
 {
     public class RemoveFriendshipCommandHandler : IRequestHandler<RemoveFriendshipCommand, RemoveFriendshipResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public RemoveFriendshipCommandHandler(IApplicationDbContext context, ICacheInvalidationService cacheInvalidationService)
+        public RemoveFriendshipCommandHandler(ISocialDbContext context, ICacheInvalidationService cacheInvalidationService)
         {
             _context = context;
             _cacheInvalidationService = cacheInvalidationService;
@@ -20,7 +20,7 @@ namespace Social.Application.Features.Friends.RemoveFriendship
         {
             var profileUser = await _context.Users
                 .AsNoTracking()
-                .Where(u => u.UserName == request.ProfileUsername)
+                .Where(u => u.Username == request.ProfileUsername)
                 .FirstOrDefaultAsync(cancellationToken)
                 ?? throw new NotFoundException("Profile user not found");
 

@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Social.Application.Interfaces
 {
-    public interface IApplicationDbContext
+    public interface ISocialDbContext
     {
-        DbSet<AppUser> Users { get; set; }
+        DbSet<User> Users { get; set; }
         DbSet<Post> Posts { get; set; }
         DbSet<Comment> Comments { get; set; }
         DbSet<Like> Likes { get; set; }
@@ -15,9 +15,7 @@ namespace Social.Application.Interfaces
         DbSet<PrivateMessage> PrivateMessages { get; set; }
         DbSet<Group> Groups { get; set; }
         DbSet<Connection> Connections { get; set; }
-
-        void Add<TEntity>(TEntity entity) where TEntity : class;
+        
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
-        Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken);
     }
 }

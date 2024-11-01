@@ -4,7 +4,7 @@ namespace Social.Application.Services
 {
     public class CacheKeyService : ICacheKeyService
     {
-        public string GenerateFriendStatusCacheKey(int userId1, int userId2)
+        public string GenerateFriendStatusCacheKey(long userId1, long userId2)
         {
             if (userId1 == userId2)
             {

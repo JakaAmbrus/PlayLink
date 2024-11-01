@@ -11,7 +11,7 @@ namespace Social.UnitTests.Features.Posts
     public class GetUserPostPhotosQueryTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IMemoryCache _memoryCache;
 
         public GetUserPostPhotosQueryTests()
@@ -28,10 +28,10 @@ namespace Social.UnitTests.Features.Posts
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new AppUser { Id = 1, UserName = "Tester1", ProfilePictureUrl = "https://photo.com" });
-            context.Users.Add(new AppUser { Id = 2, UserName = "Tester2" });
+            context.Users.Add(new User { Id = 1, Username = "Tester1", ProfilePictureUrl = "https://photo.com" });
+            context.Users.Add(new User { Id = 2, Username = "Tester2" });
 
             var posts = Enumerable.Range(1, 10)
                 .Select(i => new Post
@@ -103,7 +103,7 @@ namespace Social.UnitTests.Features.Posts
 
             // Assert
             await action.Should().ThrowAsync<NotFoundException>()
-                .WithMessage("User with username ImaginaryUser does not exist");
+                .WithMessage("User with Username ImaginaryUser does not exist");
         }
     }
 }

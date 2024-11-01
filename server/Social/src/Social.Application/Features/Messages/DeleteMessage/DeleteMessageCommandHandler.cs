@@ -6,9 +6,9 @@ namespace Social.Application.Features.Messages.DeleteMessage
 {
     public class DeleteMessageCommandHandler : IRequestHandler<DeleteMessageCommand, DeleteMessageResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public DeleteMessageCommandHandler(IApplicationDbContext context)
+        public DeleteMessageCommandHandler(ISocialDbContext context)
         {
             _context = context;
         }

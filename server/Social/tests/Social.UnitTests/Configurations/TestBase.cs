@@ -4,13 +4,13 @@ namespace Social.UnitTests.Configurations
 {
     public static class TestBase
     {
-        public static TestApplicationDbContext CreateTestDbContext()
+        public static TestSocialDbContext CreateTestDbContext()
         {
-            var options = new DbContextOptionsBuilder<TestApplicationDbContext>()
+            var options = new DbContextOptionsBuilder<TestSocialDbContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
 
-            return new TestApplicationDbContext(options);
+            return new TestSocialDbContext(options);
         }
     }
 }

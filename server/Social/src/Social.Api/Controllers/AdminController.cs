@@ -25,7 +25,7 @@ namespace Social.Api.Controllers
             var request = new AdminGetUsersQuery
             {
                 Params = paginationParams,
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -36,7 +36,7 @@ namespace Social.Api.Controllers
         /// <summary>
         /// Edits the roles of a user.
         /// </summary>
-        /// <param name="UserId">User ID.</param>
+        /// <param name="userId">User ID.</param>
         /// <returns>A confirmation of the edit success.</returns>
         [HttpPut("edit-roles/{userId:int}")]
         public async Task<ActionResult> EditRoles(int userId, CancellationToken cancellationToken)
@@ -44,7 +44,7 @@ namespace Social.Api.Controllers
             var request = new AdminEditRolesCommand
             {
                 AppUserId = userId,
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -62,8 +62,8 @@ namespace Social.Api.Controllers
             var request = new AdminUserDeleteCommand
             {
                 AppUserId = userId,
-                AuthUserId = AuthService.GetCurrentUserId(),
-                AuthUserRoles = AuthService.GetCurrentUserRoles()
+                AuthUserId = AuthService.GetSocialId(),
+                AuthUserRoles = AuthService.GetUserRoles()
             };
 
             var response = await Mediator.Send(request, cancellationToken);

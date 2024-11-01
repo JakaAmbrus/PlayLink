@@ -10,7 +10,7 @@ namespace Social.UnitTests.Features.Comments
     public class DeleteCommentCommandTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
         public DeleteCommentCommandTests()
         {
@@ -25,9 +25,9 @@ namespace Social.UnitTests.Features.Comments
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new AppUser { Id = 1 });
+            context.Users.Add(new User { Id = 1 });
             context.Posts.Add(new Post { PostId = 1, CommentsCount = 1 });
             context.Comments.Add(new Comment { CommentId = 1, PostId = 1, AppUserId = 1 });
             context.SaveChangesAsync(CancellationToken.None).Wait();
@@ -81,7 +81,7 @@ namespace Social.UnitTests.Features.Comments
         public async Task DeleteComment_ShouldThrowUnauthorizedException_WhenUserIsNotTheOwnerAndNotModerator()
         {
             // Arrange
-            _context.Users.Add(new AppUser { Id = 2 });
+            _context.Users.Add(new User { Id = 2 });
             _context.SaveChangesAsync(CancellationToken.None).Wait();
 
             var request = new DeleteCommentCommand { CommentId = 1, AuthUserId = 2, AuthUserRoles = new List<string>() };

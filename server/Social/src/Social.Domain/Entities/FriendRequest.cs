@@ -11,7 +11,7 @@ namespace Social.Domain.Entities
         public DateTime TimeSent { get; set; } = DateTime.UtcNow;
         public FriendRequestStatus Status { get; set; } = FriendRequestStatus.Pending;
 
-        public AppUser Sender { get; set; }
-        public AppUser Receiver { get; set; }
+        public User Sender { get; set; }
+        public User Receiver { get; set; }
     }
 }

@@ -18,9 +18,6 @@ namespace Social.Application
             services.AddValidatorsFromAssembly(assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
-            services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<IAuthService, AuthService>();
-
             services.AddMemoryCache();
             services.AddScoped<ICacheKeyService, CacheKeyService>();
             services.AddScoped<ICacheInvalidationService, CacheInvalidationService>();

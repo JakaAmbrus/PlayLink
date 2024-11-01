@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace Social.Domain.Entities
+﻿namespace Social.Domain.Entities
 {
-    public class AppUser : IdentityUser<int>
+    public class User
     {
+        public int Id { get; set; }
+        public string Username { get; set; }
         public string FullName { get; set; }
         public string Gender { get; set; }
         public string Country { get; set; }
@@ -13,8 +13,7 @@ namespace Social.Domain.Entities
         public string ProfilePictureUrl { get; set; }
         public string ProfilePicturePublicId { get; set; }
         public string Description { get; set; }
-
-        public ICollection<AppUserRole> UserRoles { get; set; }
+        
         public ICollection<FriendRequest> SentFriendRequests { get; set; }
         public ICollection<FriendRequest> ReceivedFriendRequests { get; set; }
         public ICollection<Friendship> FriendsAsUser1 { get; set; }

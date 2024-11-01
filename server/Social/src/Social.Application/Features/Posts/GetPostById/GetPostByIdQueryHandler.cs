@@ -9,9 +9,9 @@ namespace Social.Application.Features.Posts.GetPostById
 {
     public class GetPostByIdQueryHandler : IRequestHandler<GetPostByIdQuery, GetPostByIdResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public GetPostByIdQueryHandler(IApplicationDbContext context)
+        public GetPostByIdQueryHandler(ISocialDbContext context)
         {
             _context = context;
         }
@@ -28,10 +28,10 @@ namespace Social.Application.Features.Posts.GetPostById
                    PostId = p.PostId,
                    Description = p.Description,
                    DatePosted = p.DatePosted,
-                   Username = p.AppUser.UserName,
-                   FullName = p.AppUser.FullName,
+                   Username = p.User.Username,
+                   FullName = p.User.FullName,
                    PhotoUrl = p.PhotoUrl,
-                   Gender = p.AppUser.Gender,
+                   Gender = p.User.Gender,
                    LikesCount = p.LikesCount,
                    CommentsCount = p.CommentsCount,
                    IsLikedByCurrentUser = p.Likes.Any(l => l.AppUserId == request.AuthUserId),

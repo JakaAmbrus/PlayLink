@@ -7,9 +7,9 @@ namespace Social.Application.Features.Likes.UnlikeComment
 {
     public class UnlikeCommentCommandHandler : IRequestHandler<UnlikeCommentCommand, UnlikeCommentResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public UnlikeCommentCommandHandler(IApplicationDbContext context)
+        public UnlikeCommentCommandHandler(ISocialDbContext context)
         {
             _context = context;
         }

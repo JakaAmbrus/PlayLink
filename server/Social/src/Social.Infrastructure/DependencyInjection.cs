@@ -9,7 +9,6 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDatabaseServices(configuration);
-        services.AddIdentityServices(configuration);
         services.AddCloudinaryServices();
 
         return services;

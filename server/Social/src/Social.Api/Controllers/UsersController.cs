@@ -29,7 +29,7 @@ namespace Social.Api.Controllers
             var request = new GetUsersQuery 
             { 
                 Params = userParams,
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -89,8 +89,8 @@ namespace Social.Api.Controllers
             var request = new GetUserByUsernameQuery 
             { 
                 Username = username,
-                AuthUserId = AuthService.GetCurrentUserId(),
-                AuthUserRoles = AuthService.GetCurrentUserRoles()
+                AuthUserId = AuthService.GetSocialId(),
+                AuthUserRoles = AuthService.GetUserRoles()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -104,7 +104,7 @@ namespace Social.Api.Controllers
         [HttpGet("countries")]
         public async Task<IActionResult> GetUniqueCountries(CancellationToken cancellationToken)
         {
-            var request = new GetUsersUniqueCountriesQuery { AuthUserId = AuthService.GetCurrentUserId() };
+            var request = new GetUsersUniqueCountriesQuery { AuthUserId = AuthService.GetSocialId() };
 
             var response = await Mediator.Send(request, cancellationToken);
             return Ok(response);
@@ -121,8 +121,8 @@ namespace Social.Api.Controllers
             var request = new EditUserDetailsCommand
             {
                 EditUserDto = editUserDto,
-                AuthUserId = AuthService.GetCurrentUserId(),
-                AuthUserRoles = AuthService.GetCurrentUserRoles()
+                AuthUserId = AuthService.GetSocialId(),
+                AuthUserRoles = AuthService.GetUserRoles()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -138,8 +138,8 @@ namespace Social.Api.Controllers
         {
             var request = new DeleteUserCommand
             {
-                AuthUserId = AuthService.GetCurrentUserId(),
-                AuthUserRoles = AuthService.GetCurrentUserRoles()
+                AuthUserId = AuthService.GetSocialId(),
+                AuthUserRoles = AuthService.GetUserRoles()
             };
 
             var response = await Mediator.Send(request, cancellationToken);

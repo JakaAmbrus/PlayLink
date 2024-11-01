@@ -14,7 +14,7 @@ namespace Social.FunctionalTests.Controllers.Posts
 
         private async Task InitializeTestSeedDataAsync()
         {
-            Context.Users.Add(new AppUser { Id = 2, UserName = "tester" });
+            Context.Users.Add(new User { Id = 2, Username = "tester" });
 
             var authPosts = Enumerable.Range(1, 10)
                 .Select(i => new Post
@@ -60,8 +60,8 @@ namespace Social.FunctionalTests.Controllers.Posts
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
 
-            string username = "tester";
-            string url = $"/api/posts/user/{username}";
+            string Username = "tester";
+            string url = $"/api/posts/user/{Username}";
 
             // Act
             var response = await Client.GetAsync(url);
@@ -76,8 +76,8 @@ namespace Social.FunctionalTests.Controllers.Posts
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
 
-            string username = "tester";
-            string url = $"/api/posts/user/{username}?pageNumber=1&pageSize=5";
+            string Username = "tester";
+            string url = $"/api/posts/user/{Username}?pageNumber=1&pageSize=5";
 
             // Act
             var response = await Client.GetAsync(url);
@@ -96,8 +96,8 @@ namespace Social.FunctionalTests.Controllers.Posts
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
 
-            string username = "tester";
-            string url = $"/api/posts/user/{username}?pageNumber=1&pageSize=20";
+            string Username = "tester";
+            string url = $"/api/posts/user/{Username}?pageNumber=1&pageSize=20";
 
             // Act
             var response = await Client.GetAsync(url);
@@ -128,8 +128,8 @@ namespace Social.FunctionalTests.Controllers.Posts
             Context.Posts.AddRange(nonAuthPosts);
             await Context.SaveChangesAsync(CancellationToken.None);
 
-            string username = "tester";
-            string url = $"/api/posts/user/{username}?pageNumber=1&pageSize=100";
+            string Username = "tester";
+            string url = $"/api/posts/user/{Username}?pageNumber=1&pageSize=100";
 
             // Act
             var response = await Client.GetAsync(url);
@@ -147,8 +147,8 @@ namespace Social.FunctionalTests.Controllers.Posts
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
 
-            string username = "authtester";
-            string url = $"/api/posts/user/{username}?pageNumber=1&pageSize=5";
+            string Username = "authtester";
+            string url = $"/api/posts/user/{Username}?pageNumber=1&pageSize=5";
 
             // Act
             var response = await Client.GetAsync(url);
@@ -165,8 +165,8 @@ namespace Social.FunctionalTests.Controllers.Posts
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
 
-            string username = "tester";
-            string url = $"/api/posts/user/{username}?pageNumber=1&pageSize=5";
+            string Username = "tester";
+            string url = $"/api/posts/user/{Username}?pageNumber=1&pageSize=5";
 
             // Act
             var response = await Client.GetAsync(url);
@@ -183,8 +183,8 @@ namespace Social.FunctionalTests.Controllers.Posts
             // Arrange
             await InitializeTestAsync(new List<string> { "Member", "Moderator" });
 
-            string username = "tester";
-            string url = $"/api/posts/user/{username}?pageNumber=1&pageSize=5";
+            string Username = "tester";
+            string url = $"/api/posts/user/{Username}?pageNumber=1&pageSize=5";
 
             // Act
             var response = await Client.GetAsync(url);
@@ -200,11 +200,11 @@ namespace Social.FunctionalTests.Controllers.Posts
         {
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
-            await Context.Users.AddAsync(new AppUser { Id = 3, UserName = "noposts" });
+            await Context.Users.AddAsync(new User { Id = 3, Username = "noposts" });
             await Context.SaveChangesAsync(CancellationToken.None);
 
-            string username = "noposts";
-            string url = $"/api/posts/user/{username}?pageNumber=1&pageSize=5";
+            string Username = "noposts";
+            string url = $"/api/posts/user/{Username}?pageNumber=1&pageSize=5";
 
             // Act
             var response = await Client.GetAsync(url);
@@ -222,8 +222,8 @@ namespace Social.FunctionalTests.Controllers.Posts
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
 
-            string username = "tester";
-            string url = $"/api/posts/user/{username}?pageNumber=3&pageSize=10";
+            string Username = "tester";
+            string url = $"/api/posts/user/{Username}?pageNumber=3&pageSize=10";
 
             // Act
             var response = await Client.GetAsync(url);
@@ -241,8 +241,8 @@ namespace Social.FunctionalTests.Controllers.Posts
             // Arrange
             await InitializeTestAsync(new List<string> { });
 
-            string username = "tester";
-            string url = $"/api/posts/user/{username}?pageNumber=1&pageSize=5";
+            string Username = "tester";
+            string url = $"/api/posts/user/{Username}?pageNumber=1&pageSize=5";
 
             // Act
             var response = await Client.GetAsync(url);
@@ -257,8 +257,8 @@ namespace Social.FunctionalTests.Controllers.Posts
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
 
-            string username = "notfound";
-            string url = $"/api/posts/user/{username}?pageNumber=1&pageSize=5";
+            string Username = "notfound";
+            string url = $"/api/posts/user/{Username}?pageNumber=1&pageSize=5";
 
             // Act
             var response = await Client.GetAsync(url);
@@ -268,7 +268,7 @@ namespace Social.FunctionalTests.Controllers.Posts
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
             errorResponse.Should().NotBeNull();
             errorResponse.StatusCode.Should().Be(404);
-            errorResponse.Message.Should().Be($"User with Username {username} not found");
+            errorResponse.Message.Should().Be($"User with Username {Username} not found");
         }
 
         [Fact]
@@ -280,8 +280,8 @@ namespace Social.FunctionalTests.Controllers.Posts
             await InitializeAuthenticatedClient(new List<string> { "Member", "InvalidRole" });
             await InitializeTestSeedDataAsync();
 
-            string username = "tester";
-            string url = $"/api/posts/user/{username}?pageNumber=1&pageSize=5";
+            string Username = "tester";
+            string url = $"/api/posts/user/{Username}?pageNumber=1&pageSize=5";
 
             // Act
             var response = await Client.GetAsync(url);
@@ -302,8 +302,8 @@ namespace Social.FunctionalTests.Controllers.Posts
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
 
-            string username = "tester";
-            string url = $"/api/posts/user/{username}?pageNumber=1&pageSize=0";
+            string Username = "tester";
+            string url = $"/api/posts/user/{Username}?pageNumber=1&pageSize=0";
 
             // Act
             var response = await Client.GetAsync(url);
@@ -324,8 +324,8 @@ namespace Social.FunctionalTests.Controllers.Posts
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
 
-            string username = "tester";
-            string url = $"/api/posts/user/{username}?pageNumber=0&pageSize=5";
+            string Username = "tester";
+            string url = $"/api/posts/user/{Username}?pageNumber=0&pageSize=5";
 
             // Act
             var response = await Client.GetAsync(url);

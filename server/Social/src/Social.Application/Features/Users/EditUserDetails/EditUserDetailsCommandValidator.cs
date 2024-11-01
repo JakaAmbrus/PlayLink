@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Shared.Core.Utils;
 using Social.Application.Utils;
 
 namespace Social.Application.Features.Users.EditUserDetails
@@ -14,7 +15,7 @@ namespace Social.Application.Features.Users.EditUserDetails
                 .MaximumLength(200).WithMessage("Description cannot be longer than 200 characters.");
 
             RuleFor(x => x.EditUserDto.Country)
-                .Must(ValidationUtils.IsValidCountry).WithMessage("Invalid country")
+                .Must(SharedValidation.IsValidCountry).WithMessage("Invalid country")
                 .When(x => !string.IsNullOrEmpty(x.EditUserDto.Country));
 
             RuleFor(x => x.EditUserDto.PhotoFile)
@@ -33,7 +34,7 @@ namespace Social.Application.Features.Users.EditUserDetails
             var command = context.InstanceToValidate;
 
             command.EditUserDto.Description = command.EditUserDto?.Description?.Trim();
-            command.EditUserDto.Country = command.EditUserDto?.Country?.Trim();
+            command.EditUserDto!.Country = command.EditUserDto?.Country?.Trim();
 
             return true;
         }

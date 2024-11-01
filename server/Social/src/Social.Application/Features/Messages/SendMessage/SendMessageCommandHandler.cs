@@ -9,9 +9,9 @@ namespace Social.Application.Features.Messages.SendMessage
 {
     public class SendMessageCommandHandler : IRequestHandler<SendMessageCommand, SendMessageResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public SendMessageCommandHandler(IApplicationDbContext context)
+        public SendMessageCommandHandler(ISocialDbContext context)
         {
             _context = context;
         }
@@ -22,11 +22,11 @@ namespace Social.Application.Features.Messages.SendMessage
                 ?? throw new NotFoundException("Sender not found");
 
             var recipient = await _context.Users
-                .FirstOrDefaultAsync(u => u.UserName == request.CreateMessageDto.RecipientUsername, cancellationToken)
+                .FirstOrDefaultAsync(u => u.Username == request.CreateMessageDto.RecipientUsername, cancellationToken)
                 ?? throw new NotFoundException("Recipient not found");
 
 
-            if (recipient.UserName == sender.UserName)
+            if (recipient.Username == sender.Username)
             {
                 throw new BadRequestException("You cannot send messages to yourself");
             }
@@ -35,12 +35,12 @@ namespace Social.Application.Features.Messages.SendMessage
             {
                 Sender = sender,
                 Recipient = recipient,
-                SenderUsername = sender.UserName,
-                RecipientUsername = recipient.UserName,
+                SenderUsername = sender.Username,
+                RecipientUsername = recipient.Username,
                 Content = request.CreateMessageDto.Content
             };
 
-            _context.Add(message);
+            _context.PrivateMessages.Add(message);
             await _context.SaveChangesAsync(cancellationToken);
 
             return new SendMessageResponse
@@ -55,7 +55,7 @@ namespace Social.Application.Features.Messages.SendMessage
                     RecipientFullName = message.Recipient.FullName,
                     RecipientGender = message.Recipient.Gender,
                     Content = message.Content,
-                    DateRead = message.DateRead.HasValue ? message.DateRead.Value.ToUniversalTime() : (DateTime?)null,
+                    DateRead = message.DateRead?.ToUniversalTime(),
                     PrivateMessageSent = message.PrivateMessageSent.ToUniversalTime(),
                     SenderProfilePictureUrl = message.Sender.ProfilePictureUrl,
                     RecipientProfilePictureUrl = message.Recipient.ProfilePictureUrl    

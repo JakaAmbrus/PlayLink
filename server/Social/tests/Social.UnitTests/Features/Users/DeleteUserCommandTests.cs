@@ -10,7 +10,7 @@ namespace Social.UnitTests.Features.Users
     public class DeleteUserCommandTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly ICacheInvalidationService _cacheInvalidationService;
 
         public DeleteUserCommandTests()
@@ -27,13 +27,13 @@ namespace Social.UnitTests.Features.Users
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new AppUser { Id = 1, UserName = "tester" });
-            context.Users.Add(new AppUser 
+            context.Users.Add(new User { Id = 1, Username = "tester" });
+            context.Users.Add(new User 
             { 
                 Id = 2,
-                UserName = "tester2",
+                Username = "tester2",
                 UserRoles = new List<AppUserRole>
                 {
                     new AppUserRole
@@ -45,10 +45,10 @@ namespace Social.UnitTests.Features.Users
                     }
                 },
             });
-            context.Users.Add(new AppUser
+            context.Users.Add(new User
             {
                 Id = 3,
-                UserName = "tester3",
+                Username = "tester3",
                 UserRoles = new List<AppUserRole>
                 {
                     new AppUserRole

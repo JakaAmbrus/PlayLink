@@ -7,11 +7,11 @@ namespace Social.Application.Features.Posts.DeletePost
 {
     public class DeletePostCommandHandler : IRequestHandler<DeletePostCommand, DeletePostResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IPhotoService _photoService;
         private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public DeletePostCommandHandler(IApplicationDbContext context, IPhotoService photoService, ICacheInvalidationService cacheInvalidationService)
+        public DeletePostCommandHandler(ISocialDbContext context, IPhotoService photoService, ICacheInvalidationService cacheInvalidationService)
         {
             _context = context;
             _photoService = photoService;
@@ -42,7 +42,7 @@ namespace Social.Application.Features.Posts.DeletePost
 
                 if (deletionResult.Error == null) 
                 {
-                    _cacheInvalidationService.InvalidateUserPhotosCache(authUser.UserName);
+                    _cacheInvalidationService.InvalidateUserPhotosCache(authUser.Username);
                 }
 
                 if (deletionResult.Error != null)

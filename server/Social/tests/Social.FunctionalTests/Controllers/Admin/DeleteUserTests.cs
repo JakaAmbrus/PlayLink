@@ -12,8 +12,8 @@ namespace Social.FunctionalTests.Controllers.Admin
 
         private async Task InitializeTestSeedDataAsync()
         {
-            Context.Users.Add(new AppUser { Id = 2, UserName = "testertwo" });
-            Context.Users.Add(new AppUser { Id = 3, UserName = "testerthree" });
+            Context.Users.Add(new User { Id = 2, Username = "testertwo" });
+            Context.Users.Add(new User { Id = 3, Username = "testerthree" });
 
             var group = new Group("SampleGroup");
             group.Connections.Add(new Connection { ConnectionId = "2", Username = "testertwo" });
@@ -138,7 +138,7 @@ namespace Social.FunctionalTests.Controllers.Admin
         {
             // Arrange
             await InitializeTestAsync(new List<string> { "Member", "Moderator", "Admin" });
-            var authUser = await Context.FindAsync<AppUser>(1);
+            var authUser = await Context.FindAsync<User>(1);
             Context.Remove(authUser);
             await Context.SaveChangesAsync();
 
@@ -161,7 +161,7 @@ namespace Social.FunctionalTests.Controllers.Admin
         {
             // Arrange
             await InitializeTestAsync(new List<string> { "Member", "Moderator", "Admin" });
-            var authUser = await Context.FindAsync<AppUser>(1);
+            var authUser = await Context.FindAsync<User>(1);
             await UserManager.RemoveFromRoleAsync(authUser, "Admin");
 
             int userId = 1;

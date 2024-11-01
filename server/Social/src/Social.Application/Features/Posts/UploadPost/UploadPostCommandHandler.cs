@@ -8,11 +8,11 @@ namespace Social.Application.Features.Posts.UploadPost
 {
     public class UploadPostCommandHandler : IRequestHandler<UploadPostCommand, UploadPostResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IPhotoService _photoService;
         private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public UploadPostCommandHandler(IApplicationDbContext context, IPhotoService photoService, ICacheInvalidationService cacheInvalidationService)
+        public UploadPostCommandHandler(ISocialDbContext context, IPhotoService photoService, ICacheInvalidationService cacheInvalidationService)
         {
             _context = context;
             _photoService = photoService;
@@ -41,7 +41,7 @@ namespace Social.Application.Features.Posts.UploadPost
                     newPost.PhotoUrl = uploadResult.Url.ToString();
                     newPost.PhotoPublicId = uploadResult.PublicId.ToString();
 
-                    _cacheInvalidationService.InvalidateUserPhotosCache(authUser.UserName);
+                    _cacheInvalidationService.InvalidateUserPhotosCache(authUser.Username);
                 }
                 else
                 {
@@ -58,7 +58,7 @@ namespace Social.Application.Features.Posts.UploadPost
                 {
                     PostId = newPost.PostId,
                     AppUserId = newPost.AppUserId,
-                    Username = authUser.UserName,
+                    Username = authUser.Username,
                     FullName = authUser.FullName,
                     ProfilePictureUrl = authUser.ProfilePictureUrl,
                     Gender = authUser.Gender,

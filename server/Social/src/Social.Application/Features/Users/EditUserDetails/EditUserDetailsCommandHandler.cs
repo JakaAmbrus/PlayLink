@@ -6,11 +6,11 @@ namespace Social.Application.Features.Users.EditUserDetails
 {
     public class EditUserDetailsCommandHandler : IRequestHandler<EditUserDetailsCommand, EditUserDetailsResult>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IPhotoService _photoService;
         private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public EditUserDetailsCommandHandler(IApplicationDbContext context,IPhotoService photoService, ICacheInvalidationService cacheInvalidationService)
+        public EditUserDetailsCommandHandler(ISocialDbContext context,IPhotoService photoService, ICacheInvalidationService cacheInvalidationService)
         {
             _context = context;
             _photoService = photoService;
@@ -22,7 +22,7 @@ namespace Social.Application.Features.Users.EditUserDetails
             var authUser = await _context.Users.FindAsync(new object[] { request.AuthUserId }, cancellationToken)
                 ?? throw new NotFoundException("Authorized user was not found");
 
-            bool isUserOwner = authUser.UserName == request.EditUserDto.Username;
+            bool isUserOwner = authUser.Username == request.EditUserDto.Username;
 
             if (!isUserOwner)
             {
@@ -48,7 +48,7 @@ namespace Social.Application.Features.Users.EditUserDetails
                     authUser.ProfilePictureUrl = uploadResult.Url.ToString();
                     authUser.ProfilePicturePublicId = uploadResult.PublicId.ToString();
 
-                    _cacheInvalidationService.InvalidateUserPhotosCache(authUser.UserName);
+                    _cacheInvalidationService.InvalidateUserPhotosCache(authUser.Username);
                 }
                 else
                 {

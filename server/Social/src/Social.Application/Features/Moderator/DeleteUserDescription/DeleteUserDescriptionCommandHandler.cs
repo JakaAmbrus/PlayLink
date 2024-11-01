@@ -7,16 +7,16 @@ namespace Social.Application.Features.Moderator.DeleteUserDescription
 {
     public class DeleteUserDescriptionCommandHandler : IRequestHandler<DeleteUserDescriptionCommand, DeleteUserDescriptionResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public DeleteUserDescriptionCommandHandler(IApplicationDbContext context)
+        public DeleteUserDescriptionCommandHandler(ISocialDbContext context)
         {
             _context = context;
         }
 
         public async Task<DeleteUserDescriptionResponse> Handle(DeleteUserDescriptionCommand request, CancellationToken cancellationToken)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == request.Username, cancellationToken)
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == request.Username, cancellationToken)
                 ?? throw new NotFoundException("User not found.");
 
             if (user.Description == null)

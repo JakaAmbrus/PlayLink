@@ -8,9 +8,9 @@ namespace Social.Application.Features.Comments.UploadComment
 {
     public class UploadCommentCommandHandler : IRequestHandler<UploadCommentCommand, UploadCommentResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public UploadCommentCommandHandler(IApplicationDbContext context)
+        public UploadCommentCommandHandler(ISocialDbContext context)
         {
             _context = context;
         }
@@ -41,7 +41,7 @@ namespace Social.Application.Features.Comments.UploadComment
                     CommentId = newComment.CommentId,
                     PostId = newComment.PostId,
                     AppUserId = newComment.AppUserId,
-                    Username = authUser.UserName,
+                    Username = authUser.Username,
                     FullName = authUser.FullName,
                     Gender = authUser.Gender,
                     ProfilePictureUrl = authUser.ProfilePictureUrl,

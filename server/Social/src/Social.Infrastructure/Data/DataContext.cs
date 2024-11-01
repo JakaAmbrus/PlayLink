@@ -1,19 +1,15 @@
-﻿using Social.Application.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Social.Application.Interfaces;
 using Social.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using Social.Infrastructure.Data.Configurations;
 
 namespace Social.Infrastructure.Data
 {
-    public class DataContext : IdentityDbContext<AppUser, AppRole, int,
-          IdentityUserClaim<int>, AppUserRole, IdentityUserLogin<int>,
-          IdentityRoleClaim<int>, IdentityUserToken<int>>, IApplicationDbContext
+    public class DataContext : DbContext, ISocialDbContext
     {
         public DataContext(DbContextOptions options) : base(options) { }
 
+        public DbSet<User> Users { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Like> Likes { get; set;}
@@ -27,39 +23,26 @@ namespace Social.Infrastructure.Data
         {
             base.OnModelCreating(builder);
 
-            //AppUser
-            builder.ApplyConfiguration(new AppUserConfiguration());
+            // User
+            builder.ApplyConfiguration(new UserConfiguration());
 
-            //AppUserRole
-            builder.ApplyConfiguration(new AppRoleConfiguration());
-
-            //Posts
+            // Posts
             builder.ApplyConfiguration(new PostConfiguration());
 
-            //Comments
+            // Comments
             builder.ApplyConfiguration(new CommentConfiguration());
 
-            //Likes
+            // Likes
             builder.ApplyConfiguration(new LikeConfiguration());
 
-            //FriendRequest
+            // FriendRequest
             builder.ApplyConfiguration(new FriendRequestConfiguration());
 
-            //Friendship
+            // Friendship
             builder.ApplyConfiguration(new FriendshipConfiguration());
 
-            //PrivatMessages
+            // PrivateMessages
             builder.ApplyConfiguration(new PrivateMessageConfiguration());
-        }
-
-        public void Add<TEntity>(TEntity entity) where TEntity : class
-        {
-            Set<TEntity>().Add(entity);
-        }
-
-        public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken)
-        {
-            return await this.Database.BeginTransactionAsync(cancellationToken);
         }
     }
 }

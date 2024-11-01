@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
-using Social.Application.Utils;
+using Shared.Core.Utils;
 
 namespace Social.Application.Features.Authentication.UserRegistration
 {
@@ -29,25 +29,25 @@ namespace Social.Application.Features.Authentication.UserRegistration
                 .NotEmpty().WithMessage("Full Name required.")
                 .Must(x => x.Length > 4 && x.Length < 30 && x.Contains(" ")).WithMessage("Full Name must be between 4 and 30 characters and include both first and last name.")
                 .Matches(@"^[a-zA-Z\s]*$").WithMessage("Full name must include standard characters")
-                .Must(CheckFirstNameLenght).WithMessage("First name cannot exceed 12 characters and must have second name.")
+                .Must(CheckFirstNameLength).WithMessage("First name cannot exceed 12 characters and must have second name.")
                 .When(x => x.FullName != null);
 
             RuleFor(x => x.Country)
                 .NotEmpty().WithMessage("Country required.")
-                .Must(ValidationUtils.IsValidCountry).WithMessage("Invalid country");
+                .Must(SharedValidation.IsValidCountry).WithMessage("Invalid country");
 
             RuleFor(x => x.DateOfBirth)
                 .NotEmpty().WithMessage("Date of Birth required.")
                 .Must(x => x.Year < DateTime.UtcNow.Year - 12).WithMessage("You must be at least 12 years old to register")
                 .Must(x => x.Year > DateTime.UtcNow.Year - 99).WithMessage("Your age must be realistic");
         }
-        private bool MaleOrFemaleGender(string gender)
+        private static bool MaleOrFemaleGender(string gender)
         {
             return gender.Equals("male", StringComparison.OrdinalIgnoreCase) ||
                    gender.Equals("female", StringComparison.OrdinalIgnoreCase);
         }
 
-        private bool CheckFirstNameLenght(string fullName)
+        private static bool CheckFirstNameLength(string fullName)
         {
             var words = fullName.Split(' ');
 

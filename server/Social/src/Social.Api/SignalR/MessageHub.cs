@@ -1,20 +1,20 @@
-﻿using Social.Application.Features.MessageGroups.AddConnectionToGroup;
+﻿using System.Collections.Concurrent;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
+using Shared.Core.Authentication.Interfaces;
+using Social.Application.Features.MessageGroups.AddConnectionToGroup;
 using Social.Application.Features.MessageGroups.AddGroup;
 using Social.Application.Features.MessageGroups.Common;
 using Social.Application.Features.MessageGroups.GetGroupForConnection;
 using Social.Application.Features.MessageGroups.GetMessageGroup;
-using Social.Application.Features.Messages.MarkMessageAsRead;
 using Social.Application.Features.MessageGroups.RemoveConnection;
 using Social.Application.Features.Messages.Common;
 using Social.Application.Features.Messages.GetMessageById;
 using Social.Application.Features.Messages.GetMessageThread;
+using Social.Application.Features.Messages.MarkMessageAsRead;
 using Social.Application.Features.Messages.SendMessage;
 using Social.Application.Features.Users.GetUserIdFromUsername;
-using Social.Application.Interfaces;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.SignalR;
-using System.Collections.Concurrent;
 
 namespace Social.Api.SignalR
 {
@@ -22,12 +22,12 @@ namespace Social.Api.SignalR
     public class MessageHub : Hub
     {
         private readonly ISender _mediator;
-        private readonly IAuthService _authService;
+        private readonly IAuthContextService _authService;
         private readonly IHubContext<PresenceHub> _presenceHub;
 
         private static readonly ConcurrentDictionary<int, Queue<DateTime>> MessageTime = new();
 
-        public MessageHub(ISender mediator, IAuthService authService, IHubContext<PresenceHub> presenceHub)
+        public MessageHub(ISender mediator, IAuthContextService authService, IHubContext<PresenceHub> presenceHub)
         {
             _mediator = mediator;
             _authService = authService;
@@ -36,8 +36,8 @@ namespace Social.Api.SignalR
 
         public override async Task OnConnectedAsync()
         {
-            var authUserId = _authService.GetCurrentUserId();
-            var authUsername = await _authService.GetUsernameByIdAsync(CancellationToken.None);
+            var authUserId = _authService.GetSocialId();
+            var authUsername = _authService.GetUsername();
 
             var httpContext = Context.GetHttpContext();
             var otherUser = httpContext.Request.Query["user"].ToString();
@@ -70,7 +70,7 @@ namespace Social.Api.SignalR
         public async Task SendMessage(CreateMessageDto createMessageDto)
         {
 
-            int authUserId = _authService.GetCurrentUserId();
+            int authUserId = _authService.GetSocialId();
 
             if (!IsWithinMessageRateLimit(authUserId, out var retryAfter))
             {
@@ -81,7 +81,7 @@ namespace Social.Api.SignalR
                 return;
             }
 
-            var authUsername = await _authService.GetUsernameByIdAsync(CancellationToken.None);;
+            var authUsername = _authService.GetUsername();
 
             var command = new SendMessageCommand
             {
@@ -157,7 +157,7 @@ namespace Social.Api.SignalR
                 _ = await _mediator.Send(new AddGroupCommand { GroupName = groupName });
             }
 
-            string authUsername = await _authService.GetUsernameByIdAsync(CancellationToken.None);
+            var authUsername = _authService.GetUsername();
             var connectionDto = new ConnectionDto
             {
                 ConnectionId = Context.ConnectionId,

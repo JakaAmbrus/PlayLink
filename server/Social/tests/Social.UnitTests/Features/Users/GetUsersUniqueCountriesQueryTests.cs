@@ -9,7 +9,7 @@ namespace Social.UnitTests.Features.Users
     public class GetUsersUniqueCountriesQueryTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
         public GetUsersUniqueCountriesQueryTests()
         {
@@ -24,33 +24,33 @@ namespace Social.UnitTests.Features.Users
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new AppUser
+            context.Users.Add(new User
             {
                 Id = 1,
                 UserName = "tester",
                 Country = "Slovenia"
             });
-            context.Users.Add(new AppUser
+            context.Users.Add(new User
             {
                 Id = 2,
                 UserName = "tester2",
                 Country = "Romania"
             });
-            context.Users.Add(new AppUser
+            context.Users.Add(new User
             {
                 Id = 3,
                 UserName = "tester3",
                 Country = "Austria"
             });
-            context.Users.Add(new AppUser
+            context.Users.Add(new User
             {
                 Id = 4,
                 UserName = "tester4",
                 Country = "Switzerland"
             });
-            context.Users.Add(new AppUser
+            context.Users.Add(new User
             {
                 Id = 5,
                 UserName = "tester5",
@@ -64,7 +64,7 @@ namespace Social.UnitTests.Features.Users
         public async Task GetUsersUniqueCountries_ShouldReturnUniqueCountriesFromUsers_WhenCalled()
         {
             // Arrange
-            _context.Users.Add(new AppUser
+            _context.Users.Add(new User
             {
                 Id = 6,
                 UserName = "tester6",
@@ -88,7 +88,7 @@ namespace Social.UnitTests.Features.Users
         public async Task GetUsersUniqueCountries_ShouldReturnUniqueCountriesFromUsersExeptCurrent_WhenCalled()
         {
             // Arrange
-            _context.Users.Add(new AppUser
+            _context.Users.Add(new User
             {
                 Id = 6,
                 UserName = "tester6",

@@ -25,7 +25,7 @@ namespace Social.Api.Controllers
             var request = new GetMessagesForUserQuery
             {
                 Params = messageParams,
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -44,7 +44,7 @@ namespace Social.Api.Controllers
             var request = new GetMessageThreadQuery
             {
                 ProfileUsername = recipientUsername,
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -62,7 +62,7 @@ namespace Social.Api.Controllers
             var request = new SendMessageCommand 
             { 
                 CreateMessageDto = createMessageDto,
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -80,7 +80,7 @@ namespace Social.Api.Controllers
             var request = new DeleteMessageCommand 
             { 
                 PrivateMessageId = id,
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);

@@ -14,8 +14,8 @@ namespace Social.FunctionalTests.Controllers.Messages
 
         private async Task InitializeTestSeedDataAsync()
         {
-            Context.Users.Add(new AppUser { Id = 2, UserName = "testtwo" });
-            Context.Users.Add(new AppUser { Id = 3, UserName = "testthree" });
+            Context.Users.Add(new User { Id = 2, UserName = "testtwo" });
+            Context.Users.Add(new User { Id = 3, UserName = "testthree" });
 
             var sentUnreadMessages = Enumerable.Range(1, 3)
                 .Select(i => new PrivateMessage

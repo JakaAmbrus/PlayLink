@@ -8,10 +8,10 @@ namespace Social.Application.Features.Friends.RemoveFriendRequest
 {
     public class RemoveFriendRequestCommandHandler : IRequestHandler<RemoveFriendRequestCommand, RemoveFriendRequestResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public RemoveFriendRequestCommandHandler(IApplicationDbContext context, ICacheInvalidationService cacheInvalidationService)
+        public RemoveFriendRequestCommandHandler(ISocialDbContext context, ICacheInvalidationService cacheInvalidationService)
         {
             _context = context;
             _cacheInvalidationService = cacheInvalidationService;

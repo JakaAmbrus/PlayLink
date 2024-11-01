@@ -7,9 +7,9 @@ namespace Social.Application.Features.MessageGroups.GetMessageGroup
 {
     public class GetMessageGroupQueryHandler : IRequestHandler<GetMessageGroupQuery, GroupDto>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public GetMessageGroupQueryHandler(IApplicationDbContext context)
+        public GetMessageGroupQueryHandler(ISocialDbContext context)
         {
             _context = context;
         }

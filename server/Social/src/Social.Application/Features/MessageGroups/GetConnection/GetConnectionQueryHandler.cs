@@ -7,9 +7,9 @@ namespace Social.Application.Features.MessageGroups.GetConnection
 {
     public class GetConnectionQueryHandler : IRequestHandler<GetConnectionQuery, Connection>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public GetConnectionQueryHandler(IApplicationDbContext context)
+        public GetConnectionQueryHandler(ISocialDbContext context)
         {
             _context = context;
         }

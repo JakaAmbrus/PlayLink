@@ -12,7 +12,7 @@ namespace Social.UnitTests.Features.Admin
     public class AdminGetUsersQueryTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IUserManager _userManager;
 
         public AdminGetUsersQueryTests()
@@ -29,11 +29,11 @@ namespace Social.UnitTests.Features.Admin
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new AppUser { Id = 50, UserName = "AdminTestUser" });
+            context.Users.Add(new User { Id = 50, UserName = "AdminTestUser" });
             var users = Enumerable.Range(1, 15)
-                .Select(i => new AppUser
+                .Select(i => new User
                 {
                     Id = i,
                     UserName = $"{i}"
@@ -47,7 +47,7 @@ namespace Social.UnitTests.Features.Admin
         public async Task AdminGetUsers_ShouldReturnPagedListOfUserDTOsWithoutAdmin_WhenUsersExist()
         {
             // Arrange
-            _userManager.IsInRoleAsync(Arg.Any<AppUser>(), "Admin").Returns(Task.FromResult(true));
+            _userManager.IsInRoleAsync(Arg.Any<User>(), "Admin").Returns(Task.FromResult(true));
 
             var request = new AdminGetUsersQuery
             {
@@ -69,7 +69,7 @@ namespace Social.UnitTests.Features.Admin
         public async Task AdminGetUsers_ShouldReturnPagedListOfUserDTOs_WhenPageSizeIsGreaterThanNumberOfUsers()
         {
             // Arrange
-            _userManager.IsInRoleAsync(Arg.Any<AppUser>(), "Admin").Returns(Task.FromResult(true));
+            _userManager.IsInRoleAsync(Arg.Any<User>(), "Admin").Returns(Task.FromResult(true));
 
             var request = new AdminGetUsersQuery
             {
@@ -90,7 +90,7 @@ namespace Social.UnitTests.Features.Admin
         public async Task AdminGetUsers_ShouldReturnEmptyList_WhenPageNumberIsGreaterThanNumberOfPages()
         {
             // Arrange
-            _userManager.IsInRoleAsync(Arg.Any<AppUser>(), "Admin").Returns(Task.FromResult(true));
+            _userManager.IsInRoleAsync(Arg.Any<User>(), "Admin").Returns(Task.FromResult(true));
 
             var request = new AdminGetUsersQuery
             {
@@ -112,10 +112,10 @@ namespace Social.UnitTests.Features.Admin
         {
             // Arrange
             _context.Users.RemoveRange(_context.Users);
-            _context.Users.Add(new AppUser { Id = 50, UserName = "AdminTestUser" });
+            _context.Users.Add(new User { Id = 50, UserName = "AdminTestUser" });
             _context.SaveChangesAsync(CancellationToken.None).Wait();
 
-            _userManager.IsInRoleAsync(Arg.Any<AppUser>(), "Admin").Returns(Task.FromResult(true));
+            _userManager.IsInRoleAsync(Arg.Any<User>(), "Admin").Returns(Task.FromResult(true));
 
             var request = new AdminGetUsersQuery
             {
@@ -135,7 +135,7 @@ namespace Social.UnitTests.Features.Admin
         public async Task AdminGetUsers_ShouldThrowNotFoundException_WhenUserDoesNotExist()
         {
             // Arrange
-            _userManager.IsInRoleAsync(Arg.Any<AppUser>(), "Admin").Returns(Task.FromResult(true));
+            _userManager.IsInRoleAsync(Arg.Any<User>(), "Admin").Returns(Task.FromResult(true));
 
             var request = new AdminGetUsersQuery
             {
@@ -155,7 +155,7 @@ namespace Social.UnitTests.Features.Admin
         public async Task AdminGetUsers_ShouldThrowUnauthorizedAccessException_WhenUserIsNotAdmin()
         {
             // Arrange
-            _userManager.IsInRoleAsync(Arg.Any<AppUser>(), "Admin").Returns(Task.FromResult(false));
+            _userManager.IsInRoleAsync(Arg.Any<User>(), "Admin").Returns(Task.FromResult(false));
 
             var request = new AdminGetUsersQuery
             {

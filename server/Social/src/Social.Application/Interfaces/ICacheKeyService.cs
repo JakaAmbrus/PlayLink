@@ -2,6 +2,6 @@
 {
     public interface ICacheKeyService
     {
-        string GenerateFriendStatusCacheKey(int userId1, int userId2);
+        string GenerateFriendStatusCacheKey(long userId1, long userId2);
     }
 }

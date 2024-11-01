@@ -10,7 +10,7 @@ namespace Social.UnitTests.Features.Admin
     public class AdminEditRolesCommandTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IUserManager _userManager;
 
         public AdminEditRolesCommandTests()
@@ -27,10 +27,10 @@ namespace Social.UnitTests.Features.Admin
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new AppUser { Id = 1, UserName = "FakeTestUser" });
-            context.Users.Add(new AppUser { Id = 2, UserName = "FakeTestUser2" });
+            context.Users.Add(new User { Id = 1, UserName = "FakeTestUser" });
+            context.Users.Add(new User { Id = 2, UserName = "FakeTestUser2" });
 
             context.SaveChangesAsync(CancellationToken.None).Wait();
         }
@@ -45,8 +45,8 @@ namespace Social.UnitTests.Features.Admin
                 AuthUserId = 1
             };
 
-            _userManager.IsInRoleAsync(Arg.Any<AppUser>(), "Admin").Returns(Task.FromResult(true));
-            _userManager.IsInRoleAsync(Arg.Any<AppUser>(), "Moderator").Returns(Task.FromResult(false));
+            _userManager.IsInRoleAsync(Arg.Any<User>(), "Admin").Returns(Task.FromResult(true));
+            _userManager.IsInRoleAsync(Arg.Any<User>(), "Moderator").Returns(Task.FromResult(false));
 
             // Act
             var response = await _mediator.Send(request, CancellationToken.None);
@@ -54,7 +54,7 @@ namespace Social.UnitTests.Features.Admin
             // Assert
             response.Should().BeOfType<AdminEditRolesResponse>();
             response.RoleEdited.Should().BeTrue();
-            await _userManager.Received(1).AddToRoleAsync(Arg.Is<AppUser>(u => u.Id == request.AppUserId), "Moderator");
+            await _userManager.Received(1).AddToRoleAsync(Arg.Is<User>(u => u.Id == request.AppUserId), "Moderator");
         }
 
         [Fact]
@@ -67,8 +67,8 @@ namespace Social.UnitTests.Features.Admin
                 AuthUserId = 1
             };
 
-            _userManager.IsInRoleAsync(Arg.Any<AppUser>(), "Admin").Returns(Task.FromResult(true));
-            _userManager.IsInRoleAsync(Arg.Any<AppUser>(), "Moderator").Returns(Task.FromResult(true));
+            _userManager.IsInRoleAsync(Arg.Any<User>(), "Admin").Returns(Task.FromResult(true));
+            _userManager.IsInRoleAsync(Arg.Any<User>(), "Moderator").Returns(Task.FromResult(true));
 
             // Act
             var response = await _mediator.Send(request, CancellationToken.None);
@@ -76,7 +76,7 @@ namespace Social.UnitTests.Features.Admin
             // Assert
             response.Should().BeOfType<AdminEditRolesResponse>();
             response.RoleEdited.Should().BeTrue();
-            await _userManager.Received(1).RemoveFromRoleAsync(Arg.Is<AppUser>(u => u.Id == request.AppUserId), "Moderator");
+            await _userManager.Received(1).RemoveFromRoleAsync(Arg.Is<User>(u => u.Id == request.AppUserId), "Moderator");
         }
 
         [Fact]
@@ -125,7 +125,7 @@ namespace Social.UnitTests.Features.Admin
                 AuthUserId = 1
             };
 
-            _userManager.IsInRoleAsync(Arg.Any<AppUser>(), "Admin").Returns(Task.FromResult(false));
+            _userManager.IsInRoleAsync(Arg.Any<User>(), "Admin").Returns(Task.FromResult(false));
 
             // Act
             var action = async () => await _mediator.Send(request);

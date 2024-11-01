@@ -7,9 +7,9 @@ namespace Social.Application.Features.Comments.DeleteComment
 {
     public class DeleteCommentCommandHandler : IRequestHandler<DeleteCommentCommand, DeleteCommentResponse>
     {
-        private readonly IApplicationDbContext  _context;
+        private readonly ISocialDbContext  _context;
 
-        public DeleteCommentCommandHandler(IApplicationDbContext context)
+        public DeleteCommentCommandHandler(ISocialDbContext context)
         {
             _context = context;
         }

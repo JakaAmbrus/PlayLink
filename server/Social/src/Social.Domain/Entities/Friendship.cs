@@ -6,8 +6,8 @@
         public int User1Id { get; set; }
         public int User2Id { get; set; }
 
-        public AppUser User1 { get; set; }
-        public AppUser User2 { get; set; }
+        public User User1 { get; set; }
+        public User User2 { get; set; }
 
         public DateTime DateEstablished { get; set; } = DateTime.UtcNow;
     }

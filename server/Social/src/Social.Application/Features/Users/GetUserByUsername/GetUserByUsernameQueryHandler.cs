@@ -10,10 +10,10 @@ namespace Social.Application.Features.Users.GetUserByUsername
 {
     public class GetUserByUsernameQueryHandler : IRequestHandler<GetUserByUsernameQuery, GetUserByUsernameResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IMemoryCache _memoryCache;
 
-        public GetUserByUsernameQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache)
+        public GetUserByUsernameQueryHandler(ISocialDbContext context, IMemoryCache memoryCache)
         {
             _context = context;
             _memoryCache = memoryCache;
@@ -23,7 +23,7 @@ namespace Social.Application.Features.Users.GetUserByUsername
         {
 
             var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.UserName == request.Username, cancellationToken)
+                .FirstOrDefaultAsync(u => u.Username == request.Username, cancellationToken)
                 ?? throw new NotFoundException($"The user by the username: {request.Username} not found ");
 
             bool isModerator = request.AuthUserRoles.Contains(Role.Moderator.ToString());
@@ -32,7 +32,7 @@ namespace Social.Application.Features.Users.GetUserByUsername
             var profileUserDto = new ProfileUserDto
             {
                 AppUserId = user.Id,
-                Username = user.UserName,
+                Username = user.Username,
                 Gender = user.Gender,
                 FullName = user.FullName,
                 DateOfBirth = DateOnly.FromDateTime(user.DateOfBirth),

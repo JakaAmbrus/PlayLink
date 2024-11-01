@@ -10,9 +10,9 @@ namespace Social.Application.Features.Posts.GetPostsByUser
 {
     public class GetPostsByUserQueryHandler : IRequestHandler<GetPostsByUserQuery, GetPostsByUserResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public GetPostsByUserQueryHandler(IApplicationDbContext context)
+        public GetPostsByUserQueryHandler(ISocialDbContext context)
         {
             _context = context;
         }
@@ -21,7 +21,7 @@ namespace Social.Application.Features.Posts.GetPostsByUser
         {
             bool isModerator = request.AuthUserRoles.Contains(Role.Moderator.ToString());
 
-            var requestedUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == request.Username, cancellationToken)
+            var requestedUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == request.Username, cancellationToken)
                 ?? throw new NotFoundException($"User with Username {request.Username} not found");
 
             var requestUserId = requestedUser.Id;
@@ -34,7 +34,7 @@ namespace Social.Application.Features.Posts.GetPostsByUser
                 {
                     AppUserId = p.AppUserId,
                     PostId = p.PostId,
-                    Username = requestedUser.UserName,
+                    Username = requestedUser.Username,
                     FullName = requestedUser.FullName,
                     Gender = requestedUser.Gender,
                     Description = p.Description,

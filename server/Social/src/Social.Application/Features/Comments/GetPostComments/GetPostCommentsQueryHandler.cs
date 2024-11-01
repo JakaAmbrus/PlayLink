@@ -10,9 +10,9 @@ namespace Social.Application.Features.Comments.GetPostComments
 {
     public class GetPostCommentsQueryHandler : IRequestHandler<GetPostCommentsQuery, GetPostCommentsResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public GetPostCommentsQueryHandler(IApplicationDbContext context)
+        public GetPostCommentsQueryHandler(ISocialDbContext context)
         {
             _context = context;
         }
@@ -32,10 +32,10 @@ namespace Social.Application.Features.Comments.GetPostComments
                     CommentId = comment.CommentId,
                     PostId = comment.PostId,
                     AppUserId = comment.AppUserId,
-                    Username = comment.AppUser.UserName,
-                    FullName = comment.AppUser.FullName,
-                    Gender = comment.AppUser.Gender,
-                    ProfilePictureUrl = comment.AppUser.ProfilePictureUrl,
+                    Username = comment.User.Username,
+                    FullName = comment.User.FullName,
+                    Gender = comment.User.Gender,
+                    ProfilePictureUrl = comment.User.ProfilePictureUrl,
                     Content = comment.Content,
                     LikesCount = comment.LikesCount,
                     TimeCommented = comment.TimeCommented,

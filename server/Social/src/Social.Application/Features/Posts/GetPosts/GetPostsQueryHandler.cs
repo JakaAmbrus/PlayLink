@@ -8,9 +8,9 @@ namespace Social.Application.Features.Posts.GetPosts
 {
     public class GetPostsQueryHandler : IRequestHandler<GetPostsQuery, GetPostsResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public GetPostsQueryHandler(IApplicationDbContext context) 
+        public GetPostsQueryHandler(ISocialDbContext context) 
         {
             _context = context;
         }
@@ -26,10 +26,10 @@ namespace Social.Application.Features.Posts.GetPosts
             {
                 PostId = post.PostId,
                 AppUserId = post.AppUserId,
-                Username = post.AppUser.UserName,
-                FullName = post.AppUser.FullName,
-                ProfilePictureUrl = post.AppUser.ProfilePictureUrl,
-                Gender = post.AppUser.Gender,
+                Username = post.User.Username,
+                FullName = post.User.FullName,
+                ProfilePictureUrl = post.User.ProfilePictureUrl,
+                Gender = post.User.Gender,
                 Description = post.Description,
                 DatePosted = post.DatePosted,
                 PhotoUrl = post.PhotoUrl,

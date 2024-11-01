@@ -11,7 +11,7 @@ namespace Social.UnitTests.Features.Comments
     public class UploadCommentCommandTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
         public UploadCommentCommandTests()
         {
@@ -26,10 +26,10 @@ namespace Social.UnitTests.Features.Comments
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
             context.Posts.Add(new Post { PostId = 1, CommentsCount = 0 });
-            context.Users.Add(new AppUser { Id = 1 });
+            context.Users.Add(new User { Id = 1 });
             context.SaveChangesAsync(CancellationToken.None).Wait();
         }
 

@@ -12,7 +12,7 @@ namespace Social.FunctionalTests.Controllers.Comments
 
         private async Task InitializeTestSeedDataAsync()
         {
-            Context.Users.Add(new AppUser { Id = 2, UserName = "testertwo" });
+            Context.Users.Add(new User { Id = 2, UserName = "testertwo" });
 
             Context.Posts.Add(new Post { PostId = 1, AppUserId = 1, CommentsCount = 2 });
 

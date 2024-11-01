@@ -169,7 +169,7 @@ namespace Social.FunctionalTests.Controllers.Comments
         {
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
-            await Context.Users.AddAsync(new AppUser { Id = 2, UserName = "testertwo" });
+            await Context.Users.AddAsync(new User { Id = 2, UserName = "testertwo" });
             await Context.Posts.AddAsync(new Post { PostId = 2, AppUserId = 2, CommentsCount = 0 });
             var user = await Context.Users.FindAsync(1);
             Context.Users.Remove(user);

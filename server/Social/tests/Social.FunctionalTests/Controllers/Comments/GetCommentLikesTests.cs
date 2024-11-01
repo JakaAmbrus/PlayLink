@@ -21,7 +21,7 @@ namespace Social.FunctionalTests.Controllers.Comments
         private async Task InitializeTestSeedDataAsync()
         {
             var users = Enumerable.Range(2, 10)
-                .Select(i => new AppUser
+                .Select(i => new User
                 {
                     Id = i,
                     UserName = $"{i}",

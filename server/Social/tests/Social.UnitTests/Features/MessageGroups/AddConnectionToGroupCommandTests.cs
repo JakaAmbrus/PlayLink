@@ -11,7 +11,7 @@ namespace Social.UnitTests.Features.MessageGroups
     public class AddConnectionToGroupCommandTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
         public AddConnectionToGroupCommandTests()
         {
@@ -26,7 +26,7 @@ namespace Social.UnitTests.Features.MessageGroups
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
             context.Groups.Add(new Group { Name = "Test Group" });
 

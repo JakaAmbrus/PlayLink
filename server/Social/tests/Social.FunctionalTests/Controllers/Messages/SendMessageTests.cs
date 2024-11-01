@@ -13,7 +13,7 @@ namespace Social.FunctionalTests.Controllers.Messages
 
         private async Task InitializeTestSeedDataAsync()
         {
-            Context.Users.Add(new AppUser { Id = 2, UserName = "testtwo" });
+            Context.Users.Add(new User { Id = 2, UserName = "testtwo" });
 
             Context.PrivateMessages.Add(new PrivateMessage
             {
@@ -105,7 +105,7 @@ namespace Social.FunctionalTests.Controllers.Messages
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
             Context.RemoveRange(Context.PrivateMessages);
-            var authUser = await Context.FindAsync<AppUser>(1);
+            var authUser = await Context.FindAsync<User>(1);
             Context.Remove(authUser);
             await Context.SaveChangesAsync();
 

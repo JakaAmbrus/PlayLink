@@ -18,19 +18,6 @@ namespace Social.Application.Utils
             return roles.All(role => validRoles.Contains(role));
         }
 
-        //Used to validate if the country is valid
-        public static bool IsValidCountry(string inputCountry)
-        {
-            if (string.IsNullOrWhiteSpace(inputCountry))
-            {
-                return false;
-            }
-
-            string normalizedCountry = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(inputCountry.ToLowerInvariant()).Replace(" ", "");
-
-            return Enum.GetNames(typeof(Country)).Any(name => name.Equals(normalizedCountry, StringComparison.OrdinalIgnoreCase));
-        }
-
         //Used to validate if the file is appropriate size
         public static bool IsAppropriateSizeFile(IFormFile file, int mb)
         {

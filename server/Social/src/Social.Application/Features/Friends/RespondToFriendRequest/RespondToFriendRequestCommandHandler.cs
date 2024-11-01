@@ -10,10 +10,10 @@ namespace Social.Application.Features.Friends.RespondToFriendRequest
 {
     public class RespondToFriendRequestCommandHandler : IRequestHandler<RespondToFriendRequestCommand, RespondToFriendRequestResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public RespondToFriendRequestCommandHandler(IApplicationDbContext context, ICacheInvalidationService cacheInvalidationService)
+        public RespondToFriendRequestCommandHandler(ISocialDbContext context, ICacheInvalidationService cacheInvalidationService)
         {
             _context = context;
             _cacheInvalidationService = cacheInvalidationService;
@@ -72,7 +72,7 @@ namespace Social.Application.Features.Friends.RespondToFriendRequest
                     RequestAccepted = true,
                     FriendDto = new FriendDto
                     {
-                        Username = newFriend.UserName,
+                        Username = newFriend.Username,
                         FullName = newFriend.FullName,
                         ProfilePictureUrl = newFriend.ProfilePictureUrl,
                         Gender = newFriend.Gender,

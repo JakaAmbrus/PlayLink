@@ -9,10 +9,10 @@ namespace Social.Application.Features.Friends.GetFriendRequests
 {
     public class GetFriendRequestsQueryHandler : IRequestHandler<GetFriendRequestsQuery, GetFriendRequestsResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IMemoryCache _memoryCache;
 
-        public GetFriendRequestsQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache)
+        public GetFriendRequestsQueryHandler(ISocialDbContext context, IMemoryCache memoryCache)
         {
             _context = context;
             _memoryCache = memoryCache;
@@ -34,7 +34,7 @@ namespace Social.Application.Features.Friends.GetFriendRequests
                 .Select(fr => new FriendRequestDto
                 {
                     FriendRequestId = fr.FriendRequestId,
-                    SenderUsername = fr.Sender.UserName,
+                    SenderUsername = fr.Sender.Username,
                     SenderFullName = fr.Sender.FullName,
                     SenderProfilePictureUrl = fr.Sender.ProfilePictureUrl,
                     SenderGender = fr.Sender.Gender,
@@ -49,7 +49,7 @@ namespace Social.Application.Features.Friends.GetFriendRequests
                 .Select(fr => new FriendRequestDto
                 {
                     FriendRequestId = fr.FriendRequestId,
-                    RecipientUsername = fr.Receiver.UserName,
+                    RecipientUsername = fr.Receiver.Username,
                     RecipientFullName = fr.Receiver.FullName,
                     RecipientProfilePictureUrl = fr.Receiver.ProfilePictureUrl,
                     RecipientGender = fr.Receiver.Gender,

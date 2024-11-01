@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Shared.Core;
 using Social.Api.Extensions;
 using Social.Api.Filters;
 using Social.Api.Middleware;
@@ -26,6 +27,8 @@ builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
+builder.Services.AddSharedSecurity(builder.Configuration["FirebaseProjectId"]!);
+
 builder.Services.AddSignalRExtensions();
 
 builder.Services.AddScoped<IUserActivityService, UserActivityService>();
@@ -44,7 +47,6 @@ using (var scope = app.Services.CreateScope())
         var context = services.GetRequiredService<DataContext>();
         context.Database.Migrate();
         var scopedProvider = scope.ServiceProvider;
-        Seed.SeedData(scopedProvider).Wait();
     }
     catch (Exception ex)
     {

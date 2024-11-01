@@ -8,9 +8,9 @@ namespace Social.Application.Features.Likes.GetPostLikes
 {
     public class GetPostLikesQueryHandler : IRequestHandler<GetPostLikesQuery, GetPostLikesResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public GetPostLikesQueryHandler(IApplicationDbContext context)
+        public GetPostLikesQueryHandler(ISocialDbContext context)
         {
             _context = context;
         }
@@ -23,14 +23,14 @@ namespace Social.Application.Features.Likes.GetPostLikes
             var likes = await _context.Likes
                 .AsNoTracking()
                 .Where(l => l.PostId == request.PostId && l.AppUserId != request.AuthUserId)
-                .Include(l => l.AppUser)
+                .Include(l => l.User)
                 .ToListAsync(cancellationToken);
 
             var likedUsers = likes
                 .Select(l => new LikedUserDto
                 {
-                    Username = l.AppUser.UserName,
-                    FullName = l.AppUser.FullName,
+                    Username = l.User.Username,
+                    FullName = l.User.FullName,
                 })
                 .ToList();
 

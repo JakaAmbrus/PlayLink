@@ -8,7 +8,7 @@ namespace Social.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Post> entity)
         {
-            entity.HasOne(p => p.AppUser)
+            entity.HasOne(p => p.User)
                 .WithMany(u => u.Posts)
                 .HasForeignKey(p => p.AppUserId)
                 .OnDelete(DeleteBehavior.Restrict);

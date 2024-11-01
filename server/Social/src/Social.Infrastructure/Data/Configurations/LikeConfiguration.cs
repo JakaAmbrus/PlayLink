@@ -8,7 +8,7 @@ namespace Social.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Like> entity)
         {
-            entity.HasOne(l => l.AppUser)
+            entity.HasOne(l => l.User)
                 .WithMany(u => u.Likes)
                 .HasForeignKey(l => l.AppUserId);
 

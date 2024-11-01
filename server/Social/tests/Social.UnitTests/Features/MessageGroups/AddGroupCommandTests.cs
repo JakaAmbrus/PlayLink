@@ -9,7 +9,7 @@ namespace Social.UnitTests.Features.MessageGroups
     public class AddGroupCommandTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
         public AddGroupCommandTests()
         {

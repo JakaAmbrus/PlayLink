@@ -7,11 +7,11 @@ namespace Social.Application.Features.Moderator.DeleteUserPhoto
 {
     public class DeleteUserPhotoCommandHandler : IRequestHandler<DeleteUserPhotoCommand, DeleteUserPhotoResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IPhotoService _photoService;
         private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public DeleteUserPhotoCommandHandler(IApplicationDbContext context, IPhotoService photoService, ICacheInvalidationService cacheInvalidationService)
+        public DeleteUserPhotoCommandHandler(ISocialDbContext context, IPhotoService photoService, ICacheInvalidationService cacheInvalidationService)
         {
             _context = context;
             _photoService = photoService;
@@ -20,7 +20,7 @@ namespace Social.Application.Features.Moderator.DeleteUserPhoto
 
         public async Task<DeleteUserPhotoResponse> Handle(DeleteUserPhotoCommand request, CancellationToken cancellationToken)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == request.Username, cancellationToken)
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == request.Username, cancellationToken)
                 ?? throw new NotFoundException("User not found.");
 
             if (string.IsNullOrEmpty(user.ProfilePicturePublicId))
@@ -40,7 +40,7 @@ namespace Social.Application.Features.Moderator.DeleteUserPhoto
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            _cacheInvalidationService.InvalidateUserPhotosCache(user.UserName);
+            _cacheInvalidationService.InvalidateUserPhotosCache(user.Username);
 
             return new DeleteUserPhotoResponse { IsDeleted = true };
         }

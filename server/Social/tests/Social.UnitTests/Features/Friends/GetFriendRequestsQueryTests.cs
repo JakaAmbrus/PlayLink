@@ -12,7 +12,7 @@ namespace Social.UnitTests.Features.Friends
     public class GetFriendRequestsQueryTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IMemoryCache _memoryCache;
 
         public GetFriendRequestsQueryTests()
@@ -29,10 +29,10 @@ namespace Social.UnitTests.Features.Friends
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
             var users = Enumerable.Range(1, 12)
-                .Select(i => new AppUser
+                .Select(i => new User
                 {
                     Id = i,
                     UserName = $"{i}",

@@ -8,9 +8,9 @@ namespace Social.Application.Features.Users.GetUserById
 {
     public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, GetUserByIdResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public GetUserByIdQueryHandler(IApplicationDbContext context)
+        public GetUserByIdQueryHandler(ISocialDbContext context)
         {
             _context = context;
         }
@@ -23,7 +23,7 @@ namespace Social.Application.Features.Users.GetUserById
             var userDto = new UsersDto
             {
                 AppUserId = user.Id,
-                Username = user.UserName,
+                Username = user.Username,
                 Gender = user.Gender,
                 FullName = user.FullName,
                 Age = DateOnly.FromDateTime(user.DateOfBirth).CalculateAge(),

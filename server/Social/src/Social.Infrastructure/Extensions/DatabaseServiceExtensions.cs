@@ -16,8 +16,7 @@ namespace Social.Infrastructure.Extensions
                 options.UseNpgsql(config.GetConnectionString("DefaultConnection"));
             });
  
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<DataContext>());
-            services.AddScoped<IUserManager, UserManagerService>();
+            services.AddScoped<ISocialDbContext>(provider => provider.GetService<DataContext>());
 
             return services;
         }

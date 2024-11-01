@@ -8,14 +8,14 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Social.UnitTests.Configurations
 {
-    public class TestApplicationDbContext :
-        IdentityDbContext<AppUser, AppRole, int, IdentityUserClaim<int>, AppUserRole, 
+    public class TestSocialDbContext :
+        IdentityDbContext<User, AppRole, int, IdentityUserClaim<int>, AppUserRole, 
         IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>, 
-        IApplicationDbContext
+        ISocialDbContext
     {
-        public TestApplicationDbContext(DbContextOptions options) : base(options) { }
+        public TestSocialDbContext(DbContextOptions options) : base(options) { }
 
-        public DbSet<AppUser> Users { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Like> Likes { get; set; }
@@ -44,8 +44,8 @@ namespace Social.UnitTests.Configurations
         {
             base.OnModelCreating(builder);
 
-            //AppUser
-            builder.ApplyConfiguration(new AppUserConfiguration());
+            //User
+            builder.ApplyConfiguration(new UserConfiguration());
 
             //AppUserRole
             builder.ApplyConfiguration(new AppRoleConfiguration());

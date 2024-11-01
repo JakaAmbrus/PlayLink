@@ -10,7 +10,7 @@ namespace Social.UnitTests.Features.Messages
     public class MarkMessageAsReadCommandTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
         public MarkMessageAsReadCommandTests()
         {
@@ -25,10 +25,10 @@ namespace Social.UnitTests.Features.Messages
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new AppUser { Id = 1, UserName = "tester" });
-            context.Users.Add(new AppUser { Id = 2, UserName = "tester2" });
+            context.Users.Add(new User { Id = 1, UserName = "tester" });
+            context.Users.Add(new User { Id = 2, UserName = "tester2" });
 
             context.PrivateMessages.Add(new PrivateMessage
             {

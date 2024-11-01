@@ -13,7 +13,7 @@ namespace Social.UnitTests.Features.Users
     public class EditUserDetailsCommandTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly IPhotoService _photoService;
         private readonly ICacheInvalidationService _cacheInvalidationService;
         
@@ -32,9 +32,9 @@ namespace Social.UnitTests.Features.Users
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new AppUser 
+            context.Users.Add(new User 
             { 
                 Id = 1,
                 UserName = "tester",
@@ -43,7 +43,7 @@ namespace Social.UnitTests.Features.Users
                 ProfilePictureUrl = "https://res.cloudinary.com",
                 ProfilePicturePublicId = "publicId"
             });
-            context.Users.Add(new AppUser 
+            context.Users.Add(new User 
             { 
                 Id = 2,
                 UserName = "tester2",

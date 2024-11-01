@@ -8,13 +8,11 @@ namespace Social.Application.Features.Authentication.GuestUserLogin
 {
     public class GuestUserLoginCommandHandler : IRequestHandler<GuestUserLoginCommand, GuestUserLoginResponse>
     {
-        private readonly IApplicationDbContext _context;
-        private readonly ITokenService _tokenService;
+        private readonly ISocialDbContext _context;
 
-        public GuestUserLoginCommandHandler(IApplicationDbContext context, ITokenService tokenService)
+        public GuestUserLoginCommandHandler(ISocialDbContext context)
         {
             _context = context;
-            _tokenService = tokenService;
         }
 
         public async Task<GuestUserLoginResponse> Handle(GuestUserLoginCommand request, CancellationToken cancellationToken)
@@ -25,7 +23,7 @@ namespace Social.Application.Features.Authentication.GuestUserLogin
             var usernames = request.Role.Equals("Moderator", StringComparison.OrdinalIgnoreCase) ? moderatorUsernames : memberUsernames;
 
             var user = await _context.Users
-                .Where(x => usernames.Contains(x.UserName))
+                // .Where(x => usernames.Contains(x.Username))
                 .OrderBy(x => x.LastActive) //I want to avoid multiple users logging in with the same account
                 .FirstOrDefaultAsync(cancellationToken)
                 ?? throw new NotFoundException("Guest user not found");
@@ -34,8 +32,8 @@ namespace Social.Application.Features.Authentication.GuestUserLogin
             {
                 User = new UserDto
                 {
-                    Username = user.UserName,
-                    Token = await _tokenService.CreateToken(user),
+                    // Username = user.Username,
+                    // Token = await _tokenService.CreateToken(user),
                     FullName = user.FullName,
                     Gender = user.Gender,
                     ProfilePictureUrl = user.ProfilePictureUrl

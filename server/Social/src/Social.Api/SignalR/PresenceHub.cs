@@ -1,16 +1,16 @@
-﻿using Social.Application.Interfaces;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using Shared.Core.Authentication.Interfaces;
 
 namespace Social.Api.SignalR
 {
     [Authorize]
     public class PresenceHub : Hub
     {
-        private readonly IAuthService _authService;
+        private readonly IAuthContextService _authService;
         private readonly PresenceTracker _tracker;
 
-        public PresenceHub(IAuthService authService, PresenceTracker tracker)
+        public PresenceHub(IAuthContextService authService, PresenceTracker tracker)
         {
             _authService = authService;
             _tracker = tracker;
@@ -18,7 +18,7 @@ namespace Social.Api.SignalR
 
         public override async Task OnConnectedAsync()
         {
-            var authUserId = _authService.GetCurrentUserId();
+            var authUserId = _authService.GetSocialId();
 
             var isOnline = await _tracker.UserConnected(authUserId, Context.ConnectionId);
             if (isOnline)
@@ -32,7 +32,7 @@ namespace Social.Api.SignalR
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            var authUserId = _authService.GetCurrentUserId();
+            var authUserId = _authService.GetSocialId();
 
             var isOffline = await _tracker.UserDisconnected(authUserId, Context.ConnectionId);
             if (isOffline)

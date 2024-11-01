@@ -24,7 +24,7 @@ namespace Social.Api.Controllers
         {
             var request = new GetUserFriendsQuery
             {
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -40,7 +40,7 @@ namespace Social.Api.Controllers
         {
             var request = new GetFriendRequestsQuery
             {
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -58,7 +58,7 @@ namespace Social.Api.Controllers
             var request = new GetFriendshipStatusQuery
             {
                 ProfileUsername = username,
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -76,7 +76,7 @@ namespace Social.Api.Controllers
             var request = new SendFriendRequestCommand
             {
                 ReceiverUsername = receiverUsername,
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -94,7 +94,7 @@ namespace Social.Api.Controllers
             var request = new RespondToFriendRequestCommand
             {
                 FriendRequestResponse = friendRequestResponse,
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -112,7 +112,7 @@ namespace Social.Api.Controllers
             var request = new RemoveFriendshipCommand
             {
                 ProfileUsername = username,
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -124,13 +124,13 @@ namespace Social.Api.Controllers
         /// </summary>
         /// <param name="friendRequestId">Id of the friend request.</param>
         /// <returns>Confirmation of successful removal.</returns>
-        [HttpDelete("request/{friendRequestId}")]
+        [HttpDelete("request/{friendRequestId:int}")]
         public async Task<IActionResult> RemoveFriendRequest(int friendRequestId, CancellationToken cancellationToken)
         {
             var request = new RemoveFriendRequestCommand
             {
                 FriendRequestId = friendRequestId,
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);

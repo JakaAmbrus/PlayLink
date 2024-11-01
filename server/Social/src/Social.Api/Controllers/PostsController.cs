@@ -29,8 +29,8 @@ namespace Social.Api.Controllers
         {
             var request = new GetPostsQuery {
                 Params = paginationParams,
-                AuthUserId = AuthService.GetCurrentUserId(),
-                AuthUserRoles = AuthService.GetCurrentUserRoles()
+                AuthUserId = AuthService.GetSocialId(),
+                AuthUserRoles = AuthService.GetUserRoles()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -48,8 +48,8 @@ namespace Social.Api.Controllers
         {
             var request = new GetPostByIdQuery { 
                 PostId = postId,
-                AuthUserId = AuthService.GetCurrentUserId(),
-                AuthUserRoles = AuthService.GetCurrentUserRoles()
+                AuthUserId = AuthService.GetSocialId(),
+                AuthUserRoles = AuthService.GetUserRoles()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -70,8 +70,8 @@ namespace Social.Api.Controllers
             {
                 Username = username,
                 Params = paginationParams,
-                AuthUserId = AuthService.GetCurrentUserId(),
-                AuthUserRoles = AuthService.GetCurrentUserRoles()
+                AuthUserId = AuthService.GetSocialId(),
+                AuthUserRoles = AuthService.GetUserRoles()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -104,7 +104,7 @@ namespace Social.Api.Controllers
             var request = new UploadPostCommand
             {
                 PostContentDto = postContent,
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -123,8 +123,8 @@ namespace Social.Api.Controllers
             var request = new DeletePostCommand 
             { 
                 PostId = postId,
-                AuthUserId = AuthService.GetCurrentUserId(),
-                AuthUserRoles = AuthService.GetCurrentUserRoles()
+                AuthUserId = AuthService.GetSocialId(),
+                AuthUserRoles = AuthService.GetUserRoles()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -142,7 +142,7 @@ namespace Social.Api.Controllers
             var request = new GetPostLikesQuery 
             { 
                 PostId = postId,
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -154,13 +154,13 @@ namespace Social.Api.Controllers
         /// </summary>
         /// <param name="postId">Post ID.</param>
         /// <returns>Like confirmation.</returns>
-        [HttpPost("{postId:int}/like")]
+        [HttpPost("{postId:int}/likes")]
         public async Task<IActionResult> LikePost(int postId, CancellationToken cancellationToken)
         {
             var request = new LikePostCommand
             {
                 PostId = postId,
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -172,13 +172,13 @@ namespace Social.Api.Controllers
         /// </summary>
         /// <param name="postId">Post ID</param>
         /// <returns>Confirmation of the unlike.</returns>
-        [HttpDelete("{postId:int}/like")]
+        [HttpDelete("{postId:int}/likes")]
         public async Task<IActionResult> UnlikePost(int postId, CancellationToken cancellationToken)
         {
             var request = new UnlikePostCommand 
             { 
                 PostId = postId,
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);

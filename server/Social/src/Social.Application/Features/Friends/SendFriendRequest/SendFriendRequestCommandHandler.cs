@@ -9,10 +9,10 @@ namespace Social.Application.Features.Friends.SendFriendRequest
 {
     public class SendFriendRequestCommandHandler : IRequestHandler<SendFriendRequestCommand, SendFriendRequestResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly ICacheInvalidationService _cacheInvalidationService;
 
-        public SendFriendRequestCommandHandler(IApplicationDbContext context, ICacheInvalidationService cacheInvalidationService)
+        public SendFriendRequestCommandHandler(ISocialDbContext context, ICacheInvalidationService cacheInvalidationService)
         {
             _context = context;
             _cacheInvalidationService = cacheInvalidationService;
@@ -22,7 +22,7 @@ namespace Social.Application.Features.Friends.SendFriendRequest
         {
             var receiver = await _context.Users
                 .AsNoTracking()
-                .Where(x => x.UserName == request.ReceiverUsername)
+                .Where(x => x.Username == request.ReceiverUsername)
                 .FirstOrDefaultAsync(cancellationToken)
                 ?? throw new NotFoundException("Receiver not found");
 

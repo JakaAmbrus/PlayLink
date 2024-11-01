@@ -9,9 +9,9 @@ namespace Social.Application.Features.MessageGroups.AddConnectionToGroup
 {
     public class AddConnectionToGroupCommandHandler : IRequestHandler<AddConnectionToGroupCommand, GroupDto>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public AddConnectionToGroupCommandHandler(IApplicationDbContext context)
+        public AddConnectionToGroupCommandHandler(ISocialDbContext context)
         {
             _context = context;
         }

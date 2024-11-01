@@ -12,7 +12,7 @@ namespace Social.FunctionalTests.Controllers.Posts
 
         private async Task InitializeTestSeedDataAsync()
         {
-            Context.Users.Add(new AppUser { Id = 2, UserName = "tester" });
+            Context.Users.Add(new User { Id = 2, UserName = "tester" });
 
             var postsWithoutPhotos = Enumerable.Range(1, 10)
                 .Select(i => new Post

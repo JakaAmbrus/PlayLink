@@ -6,9 +6,9 @@ namespace Social.Application.Features.Messages.MarkMessageAsRead
 {
     public class MarkMessageAsReadCommandHandler : IRequestHandler<MarkMessageAsReadCommand, MarkMessageAsReadResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public MarkMessageAsReadCommandHandler(IApplicationDbContext context)
+        public MarkMessageAsReadCommandHandler(ISocialDbContext context)
         {
             _context = context;
         }

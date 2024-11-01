@@ -22,14 +22,14 @@ namespace Social.Api.Controllers
         /// <param name="postId">Post ID.</param>
         /// <param name="paginationParams">Parameters for pagination.</param>
         /// <returns>A list of all comments from a post.</returns>
-        [HttpGet("{postId}")]
+        [HttpGet("{postId:int}")]
         public async Task<IActionResult> GetPostComments(int postId, [FromQuery] PaginationParams paginationParams, CancellationToken cancellationToken)
         {
             var request = new GetPostCommentsQuery { 
                 Params = paginationParams,
                 PostId = postId,
-                AuthUserId = AuthService.GetCurrentUserId(),
-                AuthUserRoles = AuthService.GetCurrentUserRoles()
+                AuthUserId = AuthService.GetSocialId(),
+                AuthUserRoles = AuthService.GetUserRoles()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -51,7 +51,7 @@ namespace Social.Api.Controllers
             var request = new UploadCommentCommand
             {
                 Comment = commentUploadDto,
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -64,14 +64,14 @@ namespace Social.Api.Controllers
         /// <param name="commentId"></param>
         /// <param name="cancellationToken"></param>
         /// <returns>Confirmation of deletion.</returns>
-        [HttpDelete("{commentId}")]
+        [HttpDelete("{commentId:int}")]
         public async Task<IActionResult> DeleteComment(int commentId, CancellationToken cancellationToken)
         {
             var request = new DeleteCommentCommand
             {
                 CommentId = commentId,
-                AuthUserId = AuthService.GetCurrentUserId(),
-                AuthUserRoles = AuthService.GetCurrentUserRoles()
+                AuthUserId = AuthService.GetSocialId(),
+                AuthUserRoles = AuthService.GetUserRoles()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -83,13 +83,13 @@ namespace Social.Api.Controllers
         /// </summary>
         /// <param name="commentId">Comment ID.</param>
         /// <returns>List of user DTOs.</returns>
-        [HttpGet("{commentId}/likes")]
+        [HttpGet("{commentId:int}/likes")]
         public async Task<IActionResult> GetCommentLikes(int commentId, CancellationToken cancellationToken)
         {
             var request = new GetCommentLikesQuery 
             { 
                 CommentId = commentId,
-                AuthUserId = AuthService.GetCurrentUserId() 
+                AuthUserId = AuthService.GetSocialId() 
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -101,12 +101,12 @@ namespace Social.Api.Controllers
         /// </summary>
         /// <param name="commentId">Comment ID.</param>
         /// <returns>Like confirmation.</returns>
-        [HttpPost("{commentId}/like")]
+        [HttpPost("{commentId:int}/likes")]
         public async Task<IActionResult> LikeComment(int commentId, CancellationToken cancellationToken)
         {
             var request = new LikeCommentCommand { 
                 CommentId = commentId,
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);
@@ -118,13 +118,13 @@ namespace Social.Api.Controllers
         /// </summary>
         /// <param name="commentId">Comment ID.</param>
         /// <returns>Confirmation of the unlike.</returns>
-        [HttpDelete("{commentId}/like")]
+        [HttpDelete("{commentId:int}/likes")]
         public async Task<IActionResult> UnlikeComment(int commentId, CancellationToken cancellationToken)
         {
             var request = new UnlikeCommentCommand
             {
                 CommentId = commentId,
-                AuthUserId = AuthService.GetCurrentUserId()
+                AuthUserId = AuthService.GetSocialId()
             };
 
             var response = await Mediator.Send(request, cancellationToken);

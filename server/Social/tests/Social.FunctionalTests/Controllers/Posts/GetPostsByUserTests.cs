@@ -14,7 +14,7 @@ namespace Social.FunctionalTests.Controllers.Posts
 
         private async Task InitializeTestSeedDataAsync()
         {
-            Context.Users.Add(new AppUser { Id = 2, UserName = "tester" });
+            Context.Users.Add(new User { Id = 2, UserName = "tester" });
 
             var authPosts = Enumerable.Range(1, 10)
                 .Select(i => new Post
@@ -200,7 +200,7 @@ namespace Social.FunctionalTests.Controllers.Posts
         {
             // Arrange
             await InitializeTestAsync(new List<string> { "Member" });
-            await Context.Users.AddAsync(new AppUser { Id = 3, UserName = "noposts" });
+            await Context.Users.AddAsync(new User { Id = 3, UserName = "noposts" });
             await Context.SaveChangesAsync(CancellationToken.None);
 
             string username = "noposts";

@@ -11,7 +11,7 @@ namespace Social.UnitTests.Features.Authentication
     public class GuestUserLoginCommandTests
     {
         private readonly IMediator _mediator;
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
         private readonly ITokenService _tokenService;
 
         public GuestUserLoginCommandTests()
@@ -28,14 +28,14 @@ namespace Social.UnitTests.Features.Authentication
             SeedTestData(_context);
         }
 
-        private static void SeedTestData(IApplicationDbContext context)
+        private static void SeedTestData(ISocialDbContext context)
         {
-            context.Users.Add(new AppUser { Id = 1, UserName = "testone" });
-            context.Users.Add(new AppUser { Id = 2, UserName = "testtwo" });
-            context.Users.Add(new AppUser { Id = 3, UserName = "testthree" });
-            context.Users.Add(new AppUser { Id = 4, UserName = "modone" });
-            context.Users.Add(new AppUser { Id = 5, UserName = "modtwo" });
-            context.Users.Add(new AppUser { Id = 6, UserName = "modthree" });
+            context.Users.Add(new User { Id = 1, UserName = "testone" });
+            context.Users.Add(new User { Id = 2, UserName = "testtwo" });
+            context.Users.Add(new User { Id = 3, UserName = "testthree" });
+            context.Users.Add(new User { Id = 4, UserName = "modone" });
+            context.Users.Add(new User { Id = 5, UserName = "modtwo" });
+            context.Users.Add(new User { Id = 6, UserName = "modthree" });
 
             context.SaveChangesAsync(CancellationToken.None).Wait();
         }

@@ -7,9 +7,9 @@ namespace Social.Application.Features.Users.GetUsers
 {
     public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, GetUsersResponse>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ISocialDbContext _context;
 
-        public GetUsersQueryHandler(IApplicationDbContext context)
+        public GetUsersQueryHandler(ISocialDbContext context)
         {
             _context = context;
         }
@@ -29,7 +29,7 @@ namespace Social.Application.Features.Users.GetUsers
                .Select(u => new UsersDto
                {
                    AppUserId = u.Id,
-                   Username = u.UserName,
+                   Username = u.Username,
                    Gender = u.Gender,
                    FullName = u.FullName,
                    Age = DateOnly.FromDateTime(u.DateOfBirth).CalculateAge(),

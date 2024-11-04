@@ -1,5 +1,6 @@
-﻿using Social.Application.Features.Users.Common;
-using Social.Application.Features.Users.DeleteUser;
+﻿using Microsoft.AspNetCore.Mvc;
+using Social.Api.Extensions;
+using Social.Application.Features.Users.Common;
 using Social.Application.Features.Users.EditUserDetails;
 using Social.Application.Features.Users.GetNearestBirthdayUsers;
 using Social.Application.Features.Users.GetUserById;
@@ -8,8 +9,6 @@ using Social.Application.Features.Users.GetUsers;
 using Social.Application.Features.Users.GetUsersForSearchBar;
 using Social.Application.Features.Users.GetUsersUniqueCountries;
 using Social.Application.Utils;
-using Microsoft.AspNetCore.Mvc;
-using Social.Api.Extensions;
 
 namespace Social.Api.Controllers
 {

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Shared.Core.Security;
 using Social.Application.Features.Posts.Common;
 using Social.Application.Interfaces;
 using Social.Application.Utils;
@@ -17,7 +18,7 @@ namespace Social.Application.Features.Posts.GetPosts
 
         public async Task<GetPostsResponse> Handle(GetPostsQuery request, CancellationToken cancellationToken)
         {
-            bool isModerator = request.AuthUserRoles.Contains(Role.Moderator.ToString());
+            bool isModerator = request.AuthUserRoles.Contains(Roles.Moderator);
 
             var posts = _context.Posts
             .AsQueryable()

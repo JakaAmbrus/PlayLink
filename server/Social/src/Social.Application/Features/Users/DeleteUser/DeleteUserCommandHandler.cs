@@ -22,7 +22,7 @@
 //                 ?? throw new NotFoundException("Authorized user not found");
 //
 //             bool isGuestUser = await _context.Users.
-//                 AnyAsync(u => u.Id == request.AuthUserId && u.UserRoles.Any(r => r.Role.Name == "Guest"), cancellationToken)
+//                 AnyAsync(u => u.Id == request.AuthUserId && u.UserRoles.Any(r => r.Roles.Name == "Guest"), cancellationToken)
 //                 && request.AuthUserRoles.Contains("Guest");
 //
 //             if (isGuestUser) 
@@ -31,7 +31,7 @@
 //             }
 //
 //             bool isAdmin = await _context.Users.
-//                 AnyAsync(u => u.Id == request.AuthUserId && u.UserRoles.Any(r => r.Role.Name == "Admin"), cancellationToken)
+//                 AnyAsync(u => u.Id == request.AuthUserId && u.UserRoles.Any(r => r.Roles.Name == "Admin"), cancellationToken)
 //                 && request.AuthUserRoles.Contains("Admin");
 //
 //             if (isAdmin) 

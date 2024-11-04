@@ -1,13 +1,14 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Core.Authentication.Interfaces;
+using Shared.Core.Security;
 using Social.Api.Filters;
 
 namespace Social.Api.Controllers
 {
-    [ServiceFilter(typeof(LogUserActivity))]
+    // [ServiceFilter(typeof(LogUserActivity))]
     [Route("api/[controller]")]
+    [Authorize(Policy = "Member")]
     [ApiController]
     public abstract class BaseController : ControllerBase
     {

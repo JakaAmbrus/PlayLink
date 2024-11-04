@@ -29,7 +29,7 @@ namespace Social.Application.Features.Admin.AdminGetUsers
             //
             // var usersQuery = _context.Users
             //     .Include(u => u.UserRoles)
-            //         .ThenInclude(ur => ur.Role)
+            //         .ThenInclude(ur => ur.Roles)
             //     .Where(u => u.Id != request.AuthUserId)
             //     .OrderByDescending(u => u.Created)
             //     .Select(u => new UserWithRolesDto
@@ -38,7 +38,7 @@ namespace Social.Application.Features.Admin.AdminGetUsers
             //         Username = u.Username,
             //         Gender = u.Gender,
             //         FullName = u.FullName,
-            //         IsModerator = u.UserRoles.Any(ur => ur.Role.Name == Role.Moderator.ToString()),
+            //         IsModerator = u.UserRoles.Any(ur => ur.Roles.Name == Roles.Moderator.ToString()),
             //         ProfilePictureUrl = u.ProfilePictureUrl,
             //         Created = u.Created
             //     });

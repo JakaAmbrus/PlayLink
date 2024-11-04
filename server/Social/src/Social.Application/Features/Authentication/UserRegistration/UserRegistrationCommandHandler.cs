@@ -2,10 +2,10 @@
 // using Social.Domain.Entities;
 // using Social.Domain.Exceptions;
 // using MediatR;
-// using Social.Application.Features.Authentication.Common;
+// using Social.Application.Features.Security.Common;
 // using Social.Application.Interfaces;
 //
-// namespace Social.Application.Features.Authentication.UserRegistration
+// namespace Social.Application.Features.Security.UserRegistration
 // {
 //     public class UserRegistrationCommandHandler : IRequestHandler<UserRegistrationCommand, UserRegistrationResponse>
 //     {

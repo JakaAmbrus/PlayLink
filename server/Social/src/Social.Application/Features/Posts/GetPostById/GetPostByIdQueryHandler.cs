@@ -1,9 +1,9 @@
-﻿using Social.Domain.Exceptions;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared.Core.Security;
 using Social.Application.Features.Posts.Common;
 using Social.Application.Interfaces;
-using Social.Domain.Enums;
+using Social.Domain.Exceptions;
 
 namespace Social.Application.Features.Posts.GetPostById
 {
@@ -18,8 +18,8 @@ namespace Social.Application.Features.Posts.GetPostById
 
         public async Task<GetPostByIdResponse> Handle(GetPostByIdQuery request, CancellationToken cancellationToken)
         {
-            bool isModerator = request.AuthUserRoles.Contains(Role.Moderator.ToString());
-
+            bool isModerator = request.AuthUserRoles.Contains(Roles.Moderator);
+            
             var post = await _context.Posts
                 .AsNoTracking()
                 .Where(p => p.PostId == request.PostId)

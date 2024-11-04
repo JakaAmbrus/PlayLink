@@ -1,6 +1,7 @@
 ﻿using Social.Domain.Enums;
 using Microsoft.AspNetCore.Http;
 using System.Globalization;
+using Shared.Core.Security;
 
 namespace Social.Application.Utils
 {
@@ -14,7 +15,7 @@ namespace Social.Application.Utils
                 return false;
             }
 
-            var validRoles = new HashSet<string> { Role.Member.ToString(), Role.Moderator.ToString(), Role.Admin.ToString(), Role.Guest.ToString() };
+            var validRoles = new HashSet<string> { Roles.Member, Roles.Moderator, Roles.Admin, Roles.Guest };
             return roles.All(role => validRoles.Contains(role));
         }
 

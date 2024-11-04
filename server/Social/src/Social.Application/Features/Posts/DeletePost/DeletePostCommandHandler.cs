@@ -1,7 +1,7 @@
-﻿using Social.Domain.Exceptions;
-using MediatR;
+﻿using MediatR;
+using Shared.Core.Security;
 using Social.Application.Interfaces;
-using Social.Domain.Enums;
+using Social.Domain.Exceptions;
 
 namespace Social.Application.Features.Posts.DeletePost
 {
@@ -27,7 +27,7 @@ namespace Social.Application.Features.Posts.DeletePost
                 ?? throw new NotFoundException("Post was not found");
 
             bool isPostOwner = selectedPost.AppUserId == request.AuthUserId;
-            bool isModerator = request.AuthUserRoles.Contains(Role.Moderator.ToString());
+            bool isModerator = request.AuthUserRoles.Contains(Roles.Moderator);
 
             //Only the posts owner or a moderator/admin can delete a post
             if (!isPostOwner && !isModerator)

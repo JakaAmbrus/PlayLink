@@ -28,7 +28,7 @@ namespace Social.Application.Features.Admin.AdminUserDelete
             // to ensure robust security. While this might seem excessive, it's designed primarily for educational purposes to demonstrate various validation techniques.
             // The endpoint is not expected to be heavily used, but the approach highlights a thorough understanding of security practices and redundancy for critical operations.
             // bool isAdmin = await _userManager.IsInRoleAsync(authUser, "Admin")
-            //     && await _context.Users.AnyAsync(u => u.Id == request.AuthUserId && u.UserRoles.Any(r => r.Role.Name == "Admin"), cancellationToken)
+            //     && await _context.Users.AnyAsync(u => u.Id == request.AuthUserId && u.UserRoles.Any(r => r.Roles.Name == "Admin"), cancellationToken)
             //     && request.AuthUserRoles.Contains("Admin");
             //
             // if (!isAdmin)

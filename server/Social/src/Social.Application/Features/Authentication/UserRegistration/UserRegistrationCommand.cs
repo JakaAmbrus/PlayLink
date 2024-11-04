@@ -9,5 +9,6 @@ namespace Social.Application.Features.Authentication.UserRegistration
         public string FullName { get; set; }
         public string Country { get; set; }
         public DateOnly DateOfBirth { get; set; }
+        public string UniqueId { get; set; }
     }
 }

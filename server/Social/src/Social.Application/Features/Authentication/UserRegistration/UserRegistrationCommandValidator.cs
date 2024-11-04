@@ -34,6 +34,9 @@ namespace Social.Application.Features.Authentication.UserRegistration
                 .NotEmpty().WithMessage("Date of Birth required.")
                 .Must(x => x.Year < DateTime.UtcNow.Year - 12).WithMessage("You must be at least 12 years old to register")
                 .Must(x => x.Year > DateTime.UtcNow.Year - 99).WithMessage("Your age must be realistic");
+
+            RuleFor(x => x.UniqueId)
+                .NotEmpty();
         }
         private static bool MaleOrFemaleGender(string gender)
         {

@@ -1,5 +1,6 @@
 ﻿using Google.Cloud.Firestore;
 using Shared.Core.Enums;
+using Shared.Core.Security;
 using Shield.Api.Common.Abstractions;
 using Shield.Api.Common.Exceptions;
 using Shield.Api.Configurations;
@@ -41,7 +42,7 @@ public class FirebaseDbContext : IFirebaseDbContext
     {
         try
         {
-            var initialRoles = new List<string> { Role.Member.ToString() };
+            var initialRoles = new List<string> { Roles.Member };
             var userData = new Dictionary<string, object>
             {
                 { _options.Fields.UserId, userId },

@@ -14,7 +14,7 @@ public class SocialClientService : ISocialClientService
         _client = client;
     }
 
-    public async Task<RegisterUserResponse> RegisterUserAsync(string username, string gender, string fullname, string country, DateTime dateOfBirth)
+    public async Task<RegisterUserResponse> RegisterUserAsync(string username, string gender, string fullname, string country, DateTime dateOfBirth, string userId)
     {
         try
         {
@@ -25,6 +25,7 @@ public class SocialClientService : ISocialClientService
                 Fullname = fullname,
                 Country = country,
                 DateOfBirth = DateOnly.FromDateTime(dateOfBirth).ToString(),
+                UniqueId = userId,
             };
 
             return await _client.RegisterUserAsync(request);

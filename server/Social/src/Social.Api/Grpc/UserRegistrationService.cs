@@ -32,6 +32,7 @@ public class UserRegistrationService : UserRegistration.UserRegistrationBase
                 FullName = request.Fullname,
                 Gender = request.Gender,
                 DateOfBirth = dateOfBirth,
+                UniqueId = request.UniqueId,
             };
             
             var result = await _mediator.Send(command);

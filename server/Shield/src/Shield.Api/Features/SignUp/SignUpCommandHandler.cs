@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Shared.Core.Enums;
+using Shared.Core.Security;
 using Shield.Api.Common.Abstractions;
 using Shield.Api.Common.Exceptions;
 
@@ -26,25 +27,31 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, SignUpRespons
         try
         {
             userId = await _identityService.SignUpMemberAsync(request.Username, request.Password);
-            
+
             var socialResponse = await _socialClientService.RegisterUserAsync(
-                request.Username, 
+                request.Username,
                 request.Gender,
-                request.FullName, 
-                request.Country, 
-                request.DateOfBirth);
+                request.FullName,
+                request.Country,
+                request.DateOfBirth,
+                userId);
 
             if (!string.IsNullOrEmpty(socialResponse.ErrorMessage) || socialResponse.SocialId == 0)
             {
                 throw new ServerErrorException("Social registration failed");
             }
+
             socialId = socialResponse.SocialId;
-            
+
             await _firebaseDbContext.AddUserAsync(userId, request.Username, socialId);
-            
-            await _identityService.SetUserClaimsAsync(userId, request.Username, socialId, [Role.Member.ToString()]);
+
+            await _identityService.SetUserClaimsAsync(userId, request.Username, socialId, [Roles.Member]);
 
             // Todo: rabbitmq message for discount on store service
+        }
+        catch (ConflictException)
+        {
+            throw;
         }
         catch (Exception)
         {

@@ -15,6 +15,7 @@ message RegisterUserRequest {
   string fullname = 3;
   string country = 4;
   string date_of_birth = 5;
+  string unique_id = 6;
 }
 
 message RegisterUserResponse {

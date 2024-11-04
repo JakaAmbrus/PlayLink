@@ -35,6 +35,7 @@ namespace Social.Application.Features.Authentication.UserRegistration
                 FullName = FormatPropertiesToTitleCase(request.FullName),
                 Country = FormatPropertiesToTitleCase(request.Country),
                 DateOfBirth = request.DateOfBirth,
+                UniqueId = request.UniqueId,
                 Created = DateTime.UtcNow,
             };
 

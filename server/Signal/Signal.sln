@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signal.Api", "src\Signal.Api\Signal.Api.csproj", "{17336FBB-A979-4A55-9D96-20AAD681A1A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signal.Core", "src\Signal.Core\Signal.Core.csproj", "{040163B2-E939-41A1-A330-43EC66816E81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signal.Data", "src\Signal.Data\Signal.Data.csproj", "{39949314-8300-4578-9D23-3DB7E4B1268A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{17336FBB-A979-4A55-9D96-20AAD681A1A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17336FBB-A979-4A55-9D96-20AAD681A1A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17336FBB-A979-4A55-9D96-20AAD681A1A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17336FBB-A979-4A55-9D96-20AAD681A1A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{040163B2-E939-41A1-A330-43EC66816E81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{040163B2-E939-41A1-A330-43EC66816E81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{040163B2-E939-41A1-A330-43EC66816E81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{040163B2-E939-41A1-A330-43EC66816E81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39949314-8300-4578-9D23-3DB7E4B1268A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39949314-8300-4578-9D23-3DB7E4B1268A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39949314-8300-4578-9D23-3DB7E4B1268A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39949314-8300-4578-9D23-3DB7E4B1268A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

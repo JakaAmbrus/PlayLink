@@ -9,6 +9,7 @@ namespace Social.Api.Controllers
     /// Manages Moderator functions
     /// </summary>
     [Authorize(Policy = "Moderator")]
+    [Authorize(Policy = "DenyGuestRole")]
     public class ModeratorController : BaseController
     {
         /// <summary>
@@ -38,6 +39,5 @@ namespace Social.Api.Controllers
             var response = await Mediator.Send(request, cancellationToken);
             return Ok(response);
         }
-
     }
 }

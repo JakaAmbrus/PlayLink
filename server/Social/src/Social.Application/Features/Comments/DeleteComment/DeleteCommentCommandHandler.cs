@@ -24,8 +24,9 @@ namespace Social.Application.Features.Comments.DeleteComment
 
             bool isPostOwner = selectedComment.AppUserId == request.AuthUserId;
             bool isModerator = request.AuthUserRoles.Contains(Roles.Moderator);
+            bool isGuest = request.AuthUserRoles.Contains(Roles.Guest);
             
-            if (!isPostOwner && !isModerator)
+            if ((!isPostOwner && !isModerator) || (!isPostOwner && isGuest))
             {
                 throw new UnauthorizedException("User not authorized to delete comment");
             }

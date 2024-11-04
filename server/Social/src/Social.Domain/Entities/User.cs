@@ -13,6 +13,7 @@
         public string ProfilePictureUrl { get; set; }
         public string ProfilePicturePublicId { get; set; }
         public string Description { get; set; }
+        public string UniqueId { get; set; }
         
         public ICollection<FriendRequest> SentFriendRequests { get; set; }
         public ICollection<FriendRequest> ReceivedFriendRequests { get; set; }

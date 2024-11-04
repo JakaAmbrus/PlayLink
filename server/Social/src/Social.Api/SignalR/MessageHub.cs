@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Shared.Core.Authentication.Interfaces;
+using Shared.Core.Security;
 using Social.Application.Features.MessageGroups.AddConnectionToGroup;
 using Social.Application.Features.MessageGroups.AddGroup;
 using Social.Application.Features.MessageGroups.Common;

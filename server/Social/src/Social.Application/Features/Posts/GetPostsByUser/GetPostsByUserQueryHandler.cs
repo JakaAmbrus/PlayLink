@@ -1,10 +1,10 @@
-﻿using Social.Domain.Exceptions;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared.Core.Security;
 using Social.Application.Features.Posts.Common;
 using Social.Application.Interfaces;
 using Social.Application.Utils;
-using Social.Domain.Enums;
+using Social.Domain.Exceptions;
 
 namespace Social.Application.Features.Posts.GetPostsByUser
 {
@@ -19,8 +19,8 @@ namespace Social.Application.Features.Posts.GetPostsByUser
 
         public async Task<GetPostsByUserResponse> Handle(GetPostsByUserQuery request, CancellationToken cancellationToken)
         {
-            bool isModerator = request.AuthUserRoles.Contains(Role.Moderator.ToString());
-
+            bool isModerator = request.AuthUserRoles.Contains(Roles.Moderator);
+            
             var requestedUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == request.Username, cancellationToken)
                 ?? throw new NotFoundException($"User with Username {request.Username} not found");
 

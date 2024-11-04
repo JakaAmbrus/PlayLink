@@ -1,7 +1,7 @@
-﻿using Social.Domain.Exceptions;
-using MediatR;
+﻿using MediatR;
+using Shared.Core.Security;
 using Social.Application.Interfaces;
-using Social.Domain.Enums;
+using Social.Domain.Exceptions;
 
 namespace Social.Application.Features.Comments.DeleteComment
 {
@@ -23,8 +23,8 @@ namespace Social.Application.Features.Comments.DeleteComment
                 ?? throw new NotFoundException("Post was not found");
 
             bool isPostOwner = selectedComment.AppUserId == request.AuthUserId;
-            bool isModerator = request.AuthUserRoles.Contains(Role.Moderator.ToString());
-
+            bool isModerator = request.AuthUserRoles.Contains(Roles.Moderator);
+            
             if (!isPostOwner && !isModerator)
             {
                 throw new UnauthorizedException("User not authorized to delete comment");

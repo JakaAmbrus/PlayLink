@@ -1,6 +1,6 @@
 ﻿using Social.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Shared.Core.Authentication.Interfaces;
+using Shared.Core.Security;
 
 namespace Social.Api.Filters
 {

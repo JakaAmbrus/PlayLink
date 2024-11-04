@@ -7,7 +7,7 @@ namespace Social.Application.Features.Authentication.GuestUserLogin
         public GuestUserLoginCommandValidator()
         {
             RuleFor(x => x.Role)
-                .NotEmpty().WithMessage("Role required.");           
+                .NotEmpty().WithMessage("Roles required.");           
         }
     }
 }

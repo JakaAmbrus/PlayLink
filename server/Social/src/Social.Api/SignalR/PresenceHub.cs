@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Shared.Core.Authentication.Interfaces;
+using Shared.Core.Security;
 
 namespace Social.Api.SignalR
 {

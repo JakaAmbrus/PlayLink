@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Social.Application.Features.Moderator.DeleteUserDescription;
 using Social.Application.Features.Moderator.DeleteUserPhoto;
 
@@ -7,6 +8,7 @@ namespace Social.Api.Controllers
     /// <summary>
     /// Manages Moderator functions
     /// </summary>
+    [Authorize(Policy = "Moderator")]
     public class ModeratorController : BaseController
     {
         /// <summary>
@@ -26,7 +28,7 @@ namespace Social.Api.Controllers
         /// <summary>
         /// Deletes the profile picture of a user and removes it from Cloudinary.
         /// </summary>
-        /// <param name="Username">Users username.</param>
+        /// <param name="username">Users username.</param>
         /// <returns>A confirmation of deletion.</returns>
         [HttpDelete("delete-user-photo/{username}")]
         public async Task<ActionResult> DeleteUserPhoto(string username, CancellationToken cancellationToken)

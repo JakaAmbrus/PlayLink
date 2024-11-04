@@ -1,9 +1,9 @@
 ﻿using MediatR;
+using Shared.Core.Security;
 using Social.Application.Features.Comments.Common;
 using Social.Application.Features.Comments.GetComments;
 using Social.Application.Interfaces;
 using Social.Application.Utils;
-using Social.Domain.Enums;
 using Social.Domain.Exceptions;
 
 namespace Social.Application.Features.Comments.GetPostComments
@@ -22,8 +22,8 @@ namespace Social.Application.Features.Comments.GetPostComments
             var post = await _context.Posts.FindAsync(request.PostId)
                 ?? throw new NotFoundException("Post not found");
 
-            bool isModerator = request.AuthUserRoles.Contains(Role.Moderator.ToString());
-
+            bool isModerator = request.AuthUserRoles.Contains(Roles.Moderator);
+            
             var comments = _context.Comments
                 .Where(comment => comment.PostId == request.PostId)
                 .OrderByDescending(comment => comment.TimeCommented)

@@ -12,8 +12,8 @@ using Social.Infrastructure.Data;
 namespace Social.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241101091129_InitialAfterRefactor")]
-    partial class InitialAfterRefactor
+    [Migration("20241104231642_AddUserUniqueId")]
+    partial class AddUserUniqueId
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -268,8 +268,8 @@ namespace Social.Infrastructure.Data.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("DateOfBirth")
+                        .HasColumnType("date");
 
                     b.Property<string>("Description")
                         .HasMaxLength(200)
@@ -292,6 +292,9 @@ namespace Social.Infrastructure.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("ProfilePictureUrl")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UniqueId")
                         .HasColumnType("text");
 
                     b.Property<string>("Username")

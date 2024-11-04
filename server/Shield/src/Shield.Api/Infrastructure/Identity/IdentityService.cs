@@ -64,4 +64,20 @@ internal sealed class IdentityService : IIdentityService
             throw new ServerErrorException("An unexpected error occurred during claims assignment");
         }
     }
+    
+    public async Task DeleteUserAsync(string userId)
+    {
+        try
+        {
+            await _firebaseAuth.DeleteUserAsync(userId);
+        }
+        catch (FirebaseAuthException ex) when (ex.AuthErrorCode == AuthErrorCode.UserNotFound)
+        {
+            throw new NotFoundException("User not found");
+        }
+        catch (Exception)
+        {
+            throw new ServerErrorException("An unexpected error occurred while deleting the user");
+        }
+    }
 }

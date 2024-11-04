@@ -1,103 +1,66 @@
-﻿// using System.Globalization;
-// using Social.Domain.Entities;
-// using Social.Domain.Exceptions;
-// using MediatR;
-// using Social.Application.Features.Security.Common;
-// using Social.Application.Interfaces;
-//
-// namespace Social.Application.Features.Security.UserRegistration
-// {
-//     public class UserRegistrationCommandHandler : IRequestHandler<UserRegistrationCommand, UserRegistrationResponse>
-//     {
-//
-//         private readonly ISocialDbContext _context;
-//         private readonly IUserManager _userManager;
-//         private readonly ITokenService _tokenService;
-//         private readonly ICacheInvalidationService _cacheInvalidationService;
-//
-//         public UserRegistrationCommandHandler(ISocialDbContext context , IUserManager userManager, ITokenService tokenService, ICacheInvalidationService cacheInvalidationService)
-//         {
-//             _context = context;
-//             _userManager = userManager;
-//             _tokenService = tokenService;
-//             _cacheInvalidationService = cacheInvalidationService;
-//         }
-//
-//         public async Task<UserRegistrationResponse> Handle(UserRegistrationCommand request, CancellationToken cancellationToken)
-//         {
-//             using (var transaction = await _context.BeginTransactionAsync(cancellationToken))
-//             {
-//                 try
-//                 {
-//                     var user = new User
-//                     {
-//                         Username = request.Username,
-//                         Gender = request.Gender,
-//                         FullName = FormatPropertiesToTitleCase(request.FullName),
-//                         Country = FormatPropertiesToTitleCase(request.Country),
-//                         DateOfBirth = request.DateOfBirth.ToDateTime(TimeOnly.MinValue),
-//                         Created = DateTime.UtcNow,
-//                     };
-//
-//                     static string FormatPropertiesToTitleCase(string input)
-//                     {
-//                         var inputInfo = CultureInfo.CurrentCulture.TextInfo;
-//                         return inputInfo.ToTitleCase(input.ToLower());
-//                     }
-//
-//                     var result = await _userManager.CreateAsync(user, request.Password);
-//
-//                     if (!result.Succeeded)
-//                     {
-//                         if (result.Errors.Any(e => e.Code == "DuplicateUsername"))
-//                         {
-//                             throw new ConflictException("Username already exists");
-//                         }
-//
-//                         throw new ServerErrorException(string.Join(", \n", result.Errors.Select(e => e.Description)));
-//                     }
-//
-//                     result = await _userManager.AddToRoleAsync(user, "Member");
-//
-//                     if (!result.Succeeded)
-//                     {
-//                         throw new ServerErrorException("Error adding member role to user");
-//                     }
-//
-//                     await transaction.CommitAsync(cancellationToken);
-//
-//                     _cacheInvalidationService.InvalidateSearchUserCache();
-//                     _cacheInvalidationService.InvalidateNearestBirthdayUsersCache();
-//
-//                     return new UserRegistrationResponse
-//                     {
-//                         User = new UserDto
-//                         {
-//                             Username = user.Username,
-//                             Token = await _tokenService.CreateToken(user),
-//                             FullName = user.FullName,
-//                             Gender = user.Gender,
-//                             ProfilePictureUrl = user.ProfilePictureUrl
-//                         }
-//                     };
-//                 }
-//                 catch (ConflictException)
-//                 {
-//                     await transaction.RollbackAsync(cancellationToken);
-//                     throw;
-//                 }
-//                 catch (ServerErrorException)
-//                 {
-//                     await transaction.RollbackAsync(cancellationToken);
-//                     throw;
-//                 }
-//                 catch (Exception)
-//                 {
-//                     await transaction.RollbackAsync(cancellationToken);
-//                     throw new ServerErrorException("Unexpected error while creating user");
-//                 }
-//             }
-//         }
-//     }
-//     
-// }
+using System.Globalization;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Social.Application.Interfaces;
+using Social.Domain.Entities;
+using Social.Domain.Exceptions;
+
+namespace Social.Application.Features.Authentication.UserRegistration
+{
+    public class UserRegistrationCommandHandler : IRequestHandler<UserRegistrationCommand, UserRegistrationResponse>
+    {
+
+        private readonly ISocialDbContext _context;
+        private readonly ICacheInvalidationService _cacheInvalidationService;
+
+        public UserRegistrationCommandHandler(ISocialDbContext context, ICacheInvalidationService cacheInvalidationService)
+        {
+            _context = context;
+            _cacheInvalidationService = cacheInvalidationService;
+        }
+
+        public async Task<UserRegistrationResponse> Handle(UserRegistrationCommand request, CancellationToken cancellationToken)
+        {
+            bool userExists = await _context.Users.AnyAsync(u => u.Username == request.Username, cancellationToken);
+
+            if (userExists)
+            {
+                throw new ConflictException("User already exists");
+            }
+            
+            var user = new User
+            {
+                Username = request.Username,
+                Gender = request.Gender,
+                FullName = FormatPropertiesToTitleCase(request.FullName),
+                Country = FormatPropertiesToTitleCase(request.Country),
+                DateOfBirth = request.DateOfBirth,
+                UniqueId = request.UniqueId,
+                Created = DateTime.UtcNow,
+            };
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync(cancellationToken);
+            
+            _cacheInvalidationService.InvalidateSearchUserCache();
+            _cacheInvalidationService.InvalidateNearestBirthdayUsersCache();
+
+            var newUser = await _context.Users
+                .AsNoTracking()
+                .Where(x => x.Username == request.Username)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            return new UserRegistrationResponse
+            {
+                SocialId = newUser.Id,
+            };
+            
+        }
+        
+        private static string FormatPropertiesToTitleCase(string input)
+        {
+            var inputInfo = CultureInfo.CurrentCulture.TextInfo;
+            return inputInfo.ToTitleCase(input.ToLower());
+        }
+    }
+}

@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Shared.Core;
 using Social.Api.Extensions;
 using Social.Api.Filters;
+using Social.Api.Grpc;
 using Social.Api.Middleware;
 using Social.Api.SignalR;
 using Social.Application;
@@ -30,11 +32,40 @@ builder.Services
 builder.Services.AddSharedSecurity(builder.Configuration["FirebaseProjectId"]!);
 
 builder.Services.AddSignalRExtensions();
+builder.Services.AddGrpc();
 
 builder.Services.AddScoped<IUserActivityService, UserActivityService>();
 builder.Services.AddScoped<LogUserActivity>();
 
-builder.Services.AddCors();
+builder.WebHost.ConfigureKestrel(options =>
+{
+    var httpPort = builder.Configuration.GetValue<int>("Port");
+    var grpcPort = builder.Configuration.GetValue<int>("GrpcPort");
+    
+    options.ListenAnyIP(httpPort, listenOptions =>
+    {
+        listenOptions.Protocols = HttpProtocols.Http1;
+    });
+    
+    options.ListenAnyIP(grpcPort, listenOptions =>
+    {
+        listenOptions.Protocols = HttpProtocols.Http2;
+    });
+});
+
+var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("RestrictedCorsPolicy", policy =>
+    {
+        policy.WithOrigins(allowedOrigins)
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
 
 var app = builder.Build();
 
@@ -55,17 +86,12 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-app.UseMiddleware<ExceptionMiddleware>();
+app.UseCors("RestrictedCorsPolicy");
 
-app.UseHttpsRedirection();
+app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseCors(cpb => cpb
-        .AllowAnyHeader()
-        .AllowAnyMethod()
-        .AllowCredentials()
-        .WithOrigins("https://localhost:4200", "http://localhost:4200"));
     
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -76,7 +102,9 @@ app.UseSerilogRequestLogging();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapControllers().RequireCors("RestrictedCorsPolicy");
+
+app.MapGrpcService<UserRegistrationService>();
 
 app.MapHub<PresenceHub>("hubs/presence");
 app.MapHub<MessageHub>("hubs/message");

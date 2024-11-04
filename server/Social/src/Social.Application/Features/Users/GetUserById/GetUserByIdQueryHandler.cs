@@ -26,7 +26,7 @@ namespace Social.Application.Features.Users.GetUserById
                 Username = user.Username,
                 Gender = user.Gender,
                 FullName = user.FullName,
-                Age = DateOnly.FromDateTime(user.DateOfBirth).CalculateAge(),
+                Age = user.DateOfBirth.CalculateAge(),
                 Country = user.Country,
                 ProfilePictureUrl = user.ProfilePictureUrl
             };

@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Grpc.AspNetCore" Version="2.66.0" />
+    </ItemGroup>
+
 </Project>

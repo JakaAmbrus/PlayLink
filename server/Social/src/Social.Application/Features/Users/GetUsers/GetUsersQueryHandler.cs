@@ -22,7 +22,7 @@ namespace Social.Application.Features.Users.GetUsers
             var users = _context.Users
                .AsQueryable()
                .Where(u => u.Id != request.AuthUserId)
-               .Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob)
+               .Where(u => u.DateOfBirth.Year >= minDob.Year && u.DateOfBirth.Year <= maxDob.Year)
                .Where(u => string.IsNullOrEmpty(request.Params.Gender) || u.Gender == request.Params.Gender)
                .Where(u => string.IsNullOrEmpty(request.Params.Country) || u.Country == request.Params.Country)
                .OrderByDescending(u => request.Params.OrderBy == "created" ? u.Created : u.LastActive)
@@ -32,7 +32,7 @@ namespace Social.Application.Features.Users.GetUsers
                    Username = u.Username,
                    Gender = u.Gender,
                    FullName = u.FullName,
-                   Age = DateOnly.FromDateTime(u.DateOfBirth).CalculateAge(),
+                   Age = u.DateOfBirth.CalculateAge(),
                    Country = u.Country,
                    ProfilePictureUrl = u.ProfilePictureUrl
                });

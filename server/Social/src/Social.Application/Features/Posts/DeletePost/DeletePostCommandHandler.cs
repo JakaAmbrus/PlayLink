@@ -28,11 +28,11 @@ namespace Social.Application.Features.Posts.DeletePost
 
             bool isPostOwner = selectedPost.AppUserId == request.AuthUserId;
             bool isModerator = request.AuthUserRoles.Contains(Roles.Moderator);
-
-            //Only the posts owner or a moderator/admin can delete a post
-            if (!isPostOwner && !isModerator)
+            bool isGuest = request.AuthUserRoles.Contains(Roles.Guest);
+            
+            if ((!isPostOwner && !isModerator) || (!isPostOwner && isGuest))
             {
-                throw new UnauthorizedException("User not authorized to delete this post");
+                throw new UnauthorizedException("User not authorized to delete comment");
             }
 
             //Remove the photo from Cloudinary if it is included in the post

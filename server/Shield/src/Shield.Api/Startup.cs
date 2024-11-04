@@ -7,11 +7,13 @@ using Grpc.Auth;
 using MediatR;
 using Microsoft.OpenApi.Models;
 using Shared.Core;
+using Shared.Grpc;
 using Shield.Api.Common.Abstractions;
 using Shield.Api.Common.Behaviours;
 using Shield.Api.Configurations;
 using Shield.Api.Endpoints;
 using Shield.Api.Infrastructure.FireStoreDB;
+using Shield.Api.Infrastructure.GrpcSocial;
 using Shield.Api.Infrastructure.Identity;
 using Shield.Api.Middleware;
 
@@ -74,7 +76,25 @@ public class Startup
         // Service registration
         services.AddSingleton<IIdentityService, IdentityService>();
         services.AddSingleton<IFirebaseDbContext, FirebaseDbContext>();
-
+        
+        // Grpc client registration
+        services.AddGrpcClient<UserRegistration.UserRegistrationClient>(options =>
+        {
+            options.Address = new Uri(settings.SocialUrl);
+        });
+        services.AddScoped<ISocialClientService, SocialClientService>();
+        
+        // CORS setup
+        services.AddCors(options =>
+        {
+            options.AddPolicy("RestrictedCorsPolicy", policy =>
+            {
+                policy.WithOrigins(settings.AllowedOrigins)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
+        });
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -88,6 +108,8 @@ public class Startup
         }
         
         app.UseRouting();
+        
+        app.UseCors("RestrictedCorsPolicy");
         
         app.UseAuthentication();
         app.UseAuthorization();

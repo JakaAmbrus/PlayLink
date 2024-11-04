@@ -14,12 +14,6 @@ namespace Social.Application.Features.Authentication.UserRegistration
                 .MaximumLength(10).WithMessage("Username cannot exceed 10 characters.")
                 .Matches(@"^[a-zA-Z\s]*$").WithMessage("Username must include standard characters");
 
-            RuleFor(x => x.Password)
-                .NotEmpty().WithMessage("Password required.")
-                .MinimumLength(4).WithMessage("Password must contain at least 4 characters.")
-                .MaximumLength(20).WithMessage("Password cannot exceed 20 characters.")
-                .Matches(@".*\d.*").WithMessage("Password must contain at least one number.");
-
             RuleFor(x => x.Gender)
                 .NotEmpty().WithMessage("Gender required.")
                 .Must(MaleOrFemaleGender).WithMessage("Gender must be either 'Male' or 'Female', this is for certain features, do not wish to offend")
@@ -40,6 +34,9 @@ namespace Social.Application.Features.Authentication.UserRegistration
                 .NotEmpty().WithMessage("Date of Birth required.")
                 .Must(x => x.Year < DateTime.UtcNow.Year - 12).WithMessage("You must be at least 12 years old to register")
                 .Must(x => x.Year > DateTime.UtcNow.Year - 99).WithMessage("Your age must be realistic");
+
+            RuleFor(x => x.UniqueId)
+                .NotEmpty();
         }
         private static bool MaleOrFemaleGender(string gender)
         {
@@ -67,7 +64,6 @@ namespace Social.Application.Features.Authentication.UserRegistration
             var command = context.InstanceToValidate;
 
             command.Username = command.Username?.ToLower().Trim();
-            command.Password = command.Password?.Trim();
             command.Gender = command.Gender?.ToLower().Trim();
             command.FullName = command.FullName?.Trim();
             command.Country = command.Country?.Trim();

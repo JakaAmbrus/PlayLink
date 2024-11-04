@@ -1,9 +1,7 @@
-﻿using Social.Application.Features.Authentication.Common;
-
-namespace Social.Application.Features.Authentication.UserRegistration
+﻿namespace Social.Application.Features.Authentication.UserRegistration
 {
     public class UserRegistrationResponse
     {
-        public UserDto User { get; set; }
+        public int SocialId { get; set; }
     }
 }

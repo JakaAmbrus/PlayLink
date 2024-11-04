@@ -12,6 +12,6 @@ public static class SignUpEndpoint
             {
                 var result = await mediator.Send(request, cancellationToken);
                 return Results.Ok(result);
-            }).WithOpenApi();
+            }).WithOpenApi().RequireCors("RestrictedCorsPolicy");
     }
 }

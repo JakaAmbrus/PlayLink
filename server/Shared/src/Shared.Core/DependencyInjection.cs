@@ -14,14 +14,16 @@ public static class DependencyInjection
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
+                options.RequireHttpsMetadata = false;
                 options.Authority = $"https://securetoken.google.com/{firebaseProjectId}";
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
                     ValidIssuer = $"https://securetoken.google.com/{firebaseProjectId}",
                     ValidateAudience = true,
-                    ValidAudience = $"{firebaseProjectId}",
-                    ValidateLifetime = true
+                    ValidAudience = firebaseProjectId,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true
                 };
             });
 
@@ -30,6 +32,8 @@ public static class DependencyInjection
             .AddPolicy("Moderator", policy => policy.RequireRole(Roles.Moderator))
             .AddPolicy("Member", policy => policy.RequireRole(Roles.Member))
             .AddPolicy("DenyGuestRole", policy => policy.Requirements.Add(new ForbidRoleRequirement(Roles.Guest)));
+        
+        services.AddAuthorization();
         
         services.AddScoped<IAuthContextService, AuthContextService>();
         services.AddSingleton<IAuthorizationHandler, ForbidRoleHandler>();

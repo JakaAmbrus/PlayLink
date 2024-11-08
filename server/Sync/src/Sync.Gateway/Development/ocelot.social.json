@@ -1,2 +1,18 @@
 {
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/Users/searchbar",
+      "UpstreamPathTemplate": "/api/Users/searchbar",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 80,
+        "QuotaExceededMessage": "User retrieval limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    }
+  ]
 }

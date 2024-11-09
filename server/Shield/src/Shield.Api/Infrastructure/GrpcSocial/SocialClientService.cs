@@ -36,13 +36,14 @@ public class SocialClientService : ISocialClientService
         }
     }
     
-    public async Task<DeleteUserResponse> DeleteUserAsync(int socialId)
+    public async Task<DeleteUserResponse> DeleteUserAsync(int socialId, bool signupFailure)
     {
         try
         {
             var request = new DeleteUserRequest
             {
                 SocialId = socialId,
+                SignUpFailure = signupFailure
             };
 
             return await _client.DeleteUserAsync(request);

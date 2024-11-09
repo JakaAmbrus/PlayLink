@@ -60,7 +60,7 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, SignUpRespons
             }
             if (socialId != 0)
             {
-                await _socialClientService.DeleteUserAsync(socialId);
+                await _socialClientService.DeleteUserAsync(socialId, true);
             }
 
             throw;

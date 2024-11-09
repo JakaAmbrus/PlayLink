@@ -6,11 +6,8 @@ namespace Social.Application.Features.Users.DeleteUser
     {
         public DeleteUserCommandValidator()
         {
-            RuleFor(x => x.AuthUserId)
-                .NotEmpty().WithMessage("AuthUserId required.");
-
-            RuleFor(x => x.AuthUserRoles)
-                .NotEmpty().WithMessage("AuthUserRoles required.");
+            RuleFor(x => x.UserId)
+                .NotEmpty();
         }
     }
 }

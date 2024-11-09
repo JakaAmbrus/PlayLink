@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Shared.Core.Security;
@@ -14,14 +16,28 @@ public static class DependencyInjection
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
+                options.RequireHttpsMetadata = false;
                 options.Authority = $"https://securetoken.google.com/{firebaseProjectId}";
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
                     ValidIssuer = $"https://securetoken.google.com/{firebaseProjectId}",
                     ValidateAudience = true,
-                    ValidAudience = $"{firebaseProjectId}",
-                    ValidateLifetime = true
+                    ValidAudience = firebaseProjectId,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true
+                };
+                options.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        context.Response.StatusCode = 498; // For client logout, I have my reasons
+                        context.Response.ContentType = "application/json";
+
+                        const string errorMessage = "Invalid or expired token";
+                        var result = JsonSerializer.Serialize(new { message = errorMessage });
+                        return context.Response.WriteAsync(result);
+                    }
                 };
             });
 
@@ -30,6 +46,8 @@ public static class DependencyInjection
             .AddPolicy("Moderator", policy => policy.RequireRole(Roles.Moderator))
             .AddPolicy("Member", policy => policy.RequireRole(Roles.Member))
             .AddPolicy("DenyGuestRole", policy => policy.Requirements.Add(new ForbidRoleRequirement(Roles.Guest)));
+        
+        services.AddAuthorization();
         
         services.AddScoped<IAuthContextService, AuthContextService>();
         services.AddSingleton<IAuthorizationHandler, ForbidRoleHandler>();

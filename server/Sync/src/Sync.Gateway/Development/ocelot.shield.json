@@ -9,11 +9,48 @@
         "EnableRateLimiting": true,
         "Period": "1h",
         "PeriodTimespan": 3600,
-        "Limit": 10,
+        "Limit": 5,
         "QuotaExceededMessage": "Signup hour limit exceeded.",
         "HttpStatusCode": 429
       },
       "UpstreamHttpMethod": ["POST"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/shield/guest",
+      "UpstreamPathTemplate": "/api/shield/guest",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8001 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 15,
+        "QuotaExceededMessage": "Guest sign in hour limit exceeded.",
+        "HttpStatusCode": 429
+      },
+      "UpstreamHttpMethod": ["DELETE"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/shield/{userId}",
+      "UpstreamPathTemplate": "/api/shield/{userId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8001 }],
+      "UpstreamHttpMethod": ["DELETE"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/shield/account",
+      "UpstreamPathTemplate": "/api/shield/account",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8001 }],
+      "UpstreamHttpMethod": ["DELETE"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/shield/edit-role",
+      "UpstreamPathTemplate": "/api/shield/edit-role",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8001 }],
+      "UpstreamHttpMethod": ["POST"]
     }
   ]
 }
+ 

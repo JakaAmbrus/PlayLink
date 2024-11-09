@@ -2,6 +2,5 @@
 {
     public class DeleteUserResponse
     {
-        public bool IsDeleted { get; set; }
     }
 }

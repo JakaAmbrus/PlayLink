@@ -27,6 +27,7 @@ message RegisterUserResponse {
 
 message DeleteUserRequest {
   int32 social_id = 1;
+  bool sign_up_failure = 2;
 }
 
 message DeleteUserResponse {

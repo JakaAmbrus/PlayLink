@@ -2,8 +2,9 @@
 using MediatR;
 using Shared.Grpc;
 using Social.Application.Features.Authentication.UserRegistration;
-using Social.Application.Features.Users.DeleteUserById;
+using Social.Application.Features.Users.DeleteUser;
 using Social.Domain.Exceptions;
+using DeleteUserResponse = Shared.Grpc.DeleteUserResponse;
 
 namespace Social.Api.Grpc;
 
@@ -71,9 +72,10 @@ public class UserRegistrationService : UserRegistration.UserRegistrationBase
     {
         try
         {
-            var command = new DeleteUserByIdCommand
+            var command = new DeleteUserCommand
             {
-                UserId = request.SocialId
+                UserId = request.SocialId,
+                SignUpFailure = request.SignUpFailure
             };
 
             await _mediator.Send(command);

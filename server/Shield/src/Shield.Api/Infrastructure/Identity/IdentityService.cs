@@ -1,28 +1,54 @@
 ﻿using System.Security.Claims;
+using System.Text;
+using System.Text.Json;
 using FirebaseAdmin.Auth;
-using Shared.Core.Enums;
 using Shield.Api.Common.Abstractions;
+using Shield.Api.Common.Configurations;
 using Shield.Api.Common.Exceptions;
-using Shield.Api.Configurations;
 
 namespace Shield.Api.Infrastructure.Identity;
 
 internal sealed class IdentityService : IIdentityService
 {
-    private readonly string _userEmailDomain;
+    private readonly FirebaseOptions _firebaseSettings;
     private readonly FirebaseAuth _firebaseAuth;
+    private static readonly HttpClient HttpClient = new HttpClient();
 
     public IdentityService(Settings settings, FirebaseAuth firebaseAuth = null)
     {
-        _userEmailDomain = settings.Firebase.UserEmailDomain;
+        _firebaseSettings = settings.Firebase;
         _firebaseAuth = firebaseAuth ?? FirebaseAuth.DefaultInstance;
+    }
+
+    public async Task<string> SignInAsync(string email, string password)
+    {
+        var requestBody = new
+        {
+            email = email,
+            password = password,
+            returnSecureToken = true
+        };
+        
+        var jsonContent = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
+        
+        var response = await HttpClient.PostAsync($"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={_firebaseSettings.ApiKey}", jsonContent);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new ServerErrorException("Sign in failed.");
+        }
+        
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var responseData = JsonSerializer.Deserialize<SignInResponse>(responseContent);
+
+        return responseData.IdToken;
     }
 
     public async Task<string> SignUpMemberAsync(string username, string password)
     {
         try
         {
-            var email = $"{username}@{_userEmailDomain}";
+            var email = $"{username}@{_firebaseSettings.UserEmailDomain}";
         
             var userArgs = new UserRecordArgs
             {
@@ -79,5 +105,10 @@ internal sealed class IdentityService : IIdentityService
         {
             throw new ServerErrorException("An unexpected error occurred while deleting the user");
         }
+    }
+    
+    private class SignInResponse
+    {
+        public string IdToken { get; set; }
     }
 }

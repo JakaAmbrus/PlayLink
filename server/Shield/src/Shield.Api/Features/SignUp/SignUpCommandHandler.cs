@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Shared.Core.Enums;
 using Shared.Core.Security;
 using Shield.Api.Common.Abstractions;
 using Shield.Api.Common.Exceptions;

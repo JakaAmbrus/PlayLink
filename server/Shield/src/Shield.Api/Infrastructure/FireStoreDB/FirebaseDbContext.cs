@@ -2,8 +2,8 @@
 using Shared.Core.Enums;
 using Shared.Core.Security;
 using Shield.Api.Common.Abstractions;
+using Shield.Api.Common.Configurations;
 using Shield.Api.Common.Exceptions;
-using Shield.Api.Configurations;
 
 namespace Shield.Api.Infrastructure.FireStoreDB;
 

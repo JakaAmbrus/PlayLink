@@ -1,6 +1,20 @@
 {
   "Routes": [
     {
+      "DownstreamPathTemplate": "/api/Users",
+      "UpstreamPathTemplate": "/api/Users",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 20,
+        "QuotaExceededMessage": "Users retrieval limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/Users/searchbar",
       "UpstreamPathTemplate": "/api/Users/searchbar",
       "UpstreamHttpMethod": ["GET"],
@@ -9,8 +23,442 @@
         "EnableRateLimiting": true,
         "Period": "1h",
         "PeriodTimespan": 3600,
-        "Limit": 80,
-        "QuotaExceededMessage": "User retrieval limit exceeded.",
+        "Limit": 20,
+        "QuotaExceededMessage": "Searchbar limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Users/nearest-birthday",
+      "UpstreamPathTemplate": "/api/Users/nearest-birthday",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 20,
+        "QuotaExceededMessage": "Nearest birthday limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Users/{id}",
+      "UpstreamPathTemplate": "/api/Users/{id}",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 20,
+        "QuotaExceededMessage": "User detail limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Users/username/{username}",
+      "UpstreamPathTemplate": "/api/Users/username/{username}",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 20,
+        "QuotaExceededMessage": "User by username limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Users/countries",
+      "UpstreamPathTemplate": "/api/Users/countries",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 20,
+        "QuotaExceededMessage": "Country retrieval limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Users/edit",
+      "UpstreamPathTemplate": "/api/Users/edit",
+      "UpstreamHttpMethod": ["PUT"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 10,
+        "QuotaExceededMessage": "Edit user details limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Users/delete",
+      "UpstreamPathTemplate": "/api/Users/delete",
+      "UpstreamHttpMethod": ["DELETE"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 10,
+        "QuotaExceededMessage": "Delete user limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Admin/users",
+      "UpstreamPathTemplate": "/api/Admin/users",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 20,
+        "QuotaExceededMessage": "Admin user list limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Posts",
+      "UpstreamPathTemplate": "/api/Posts",
+      "UpstreamHttpMethod": ["GET", "POST"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 30,
+        "QuotaExceededMessage": "Posts limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Posts/{postId}",
+      "UpstreamPathTemplate": "/api/Posts/{postId}",
+      "UpstreamHttpMethod": ["GET", "DELETE"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 20,
+        "QuotaExceededMessage": "Single post retrieval or deletion limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Posts/user/{username}",
+      "UpstreamPathTemplate": "/api/Posts/user/{username}",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 20,
+        "QuotaExceededMessage": "User-specific posts limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Posts/user/{username}/photos",
+      "UpstreamPathTemplate": "/api/Posts/user/{username}/photos",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 15,
+        "QuotaExceededMessage": "User-specific photos limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Posts/{postId}/likes",
+      "UpstreamPathTemplate": "/api/Posts/{postId}/likes",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 20,
+        "QuotaExceededMessage": "Post likes retrieval limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Posts/{postId}/like",
+      "UpstreamPathTemplate": "/api/Posts/{postId}/like",
+      "UpstreamHttpMethod": ["POST", "DELETE"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 15,
+        "QuotaExceededMessage": "Like or unlike post limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Comments/{postId}",
+      "UpstreamPathTemplate": "/api/Comments/{postId}",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 25,
+        "QuotaExceededMessage": "Comments retrieval limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Comments",
+      "UpstreamPathTemplate": "/api/Comments",
+      "UpstreamHttpMethod": ["POST"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 15,
+        "QuotaExceededMessage": "Comment posting limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Comments/{commentId}",
+      "UpstreamPathTemplate": "/api/Comments/{commentId}",
+      "UpstreamHttpMethod": ["DELETE"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 10,
+        "QuotaExceededMessage": "Comment deletion limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Comments/{commentId}/likes",
+      "UpstreamPathTemplate": "/api/Comments/{commentId}/likes",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 20,
+        "QuotaExceededMessage": "Comment likes retrieval limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Comments/{commentId}/like",
+      "UpstreamPathTemplate": "/api/Comments/{commentId}/like",
+      "UpstreamHttpMethod": ["POST", "DELETE"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 15,
+        "QuotaExceededMessage": "Like or unlike comment limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Friends",
+      "UpstreamPathTemplate": "/api/Friends",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 30,
+        "QuotaExceededMessage": "Friends retrieval limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Friends/requests",
+      "UpstreamPathTemplate": "/api/Friends/requests",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 20,
+        "QuotaExceededMessage": "Friend requests retrieval limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Friends/status/{username}",
+      "UpstreamPathTemplate": "/api/Friends/status/{username}",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 15,
+        "QuotaExceededMessage": "Friendship status check limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Friends/{receiverUsername}",
+      "UpstreamPathTemplate": "/api/Friends/{receiverUsername}",
+      "UpstreamHttpMethod": ["POST"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 10,
+        "QuotaExceededMessage": "Friend request sending limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Friends/request-response",
+      "UpstreamPathTemplate": "/api/Friends/request-response",
+      "UpstreamHttpMethod": ["PUT"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 10,
+        "QuotaExceededMessage": "Friend request response limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Friends/{username}",
+      "UpstreamPathTemplate": "/api/Friends/{username}",
+      "UpstreamHttpMethod": ["DELETE"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 10,
+        "QuotaExceededMessage": "Friend removal limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Friends/request/{friendRequestId}",
+      "UpstreamPathTemplate": "/api/Friends/request/{friendRequestId}",
+      "UpstreamHttpMethod": ["DELETE"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 10,
+        "QuotaExceededMessage": "Friend request cancellation limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Messages/user",
+      "UpstreamPathTemplate": "/api/Messages/user",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 25,
+        "QuotaExceededMessage": "Messages retrieval limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Messages/thread/{recipientUsername}",
+      "UpstreamPathTemplate": "/api/Messages/thread/{recipientUsername}",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 20,
+        "QuotaExceededMessage": "Message thread retrieval limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Messages",
+      "UpstreamPathTemplate": "/api/Messages",
+      "UpstreamHttpMethod": ["POST"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 15,
+        "QuotaExceededMessage": "Message sending limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Messages/{id}",
+      "UpstreamPathTemplate": "/api/Messages/{id}",
+      "UpstreamHttpMethod": ["DELETE"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 10,
+        "QuotaExceededMessage": "Message deletion limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Moderator/delete-user-description/{username}",
+      "UpstreamPathTemplate": "/api/Moderator/delete-user-description/{username}",
+      "UpstreamHttpMethod": ["DELETE"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 5,
+        "QuotaExceededMessage": "User description deletion limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Moderator/delete-user-photo/{username}",
+      "UpstreamPathTemplate": "/api/Moderator/delete-user-photo/{username}",
+      "UpstreamHttpMethod": ["DELETE"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 5,
+        "QuotaExceededMessage": "User photo deletion limit exceeded.",
         "HttpStatusCode": 429
       }
     }

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Shared.Core.Security;
@@ -24,6 +26,18 @@ public static class DependencyInjection
                     ValidAudience = firebaseProjectId,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true
+                };
+                options.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        context.Response.StatusCode = 498; // For client logout, I have my reasons
+                        context.Response.ContentType = "application/json";
+
+                        const string errorMessage = "Invalid or expired token";
+                        var result = JsonSerializer.Serialize(new { message = errorMessage });
+                        return context.Response.WriteAsync(result);
+                    }
                 };
             });
 

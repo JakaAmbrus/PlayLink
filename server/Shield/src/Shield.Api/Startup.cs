@@ -10,7 +10,8 @@ using Shared.Core;
 using Shared.Grpc;
 using Shield.Api.Common.Abstractions;
 using Shield.Api.Common.Behaviours;
-using Shield.Api.Configurations;
+using Shield.Api.Common.Configurations;
+using Shield.Api.Common.Services;
 using Shield.Api.Endpoints;
 using Shield.Api.Infrastructure.FireStoreDB;
 using Shield.Api.Infrastructure.GrpcSocial;
@@ -72,10 +73,14 @@ public class Startup
         
         // Shared security
         services.AddSharedSecurity(settings.Firebase.ProjectId);
+        
+        // Cache
+        services.AddMemoryCache();
 
         // Service registration
         services.AddSingleton<IIdentityService, IdentityService>();
         services.AddSingleton<IFirebaseDbContext, FirebaseDbContext>();
+        services.AddSingleton<ICacheService, CacheService>();
         
         // Grpc client registration
         services.AddGrpcClient<UserRegistration.UserRegistrationClient>(options =>
@@ -117,6 +122,7 @@ public class Startup
         app.UseEndpoints(endpoint =>
         {
             endpoint.MapSignUpEndpoint();
+            endpoint.MapSignInGuestEndpoint();
         });
     }
 }

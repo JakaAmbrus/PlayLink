@@ -1,5 +1,4 @@
 ﻿using Google.Cloud.Firestore;
-using Shared.Core.Enums;
 using Shared.Core.Security;
 using Shield.Api.Common.Abstractions;
 using Shield.Api.Common.Configurations;
@@ -69,80 +68,22 @@ public class FirestoreDbContext : IFirestoreDbContext
         }
     }
 
-    public async Task AddRolesAsync(string userId, List<string> rolesToAdd)
+    public async Task UpdateUserRolesAsync(string userId, List<string> roles)
     {
         try
         {
             var docRef = GetUserDocumentReference(userId);
-            var snapshot = await docRef.GetSnapshotAsync();
-
-            if (!snapshot.Exists)
+            
+            var updates = new Dictionary<string, object>
             {
-                throw new NotFoundException("User not found.");
-            }
-
-            var data = snapshot.ToDictionary();
-            var rolesFieldName = _options.Fields.RolesField;
-
-            if (data.TryGetValue(rolesFieldName, out var value))
-            {
-                if (value is List<object> existingRoles)
-                {
-                    var rolesSet = new HashSet<string>(existingRoles.Select(r => r.ToString()));
-                    rolesToAdd.ForEach(role => rolesSet.Add(role));
-                    data[rolesFieldName] = rolesSet.ToList();
-                }
-            }
-            else
-            {
-                data[rolesFieldName] = rolesToAdd;
-            }
-
-            await docRef.SetAsync(data, SetOptions.MergeAll);
+                { _options.Fields.RolesField, roles }
+            };
+            
+            await docRef.UpdateAsync(updates);
         }
         catch (Exception)
         {
-            throw new ServerErrorException("An unexpected error occurred while adding roles.");
-        }
-    }
-
-    public async Task RemoveRoleAsync(string userId, string roleToRemove)
-    {
-        try
-        {
-            var docRef = GetUserDocumentReference(userId);
-            var snapshot = await docRef.GetSnapshotAsync();
-
-            if (!snapshot.Exists)
-            {
-                throw new NotFoundException("User not found.");
-            }
-
-            var data = snapshot.ToDictionary();
-            var rolesFieldName = _options.Fields.RolesField;
-
-            if (data.TryGetValue(rolesFieldName, out var value))
-            {
-                if (value is List<object> roles)
-                {
-                    var rolesSet = new HashSet<string>(roles.Select(r => r.ToString()));
-                    if (!rolesSet.Remove(roleToRemove))
-                    {
-                        throw new BadRequestException($"Role '{roleToRemove}' not found for user.");
-                    }
-
-                    data[rolesFieldName] = rolesSet.ToList();
-                    await docRef.SetAsync(data, SetOptions.MergeFields(rolesFieldName));
-                }
-                else
-                {
-                    throw new BadRequestException($"No roles found for user.");
-                }
-            }
-        }
-        catch (Exception)
-        {
-            throw new ServerErrorException("An unexpected error occurred while removing the role.");
+            throw new ServerErrorException("An unexpected error occurred while updating the user.");
         }
     }
 

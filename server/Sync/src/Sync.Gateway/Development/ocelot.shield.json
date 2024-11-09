@@ -25,7 +25,7 @@
         "Period": "1h",
         "PeriodTimespan": 3600,
         "Limit": 15,
-        "QuotaExceededMessage": "Signup hour limit exceeded.",
+        "QuotaExceededMessage": "Guest sign in hour limit exceeded.",
         "HttpStatusCode": 429
       },
       "UpstreamHttpMethod": ["DELETE"]
@@ -43,6 +43,14 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8001 }],
       "UpstreamHttpMethod": ["DELETE"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/shield/edit-role",
+      "UpstreamPathTemplate": "/api/shield/edit-role",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8001 }],
+      "UpstreamHttpMethod": ["POST"]
     }
   ]
 }
+ 

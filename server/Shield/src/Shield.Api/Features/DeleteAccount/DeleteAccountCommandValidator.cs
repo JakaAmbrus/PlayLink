@@ -8,5 +8,8 @@ public class DeleteAccountCommandValidator : AbstractValidator<DeleteAccountComm
     {
         RuleFor(x => x.UserId)
             .NotEmpty();
+        
+        RuleFor(x => x.SocialId)
+            .NotEmpty();
     }
 }

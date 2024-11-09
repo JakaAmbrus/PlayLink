@@ -8,13 +8,13 @@ namespace Shield.Api.Features.SignUp;
 public class SignUpCommandHandler : IRequestHandler<SignUpCommand, SignUpResponse>
 {
     private readonly IIdentityService _identityService;
-    private readonly IFirebaseDbContext _firebaseDbContext;
+    private readonly IFirestoreDbContext _firestoreDbContext;
     private readonly ISocialClientService _socialClientService;
 
-    public SignUpCommandHandler(IIdentityService identityService, IFirebaseDbContext firebaseDbContext, ISocialClientService socialClientService)
+    public SignUpCommandHandler(IIdentityService identityService, IFirestoreDbContext firestoreDbContext, ISocialClientService socialClientService)
     {
         _identityService = identityService;
-        _firebaseDbContext = firebaseDbContext;
+        _firestoreDbContext = firestoreDbContext;
         _socialClientService = socialClientService;
     }
 
@@ -42,7 +42,7 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, SignUpRespons
 
             socialId = socialResponse.SocialId;
 
-            await _firebaseDbContext.AddUserAsync(userId, request.Username, socialId);
+            await _firestoreDbContext.AddUserAsync(userId, request.Username, socialId);
 
             await _identityService.SetUserClaimsAsync(userId, request.Username, socialId, [Roles.Member]);
 

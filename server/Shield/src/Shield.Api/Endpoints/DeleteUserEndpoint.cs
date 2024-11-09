@@ -8,13 +8,16 @@ public static class DeleteUserEndpoint
 {
     public static void MapDeleteUserEndpoint(this IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/shield", async ([FromServices] ISender mediator, DeleteUserCommand request, CancellationToken cancellationToken) =>
+        app.MapDelete("/api/shield/{userId}", async ([FromServices] ISender mediator, string userId, CancellationToken cancellationToken) =>
             {
-                var result = await mediator.Send(request, cancellationToken);
+                var command = new DeleteUserCommand
+                {
+                    UserId = userId,
+                };
+                var result = await mediator.Send(command, cancellationToken);
                 return Results.Ok(result);
             })
-            .RequireAuthorization("Admin")
-            .RequireAuthorization("DenyGuestRole")
+            .RequireAuthorization("Admin", "DenyGuestRole")
             .RequireCors("RestrictedCorsPolicy")
             .WithOpenApi();
     }

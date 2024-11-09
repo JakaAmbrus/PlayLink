@@ -79,7 +79,7 @@ public class Startup
 
         // Service registration
         services.AddSingleton<IIdentityService, IdentityService>();
-        services.AddSingleton<IFirebaseDbContext, FirebaseDbContext>();
+        services.AddSingleton<IFirestoreDbContext, FirestoreDbContext>();
         services.AddSingleton<ICacheService, CacheService>();
         
         // Grpc client registration
@@ -123,6 +123,8 @@ public class Startup
         {
             endpoint.MapSignUpEndpoint();
             endpoint.MapSignInGuestEndpoint();
+            endpoint.MapDeleteAccountEndpoint();
+            endpoint.MapDeleteUserEndpoint();
         });
     }
 }

@@ -6,12 +6,12 @@ namespace Shield.Api.Features.GetUsers;
 public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, GetUsersResponse>
 {
     private readonly IIdentityService _identityService;
-    private readonly IFirebaseDbContext _firebaseDbContext;
+    private readonly IFirestoreDbContext _firestoreDbContext;
 
-    public GetUsersQueryHandler(IIdentityService identityService, IFirebaseDbContext firebaseDbContext)
+    public GetUsersQueryHandler(IIdentityService identityService, IFirestoreDbContext firestoreDbContext)
     {
         _identityService = identityService;
-        _firebaseDbContext = firebaseDbContext;
+        _firestoreDbContext = firestoreDbContext;
     }
 
     public async Task<GetUsersResponse> Handle(GetUsersQuery request, CancellationToken cancellationToken)

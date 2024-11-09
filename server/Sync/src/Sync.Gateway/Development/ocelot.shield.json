@@ -28,7 +28,21 @@
         "QuotaExceededMessage": "Signup hour limit exceeded.",
         "HttpStatusCode": 429
       },
-      "UpstreamHttpMethod": ["POST"]
+      "UpstreamHttpMethod": ["DELETE"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/shield/{userId}",
+      "UpstreamPathTemplate": "/api/shield/{userId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8001 }],
+      "UpstreamHttpMethod": ["DELETE"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/shield/account",
+      "UpstreamPathTemplate": "/api/shield/account",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8001 }],
+      "UpstreamHttpMethod": ["DELETE"]
     }
   ]
 }

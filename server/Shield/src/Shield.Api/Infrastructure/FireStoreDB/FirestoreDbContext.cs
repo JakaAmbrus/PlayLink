@@ -4,33 +4,42 @@ using Shared.Core.Security;
 using Shield.Api.Common.Abstractions;
 using Shield.Api.Common.Configurations;
 using Shield.Api.Common.Exceptions;
+using Shield.Api.Common.Models;
 
 namespace Shield.Api.Infrastructure.FireStoreDB;
 
-public class FirebaseDbContext : IFirebaseDbContext
+public class FirestoreDbContext : IFirestoreDbContext
 {
     private readonly FirestoreDb _firestoreDb;
     private readonly FirestoreOptions _options;
 
-    public FirebaseDbContext(FirestoreDb firestoreDb, Settings settings)
+    public FirestoreDbContext(FirestoreDb firestoreDb, Settings settings)
     {
         _firestoreDb = firestoreDb;
         _options = settings.Firebase.Firestore;
     }
 
-    public async Task<DocumentSnapshot> GetUserByIdAsync(string userId)
+    public async Task<User> GetUserByIdAsync(string userId)
     {
         try
         {
             var docRef = GetUserDocumentReference(userId);
             var snapshot = await docRef.GetSnapshotAsync();
-            
+        
             if (!snapshot.Exists)
             {
-                throw new NotFoundException("User not found.");
+                return null;
             }
-            
-            return snapshot;
+
+            var user = new User
+            {
+                UserId = snapshot.GetValue<string>(_options.Fields.UserId),
+                Username = snapshot.GetValue<string>(_options.Fields.Username),
+                SocialId = snapshot.GetValue<int>(_options.Fields.SocialId),
+                Roles = snapshot.GetValue<List<string>>(_options.Fields.RolesField) ?? new List<string>()
+            };
+        
+            return user;
         }
         catch (Exception)
         {

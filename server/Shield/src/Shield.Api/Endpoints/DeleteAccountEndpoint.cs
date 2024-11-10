@@ -19,7 +19,6 @@ public static class DeleteAccountEndpoint
                 return Results.Ok(result);
             })
             .RequireAuthorization("Member", "DenyGuestRole")
-            .RequireCors("RestrictedCorsPolicy")
             .WithOpenApi();
     }
 }

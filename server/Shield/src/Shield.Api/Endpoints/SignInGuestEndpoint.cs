@@ -13,7 +13,6 @@ public static class SignInGuestEndpoint
                 var result = await mediator.Send(request, cancellationToken);
                 return Results.Ok(result);
             })
-            .RequireCors("RestrictedCorsPolicy")
             .WithOpenApi();
     }
 }

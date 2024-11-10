@@ -1,6 +1,6 @@
 {
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:8000",
+    "BaseUrl": "https://localhost:9000",
     "RequestIdKey": "Oc-Request-Id",
     "RateLimitOptions": {
       "ClientIdHeader": "Client-Id",

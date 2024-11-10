@@ -15,7 +15,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("OcelotCorsPolicy", builder =>
     {
-        builder.WithOrigins("http://localhost:4200")
+        builder.WithOrigins("http://localhost:4200", "https://localhost:4200")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
@@ -24,14 +24,11 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.UseHttpsRedirection();
+
 app.UseCors("OcelotCorsPolicy");
 
 app.UseWebSockets();
-
-if (env.IsProduction())
-{
-    app.UseHttpsRedirection();
-}
 
 await app.UseOcelot();
 

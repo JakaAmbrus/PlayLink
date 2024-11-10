@@ -14,7 +14,6 @@ public static class EditRoleEndpoint
                 return Results.Ok(result);
             })
             .RequireAuthorization("Admin", "DenyGuestRole")
-            .RequireCors("RestrictedCorsPolicy")
             .WithOpenApi();
     }
 }

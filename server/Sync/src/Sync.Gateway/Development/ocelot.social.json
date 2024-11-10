@@ -22,7 +22,7 @@
           "Port": 8002
         }
       ],
-      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "UpstreamHttpMethod": ["GET", "POST", "CONNECT"],
       "UseWebSocket": true
     },
     {
@@ -47,13 +47,14 @@
           "Port": 8002
         }
       ],
-      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "UpstreamHttpMethod": ["GET", "POST", "CONNECT"],
       "UseWebSocket": true
     },
     {
       "DownstreamPathTemplate": "/api/Users/current",
       "UpstreamPathTemplate": "/api/Users/current",
       "UpstreamHttpMethod": ["GET"],
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
       "RateLimitOptions": {
         "EnableRateLimiting": true,
@@ -69,6 +70,7 @@
       "UpstreamPathTemplate": "/api/Users",
       "UpstreamHttpMethod": ["GET"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -83,6 +85,7 @@
       "UpstreamPathTemplate": "/api/Users/searchbar",
       "UpstreamHttpMethod": ["GET"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -97,6 +100,7 @@
       "UpstreamPathTemplate": "/api/Users/nearest-birthday",
       "UpstreamHttpMethod": ["GET"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -111,6 +115,7 @@
       "UpstreamPathTemplate": "/api/Users/{id}",
       "UpstreamHttpMethod": ["GET"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -125,6 +130,7 @@
       "UpstreamPathTemplate": "/api/Users/username/{username}",
       "UpstreamHttpMethod": ["GET"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -139,6 +145,7 @@
       "UpstreamPathTemplate": "/api/Users/countries",
       "UpstreamHttpMethod": ["GET"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -153,6 +160,7 @@
       "UpstreamPathTemplate": "/api/Users/edit",
       "UpstreamHttpMethod": ["PUT"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -167,6 +175,7 @@
       "UpstreamPathTemplate": "/api/Users/delete",
       "UpstreamHttpMethod": ["DELETE"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -181,6 +190,7 @@
       "UpstreamPathTemplate": "/api/Admin/users",
       "UpstreamHttpMethod": ["GET"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -195,6 +205,7 @@
       "UpstreamPathTemplate": "/api/Posts",
       "UpstreamHttpMethod": ["GET", "POST"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -209,6 +220,7 @@
       "UpstreamPathTemplate": "/api/Posts/{postId}",
       "UpstreamHttpMethod": ["GET", "DELETE"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -223,6 +235,7 @@
       "UpstreamPathTemplate": "/api/Posts/user/{username}",
       "UpstreamHttpMethod": ["GET"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -237,6 +250,7 @@
       "UpstreamPathTemplate": "/api/Posts/user/{username}/photos",
       "UpstreamHttpMethod": ["GET"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -251,6 +265,7 @@
       "UpstreamPathTemplate": "/api/Posts/{postId}/likes",
       "UpstreamHttpMethod": ["GET"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -265,6 +280,7 @@
       "UpstreamPathTemplate": "/api/Posts/{postId}/like",
       "UpstreamHttpMethod": ["POST", "DELETE"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -279,6 +295,7 @@
       "UpstreamPathTemplate": "/api/Comments/{postId}",
       "UpstreamHttpMethod": ["GET"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -293,6 +310,7 @@
       "UpstreamPathTemplate": "/api/Comments",
       "UpstreamHttpMethod": ["POST"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -307,6 +325,7 @@
       "UpstreamPathTemplate": "/api/Comments/{commentId}",
       "UpstreamHttpMethod": ["DELETE"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -321,6 +340,7 @@
       "UpstreamPathTemplate": "/api/Comments/{commentId}/likes",
       "UpstreamHttpMethod": ["GET"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -335,6 +355,7 @@
       "UpstreamPathTemplate": "/api/Comments/{commentId}/like",
       "UpstreamHttpMethod": ["POST", "DELETE"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -349,6 +370,7 @@
       "UpstreamPathTemplate": "/api/Friends",
       "UpstreamHttpMethod": ["GET"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -363,6 +385,7 @@
       "UpstreamPathTemplate": "/api/Friends/requests",
       "UpstreamHttpMethod": ["GET"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -377,6 +400,7 @@
       "UpstreamPathTemplate": "/api/Friends/status/{username}",
       "UpstreamHttpMethod": ["GET"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -391,6 +415,7 @@
       "UpstreamPathTemplate": "/api/Friends/{receiverUsername}",
       "UpstreamHttpMethod": ["POST"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -405,6 +430,7 @@
       "UpstreamPathTemplate": "/api/Friends/request-response",
       "UpstreamHttpMethod": ["PUT"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -419,6 +445,7 @@
       "UpstreamPathTemplate": "/api/Friends/{username}",
       "UpstreamHttpMethod": ["DELETE"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -433,6 +460,7 @@
       "UpstreamPathTemplate": "/api/Friends/request/{friendRequestId}",
       "UpstreamHttpMethod": ["DELETE"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -447,6 +475,7 @@
       "UpstreamPathTemplate": "/api/Messages/user",
       "UpstreamHttpMethod": ["GET"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -461,6 +490,7 @@
       "UpstreamPathTemplate": "/api/Messages/thread/{recipientUsername}",
       "UpstreamHttpMethod": ["GET"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -475,6 +505,7 @@
       "UpstreamPathTemplate": "/api/Messages",
       "UpstreamHttpMethod": ["POST"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -489,6 +520,7 @@
       "UpstreamPathTemplate": "/api/Messages/{id}",
       "UpstreamHttpMethod": ["DELETE"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -503,6 +535,7 @@
       "UpstreamPathTemplate": "/api/Moderator/delete-user-description/{username}",
       "UpstreamHttpMethod": ["DELETE"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",
@@ -517,6 +550,7 @@
       "UpstreamPathTemplate": "/api/Moderator/delete-user-photo/{username}",
       "UpstreamHttpMethod": ["DELETE"],
       "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "DownstreamScheme": "http",
       "RateLimitOptions": {
         "EnableRateLimiting": true,
         "Period": "1h",

@@ -18,7 +18,6 @@ public static class DeleteUserEndpoint
                 return Results.Ok(result);
             })
             .RequireAuthorization("Admin", "DenyGuestRole")
-            .RequireCors("RestrictedCorsPolicy")
             .WithOpenApi();
     }
 }

@@ -102,7 +102,7 @@ app.UseSerilogRequestLogging();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers().RequireCors("RestrictedCorsPolicy");
+app.MapControllers();
 
 app.MapGrpcService<UserRegistrationService>();
 

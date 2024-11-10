@@ -14,10 +14,12 @@ export interface RegisterRequest {
 
 export interface AuthResponse {
   user: {
+    appUserId: number,
     username: string;
-    token: string;
-    fullName: string;
     gender: string;
+    fullName: string;
+    age: number,
+    country: string,
     profilePictureUrl: string | null;
   };
 }

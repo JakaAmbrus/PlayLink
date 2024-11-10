@@ -14,6 +14,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Core", "..\Shared\sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Grpc", "..\Shared\src\Shared.Grpc\Shared.Grpc.csproj", "{E598A8CF-02D1-42B7-9819-EE3A0137F3AD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sync", "Sync", "{77CAADA5-736D-43F7-830B-53D0DA3A253E}"
+	ProjectSection(SolutionItems) = preProject
+		..\Sync\src\Sync.Gateway\Development\ocelot.social.json = ..\Sync\src\Sync.Gateway\Development\ocelot.social.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

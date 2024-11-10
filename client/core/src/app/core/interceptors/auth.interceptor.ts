@@ -1,16 +1,12 @@
-import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
-} from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { TokenService } from '../services/token.service';
+import {Injectable} from '@angular/core';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest,} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {TokenService} from '../services/token.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private tokenService: TokenService) {}
+  constructor(private tokenService: TokenService) {
+  }
 
   intercept(
     request: HttpRequest<any>,
@@ -21,8 +17,9 @@ export class AuthInterceptor implements HttpInterceptor {
 
     if (
       token &&
-      !request.url.endsWith('/account/login') &&
-      !request.url.endsWith('/account/register')
+      !request.url.endsWith('/users/current') &&
+      !request.url.endsWith('/shield/guest') &&
+      !request.url.endsWith('/shield/signup')
     ) {
       const clonedReq = request.clone({
         headers: request.headers.set('Authorization', `Bearer ${token}`),

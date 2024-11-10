@@ -118,4 +118,8 @@ client/core/ssl
 
 firebase.prod.json
 
+client/core/src/assets/config.json
+
 ocelot.json
+
+firebaseConfig.ts

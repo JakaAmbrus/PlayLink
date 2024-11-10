@@ -11,7 +11,22 @@ builder.Services.AddOcelot();
 
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("OcelotCorsPolicy", builder =>
+    {
+        builder.WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
 var app = builder.Build();
+
+app.UseCors("OcelotCorsPolicy");
+
+app.UseWebSockets();
 
 if (env.IsProduction())
 {

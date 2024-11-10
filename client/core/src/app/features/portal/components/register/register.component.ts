@@ -1,27 +1,22 @@
-import { Component, Output, OnInit, EventEmitter } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import { Router } from '@angular/router';
-import { AccountService } from 'src/app/core/services/account.service';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators,} from '@angular/forms';
+import {Router} from '@angular/router';
+import {AccountService} from 'src/app/core/services/account.service';
 import {
   atLeastOneNumberValidator,
-  matchValues,
   hasSpaceValidator,
-  standardLettersOnlyValidator,
+  matchValues,
   standardLettersAndSpacesValidator,
+  standardLettersOnlyValidator,
   validCountryValidator,
 } from 'src/app/shared/validators/formValidators';
-import { Observable, debounceTime, first, map, startWith } from 'rxjs';
+import {debounceTime, first, map, Observable, startWith} from 'rxjs';
 import countries from '../../../../../assets/data/countries.json';
-import { MatOptionModule } from '@angular/material/core';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
+import {MatOptionModule} from '@angular/material/core';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {AsyncPipe, NgClass, NgFor, NgIf} from '@angular/common';
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-register',
@@ -52,7 +47,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toastr: ToastrService
   ) {
     this.minDate = new Date(1925, 0, 1);
     this.maxDate = new Date(2010, 5, 30);
@@ -63,7 +59,7 @@ export class RegisterComponent implements OnInit {
 
     this.filteredCountries = this.registerForm.controls[
       'country'
-    ].valueChanges.pipe(
+      ].valueChanges.pipe(
       debounceTime(100),
       startWith(''),
       map((value) => (typeof value === 'string' ? value : value.name)),
@@ -124,20 +120,13 @@ export class RegisterComponent implements OnInit {
     return country ? country : '';
   }
 
-  private filterCountries(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return countries.filter((country) =>
-      country.toLowerCase().includes(filterValue)
-    );
-  }
-
   register(): void {
     this.isLoading = true;
 
     const dob = this.getOnlyDate(
       this.registerForm?.controls['dateOfBirth'].value
     );
-    const values = { ...this.registerForm.value, dateOfBirth: dob };
+    const values = {...this.registerForm.value, dateOfBirth: dob};
 
     this.accountService
       .register(values)
@@ -145,8 +134,8 @@ export class RegisterComponent implements OnInit {
       .subscribe({
         next: () => {
           this.isLoading = false;
-          this.accountService.setLoggedIn(true);
-          this.router.navigate(['/home']);
+          this.toastr.success("Sign up successful");
+          this.exitRegistration.emit();
         },
         error: () => {
           this.isLoading = false;
@@ -156,6 +145,13 @@ export class RegisterComponent implements OnInit {
 
   cancel(): void {
     this.exitRegistration.emit();
+  }
+
+  private filterCountries(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return countries.filter((country) =>
+      country.toLowerCase().includes(filterValue)
+    );
   }
 
   private getOnlyDate(dob: string | undefined) {

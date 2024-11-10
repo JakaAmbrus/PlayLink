@@ -1,6 +1,70 @@
 {
   "Routes": [
     {
+      "DownstreamPathTemplate": "/hubs/presence/negotiate",
+      "UpstreamPathTemplate": "/hubs/presence/negotiate",
+      "UpstreamHttpMethod": [ "POST" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 8002
+        }
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/hubs/presence",
+      "UpstreamPathTemplate": "/hubs/presence",
+      "DownstreamScheme": "ws",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 8002
+        }
+      ],
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "UseWebSocket": true
+    },
+    {
+      "DownstreamPathTemplate": "/hubs/message/negotiate",
+      "UpstreamPathTemplate": "/hubs/message/negotiate",
+      "UpstreamHttpMethod": [ "POST" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 8002
+        }
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/hubs/message",
+      "UpstreamPathTemplate": "/hubs/message",
+      "DownstreamScheme": "ws",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 8002
+        }
+      ],
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "UseWebSocket": true
+    },
+    {
+      "DownstreamPathTemplate": "/api/Users/current",
+      "UpstreamPathTemplate": "/api/Users/current",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamHostAndPorts": [{ "Host": "localhost", "Port": 8002 }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1h",
+        "PeriodTimespan": 3600,
+        "Limit": 30,
+        "QuotaExceededMessage": "Users retrieval limit exceeded.",
+        "HttpStatusCode": 429
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/Users",
       "UpstreamPathTemplate": "/api/Users",
       "UpstreamHttpMethod": ["GET"],

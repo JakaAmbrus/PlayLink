@@ -127,6 +127,22 @@ namespace Social.Api.Controllers
             var response = await Mediator.Send(request, cancellationToken);
             return Ok(response);
         }
+        
+        /// <summary>
+        /// Gets current user details
+        /// </summary>
+        /// <returns>Current user details</returns>
+        [HttpGet("current")]
+        public async Task<IActionResult> GetCurrentUser(CancellationToken cancellationToken)
+        {
+            var request = new GetUserByIdQuery 
+            { 
+                Id = AuthService.GetSocialId(),
+            };
+
+            var response = await Mediator.Send(request, cancellationToken);
+            return Ok(response);
+        }
     }
 }
 

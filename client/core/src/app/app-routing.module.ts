@@ -1,15 +1,12 @@
-import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 
-import { PortalComponent } from './features/portal/portal.component';
-import { NotFoundComponent } from './core/components/not-found/not-found.component';
+import {PortalComponent} from './features/portal/portal.component';
 
-import { canActivateGuard } from './core/guards/auth.guard';
-import { currentUserRestrictionGuard } from './features/profile/guards/current-user-restriction.guard';
-import { notCurrentUserRestrictionGuard } from './features/profile/guards/not-current-user-restriction.guard';
-import { canActivateLoginGuard } from './core/guards/auth.guard';
-import { preventUnsavedChangesGuard } from './features/profile/guards/prevent-unsaved-changes.guard';
-import { adminGuard } from './features/admin/guards/admin.guard';
+import {canActivateGuard, canActivateLoginGuard} from './core/guards/auth.guard';
+import {currentUserRestrictionGuard} from './features/profile/guards/current-user-restriction.guard';
+import {notCurrentUserRestrictionGuard} from './features/profile/guards/not-current-user-restriction.guard';
+import {preventUnsavedChangesGuard} from './features/profile/guards/prevent-unsaved-changes.guard';
 
 const routes: Routes = [
   {
@@ -24,14 +21,14 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    data: { animation: 'Home' },
+    data: {animation: 'Home'},
     canActivate: [canActivateGuard],
     loadComponent: () =>
       import('./features/home/home.component').then((m) => m.HomeComponent),
   },
   {
     path: 'discover',
-    data: { animation: 'Discover' },
+    data: {animation: 'Discover'},
     canActivate: [canActivateGuard],
     loadComponent: () =>
       import('./features/discover/discover.component').then(
@@ -46,10 +43,10 @@ const routes: Routes = [
         (m) => m.ProfileComponent
       ),
     children: [
-      { path: '', redirectTo: 'posts', pathMatch: 'full' },
+      {path: '', redirectTo: 'posts', pathMatch: 'full'},
       {
         path: 'posts',
-        data: { animation: 'Posts' },
+        data: {animation: 'Posts'},
         loadComponent: () =>
           import('./features/profile/pages/posts/posts.component').then(
             (m) => m.PostsComponent
@@ -57,7 +54,7 @@ const routes: Routes = [
       },
       {
         path: 'gallery',
-        data: { animation: 'Gallery' },
+        data: {animation: 'Gallery'},
         loadComponent: () =>
           import('./features/profile/pages/gallery/gallery.component').then(
             (m) => m.GalleryComponent
@@ -65,7 +62,7 @@ const routes: Routes = [
       },
       {
         path: 'edit',
-        data: { animation: 'Edit' },
+        data: {animation: 'Edit'},
         canDeactivate: [preventUnsavedChangesGuard],
         canActivate: [notCurrentUserRestrictionGuard],
         loadComponent: () =>
@@ -75,7 +72,7 @@ const routes: Routes = [
       },
       {
         path: 'message',
-        data: { animation: 'Message' },
+        data: {animation: 'Message'},
         canActivate: [currentUserRestrictionGuard],
         loadComponent: () =>
           import('./features/profile/pages/message/message.component').then(
@@ -86,7 +83,7 @@ const routes: Routes = [
   },
   {
     path: 'messages',
-    data: { animation: 'Messages' },
+    data: {animation: 'Messages'},
     canActivate: [canActivateGuard],
     loadComponent: () =>
       import('./features/messages/messages.component').then(
@@ -97,7 +94,7 @@ const routes: Routes = [
     path: 'games',
     loadComponent: () =>
       import('./features/games/games.component').then((m) => m.GamesComponent),
-    data: { animation: 'Games' },
+    data: {animation: 'Games'},
     canActivate: [canActivateGuard],
     children: [
       {
@@ -105,36 +102,30 @@ const routes: Routes = [
         loadComponent: () =>
           import(
             './features/games/pages/game-selection/game-selection.component'
-          ).then((m) => m.GameSelectionComponent),
+            ).then((m) => m.GameSelectionComponent),
       },
       {
         path: 'hollow-x-hollow',
         loadComponent: () =>
           import(
             './features/games/pages/hollow-x-hollow/hollow-x-hollow.component'
-          ).then((m) => m.HollowXHollowComponent),
+            ).then((m) => m.HollowXHollowComponent),
       },
       {
         path: 'playsketch-portable',
         loadComponent: () =>
           import(
             './features/games/pages/playsketch-portable/playsketch-portable.component'
-          ).then((m) => m.PlaysketchPortableComponent),
+            ).then((m) => m.PlaysketchPortableComponent),
       },
       {
         path: 'rock-paper-scissors',
         loadComponent: () =>
           import(
             './features/games/pages/rock-paper-scissors/rock-paper-scissors.component'
-          ).then((m) => m.RockPaperScissorsComponent),
+            ).then((m) => m.RockPaperScissorsComponent),
       },
     ],
-  },
-  {
-    path: 'admin',
-    canActivate: [canActivateGuard, adminGuard],
-    loadComponent: () =>
-      import('./features/admin/admin.component').then((m) => m.AdminComponent),
   },
   {
     path: 'about-site',
@@ -151,13 +142,14 @@ const routes: Routes = [
         (m) => m.NotFoundComponent
       ),
   },
-  { path: '**', redirectTo: '/not-found' },
+  {path: '**', redirectTo: '/not-found'},
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}),
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+}

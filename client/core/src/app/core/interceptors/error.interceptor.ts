@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest,} from '@angular/common/http';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest,} from '@angular/common/http';
 import {catchError, Observable} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
 import {AccountService} from "../services/account.service";
@@ -14,7 +14,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
-      catchError((error: HttpErrorResponse) => {
+      catchError((error: any) => {
         if (error) {
           switch (error.status) {
             case 400:

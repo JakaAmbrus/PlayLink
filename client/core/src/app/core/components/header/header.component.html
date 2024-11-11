@@ -1,4 +1,4 @@
-<header id="header-main-container" class="secondary-background">
+<header class="secondary-background" id="header-main-container">
   <div id="header-container">
     <!-- Header Logo -->
     <app-header-logo [theme]="theme"></app-header-logo>
@@ -9,36 +9,36 @@
     <!-- Header Right -->
     <div id="header-right">
       <div
-        id="header-notifications-container"
         class="header-icons-right header-icons-right-container"
+        id="header-notifications-container"
       >
         <!-- notifications -->
         <button
+          (click)="toggleNotifications()"
           id="notifications-button"
           type="button"
-          (click)="toggleNotifications()"
         >
           <span class="material-symbols-rounded filled"> notifications </span>
 
-          @if(friendRequests.length > 0){
-          <div id="notification-count" class="reverse-parameters">
-            {{ friendRequests.length }}
-          </div>
+          @if (friendRequests.length > 0) {
+            <div id="notification-count" class="reverse-parameters">
+              {{ friendRequests.length }}
+            </div>
           }
         </button>
         <app-header-notifications
-          class="notifications"
-          [friendRequests]="friendRequests"
           (requestDeleted)="onRequestDelete($event)"
           [class.open]="isNotificationsOpen"
+          [friendRequests]="friendRequests"
+          class="notifications"
         ></app-header-notifications>
       </div>
 
       <!-- theme -->
       <button
-        type="button"
         (click)="handleClick()"
         class="header-icons-right header-icons-right-container"
+        type="button"
       >
         <span class="material-symbols-rounded filled">
           {{ theme === "theme-light" ? "light_mode" : "dark_mode" }}
@@ -47,17 +47,17 @@
 
       <!-- dropdown -->
       <button
-        type="button"
-        class="header-icons-right header-icons-right-container dropdown"
         (click)="toggleDropdown()"
+        class="header-icons-right header-icons-right-container dropdown"
+        type="button"
       >
         <span class="material-symbols-rounded thicker-icon header-avatar">
           {{ isModerator ? "shield_person" : "person" }}
         </span>
         <app-header-dropdown
-          class="header-dropdown"
           [class.open]="isDropdownOpen"
           [username]="username"
+          class="header-dropdown"
         ></app-header-dropdown>
       </button>
     </div>
@@ -68,15 +68,3 @@
     class="mobile-links secondary-background"
   ></app-header-nav-links>
 </header>
-
-<!-- Admin panel route navigation -->
-@if (isAdmin) {
-<a
-  routerLink="/admin"
-  class="higher-roles-container secondary-background theme-border"
->
-  <span class="material-symbols-rounded thicker-icon header-text">
-    shield_person
-  </span>
-</a>
-}

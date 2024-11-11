@@ -1,23 +1,23 @@
 import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  OnInit,
-  OnDestroy,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
 } from '@angular/core';
-import { FriendsService } from '../../../shared/services/friends.service';
-import { FriendRequest } from '../../../shared/models/friends';
-import { RouterLink } from '@angular/router';
-import { HeaderDropdownComponent } from './components/header-dropdown/header-dropdown.component';
-import { HeaderNotificationsComponent } from './components/header-notifications/header-notifications.component';
-import { HeaderNavLinksComponent } from './components/header-nav-links/header-nav-links.component';
-import { HeaderLogoComponent } from './components/header-logo/header-logo.component';
-import { LocalStorageService } from '../../services/local-storage.service';
-import { Subscription, interval, startWith, switchMap, take } from 'rxjs';
-import { ClickOutsideService } from 'src/app/shared/services/click-outside.service';
+import {FriendsService} from '../../../shared/services/friends.service';
+import {FriendRequest} from '../../../shared/models/friends';
+import {RouterLink} from '@angular/router';
+import {HeaderDropdownComponent} from './components/header-dropdown/header-dropdown.component';
+import {HeaderNotificationsComponent} from './components/header-notifications/header-notifications.component';
+import {HeaderNavLinksComponent} from './components/header-nav-links/header-nav-links.component';
+import {HeaderLogoComponent} from './components/header-logo/header-logo.component';
+import {LocalStorageService} from '../../services/local-storage.service';
+import {interval, startWith, Subscription, switchMap, take} from 'rxjs';
+import {ClickOutsideService} from 'src/app/shared/services/click-outside.service';
 
 @Component({
   selector: 'app-header',
@@ -42,7 +42,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isDropdownOpen: boolean = false;
   isNotificationsOpen: boolean = false;
   preventClose: boolean = false;
-  isAdmin: boolean = false;
   isModerator: boolean = false;
   friendRequests: FriendRequest[] = [];
   private subscription = new Subscription();
@@ -52,7 +51,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private clickOutsideService: ClickOutsideService,
     private changeDetectorRef: ChangeDetectorRef
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.username = this.localStorageService.getItem<string>('username');
@@ -133,7 +133,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       return;
     }
     const roles = storedRoles ? JSON.parse(storedRoles) : [];
-    this.isAdmin = roles.includes('Admin');
     this.isModerator = roles.includes('Moderator');
   }
 

@@ -1,17 +1,13 @@
-import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
-  HttpErrorResponse,
-} from '@angular/common/http';
-import { Observable, catchError } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
+import {Injectable} from '@angular/core';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest,} from '@angular/common/http';
+import {catchError, Observable} from 'rxjs';
+import {ToastrService} from 'ngx-toastr';
+import {AccountService} from "../services/account.service";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private toastr: ToastrService) {}
+  constructor(private toastr: ToastrService, private accountService: AccountService,) {
+  }
 
   intercept(
     request: HttpRequest<unknown>,
@@ -52,12 +48,16 @@ export class ErrorInterceptor implements HttpInterceptor {
             case 429:
               this.toastr.error(
                 error.error.message ||
-                  'Maximum hourly limit for feature reached.'
+                'Maximum hourly limit for feature reached.'
               );
               break;
 
+            case 498: // When token expires I just log them out, for simplicity since this is a once visit in a while app
+              this.accountService.logout();
+              break;
+
             case 500:
-              this.toastr.error('Server Error', error.status.toString());
+              this.toastr.error(error.error.message || 'Something went wrong..');
               break;
 
             default:

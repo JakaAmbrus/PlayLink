@@ -1,6 +1,6 @@
 .auth-container {
   box-shadow: 0 0.2em 0.4em rgba(0, 0, 0, 0.1),
-    0 0.1em 0.1em rgba(0, 0, 0, 0.05);
+  0 0.1em 0.1em rgba(0, 0, 0, 0.05);
   background: white;
   position: relative;
   width: 55em;
@@ -8,9 +8,11 @@
   border-radius: 1em;
   overflow: hidden;
 }
+
 .tabs {
   display: flex;
 }
+
 .tab {
   font-family: "Nexa Bold";
   flex: 1;
@@ -18,20 +20,23 @@
   padding: 0.7em;
   border-bottom: 0.07em solid #3d3a3aa3;
 }
+
 .form-buttons {
   color: #3d3a3a;
   background: white;
 }
+
 .form-buttons.active-form {
   background-color: #3d3a3a;
   color: white;
 }
+
 @media only screen and (max-width: 600px) {
   .auth-container {
     margin-top: 32em;
     box-shadow: none;
     background: #f0f2f5;
-    width: 98vw;
+    width: 90vw;
     border: none;
     border-radius: 0em;
 
@@ -46,5 +51,8 @@
   }
   .tab {
     border: none;
+  }
+  .form-buttons {
+    font-size: 2.4em;
   }
 }

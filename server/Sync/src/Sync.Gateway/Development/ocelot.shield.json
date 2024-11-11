@@ -28,7 +28,7 @@
         "QuotaExceededMessage": "Guest sign in hour limit exceeded.",
         "HttpStatusCode": 429
       },
-      "UpstreamHttpMethod": ["DELETE"]
+      "UpstreamHttpMethod": ["POST"]
     },
     {
       "DownstreamPathTemplate": "/api/shield/{userId}",

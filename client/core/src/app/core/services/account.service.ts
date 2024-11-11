@@ -1,6 +1,6 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {from, Observable, switchMap, tap} from 'rxjs';
+import {catchError, from, Observable, switchMap, tap} from 'rxjs';
 import {environment} from 'src/environments/environment';
 import {AvatarService} from '../../shared/services/avatar.service';
 import {PresenceService} from './presence.service';
@@ -9,6 +9,7 @@ import {TokenService} from './token.service';
 import {LocalStorageService} from './local-storage.service';
 import {AuthResponse, LoginRequest, RegisterRequest,} from 'src/app/shared/models/auth';
 import {Auth, signInWithEmailAndPassword} from "@angular/fire/auth";
+import {ToastrService} from "ngx-toastr";
 
 @Injectable({
   providedIn: 'root',
@@ -25,34 +26,37 @@ export class AccountService {
     private tokenService: TokenService,
     private localStorageService: LocalStorageService,
     private firebaseAuth: Auth,
+    private toastr: ToastrService
   ) {
   }
 
   login(request: LoginRequest): Observable<AuthResponse> {
     const email = `${request.username}@playlink.com`;
-    console.log(`Attempting to log in with email: ${email}`);
 
     return from(signInWithEmailAndPassword(this.firebaseAuth, email, request.password)).pipe(
+      catchError((error) => {
+        if (error.code === 'auth/invalid-credential') {
+          this.toastr.error("Invalid credentials");
+        } else {
+          this.toastr.error("Please try again");
+        }
+        throw error;
+      }),
       switchMap((userCredential) => {
-        console.log("Firebase signInWithEmailAndPassword successful:", userCredential);
-        return userCredential.user?.getIdToken() || Promise.reject('No token found');
+        if (!userCredential.user) {
+          this.toastr.error("Login failed: Invalid credentials");
+          throw new Error("Invalid credentials");
+        }
+
+        return userCredential.user.getIdToken();
       }),
       switchMap((idToken) => {
-        console.log("Retrieved ID Token:", idToken);
-
         const headers = new HttpHeaders().set('Authorization', `Bearer ${idToken}`);
-        console.log("Sending request to /users/current with headers:", headers);
-
         return this.http.get<AuthResponse>(`${this.baseUrl}users/current`, {headers}).pipe(
           tap((response) => {
-            console.log("Received response from /users/current:", response);
             this.handleUserResponse(response, idToken);
           })
         );
-      }),
-      tap({
-        complete: () => console.log("Login process completed successfully."),
-        error: (error) => console.error("Error during login process:", error)
       })
     );
   }
@@ -61,6 +65,7 @@ export class AccountService {
     return this.http.post<{ token: string }>(`${this.baseUrl}shield/guest`, {role}).pipe(
       switchMap((response) => {
         const guestToken = response.token;
+        console.log(guestToken);
 
         const headers = new HttpHeaders().set('Authorization', `Bearer ${guestToken}`);
         return this.http.get<AuthResponse>(`${this.baseUrl}users/current`, {headers})

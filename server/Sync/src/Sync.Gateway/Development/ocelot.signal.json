@@ -1,0 +1,16 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "api/graphql",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 8004
+        }
+      ],
+      "UpstreamPathTemplate": "api/graphql",
+      "UpstreamHttpMethod": [ "POST" ]
+    }
+  ]
+}

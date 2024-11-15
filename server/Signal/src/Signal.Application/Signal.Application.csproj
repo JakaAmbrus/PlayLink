@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Signal.Core\Signal.Core.csproj" />
+      <ProjectReference Include="..\Signal.Domain\Signal.Domain.csproj" />
     </ItemGroup>
 
 </Project>

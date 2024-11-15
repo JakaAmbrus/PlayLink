@@ -14,8 +14,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Signal.Core\Signal.Core.csproj" />
-      <ProjectReference Include="..\Signal.Data\Signal.Data.csproj" />
+      <ProjectReference Include="..\Signal.Application\Signal.Application.csproj" />
+      <ProjectReference Include="..\Signal.Domain\Signal.Domain.csproj" />
+      <ProjectReference Include="..\Signal.Infrastructure\Signal.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

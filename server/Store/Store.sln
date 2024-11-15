@@ -14,6 +14,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discount", "src\Store.Modul
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order", "src\Store.Modules\Order\Order.csproj", "{535EB55E-F7FA-4924-801A-AC949941813A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sync", "Sync", "{DF68610C-18EB-446F-893D-612F2D583A38}"
+	ProjectSection(SolutionItems) = preProject
+		..\Sync\src\Sync.Gateway\Development\ocelot.store.json = ..\Sync\src\Sync.Gateway\Development\ocelot.store.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

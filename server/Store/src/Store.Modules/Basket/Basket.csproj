@@ -20,4 +20,8 @@
       <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Infrastructure\" />
+    </ItemGroup>
+
 </Project>

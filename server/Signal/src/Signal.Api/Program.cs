@@ -3,7 +3,6 @@ using Signal.Api.GraphQL;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 builder.Services
     .AddGraphQLServer()
@@ -11,13 +10,22 @@ builder.Services
     .AddMutationType<SignalMutation>()
     .AddType<SignalType>(); 
 
+var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("RestrictedCorsPolicy", policy =>
+    {
+        policy.WithOrigins(allowedOrigins!)
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseCors("RestrictedCorsPolicy");
 
 app.UseRouting();
 

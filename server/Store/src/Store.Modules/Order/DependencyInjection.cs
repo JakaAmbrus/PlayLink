@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
-using Discount.Data;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Order.Data;
 using Store.Shared.Behaviours;
 
 namespace Order;

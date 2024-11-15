@@ -2,12 +2,8 @@
 
 namespace Discount.Data;
 
-public class DiscountDbContext : DbContext
+public class DiscountDbContext(DbContextOptions<DiscountDbContext> options) : DbContext(options)
 {
-    public DiscountDbContext(DbContextOptions<DiscountDbContext> options) : base(options)
-    {
-    }
-    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

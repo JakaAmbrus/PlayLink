@@ -1,4 +1,4 @@
-﻿using Catalog.Common;
+﻿using Catalog.Endpoints.CatalogBase;
 using Catalog.Features.CreateProduct;
 using FastEndpoints;
 
@@ -10,7 +10,6 @@ internal class CreateProductEndpoint : CatalogBaseEndpoint<CreateProductCommand,
     public override async Task HandleAsync(CreateProductCommand command, CancellationToken cancellationToken)
     {
         var result = await Mediator.Send(command, cancellationToken);
-
         await SendResultAsync(result, cancellationToken);
     }
 }

@@ -3,18 +3,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Data;
 
-public class CatalogDbContext : DbContext
+public class CatalogDbContext(DbContextOptions<CatalogDbContext> options) : DbContext(options)
 {
-    public CatalogDbContext(DbContextOptions<CatalogDbContext> options) : base(options)
-    {
-    }
-    
     public DbSet<Product> Products { get; set; }
     
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    public DbSet<Category> Categories { get; set; }
+    
+    public DbSet<Brand> Brands { get; set; }
+    
+    public DbSet<ProductColor> ProductColors { get; set; }
+    
+    public DbSet<ProductImage> ProductImages { get; set; }
+    
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(modelBuilder);
+        base.OnModelCreating(builder);
         
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogDbContext).Assembly);
+        builder.ApplyConfigurationsFromAssembly(typeof(CatalogDbContext).Assembly);
     }
 }

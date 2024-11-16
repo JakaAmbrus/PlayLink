@@ -1,9 +1,7 @@
 ﻿using System.Reflection;
-using FluentValidation;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using Store.Shared.Behaviours;
+using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 
 namespace Basket;
 
@@ -18,6 +16,10 @@ public static class DependencyInjection
         
         // Mediator pipeline setup
         mediatrAssemblies.Add(typeof(DependencyInjection).Assembly);
+        
+        // Redis DB setup
+        services.AddSingleton<IConnectionMultiplexer>(sp =>
+            ConnectionMultiplexer.Connect(settings.ConnectionString));
         
         return services;
     }

@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Catalog.Common;
+namespace Catalog.Endpoints.CatalogBase;
 
 [AllowAnonymous]
 public abstract class CatalogBaseEndpoint<TRequest, TResponse> : Endpoint<TRequest, TResponse> where TRequest : notnull
